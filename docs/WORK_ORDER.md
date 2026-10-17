@@ -4,6 +4,7 @@
 - 작성일: 2026-10-17
 - 목적: 실행 가능한 초기 프로젝트를 검증하고, 승인된 데이터 기반 Audio AI와 VLM을 단계적으로 제품에 연결한다.
 - 진행 기록: [tasks/todo.md](../tasks/todo.md), 검증 증거: [VERIFICATION.md](VERIFICATION.md)
+- 사전학습 후보/도입 순서: [PRETRAINED_MODEL_SURVEY.md](PRETRAINED_MODEL_SURVEY.md) — 2026-10-17 공개 자료 조사, 실제 모델 실행 평가와 구분.
 - 작업 브랜치: `codex/sprint02-bootstrap-audio-vlm`, PR 대상: `develop`
 
 ## 현재 상태와 승인 범위
