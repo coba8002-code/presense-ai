@@ -1,5 +1,7 @@
 # PetSense AI remaining work
 
+Current scope: **dog-only MVP**. Historical completed work below may describe the earlier two-species bootstrap.
+
 Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md).
 
 ## Implemented and locally verified
@@ -24,11 +26,10 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 ## Data and real model work
 - [ ] Obtain prior PetSense_AI_AgentSkills_Integration.zip and reconcile with bootstrap.
 - [ ] Barkopedia: select subset/revision, verify source-media rights and platform permissions.
-- [ ] CatMeows/Meow-Net: obtain commercial permission or select an approved replacement.
 - [ ] AP-10K: pin release, attribution, provenance and animal-identity mapping.
 - [ ] Animal Kingdom: review access terms and commercial/source-media rights.
 - [ ] Import approved media with global animal IDs and grounded labels; verify preprocessing.
-- [ ] Train dog/cat models on approved real data; publish held-out metrics/model cards.
+- [ ] Train dog models on approved real data; publish held-out metrics/model cards.
 - [ ] Add and compare a PyTorch baseline; current baseline is NumPy softmax.
 
 ## Product development after baseline
@@ -96,3 +97,16 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [ ] VLM-04/05: 승인된 로컬 영상 연결, 중복 검사 및 검수 UI.
 - [ ] VLM-06/07: 실제 VLM 평가와 AST·자세 모델 설치/추론 검증.
 - [ ] VLM-08/09: 행동 전이학습·융합 비교 및 실시간 영상 구간 처리.
+
+## Dog-only MVP scope
+
+- [x] Dog-only demo selection, live audio API/model and training/preflight gates.
+- [x] Non-dog VLM abstention; exclude cat knowledge and review candidates.
+- [x] Regression coverage for cat rejection and preserved dog behavior.
+- [ ] Next: authorized dog video files, hash/duplicate checks and annotation alignment.
+
+## Deferred: cat support
+
+- [ ] CatMeows/Meow-Net commercial permissions or approved replacement.
+- [ ] Cat-specific audio/behavior labels, expert review and separate evaluation.
+- [ ] Re-enable product support only after cat validation.

@@ -45,8 +45,8 @@ class AudioEngine:
         if not isinstance(artifact, dict):
             raise ValueError('Invalid audio model')
         if (artifact.get('format_version') != 1 or artifact.get('synthetic') is not False
-                or artifact.get('species') not in ('dog', 'cat')):
-            raise ValueError('Only reviewed non-synthetic dog/cat models can serve live audio')
+                or artifact.get('species') != 'dog'):
+            raise ValueError('Only reviewed non-synthetic dog models can serve live audio')
         labels = artifact.get('labels')
         threshold = artifact.get('threshold')
         if (not isinstance(labels, list) or not 2 <= len(labels) <= 100
@@ -82,7 +82,7 @@ def analyze_pcm(raw: bytes, species: str, sequence: int, engine: AudioEngine | N
                   status='quiet' if not active else 'model_unavailable',
                   model_ready=engine is not None, prediction=None, confidence=None,
                   confidence_kind='uncalibrated', abstained=True,
-                  notice='Sound activity is not bark/meow recognition or a veterinary diagnosis.')
+                  notice='Sound activity is not bark recognition or a veterinary diagnosis.')
     if active and engine is not None:
         artifact = engine.artifact
         if artifact['species'] != species:
@@ -114,8 +114,8 @@ async def audio_chunk(request: Request):
         raise HTTPException(415, 'Expected raw mono PCM16')
     species = request.headers.get('x-audio-species')
     sequence = request.headers.get('x-audio-sequence', '')
-    if species not in ('dog', 'cat') or not sequence.isascii() or not sequence.isdecimal() or len(sequence) > 9:
-        raise HTTPException(422, 'Invalid species or sequence')
+    if species != 'dog' or not sequence.isascii() or not sequence.isdecimal() or len(sequence) > 9:
+        raise HTTPException(422, 'Dog-only MVP: invalid species or sequence')
     admission = request.app.state.audio_admission
     try:
         admission.enter()

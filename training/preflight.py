@@ -35,7 +35,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--manifest', required=True)
     parser.add_argument('--registry', default='datasets/registry.json')
-    parser.add_argument('--species', choices=['dog', 'cat'], required=True)
+    parser.add_argument('--species', choices=['dog'], required=True)
     parser.add_argument('--seed', type=int, default=42)
     args = parser.parse_args()
     try:

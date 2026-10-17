@@ -85,8 +85,8 @@ class AudioTests(unittest.TestCase):
         self.assertEqual(result['coverage'], 0)
         self.assertIsNone(result['selective_accuracy'])
 
-    def test_dog_and_cat_train_reload_and_reproduce(self):
-        for species in ('dog', 'cat'):
+    def test_dog_train_reload_and_reproduce(self):
+        for species in ('dog',):
             with self.subTest(species=species):
                 fixture(self.root, species)
                 out = self.root / species

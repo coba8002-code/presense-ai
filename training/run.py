@@ -50,10 +50,10 @@ def run(manifest: str | Path, registry: str | Path, species: str,
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Train a rights-gated dog/cat audio baseline')
+    parser = argparse.ArgumentParser(description='Train a rights-gated dog audio baseline')
     parser.add_argument('--manifest', required=True)
     parser.add_argument('--registry', default='datasets/registry.json')
-    parser.add_argument('--species', choices=['dog', 'cat'], required=True)
+    parser.add_argument('--species', choices=['dog'], required=True)
     parser.add_argument('--output', required=True, help='New directory; never overwrite prior runs')
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--threshold', type=float, default=.7)

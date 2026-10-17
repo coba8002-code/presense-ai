@@ -1,5 +1,7 @@
 # PetSense AI 후속 개발 작업지시서
 
+> 현재 제품 범위: **개 전용 MVP**. 고양이 학습·분석은 후속 단계로 보류합니다.
+
 - 기준: develop의 AGENTS.md, docs/SPRINT02.md, GitHub Issue #1, 초안 PR #2
 - 작성일: 2026-10-17
 - 목적: 실행 가능한 초기 프로젝트를 검증하고, 승인된 데이터 기반 Audio AI와 VLM을 단계적으로 제품에 연결한다.

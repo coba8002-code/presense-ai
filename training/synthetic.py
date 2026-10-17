@@ -9,7 +9,7 @@ import numpy as np
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True)
-    parser.add_argument('--species', required=True, choices=['dog', 'cat'])
+    parser.add_argument('--species', required=True, choices=['dog'])
     args = parser.parse_args()
     root = Path(args.output)
     root.mkdir(parents=True, exist_ok=False)

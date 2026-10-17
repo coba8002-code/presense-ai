@@ -1,5 +1,7 @@
 # Real-time audio development slice
 
+> 현재 제품 범위: **개 전용 MVP**. 고양이 학습·분석은 후속 단계로 보류합니다.
+
 ## Contract and scope
 
 One-second audio chunks are captured continuously and sent sequentially to

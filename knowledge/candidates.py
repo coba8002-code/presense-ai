@@ -1,5 +1,6 @@
 """Read-only candidate inventory; inferred evidence never grants training rights."""
 import time
+import json
 from knowledge.pipeline import policy_for
 from knowledge.providers import canonical
 
@@ -10,7 +11,9 @@ def candidates(db, config, now=None):
     for row in db.execute('SELECT * FROM videos ORDER BY created, id LIMIT 500'):
         allowed = all(policy_for(config,row['channel_id'],now,capability)
                       for capability in ('analysis_allowed','knowledge_allowed'))
-        if now-row['verified'] >= 86400:
+        if row['analysis'] and json.loads(row['analysis']).get('species') != 'dog':
+            status = 'unsupported_species'
+        elif now-row['verified'] >= 86400:
             status = 'metadata_refresh_required'
         elif not allowed:
             status = 'rights_review_required'

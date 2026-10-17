@@ -8,10 +8,10 @@ body{font:16px/1.6 system-ui,sans-serif;max-width:760px;margin:40px auto;padding
 </style>
 </head>
 <body><main>
-<h1>PetSense 실시간 소리 감지</h1>
+<h1>PetSense 강아지 소리 감지</h1>
 <p>마이크 소리를 1초씩 확인합니다. 소리가 감지된 구간만 서버로 보냅니다. 음량 감지는 짖음·울음 판별이 아닙니다.</p>
 <label>개발용 연결 토큰<input id="token" type="password" autocomplete="off" placeholder="서버에 설정한 개발용 토큰"></label>
-<label>반려동물<select id="species"><option value="dog">강아지</option><option value="cat">고양이</option></select></label>
+<label>지원 동물 — 개 전용 MVP<select id="species"><option value="dog">강아지</option></select></label>
 <label><input id="consent" type="checkbox"> 소리가 감지된 음원을 이 서버로 전송하는 데 동의합니다. 녹음은 저장하지 않습니다.</label>
 <button id="start" type="button">시작</button><button id="stop" type="button" disabled>중지</button>
 <output id="status" aria-live="polite">대기 중 — 아직 마이크를 사용하지 않습니다.</output>

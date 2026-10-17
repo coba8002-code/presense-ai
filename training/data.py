@@ -27,8 +27,8 @@ def approve_dataset(registry: str | Path, dataset: str) -> dict:
 def load_records(manifest: str | Path, registry: str | Path, species: str) -> tuple[list, dict]:
     import hashlib
     from training.audio import MAX_BYTES
-    if species not in ('dog', 'cat'):
-        raise ValueError('Species must be dog or cat')
+    if species != 'dog':
+        raise ValueError('Dog-only MVP: species must be dog')
     manifest = Path(manifest)
     root = manifest.parent.resolve()
     rows = json.loads(manifest.read_text())

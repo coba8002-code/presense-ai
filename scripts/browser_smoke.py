@@ -68,6 +68,7 @@ def main():
                       };
                     ''')
                     page.goto(f'http://127.0.0.1:{port}/realtime')
+                    assert page.locator('#species option').all_text_contents() == ['강아지']
                     page.locator('#start').click()
                     expect(page.locator('#status')).to_contain_text('동의가 필요')
                     assert not sequences

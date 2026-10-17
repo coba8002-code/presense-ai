@@ -64,3 +64,7 @@ Implement discovery-only execution without Gemini/Notebook credentials and a rea
 ## VLM review and annotation validation
 
 Add a read-only CLI to export current timestamped observations from the knowledge DB. Require explicit human-reviewed behavior labels, global animal/session IDs, a source-channel-scoped commercial training policy, and train/validation/test isolation. Bind proposal IDs to full analysis hash, model and analysis timestamp so stale approvals fail. Keep outputs annotation-only until authorized local media and actual models are validated. No inference, acquisition or deployment in this slice. Tests cover withdrawn/stale sources, fabricated emotional labels, unreviewed input, rights scope, duplicate reviews, and split leakage.
+
+## User scope decision: dog-only MVP
+
+Restrict public audio/demo and local training to dog. Keep provider species recognition schemas capable of identifying unsupported cat output, but abstain and clear visual behavior; filter cat knowledge, review export and new Notebook synchronization. Preserve existing audit/data history. Add rejection regressions and a browser option assertion; move cat delivery to future scope.

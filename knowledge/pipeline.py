@@ -146,13 +146,16 @@ def _cycle(db, config, provider, now, discovery_only=False):
                     and policy_for(config, row['channel_id'], now, 'knowledge_allowed')):
                 summary['blocked'] += 1
                 continue
+            if row['analysis'] and json.loads(row['analysis']).get('species') != 'dog':
+                summary['blocked'] += 1
+                continue
             if not row['analysis'] or row['model'] != config.gemini_model:
                 if summary['analyzed'] >= config.max_videos:
                     continue
                 result = request(db, config, now, provider.analyze, video_id)
                 if any(e.end_seconds > row['duration'] for e in result.entries):
                     raise ValueError('Analysis timestamps exceed video duration')
-                if result.species == 'unknown' or not result.entries:
+                if result.species != 'dog' or not result.entries:
                     raise ValueError('Insufficient video evidence')
                 with db:
                     db.execute('UPDATE videos SET analysis=?,analyzed=?,model=?,error=NULL WHERE id=?',
@@ -197,6 +200,8 @@ def search(db, config, query, now=None):
         if row['model'] != config.gemini_model or not policy_for(config, row['channel_id'], now, 'knowledge_allowed'):
             continue
         data = json.loads(row['analysis'])
+        if data.get('species') != 'dog':
+            continue
         for entry in data['entries']:
             if entry['confidence'] < .6:
                 continue

@@ -1,6 +1,6 @@
 # PetSense AI
 
-Dog/cat behavioral-context analysis. This estimates observations and uncertain
+Dog-only MVP for behavioral-context analysis. Cat support is deferred. This estimates observations and uncertain
 context; it does not translate animal language or diagnose disease.
 
 ## Status
@@ -41,14 +41,14 @@ python -m training.run --manifest data/smoke-dog/manifest.json --registry data/s
 python -m evaluation.evaluate --model artifacts/smoke-dog/model.json --manifest data/smoke-dog/manifest.json --registry data/smoke-dog/registry.json
 ```
 
-Use new directories per run; existing outputs are never overwritten. For cats,
-replace `dog` with `cat`. These are sine waves with artificial identities and low/
+Use new directories per run; existing outputs are never overwritten.
+These are sine waves with artificial identities and low/
 high-frequency labels, **not evidence of animal behavior accuracy**.
 
 For real data, review [dataset terms](docs/DATASET_AUDIT.md) and supply a reviewed
 registry and JSON manifest. Each row needs `path` (relative to manifest directory),
 `animal_id` (globally consistent identity across datasets/sessions), `species`
-(`dog`/`cat`), `label` (grounded event/context), and `dataset` (registry key).
+(`dog` only), `label` (grounded event/context), and `dataset` (registry key).
 WAV input must be PCM16, 16 kHz, mono/stereo, 0.1–10 seconds, under 2 MB.
 Resampling/segmentation must be performed on approved source material and recorded
 in its provenance. At least five animals and all labels in each partition are

@@ -33,7 +33,7 @@ def proposals(db, config, now=None):
                 or not policy_for(config,row['channel_id'],now,'knowledge_allowed')):
             continue
         analysis=Analysis.model_validate_json(row['analysis'])
-        if analysis.species == 'unknown':
+        if analysis.species != 'dog':
             continue
         for index,entry in enumerate(analysis.entries):
             if entry.kind != 'observation' or entry.end_seconds <= entry.start_seconds or entry.end_seconds > row['duration']:
