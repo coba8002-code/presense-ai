@@ -44,3 +44,16 @@ MockTransport와 가짜 제공자를 이용해 API 요청 형식, 중복 방지,
 - [Gemini 영상 URL 분석](https://ai.google.dev/gemini-api/docs/generate-content/video-understanding)
 - [NotebookLM Enterprise 소스 API](https://docs.cloud.google.com/gemini/enterprise/notebooklm-enterprise/docs/api-notebooks-sources)
 - [YouTube 검색 API](https://developers.google.com/youtube/v3/docs/search/list)
+
+## 학습 후보를 먼저 수집하기
+
+Gemini 인증 준비 전에도 `--discover-only --watch`로 YouTube 공식 검색과 메타데이터 수집만 반복할 수 있다. `YOUTUBE_API_KEY`와 활성화 환경변수는 필요하다. 이 모드는 Gemini 분석 및 NotebookLM 등록·삭제를 호출하지 않는다. 따라서 기존 Notebook 소스 삭제 재시도에는 일반 worker를 사용한다. 기본 최대 500개 후보, 보존기간과 호출 상한은 유지한다.
+
+```bash
+python -m knowledge.worker --config config/knowledge.local.json --discover-only --watch
+python -m knowledge.worker --config config/knowledge.local.json --candidates
+```
+
+후보 목록은 API 호출 없이 `rights_review_required`(권한 확인), `awaiting_analysis`(분석 대기), `expert_review_required`(전문가 검수), `metadata_refresh_required`(공개 상태 재확인)를 표시한다. 자동 분석 완료도 `training_ready=false`이다. 실제 학습에는 별도 학습 권한, 전문가 라벨, 허용된 미디어 접근, 개체가 겹치지 않는 평가 데이터가 필요하다.
+
+확장 목표는 공개 자료의 최대 활용이지 인터넷의 모든 영상을 빠짐없이 수집한다는 보장이 아니다. 일반 웹·기관 자료 검색 커넥터, 다국어 검색어 순환/페이지 수집, 중복 영상 탐지, 전문가 검수 화면, 검수된 비디오 학습 데이터 내보내기와 비디오 모델 재학습은 후속 구현이다. NotebookLM 지식 갱신을 해당 모델 학습의 대체물로 표시하지 않는다.

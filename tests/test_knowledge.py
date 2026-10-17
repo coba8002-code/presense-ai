@@ -229,3 +229,25 @@ class RetrievalRouteTests(unittest.IsolatedAsyncioTestCase):
                 '--db',str(path/'index.db')],capture_output=True,text=True,env=env)
             self.assertEqual(proc.returncode,2)
             self.assertIn('blocked',proc.stderr)
+
+class CandidateTests(unittest.TestCase):
+    setUp = KnowledgeTests.setUp
+    def test_discovery_only_never_analyzes_or_syncs(self):
+        cycle(self.db,self.cfg,self.provider,now=1000,discovery_only=True)
+        self.assertEqual(self.provider.analyzed,0)
+        self.assertEqual(self.provider.synced,0)
+        from knowledge.candidates import candidates
+        rows=candidates(self.db,self.cfg,now=1001)
+        self.assertEqual(rows[0]['status'],'awaiting_analysis')
+        self.assertFalse(rows[0]['training_ready'])
+        self.cfg.policies.clear()
+        self.assertEqual(candidates(self.db,self.cfg,now=1001)[0]['status'],'rights_review_required')
+
+    def test_candidate_analysis_is_not_training_approval(self):
+        from knowledge.candidates import candidates
+        cycle(self.db,self.cfg,self.provider,now=1000)
+        row=candidates(self.db,self.cfg,now=1001)[0]
+        self.assertEqual(row['status'],'expert_review_required')
+        self.assertFalse(row['training_ready'])
+        self.assertNotIn('entries',row)
+        self.assertEqual(candidates(self.db,self.cfg,now=90000)[0]['status'],'metadata_refresh_required')

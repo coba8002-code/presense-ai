@@ -61,7 +61,7 @@ def notebook_cleanup(db, config, provider, now, video_id):
         db.execute('DELETE FROM notebooks WHERE video_id=?', (video_id,))
 
 
-def cycle(db, config, provider, now=None):
+def cycle(db, config, provider, now=None, discovery_only=False):
     now = time.time() if now is None else now
     path = db.execute('PRAGMA database_list').fetchone()['file']
     with open(path + '.lock', 'a') as lock:
@@ -69,17 +69,18 @@ def cycle(db, config, provider, now=None):
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
             raise ValueError('Knowledge worker is already running') from None
-        return _cycle(db, config, provider, now)
+        return _cycle(db, config, provider, now, discovery_only)
 
 
-def _cycle(db, config, provider, now):
+def _cycle(db, config, provider, now, discovery_only=False):
     summary = dict(discovered=0, analyzed=0, synced=0, blocked=0, errors=0)
     target = (config.notebook_endpoint + ':' + config.notebook) if config.notebook else ''
     old = db.execute("SELECT value FROM settings WHERE key='notebook'").fetchone()
-    if old and old['value'] != target and db.execute('SELECT 1 FROM notebooks LIMIT 1').fetchone():
+    if not discovery_only and old and old['value'] != target and db.execute('SELECT 1 FROM notebooks LIMIT 1').fetchone():
         raise ValueError('Reconcile existing Notebook sources before changing target')
-    with db:
-        db.execute("INSERT OR REPLACE INTO settings VALUES ('notebook', ?)", (target,))
+    if not discovery_only:
+        with db:
+            db.execute("INSERT OR REPLACE INTO settings VALUES ('notebook', ?)", (target,))
 
     # Local content is withdrawn immediately; remote deletion failures are retried.
     for row in db.execute('SELECT * FROM videos').fetchall():
@@ -89,7 +90,7 @@ def _cycle(db, config, provider, now):
         if expired or not permitted:
             with db:
                 db.execute('UPDATE videos SET analysis=NULL, analyzed=NULL WHERE id=?', (row['id'],))
-        if expired or not permitted or not notebook_permitted:
+        if not discovery_only and (expired or not permitted or not notebook_permitted):
             try:
                 notebook_cleanup(db, config, provider, now, row['id'])
             except ValueError:
@@ -121,7 +122,8 @@ def _cycle(db, config, provider, now):
                 if metadata is None:
                     with db:
                         db.execute('UPDATE videos SET analysis=NULL, analyzed=NULL, verified=0 WHERE id=?', (video_id,))
-                    notebook_cleanup(db, config, provider, now, video_id)
+                    if not discovery_only:
+                        notebook_cleanup(db, config, provider, now, video_id)
                     with db:
                         db.execute('DELETE FROM videos WHERE id=? AND NOT EXISTS (SELECT 1 FROM notebooks WHERE video_id=?)', (video_id, video_id))
                     continue
@@ -138,6 +140,8 @@ def _cycle(db, config, provider, now):
             with db:
                 db.execute('UPDATE videos SET attempted=? WHERE id=?', (now,video_id))
             row = db.execute('SELECT * FROM videos WHERE id=?', (video_id,)).fetchone()
+            if discovery_only:
+                continue
             if not (policy_for(config, row['channel_id'], now, 'analysis_allowed')
                     and policy_for(config, row['channel_id'], now, 'knowledge_allowed')):
                 summary['blocked'] += 1

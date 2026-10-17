@@ -76,3 +76,12 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] Source-linked local retrieval and optional approved audio queue execution.
 - [ ] Offline transport tests, docs, current-head CI and PR update.
 - [ ] Live credentials/Enterprise provisioning and authorized source policies (external prerequisite).
+
+### Broader video candidate intake
+
+- [x] Discovery-only mode and offline candidate review status.
+- [x] Regression tests distinguish analyzed evidence from training-ready labels.
+- [ ] General web source connectors, multilingual rotation and paginated discovery.
+- [ ] Expert video annotation, training rights and authorized media acquisition workflow.
+- [ ] Video training export, animal-disjoint evaluation and gated model release.
+- [ ] Google AI Studio credentials connection (browser access unavailable).

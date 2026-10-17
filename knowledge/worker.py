@@ -24,6 +24,8 @@ def main():
     parser.add_argument('--db', default='data/knowledge.sqlite3')
     parser.add_argument('--watch', action='store_true')
     parser.add_argument('--query')
+    parser.add_argument('--discover-only', action='store_true', help='Find metadata without Gemini or Notebook calls')
+    parser.add_argument('--candidates', action='store_true', help='List local candidate review status without API calls')
     parser.add_argument('--audio-inbox', help='Optional existing rights-reviewed local audio job queue')
     parser.add_argument('--audio-output', default='artifacts/autolearn')
     args = parser.parse_args()
@@ -33,16 +35,21 @@ def main():
             try:
                 while True:
                     cfg = load_config(args.config)  # Rights revocation takes effect next cycle/read.
+                    if args.candidates:
+                        from knowledge.candidates import candidates
+                        print(json.dumps(candidates(db,cfg),ensure_ascii=False))
+                        return
                     if args.query is not None:
                         print(json.dumps(search(db,cfg,args.query),ensure_ascii=False))
                         return
                     provider = Providers(cfg, client, os.environ)
                     # Fail before any external call; keys never appear in output.
                     provider.credential('YOUTUBE_API_KEY')
-                    provider.credential('GEMINI_API_KEY')
-                    if cfg.notebook:
+                    if not args.discover_only:
+                        provider.credential('GEMINI_API_KEY')
+                    if cfg.notebook and not args.discover_only:
                         provider.credential('GOOGLE_ACCESS_TOKEN')
-                    result = cycle(db,cfg,provider)
+                    result = cycle(db,cfg,provider,discovery_only=args.discover_only)
                     if args.audio_inbox:
                         from training.autolearn import scan
                         result['local_audio_jobs'] = scan(args.audio_inbox,args.audio_output)

@@ -56,3 +56,7 @@ Notebook creates; citations point to verified video IDs/time bounds; no model-tr
 Trust boundaries: untrusted API metadata/LLM text vs operator policy, secrets, SQLite and
 external writes. Fix API hosts, bound calls/bytes/duration, parameterize SQL, separate raw
 observations/speaker statements/inferences, and exclude expired/revoked knowledge at read time.
+
+## Broader animal video candidate intake
+
+Implement discovery-only execution without Gemini/Notebook credentials and a read-only candidate inventory. Keep rights, expert labels and actual training readiness distinct. Validate discovery cannot call inference or Notebook writes. Google account/key connection additionally requested; browser tools unavailable in this session, so no account access or key creation claimed.
