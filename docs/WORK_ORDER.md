@@ -124,3 +124,12 @@ python -m compileall -q backend training evaluation scripts
 - WO-01 새 환경 설치와 원격 CI는 [성공 실행](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044)으로 검증 완료.
 - WO-01의 보안 검사·HTTP 소켓 실행은 미검증.
 - WO-03 이후 실제 자료 작업은 권한 증빙 및 데이터 확보 대기.
+
+## 추가 지시 — 실시간 분석
+
+사용자 지시에 따라 실시간 분석의 첫 단계로 1초 PCM 구간을 연속 처리하는
+HTTP API와 브라우저 마이크 데모를 구현한다. 프로토콜과 제한은
+[REALTIME_AUDIO.md](REALTIME_AUDIO.md)에 정의한다. 서버 모델이 없으면
+소리 발생만 표시하며 행동 추론은 보류한다. 실제 영상 스트리밍, Flutter,
+검증된 행동 모델은 후속 단계다. 현재 로컬 Python 테스트 44개와 PCM 캡처
+검사를 통과했으며 실제 브라우저/HTTP 검증은 CI에서 확인한다.

@@ -76,3 +76,13 @@ binary-only dependency installation, pip check, installed-version check, skill
 integrity, full unittest suite and compileall all passed. This resolves the
 fresh-install and remote-test blockers above. Socket-server smoke and dependency
 vulnerability audit remain pending. No live provider or real-data run occurred.
+
+## Near-real-time audio slice
+
+- Local Python suite: **44 tests passed**, 0 skipped.
+- Node AudioWorklet capture checks passed: one-second PCM16 framing, signed
+  little-endian samples, sequence rollover and silent output.
+- Client JS syntax, Python compileall, skill integrity and workflow YAML checks passed.
+- Runtime dependencies unchanged. Browser-only test dependencies are pinned in
+  requirements-browser.lock. Chromium unavailable locally; CI browser check pending.
+- No physical microphone, animal-model accuracy or end-to-end latency claim.

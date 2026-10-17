@@ -24,6 +24,18 @@ def features(path: str | Path) -> np.ndarray:
     except (wave.Error, EOFError) as exc:
         raise ValueError('Invalid WAV') from exc
     signal = np.frombuffer(raw, dtype='<i2').reshape(-1, channels).mean(axis=1) / 32768
+    return signal_features(signal)
+
+
+def pcm_features(raw: bytes) -> np.ndarray:
+    """Features for a bounded live mono PCM16 chunk, using training preprocessing."""
+    if len(raw) % 2 or not 3200 <= len(raw) <= 32000:
+        raise ValueError('Expected 0.1–1 s of mono 16 kHz PCM16')
+    signal = np.frombuffer(raw, dtype='<i2').astype(np.float64) / 32768
+    return signal_features(signal)
+
+
+def signal_features(signal: np.ndarray) -> np.ndarray:
     windows = np.lib.stride_tricks.sliding_window_view(signal, 512)[::256]
     power = np.abs(np.fft.rfft(windows * np.hanning(512), axis=1)) ** 2
     bands = np.array_split(power, 16, axis=1)

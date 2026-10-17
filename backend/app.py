@@ -47,3 +47,9 @@ async def vision(request: Request):
     return {'observation': result.model_dump(), 'confidence_kind': 'uncalibrated',
             'notice': 'Behavioral observations only; not translation or diagnosis. '
                       'For urgent health concerns, contact a veterinarian.'}
+
+
+from backend.realtime import Admission, router as realtime_router
+
+app.state.audio_admission = Admission()
+app.include_router(realtime_router)

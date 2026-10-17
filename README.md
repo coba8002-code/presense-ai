@@ -64,6 +64,19 @@ Calibration metrics do not make confidence a calibrated probability. Registry
 approval is a trusted operator policy, not verification of entered legal claims.
 The owner's commercial intent is approved; third-party rights gates still apply.
 
+## Near-real-time microphone demo
+
+A local browser demo now captures one-second audio chunks and sends sound-active
+chunks to the backend. Start with PETSENSE_ENABLE_AUDIO=true and a private
+PETSENSE_API_TOKEN, then open `/realtime` on the local server. No cloud API key is
+needed. [Protocol, setup and limits](docs/REALTIME_AUDIO.md).
+
+The RMS gate detects sound activity, not bark/meow identity. With no approved
+real-data model, behavioral inference is explicitly unavailable. Audio is not
+stored; stopping or revoking consent releases the microphone. This is a browser
+development demo, not Flutter or a deployed service. No physical-device latency
+or real-world behavior accuracy has been established.
+
 ## VLM integration
 
 Default is disabled. `POST /v1/vision/observe` accepts JSON with `image_base64`

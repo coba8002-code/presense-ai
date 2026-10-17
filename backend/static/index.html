@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PetSense 실시간 오디오 개발 데모</title>
+<style>
+body{font:16px/1.6 system-ui,sans-serif;max-width:760px;margin:40px auto;padding:0 24px;color:#18352e;background:#f2f7f4}main{background:white;padding:28px;border-radius:16px}h1{font-size:27px}label{display:block;margin:16px 0}input[type=password],select{padding:10px;width:100%;box-sizing:border-box}button{padding:12px 24px;margin:8px 8px 8px 0;cursor:pointer}output{display:block;border:1px solid #d1ded7;padding:16px;border-radius:8px;white-space:pre-line}small{color:#53675f}.error{color:#9f2525}
+</style>
+</head>
+<body><main>
+<h1>PetSense 실시간 소리 감지</h1>
+<p>마이크 소리를 1초씩 확인합니다. 소리가 감지된 구간만 서버로 보냅니다. 음량 감지는 짖음·울음 판별이 아닙니다.</p>
+<label>개발용 연결 토큰<input id="token" type="password" autocomplete="off" placeholder="서버에 설정한 개발용 토큰"></label>
+<label>반려동물<select id="species"><option value="dog">강아지</option><option value="cat">고양이</option></select></label>
+<label><input id="consent" type="checkbox"> 소리가 감지된 음원을 이 서버로 전송하는 데 동의합니다. 녹음은 저장하지 않습니다.</label>
+<button id="start" type="button">시작</button><button id="stop" type="button" disabled>중지</button>
+<output id="status" aria-live="polite">대기 중 — 아직 마이크를 사용하지 않습니다.</output>
+<p id="metrics"></p>
+<small>승인된 모델이 없으면 소리 발생만 표시하고 행동 분석을 보류합니다. 번역·감정 확정·수의학적 진단을 제공하지 않습니다. 실제 동물 분석 성능과 종단 지연은 미검증입니다.</small>
+</main><script type="module" src="/realtime/client.js"></script></body></html>

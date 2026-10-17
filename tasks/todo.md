@@ -47,3 +47,13 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] WO-01 external checks: fresh dependency install and remote CI passed.
 - [ ] WO-01 remaining: socket smoke and vulnerability audit.
 - [ ] WO-03 onward: follow the prerequisites in WORK_ORDER.md; no real-data or paid calls claimed.
+
+## Near-real-time audio slice
+
+- [x] One-second PCM capture, local sound-activity gate and bounded uploads.
+- [x] Authenticated/consented chunk API, request limits and explicit model-unavailable status.
+- [x] Shared training/serving features; reviewed-model loader rejects synthetic artifacts.
+- [x] Local Python suite: 44 passed; AudioWorklet Node checks passed.
+- [ ] Real Chromium/fake microphone/HTTP smoke in CI.
+- [ ] Physical microphone/device latency and behavior model validation.
+- [ ] Flutter streaming capture and event-triggered VLM video sampling.
