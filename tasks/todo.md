@@ -94,7 +94,8 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] VLM-01: 유효한 영상 관찰을 해시·출처·시각과 함께 검수 후보로 내보내기.
 - [x] VLM-02: 검수된 행동 라벨·전역 동물 ID·촬영 세션 계약.
 - [x] VLM-03: 변경/철회/중복 후보와 개체·영상·세션 분할 누출 차단.
-- [ ] VLM-04/05: 승인된 로컬 영상 연결, 중복 검사 및 검수 UI.
+- [x] VLM-04: 승인된 로컬 영상 연결, 동일 파일 중복·디코딩·초 단위 주석 구간 검사.
+- [ ] VLM-04/05 후속: 유사 영상 중복·프레임 정렬 및 검수 UI.
 - [ ] VLM-06/07: 실제 VLM 평가와 AST·자세 모델 설치/추론 검증.
 - [ ] VLM-08/09: 행동 전이학습·융합 비교 및 실시간 영상 구간 처리.
 
@@ -103,7 +104,8 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] Dog-only demo selection, live audio API/model and training/preflight gates.
 - [x] Non-dog VLM abstention; exclude cat knowledge and review candidates.
 - [x] Regression coverage for cat rejection and preserved dog behavior.
-- [ ] Next: authorized dog video files, hash/duplicate checks and annotation alignment.
+- [x] Authorized local dog video binding, SHA-256 duplicate checks, full decode and second-based annotation bounds.
+- [ ] Next: perceptual duplicates, frame-level alignment, review UI and actual video model.
 
 ## Deferred: cat support
 

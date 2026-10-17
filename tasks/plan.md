@@ -68,3 +68,7 @@ Add a read-only CLI to export current timestamped observations from the knowledg
 ## User scope decision: dog-only MVP
 
 Restrict public audio/demo and local training to dog. Keep provider species recognition schemas capable of identifying unsupported cat output, but abstain and clear visual behavior; filter cat knowledge, review export and new Notebook synchronization. Preserve existing audit/data history. Add rejection regressions and a browser option assertion; move cat delivery to future scope.
+
+## VLM-04 local media binding
+
+Validate current review/rights before media access; require acquisition permission and source/alignment attestations. Snapshot bounded local files, verify declared SHA-256, block duplicate content across source IDs, restrict FFmpeg protocols/formats and runtime, fully decode video, map source timestamps with a reviewed offset, and recheck policies/files before output. No video downloads or training. Real synthetic-container CLI tests plus malicious path/hash/offset/duplicate/timeout regressions. Perceptual duplicates and frame-level mapping remain explicit follow-ups.

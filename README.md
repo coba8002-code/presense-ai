@@ -121,3 +121,5 @@ baseline. Synthetic CLI smoke and all 56 Python tests passed locally.
 ## VLM 검수 및 학습 준비
 
 영상 관찰 후보를 검수한 뒤 개체·세션·영상 단위로 평가 데이터를 분리하는 CLI를 추가했습니다. 실행 방법과 다음 작업: [VLM 학습 TODO](docs/VLM_TRAINING_TODO.md). 검증 결과는 주석 데이터이며 실제 비디오 학습 완료를 의미하지 않습니다.
+
+승인된 로컬 개 영상 연결·실제 디코딩·주석 구간 검증: [VIDEO_MEDIA.md](docs/VIDEO_MEDIA.md). FFmpeg/ffprobe가 필요합니다.
