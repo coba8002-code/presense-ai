@@ -86,3 +86,12 @@ vulnerability audit remain pending. No live provider or real-data run occurred.
 - Runtime dependencies unchanged. Browser-only test dependencies are pinned in
   requirements-browser.lock. Chromium unavailable locally; CI browser check pending.
 - No physical microphone, animal-model accuracy or end-to-end latency claim.
+
+### Real-time browser and HTTP verification completed
+
+[Run 39023577386](https://github.com/coba8002-code/presense-ai/actions/runs/39023577386), commit 21b2bf3: both test and browser jobs passed.
+The clean runner installed runtime/browser dependencies, passed 44 Python tests and
+AudioWorklet checks, and launched a real HTTP server plus Chromium with a synthetic
+microphone. Verified capture/upload/result, consent stop, released microphone tracks,
+no post-stop requests, slow-response chunk dropping and no page errors. This resolves
+the HTTP socket smoke blocker. Physical-device latency and model quality remain unverified.

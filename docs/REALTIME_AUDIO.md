@@ -54,3 +54,15 @@ or HTTPS and browser permission. This slice requires AudioWorklet and a browser
 that supports a 16 kHz AudioContext; unsupported sample rates fail explicitly.
 Do not expose this prototype publicly. No Flutter or live VLM video streaming is
 included in this slice; future video analysis should be sampled/event-triggered.
+
+## Verification
+
+[CI on 21b2bf3](https://github.com/coba8002-code/presense-ai/actions/runs/39023577386) passed both backend and browser jobs.
+44 Python tests and AudioWorklet checks passed. Chromium used a generated sine-wave
+microphone input with the actual local HTTP server; capture, upload, result display,
+consent revocation, microphone release and slow-response dropping passed with no
+page errors. This is not a physical-device or animal-behavior validation.
+
+A local 100-chunk synthetic microbenchmark without a loaded classifier measured
+feature/RMS processing p50 0.310 ms and p95 0.486 ms. Capture itself takes one second;
+network and classifier time are excluded. Do not present these figures as user latency.

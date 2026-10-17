@@ -15,7 +15,7 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 
 ## First PR delivery
 - [x] Verify fresh dependency installation in [GitHub CI](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044).
-- [ ] Verify local HTTP socket-server smoke in a network-capable environment.
+- [x] HTTP socket-server health verified by browser smoke in [CI](https://github.com/coba8002-code/presense-ai/actions/runs/39023577386).
 - [ ] Run dependency vulnerability audit (pip-audit unavailable here).
 - [x] Publish draft PR [#2](https://github.com/coba8002-code/presense-ai/pull/2) targeting develop.
 - [x] Confirm backend GitHub CI passes on 7e23171: [successful run](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044).
@@ -45,7 +45,8 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] WO-01 partial: add offline dependency/environment diagnostics and CI push/manual entrypoints.
 - [x] Full offline suite: 30 tests passed; synthetic dog/cat preflight passed.
 - [x] WO-01 external checks: fresh dependency install and remote CI passed.
-- [ ] WO-01 remaining: socket smoke and vulnerability audit.
+- [x] WO-01 socket smoke passed in Chromium/HTTP CI.
+- [ ] WO-01 remaining: dependency vulnerability audit.
 - [ ] WO-03 onward: follow the prerequisites in WORK_ORDER.md; no real-data or paid calls claimed.
 
 ## Near-real-time audio slice
@@ -54,6 +55,6 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] Authenticated/consented chunk API, request limits and explicit model-unavailable status.
 - [x] Shared training/serving features; reviewed-model loader rejects synthetic artifacts.
 - [x] Local Python suite: 44 passed; AudioWorklet Node checks passed.
-- [ ] Real Chromium/fake microphone/HTTP smoke in CI.
+- [x] Real Chromium/fake microphone/HTTP smoke passed in [CI](https://github.com/coba8002-code/presense-ai/actions/runs/39023577386).
 - [ ] Physical microphone/device latency and behavior model validation.
 - [ ] Flutter streaming capture and event-triggered VLM video sampling.

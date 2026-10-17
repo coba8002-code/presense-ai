@@ -29,8 +29,8 @@ python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
 
 `GET /healthz` reports service health and `model_ready: false`. The dependency
 closure is pinned from installed Python 3.12 metadata. Fresh dependency installation and all 30 tests passed in
-[GitHub CI](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044). Socket-server smoke and dependency vulnerability
-audit remain pending; the service is still a local-development prototype.
+[GitHub CI](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044). Socket-server smoke subsequently passed in the real-time browser CI; dependency
+vulnerability audit remains pending; the service is still a local-development prototype.
 
 ## Reproduce a synthetic smoke run
 
@@ -66,7 +66,9 @@ The owner's commercial intent is approved; third-party rights gates still apply.
 
 ## Near-real-time microphone demo
 
-A local browser demo now captures one-second audio chunks and sends sound-active
+[Browser and backend CI](https://github.com/coba8002-code/presense-ai/actions/runs/39023577386) passed with 44 Python tests and
+a real Chromium/fake-microphone/HTTP integration check. A local browser demo
+captures one-second audio chunks and sends sound-active
 chunks to the backend. Start with PETSENSE_ENABLE_AUDIO=true and a private
 PETSENSE_API_TOKEN, then open `/realtime` on the local server. No cloud API key is
 needed. [Protocol, setup and limits](docs/REALTIME_AUDIO.md).
