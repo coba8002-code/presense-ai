@@ -105,3 +105,11 @@ authorization, provider privacy/retention review and deployment hardening.
 - [Pinned agent skills](agent_skills/README.md), [plan](tasks/plan.md), [constraints](CONSTRAINTS.md)
 - [Verification and model limitations](docs/VERIFICATION.md)
 - CI configuration: `.github/workflows/tests.yml`; no auto-merge or deployment.
+
+## Automatic learning
+
+Approved local manifests can now be watched for changes, retrained, and compared
+against an incumbent on a separate animal/session-disjoint acceptance benchmark.
+See [자동학습 실행 가이드](docs/AUTOLEARN.md). The worker saves candidate artifacts;
+it does not download YouTube media or deploy models. Current trainer is the NumPy
+baseline. Synthetic CLI smoke and all 56 Python tests passed locally.

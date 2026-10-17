@@ -58,3 +58,13 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] Real Chromium/fake microphone/HTTP smoke passed in [CI](https://github.com/coba8002-code/presense-ai/actions/runs/39023577386).
 - [ ] Physical microphone/device latency and behavior model validation.
 - [ ] Flutter streaming capture and event-triggered VLM video sampling.
+
+### Automatic learning (2026-10-17)
+
+- [x] Local watched job queue, rights/acquisition/label-review gates, content-addressed results.
+- [x] Animal/session/content isolation, snapshot verification, job locking and safe retries.
+- [x] Re-evaluate candidate/incumbent on one acceptance benchmark; preserve artifacts without deployment.
+- [x] Synthetic CLI smoke and 12 new regression tests (56 total Python tests).
+- [ ] Licensed real audio/video intake and expert annotation workflow.
+- [ ] Pretrained audio adapter and multimodal/video training.
+- [ ] Locked final real-world evaluation, service installation and resource quotas.
