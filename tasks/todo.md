@@ -85,3 +85,14 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [ ] Expert video annotation, training rights and authorized media acquisition workflow.
 - [ ] Video training export, animal-disjoint evaluation and gated model release.
 - [ ] Google AI Studio credentials connection (browser access unavailable).
+
+## VLM 활용·학습 우선순위
+
+구체적인 완료 기준: [VLM_TRAINING_TODO.md](../docs/VLM_TRAINING_TODO.md).
+
+- [x] VLM-01: 유효한 영상 관찰을 해시·출처·시각과 함께 검수 후보로 내보내기.
+- [x] VLM-02: 검수된 행동 라벨·전역 동물 ID·촬영 세션 계약.
+- [x] VLM-03: 변경/철회/중복 후보와 개체·영상·세션 분할 누출 차단.
+- [ ] VLM-04/05: 승인된 로컬 영상 연결, 중복 검사 및 검수 UI.
+- [ ] VLM-06/07: 실제 VLM 평가와 AST·자세 모델 설치/추론 검증.
+- [ ] VLM-08/09: 행동 전이학습·융합 비교 및 실시간 영상 구간 처리.

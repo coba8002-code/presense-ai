@@ -117,3 +117,7 @@ baseline. Synthetic CLI smoke and all 56 Python tests passed locally.
 ## 영상 링크 자동 지식 갱신
 
 공식 YouTube 검색·Gemini URL 분석·출처 검색·NotebookLM Enterprise 소스 등록 worker: [실행 및 제한](docs/VIDEO_KNOWLEDGE.md). 기본 비활성화이며 API 인증과 채널 이용 권한이 필요합니다. 지식 갱신과 오디오 모델 학습은 별도 경로입니다.
+
+## VLM 검수 및 학습 준비
+
+영상 관찰 후보를 검수한 뒤 개체·세션·영상 단위로 평가 데이터를 분리하는 CLI를 추가했습니다. 실행 방법과 다음 작업: [VLM 학습 TODO](docs/VLM_TRAINING_TODO.md). 검증 결과는 주석 데이터이며 실제 비디오 학습 완료를 의미하지 않습니다.

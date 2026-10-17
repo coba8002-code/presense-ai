@@ -60,3 +60,7 @@ observations/speaker statements/inferences, and exclude expired/revoked knowledg
 ## Broader animal video candidate intake
 
 Implement discovery-only execution without Gemini/Notebook credentials and a read-only candidate inventory. Keep rights, expert labels and actual training readiness distinct. Validate discovery cannot call inference or Notebook writes. Google account/key connection additionally requested; browser tools unavailable in this session, so no account access or key creation claimed.
+
+## VLM review and annotation validation
+
+Add a read-only CLI to export current timestamped observations from the knowledge DB. Require explicit human-reviewed behavior labels, global animal/session IDs, a source-channel-scoped commercial training policy, and train/validation/test isolation. Bind proposal IDs to full analysis hash, model and analysis timestamp so stale approvals fail. Keep outputs annotation-only until authorized local media and actual models are validated. No inference, acquisition or deployment in this slice. Tests cover withdrawn/stale sources, fabricated emotional labels, unreviewed input, rights scope, duplicate reviews, and split leakage.
