@@ -14,10 +14,12 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] Record owner's commercial-training approval separately from external rights.
 
 ## First PR delivery
-- [ ] Verify fresh dependency installation and local HTTP server in a network-capable environment.
+- [x] Verify fresh dependency installation in [GitHub CI](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044).
+- [ ] Verify local HTTP socket-server smoke in a network-capable environment.
 - [ ] Run dependency vulnerability audit (pip-audit unavailable here).
 - [x] Publish draft PR [#2](https://github.com/coba8002-code/presense-ai/pull/2) targeting develop.
-- [ ] Confirm GitHub CI passes before merge; no successful run observed yet.
+- [x] Confirm backend GitHub CI passes on 7e23171: [successful run](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044).
+- [ ] Review and merge PR after remaining gates; merge not performed.
 
 ## Data and real model work
 - [ ] Obtain prior PetSense_AI_AgentSkills_Integration.zip and reconcile with bootstrap.
@@ -42,5 +44,6 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] WO-02: add training.preflight CLI and malformed-policy/identity/path regression tests.
 - [x] WO-01 partial: add offline dependency/environment diagnostics and CI push/manual entrypoints.
 - [x] Full offline suite: 30 tests passed; synthetic dog/cat preflight passed.
-- [ ] WO-01 external checks: fresh install, socket smoke, vulnerability audit and remote CI.
+- [x] WO-01 external checks: fresh dependency install and remote CI passed.
+- [ ] WO-01 remaining: socket smoke and vulnerability audit.
 - [ ] WO-03 onward: follow the prerequisites in WORK_ORDER.md; no real-data or paid calls claimed.

@@ -28,9 +28,9 @@ python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
 ```
 
 `GET /healthz` reports service health and `model_ready: false`. The dependency
-closure is pinned from installed Python 3.12 metadata. Fresh installation and
-socket-server verification are not yet established in the restricted execution
-environment; CI must verify the clean installation before merge.
+closure is pinned from installed Python 3.12 metadata. Fresh dependency installation and all 30 tests passed in
+[GitHub CI](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044). Socket-server smoke and dependency vulnerability
+audit remain pending; the service is still a local-development prototype.
 
 ## Reproduce a synthetic smoke run
 

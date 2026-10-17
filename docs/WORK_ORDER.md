@@ -121,5 +121,6 @@ python -m compileall -q backend training evaluation scripts
 - WO-02 완료: 사전 검사 CLI, JSON 레지스트리 형식/합성 여부 타입/개체 ID 공백/상대 경로 검증.
 - WO-01 일부 완료: 설치된 버전 검사 도구, CI 브랜치 push 및 수동 실행 설정.
 - 로컬 전체 테스트 30개 통과, dog/cat 합성 자료 사전 검사 및 코드 컴파일 통과.
-- WO-01의 새 환경 설치·보안 검사·HTTP 소켓 실행·원격 CI 성공은 미검증.
+- WO-01 새 환경 설치와 원격 CI는 [성공 실행](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044)으로 검증 완료.
+- WO-01의 보안 검사·HTTP 소켓 실행은 미검증.
 - WO-03 이후 실제 자료 작업은 권한 증빙 및 데이터 확보 대기.

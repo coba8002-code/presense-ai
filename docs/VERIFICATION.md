@@ -57,3 +57,22 @@ must audit sessions/households and domain shifts as well as individual identitie
   and supports workflow_dispatch, but remote execution success is still unverified.
 - Follow-up shell network permission request was interrupted while pending.
   No dependency install, paid provider call, real-data training or deployment occurred.
+
+### Remote CI diagnosis
+
+Push run 39008879809 failed before creating any jobs. Local YAML parsing reproduced
+`mapping values are not allowed here` at the unquoted `--only-binary=:all:` command.
+Quoted the command and verified YAML parsing; fix committed as 4cf6d34.
+A subsequent run is required to establish installation/test success.
+
+The next run reached setup-python but its cache searched for requirements.txt or
+pyproject.toml. Set cache-dependency-path to requirements.lock (7e23171).
+Both CI configuration failures were diagnosed from actual execution evidence.
+
+### CI verified on 7e23171
+
+[GitHub Actions](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044) completed successfully: fresh Python 3.12 runner,
+binary-only dependency installation, pip check, installed-version check, skill
+integrity, full unittest suite and compileall all passed. This resolves the
+fresh-install and remote-test blockers above. Socket-server smoke and dependency
+vulnerability audit remain pending. No live provider or real-data run occurred.
