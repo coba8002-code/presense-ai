@@ -68,3 +68,11 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [ ] Licensed real audio/video intake and expert annotation workflow.
 - [ ] Pretrained audio adapter and multimodal/video training.
 - [ ] Locked final real-world evaluation, service installation and resource quotas.
+
+### Automated video-link knowledge (2026-10-17)
+
+- [x] Official YouTube/Gemini/Notebook Enterprise adapters with validated payloads.
+- [x] Persistent discovery/analysis, quota budget, deduplication and policy/expiry checks.
+- [x] Source-linked local retrieval and optional approved audio queue execution.
+- [ ] Offline transport tests, docs, current-head CI and PR update.
+- [ ] Live credentials/Enterprise provisioning and authorized source policies (external prerequisite).

@@ -113,3 +113,7 @@ against an incumbent on a separate animal/session-disjoint acceptance benchmark.
 See [자동학습 실행 가이드](docs/AUTOLEARN.md). The worker saves candidate artifacts;
 it does not download YouTube media or deploy models. Current trainer is the NumPy
 baseline. Synthetic CLI smoke and all 56 Python tests passed locally.
+
+## 영상 링크 자동 지식 갱신
+
+공식 YouTube 검색·Gemini URL 분석·출처 검색·NotebookLM Enterprise 소스 등록 worker: [실행 및 제한](docs/VIDEO_KNOWLEDGE.md). 기본 비활성화이며 API 인증과 채널 이용 권한이 필요합니다. 지식 갱신과 오디오 모델 학습은 별도 경로입니다.

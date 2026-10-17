@@ -21,3 +21,6 @@ venv/
 *.pth
 *.ckpt
 *.onnx
+
+config/knowledge.local.json
+*.sqlite3*

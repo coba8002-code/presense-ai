@@ -39,3 +39,20 @@ an authorization system for untrusted users. No external data downloads or paid 
 Not included: missing ZIP recovery, real dataset access/approval, PyTorch model
 training, fusion benchmarks, pet memory, Flutter capture/history, signed mobile
 builds. These require the missing artifacts/data and subsequent focused PRs.
+
+## 2026-10-17: automatic link knowledge and Notebook integration
+
+User authorizes automated discovery, URL analysis and Notebook-style knowledge updates.
+Implement official YouTube search/videos metadata -> policy-gated Gemini URL analysis ->
+SQLite evidence store/search, with optional NotebookLM Enterprise source sync and local
+approved audio-job scan. No browser-session scraping, credential acquisition or invented
+rights. External keys/Enterprise configuration are absent; validate transports with mocks.
+
+Slices: (1) strict schemas/providers and contract tests; (2) persistent worker, quotas,
+idempotence, expiry/revocation and retrieval; (3) authenticated retrieval route, CLI,
+example configuration/docs and CI. Acceptance: unknown rights never invoke analysis;
+source instructions cannot affect hosts/permissions; failures retry safely without duplicate
+Notebook creates; citations point to verified video IDs/time bounds; no model-training claims.
+Trust boundaries: untrusted API metadata/LLM text vs operator policy, secrets, SQLite and
+external writes. Fix API hosts, bound calls/bytes/duration, parameterize SQL, separate raw
+observations/speaker statements/inferences, and exclude expired/revoked knowledge at read time.

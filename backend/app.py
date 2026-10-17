@@ -53,3 +53,7 @@ from backend.realtime import Admission, router as realtime_router
 
 app.state.audio_admission = Admission()
 app.include_router(realtime_router)
+
+from backend.knowledge import router as knowledge_router
+
+app.include_router(knowledge_router)
