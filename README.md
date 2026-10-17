@@ -1,16 +1,87 @@
 # PetSense AI
 
-Flutter (Android/iOS) + FastAPI + cloud audio/VLM for **dog and cat behavioral context analysis**.
+Dog/cat behavioral-context analysis. This estimates observations and uncertain
+context; it does not translate animal language or diagnose disease.
 
-> This product estimates observable behavior and context; it does **not** translate animal language or diagnose disease.
+## Status
 
-## Project status
-Repository bootstrap for Codex handoff. Earlier implementation artifacts exist in the ChatGPT conversation as `PetSense_AI_AgentSkills_Integration.zip`; **they have not yet been imported into this repository**.
+New Sprint 02 bootstrap based on `develop` documentation and [issue #1](https://github.com/coba8002-code/presense-ai/issues/1).
+The prior `PetSense_AI_AgentSkills_Integration.zip` was not provided and has **not**
+been imported. There was no application source on develop. Current code includes a
+local FastAPI service, NumPy audio baseline and an opt-in VLM adapter. Flutter,
+PyTorch models, fusion and pet memory remain follow-up work. No real-data training
+or paid cloud inference has been performed. See [remaining tasks](tasks/todo.md).
 
-## Next steps
-1. Import the prior ZIP into this repository, preserving `flutter_app/`, `backend/`, `training/`, `evaluation/`, `agent_skills/`, `docs/`.
-2. Follow [AGENTS.md](AGENTS.md) and [Sprint 02 issue](https://github.com/coba8002-code/presense-ai/issues/1).
-3. Install and verify relevant engineering skills from https://github.com/addyosmani/agent-skills in the actual Codex environment.
-4. Verify dataset licensing before any training; measure held-out animal-identity evaluation.
+## Setup and tests
 
-No API credentials or copyrighted TV/YouTube video should be committed.
+Python 3.12, from repository root:
+
+```sh
+python -m venv .venv
+. .venv/bin/activate
+python -m pip install --only-binary=:all: -r requirements.lock
+python -m pip check
+python scripts/verify_skills.py
+python -m unittest discover -s tests -v
+python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
+```
+
+`GET /healthz` reports service health and `model_ready: false`. The dependency
+closure is pinned from installed Python 3.12 metadata. Fresh installation and
+socket-server verification are not yet established in the restricted execution
+environment; CI must verify the clean installation before merge.
+
+## Reproduce a synthetic smoke run
+
+```sh
+python -m training.synthetic --output data/smoke-dog --species dog
+python -m training.run --manifest data/smoke-dog/manifest.json --registry data/smoke-dog/registry.json --species dog --output artifacts/smoke-dog
+python -m evaluation.evaluate --model artifacts/smoke-dog/model.json --manifest data/smoke-dog/manifest.json --registry data/smoke-dog/registry.json
+```
+
+Use new directories per run; existing outputs are never overwritten. For cats,
+replace `dog` with `cat`. These are sine waves with artificial identities and low/
+high-frequency labels, **not evidence of animal behavior accuracy**.
+
+For real data, review [dataset terms](docs/DATASET_AUDIT.md) and supply a reviewed
+registry and JSON manifest. Each row needs `path` (relative to manifest directory),
+`animal_id` (globally consistent identity across datasets/sessions), `species`
+(`dog`/`cat`), `label` (grounded event/context), and `dataset` (registry key).
+WAV input must be PCM16, 16 kHz, mono/stereo, 0.1–10 seconds, under 2 MB.
+Resampling/segmentation must be performed on approved source material and recorded
+in its provenance. At least five animals and all labels in each partition are
+required. Duplicate audio hashes and paths outside the manifest directory fail.
+
+Train-only feature normalization; validation selects regularization; test animals
+are held out. JSON outputs include model parameters, split membership, file hashes,
+rights provenance, macro F1, confusion matrix, Brier/ECE and abstention coverage.
+Calibration metrics do not make confidence a calibrated probability. Registry
+approval is a trusted operator policy, not verification of entered legal claims.
+The owner's commercial intent is approved; third-party rights gates still apply.
+
+## VLM integration
+
+Default is disabled. `POST /v1/vision/observe` accepts JSON with `image_base64`
+(PNG/JPEG, decoded size <=512 KB) and explicit `consent: true`.
+It requires `Authorization: Bearer <PETSENSE_API_TOKEN>` plus operator environment
+variables `PETSENSE_ENABLE_CLOUD=true`, `PETSENSE_VLM_MODEL`, `OPENAI_API_KEY`.
+`.env.example` is documentation; the service does not auto-load .env files.
+Choose a model supporting image input and strict Chat Completions JSON schemas.
+Enabling the adapter makes paid calls: obtain separate approval before doing so.
+
+Fixed OpenAI HTTPS endpoint, timeout, bounded response, no redirects/retries or
+media persistence. Images are sent to the provider only with consent. Return value
+separates observed posture/ears/tail from uncertain hypotheses; low-confidence,
+unclear or unknown-species outputs abstain. Provider output is schema-validated.
+Tests mock the HTTP boundary; provider/model compatibility and behavioral quality
+have not been live-tested. PNG/JPEG checks validate signatures, not full decoding.
+
+This is a localhost development API. A static development token is not mobile
+production authentication. Do not publish it before shared rate limiting, per-user
+authorization, provider privacy/retention review and deployment hardening.
+
+## Engineering evidence
+
+- [Pinned agent skills](agent_skills/README.md), [plan](tasks/plan.md), [constraints](CONSTRAINTS.md)
+- [Verification and model limitations](docs/VERIFICATION.md)
+- CI configuration: `.github/workflows/tests.yml`; no auto-merge or deployment.
