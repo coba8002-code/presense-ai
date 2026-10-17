@@ -5,7 +5,13 @@ from pathlib import Path
 
 def approve_dataset(registry: str | Path, dataset: str) -> dict:
     entries = json.loads(Path(registry).read_text())
+    if not isinstance(entries, dict):
+        raise ValueError('Dataset registry must be a JSON object')
     policy = entries.get(dataset, {})
+    if not isinstance(policy, dict):
+        raise ValueError('Dataset policy must be a JSON object')
+    if 'synthetic' in policy and not isinstance(policy['synthetic'], bool):
+        raise ValueError('Synthetic provenance flag must be a boolean')
     required = ('source', 'version', 'license', 'rights_evidence', 'consent',
                 'reviewer', 'reviewed_at')
     if (policy.get('status') != 'approved'
@@ -37,10 +43,14 @@ def load_records(manifest: str | Path, registry: str | Path, species: str) -> tu
             raise ValueError('Every record needs path, global animal identity, species, label and dataset')
         if raw['species'] != species:
             continue
+        if any(raw[key] != raw[key].strip() for key in required):
+            raise ValueError('Manifest fields must not have leading/trailing whitespace')
         if raw['animal_id'].strip().lower() in ('unknown', 'none', 'null'):
             raise ValueError('Unknown animal identity')
         # Authorize before inspecting any media.
         policies[raw['dataset']] = approve_dataset(registry, raw['dataset'])
+        if Path(raw['path']).is_absolute():
+            raise ValueError('Media paths must be relative to the manifest directory')
         path = (root / raw['path']).resolve()
         if not path.is_relative_to(root) or path == root:
             raise ValueError('Media path escapes manifest directory')

@@ -10,7 +10,7 @@ The prior `PetSense_AI_AgentSkills_Integration.zip` was not provided and has **n
 been imported. There was no application source on develop. Current code includes a
 local FastAPI service, NumPy audio baseline and an opt-in VLM adapter. Flutter,
 PyTorch models, fusion and pet memory remain follow-up work. No real-data training
-or paid cloud inference has been performed. See [remaining tasks](tasks/todo.md).
+or paid cloud inference has been performed. See [작업지시서](docs/WORK_ORDER.md) and [remaining tasks](tasks/todo.md).
 
 ## Setup and tests
 
@@ -22,6 +22,7 @@ python -m venv .venv
 python -m pip install --only-binary=:all: -r requirements.lock
 python -m pip check
 python scripts/verify_skills.py
+python scripts/check_environment.py
 python -m unittest discover -s tests -v
 python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
 ```
@@ -35,6 +36,7 @@ environment; CI must verify the clean installation before merge.
 
 ```sh
 python -m training.synthetic --output data/smoke-dog --species dog
+python -m training.preflight --manifest data/smoke-dog/manifest.json --registry data/smoke-dog/registry.json --species dog
 python -m training.run --manifest data/smoke-dog/manifest.json --registry data/smoke-dog/registry.json --species dog --output artifacts/smoke-dog
 python -m evaluation.evaluate --model artifacts/smoke-dog/model.json --manifest data/smoke-dog/manifest.json --registry data/smoke-dog/registry.json
 ```
@@ -50,7 +52,10 @@ registry and JSON manifest. Each row needs `path` (relative to manifest director
 WAV input must be PCM16, 16 kHz, mono/stereo, 0.1–10 seconds, under 2 MB.
 Resampling/segmentation must be performed on approved source material and recorded
 in its provenance. At least five animals and all labels in each partition are
-required. Duplicate audio hashes and paths outside the manifest directory fail.
+required. Duplicate audio hashes, absolute paths and paths outside the manifest directory fail.
+Leading/trailing whitespace in identity fields is rejected to prevent accidental
+identity splitting. Run preflight before training; it checks WAVs and partitions
+without fitting a model. It does not independently verify legal rights.
 
 Train-only feature normalization; validation selects regularization; test animals
 are held out. JSON outputs include model parameters, split membership, file hashes,

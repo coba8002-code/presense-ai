@@ -44,3 +44,16 @@ engineering baseline on approved, grounded labels. Not for production, diagnosis
 or literal translation. Identity metadata must be correct; byte-identical duplicate
 detection cannot identify all overlapping/edited recordings. A future benchmark
 must audit sessions/households and domain shifts as well as individual identities.
+
+## Work-order execution update
+
+- Added docs/WORK_ORDER.md with task ordering, acceptance criteria and blockers.
+- Full suite now **30 tests passed**, 0 skipped. Eight new tests first failed,
+  then passed with the preflight CLI, strict manifest/policy checks and environment diagnostics.
+- Synthetic dog and cat preflight: 18 records, nine identities, disjoint partitions; passed.
+- Offline environment diagnostic: all 17 installed dependency pins match; Python 3.12.14.
+  PyTorch, Flutter and pip-audit are absent. This is not a fresh-install claim.
+- Skill integrity and compileall passed. CI now also listens to codex/** pushes
+  and supports workflow_dispatch, but remote execution success is still unverified.
+- Follow-up shell network permission request was interrupted while pending.
+  No dependency install, paid provider call, real-data training or deployment occurred.
