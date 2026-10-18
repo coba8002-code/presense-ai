@@ -76,3 +76,7 @@ Validate current review/rights before media access; require acquisition permissi
 ## Local dog video review interface
 
 Implement /review as static local-file UI: validated dog proposals, local video/offset playback, human labels and identity fields, explicit approval/revoke, strict CLI-compatible JSON download. No upload API or persistence; CSP blocks network connections. Escape untrusted observations using textContent; bound inputs and guard unsaved edits. Add HTTP asset tests and real Chromium synthetic-video playback/download integration in CI. Server-backed audit/roles, review resume and frame-accurate editing remain future work.
+
+## 2026-10-18: Hybrid dog MVP design and evidence-first reprioritization
+
+Design: [DOG_MVP_ARCHITECTURE.md](../docs/DOG_MVP_ARCHITECTURE.md). Start with user-selected short dog videos, a server-held VLM credential, and measurable observations. Reorder existing follow-ups toward evaluation contract, review resume, one live private-sample evaluation adapter and an actual quality/cost report. Defer broad near-duplicate/frame infrastructure until pilot evidence identifies required work. Then build authenticated upload/job/result flow and Flutter; on-device events and fine-tuning follow real metrics. Existing incomplete tasks remain preserved. This turn is planning/documentation only; targets and new endpoints are proposals, not implemented behavior.

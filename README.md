@@ -125,3 +125,5 @@ baseline. Synthetic CLI smoke and all 56 Python tests passed locally.
 승인된 로컬 개 영상 연결·실제 디코딩·주석 구간 검증: [VIDEO_MEDIA.md](docs/VIDEO_MEDIA.md). FFmpeg/ffprobe가 필요합니다.
 
 개 영상 검수 화면: 서버 실행 후 `/review`. 로컬 영상·후보를 열고 라벨을 승인하여 검수 JSON을 내보냅니다. [사용 방법과 제한](docs/REVIEW_UI.md).
+
+제품·서버·앱·VLM 및 학습의 권장 설계: [개 전용 하이브리드 MVP 기획](docs/DOG_MVP_ARCHITECTURE.md). 실제 영상 평가를 우선하는 새 실행 순서는 tasks/todo.md를 따릅니다.
