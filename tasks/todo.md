@@ -198,3 +198,10 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] Add reviewed local-frame manifest gate, LoRA training and adapter inference.
 - [x] Verify rejection tests and pretrained CPU optimizer/save/reload in CI (run 39128020164; 108 local tests).
 - [ ] Train/evaluate on licensed real dog frames; blocked until reviewed dataset exists.
+
+## 개 전문 자료 확대 조사 (2026-10-19 KST)
+- [x] 음향·자세·멀티모달·훈련 지식 후보 14개 항목을 공식 출처와 함께 정리: docs/DOG_RESEARCH_EXPANSION.md.
+- [x] DogSpeak/DigiDogs 비상업 조건 및 Pawgaze/InterPet4D 권한 확인 필요 상태 기록.
+- [ ] Dog2vec/AVES 가중치 라이선스·해시·추론 재현 후 EfficientAT와 비교.
+- [ ] 강형욱 출연 공식 영상의 사례 카드 필드와 관찰/전문가 해석 분리 검수 구현.
+- [ ] 허가된 개 음향·영상의 독립 평가셋 확보 및 모델별 실제 비교.
