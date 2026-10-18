@@ -9,7 +9,7 @@ New Sprint 02 bootstrap based on `develop` documentation and [issue #1](https://
 The prior `PetSense_AI_AgentSkills_Integration.zip` was not provided and has **not**
 been imported. There was no application source on develop. Current code includes a
 local FastAPI service, NumPy audio baseline and an opt-in VLM adapter. Flutter,
-PyTorch models, fusion and pet memory remain follow-up work. No real-data training
+Production PyTorch models, fusion and pet memory remain follow-up work. An optional experimental SmolVLM2 LoRA trainer is available. No real-data training
 or paid cloud inference has been performed. See [작업지시서](docs/WORK_ORDER.md) and [remaining tasks](tasks/todo.md).
 
 ## Setup and tests
@@ -127,3 +127,10 @@ baseline. Synthetic CLI smoke and all 56 Python tests passed locally.
 개 영상 검수 화면: 서버 실행 후 `/review`. 로컬 영상·후보를 열고 라벨을 승인하여 검수 JSON을 내보냅니다. [사용 방법과 제한](docs/REVIEW_UI.md).
 
 제품·서버·앱·VLM 및 학습의 권장 설계: [개 전용 하이브리드 MVP 기획](docs/DOG_MVP_ARCHITECTURE.md). 실제 영상 평가를 우선하는 새 실행 순서는 tasks/todo.md를 따릅니다.
+
+## Experimental lightweight VLM tuning
+
+[SmolVLM2 256M selection and LoRA commands](docs/SMALL_VLM_TUNING.md) provide an
+optional, isolated PyTorch experiment for reviewed dog posture frames. Synthetic
+pretrained optimizer smoke is separate from real dog fine-tuning. This adapter is
+not deployed to the API; real dog accuracy and mobile performance remain unverified.

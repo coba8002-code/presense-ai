@@ -194,7 +194,7 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 검증: 개체 분리 성능·기기 지연/발열·비용·회귀·롤백. 의존: 체크포인트 B 및 데이터 규모. 하나의 대형 작업으로 구현하지 않고 실험별 계약을 먼저 만든다.
 
 ## Lightweight VLM tuning slice (2026-10-18)
-- [ ] Compare official lightweight model repositories and record selection.
-- [ ] Add reviewed local-frame manifest gate, LoRA training and adapter inference.
-- [ ] Verify rejection tests and pretrained CPU optimizer/save/reload in CI.
+- [x] Compare official lightweight model repositories and record selection.
+- [x] Add reviewed local-frame manifest gate, LoRA training and adapter inference.
+- [x] Verify rejection tests and pretrained CPU optimizer/save/reload in CI (run 39128020164; 108 local tests).
 - [ ] Train/evaluate on licensed real dog frames; blocked until reviewed dataset exists.

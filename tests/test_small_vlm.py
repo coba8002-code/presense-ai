@@ -63,3 +63,17 @@ class SmallVLMTests(unittest.TestCase):
         self.assertEqual(normalize_prediction(' sitting '), 'sitting')
         for answer in ('cat sitting', 'walking', 'The dog is sitting.', '', 'SITTING'):
             self.assertEqual(normalize_prediction(answer), 'unknown')
+
+
+class MetricTests(unittest.TestCase):
+    def test_abstention_is_not_counted_as_accepted(self):
+        from training.small_vlm import metrics
+        result = metrics(['standing', 'sitting', 'lying'], ['standing', 'unknown', 'sitting'])
+        self.assertAlmostEqual(result['accuracy'], 1/3)
+        self.assertAlmostEqual(result['coverage'], 2/3)
+        self.assertAlmostEqual(result['selective_accuracy'], 1/2)
+        self.assertIsNone(result['calibration'])
+
+    def test_all_unknown_has_no_selective_accuracy(self):
+        from training.small_vlm import metrics
+        self.assertIsNone(metrics(['sitting'], ['unknown'])['selective_accuracy'])

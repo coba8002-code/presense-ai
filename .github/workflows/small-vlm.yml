@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: ['codex/**']
-    paths: ['training/small_vlm.py', 'requirements-vlm.txt', '.github/workflows/small-vlm.yml']
+    paths: ['training/small_vlm.py', 'training/small_vlm_infer.py', 'requirements-vlm.txt', '.github/workflows/small-vlm.yml']
 permissions:
   contents: read
 jobs:
@@ -23,6 +23,10 @@ jobs:
       - run: python -m pip check
       - name: Actual pretrained weights, synthetic image, two LoRA optimizer steps
         run: python -m training.small_vlm --smoke --steps 2 --output artifacts/smolvlm-smoke
+      - name: Reload adapter in standalone inference process
+        run: |
+          python -c "from PIL import Image; Image.new('RGB', (128, 128), (60, 80, 100)).save('/tmp/smoke.png')"
+          python -m training.small_vlm_infer --run artifacts/smolvlm-smoke --image /tmp/smoke.png --allow-synthetic
       - uses: actions/upload-artifact@v4
         with:
           name: synthetic-smolvlm-adapter-not-for-production
