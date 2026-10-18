@@ -57,3 +57,7 @@ app.include_router(realtime_router)
 from backend.knowledge import router as knowledge_router
 
 app.include_router(knowledge_router)
+
+from backend.review import router as review_router
+
+app.include_router(review_router)

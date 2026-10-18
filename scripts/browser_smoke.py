@@ -98,6 +98,9 @@ def main():
                     page.locator('#stop').click()
                     assert page.evaluate('window.testTracks.every(track => track.readyState === "ended")')
                     assert not errors, errors
+                    from review_browser_smoke import run_review_smoke
+                    review_page = context.new_page()
+                    run_review_smoke(review_page, f'http://127.0.0.1:{port}', directory)
                     print('PASS: HTTP health, Chromium fake microphone, PCM upload/result, consent stop, track release, no console errors')
                 finally:
                     browser.close()

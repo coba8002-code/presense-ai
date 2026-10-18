@@ -72,3 +72,7 @@ Restrict public audio/demo and local training to dog. Keep provider species reco
 ## VLM-04 local media binding
 
 Validate current review/rights before media access; require acquisition permission and source/alignment attestations. Snapshot bounded local files, verify declared SHA-256, block duplicate content across source IDs, restrict FFmpeg protocols/formats and runtime, fully decode video, map source timestamps with a reviewed offset, and recheck policies/files before output. No video downloads or training. Real synthetic-container CLI tests plus malicious path/hash/offset/duplicate/timeout regressions. Perceptual duplicates and frame-level mapping remain explicit follow-ups.
+
+## Local dog video review interface
+
+Implement /review as static local-file UI: validated dog proposals, local video/offset playback, human labels and identity fields, explicit approval/revoke, strict CLI-compatible JSON download. No upload API or persistence; CSP blocks network connections. Escape untrusted observations using textContent; bound inputs and guard unsaved edits. Add HTTP asset tests and real Chromium synthetic-video playback/download integration in CI. Server-backed audit/roles, review resume and frame-accurate editing remain future work.
