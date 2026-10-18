@@ -80,3 +80,10 @@ Implement /review as static local-file UI: validated dog proposals, local video/
 ## 2026-10-18: Hybrid dog MVP design and evidence-first reprioritization
 
 Design: [DOG_MVP_ARCHITECTURE.md](../docs/DOG_MVP_ARCHITECTURE.md). Start with user-selected short dog videos, a server-held VLM credential, and measurable observations. Reorder existing follow-ups toward evaluation contract, review resume, one live private-sample evaluation adapter and an actual quality/cost report. Defer broad near-duplicate/frame infrastructure until pilot evidence identifies required work. Then build authenticated upload/job/result flow and Flutter; on-device events and fine-tuning follow real metrics. Existing incomplete tasks remain preserved. This turn is planning/documentation only; targets and new endpoints are proposals, not implemented behavior.
+
+## Lightweight VLM implementation (2026-10-18)
+User-authorized extension: select official SmolVLM2 256M at pinned revision, implement
+optional local-frame LoRA trainer and adapter inference. Validate rights and animal,
+recording and source isolation before model download. CPU CI executes synthetic
+optimizer/save/reload smoke; it cannot establish dog accuracy. Static posture labels
+only; temporal walking and production deployment remain separate gates.

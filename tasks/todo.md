@@ -192,3 +192,9 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [ ] 검수 자료가 충분할 때 frozen embedding + 작은 행동 분류기를 비교한다.
 - [ ] 오디오/영상/융합을 같은 독립 평가 세트에서 비교하고 개선된 후보만 제한 배포한다.
 검증: 개체 분리 성능·기기 지연/발열·비용·회귀·롤백. 의존: 체크포인트 B 및 데이터 규모. 하나의 대형 작업으로 구현하지 않고 실험별 계약을 먼저 만든다.
+
+## Lightweight VLM tuning slice (2026-10-18)
+- [ ] Compare official lightweight model repositories and record selection.
+- [ ] Add reviewed local-frame manifest gate, LoRA training and adapter inference.
+- [ ] Verify rejection tests and pretrained CPU optimizer/save/reload in CI.
+- [ ] Train/evaluate on licensed real dog frames; blocked until reviewed dataset exists.
