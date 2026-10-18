@@ -94,9 +94,9 @@ el('offset').addEventListener('input', () => { video.pause(); clipEnd = null; el
 el('play').addEventListener('click', async () => {
   const range = interval(); if (!range) return;
   video.currentTime = range.start; clipEnd = range.end;
-  try { await video.play(); } catch { status('영상 재생을 시작하지 못했습니다.', true); }
+  try { await video.play(); el('video-status').textContent = '관찰 구간 재생 중'; } catch { status('영상 재생을 시작하지 못했습니다.', true); }
 });
-video.addEventListener('timeupdate', () => { if (clipEnd !== null && video.currentTime >= clipEnd) { video.pause(); clipEnd = null; } });
+video.addEventListener('timeupdate', () => { if (clipEnd !== null && video.currentTime >= clipEnd) { video.pause(); clipEnd = null; el('video-status').textContent = '관찰 구간 재생 완료'; } });
 el('review-form').addEventListener('input', () => { dirty = true; formEdited = true; });
 el('review-form').addEventListener('submit', event => {
   event.preventDefault();

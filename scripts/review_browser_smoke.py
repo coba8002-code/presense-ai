@@ -36,8 +36,9 @@ def run_review_smoke(page,base_url,directory):
     expect(page.locator('#approve')).to_be_disabled()
     page.locator('#offset').fill('0')
     page.locator('#play').click()
-    page.wait_for_function('document.querySelector("video").currentTime >= 2')
-    page.wait_for_function('document.querySelector("video").paused && document.querySelector("video").currentTime >= 3')
+    expect(page.locator('#video-status')).to_have_text('관찰 구간 재생 중')
+    expect(page.locator('#video-status')).to_have_text('관찰 구간 재생 완료',timeout=10000)
+    expect(page.locator('#video')).to_have_js_property('paused',True)
     page.locator('#label').select_option('sitting')
     for key,value in dict(animal_id='dog-1',recording_group='session-1',dataset='owned',reviewer='expert',review_evidence='review-log-1').items():
         page.locator('#'+key).fill(value)
