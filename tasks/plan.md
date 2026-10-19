@@ -87,3 +87,11 @@ optional local-frame LoRA trainer and adapter inference. Validate rights and ani
 recording and source isolation before model download. CPU CI executes synthetic
 optimizer/save/reload smoke; it cannot establish dog accuracy. Static posture labels
 only; temporal walking and production deployment remain separate gates.
+
+## Pretrained dog audio inference (2026-10-19 KST)
+Dog2vec weight terms remain unverified; AVES repository MIT alone is insufficient
+weight-specific evidence. Implement the reviewed BSD-3-Clause HF AST release as
+an explicit fallback baseline, pinned revision and safetensors only. Bounded local
+PCM16 WAV -> original multi-label scores -> dog-event subset, no emotion inference.
+Unit-test input boundaries and label mapping before implementation; CPU CI loads
+real weights and executes deterministic synthetic WAV inference. No dog accuracy claim.
