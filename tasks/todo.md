@@ -205,3 +205,10 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [ ] Dog2vec/AVES 가중치 라이선스·해시·추론 재현 후 EfficientAT와 비교.
 - [ ] 강형욱 출연 공식 영상의 사례 카드 필드와 관찰/전문가 해석 분리 검수 구현.
 - [ ] 허가된 개 음향·영상의 독립 평가셋 확보 및 모델별 실제 비교.
+
+## 사전학습 개 소리 추론 1차 (2026-10-19 KST)
+- [x] Dog2vec/AVES 배포 조건 재확인; 가중치 상업 조건 미확정 상태 유지.
+- [x] BSD-3-Clause 표기 AST를 명시적 대안 기준선으로 연결: 로컬 WAV → 개 관련 7개 원본 라벨 점수.
+- [x] 입력/라벨 경계 테스트 포함 112개 로컬 테스트 통과.
+- [x] 실제 가중치 CPU CI와 CLI 추론 성공: Actions 39213061875.
+- [ ] Dog2vec/AVES 자체 연결 및 실제 개 정확도 평가 (이번 AST 적용과 구분).

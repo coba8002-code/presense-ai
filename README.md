@@ -134,3 +134,10 @@ baseline. Synthetic CLI smoke and all 56 Python tests passed locally.
 optional, isolated PyTorch experiment for reviewed dog posture frames. Synthetic
 pretrained optimizer smoke is separate from real dog fine-tuning. This adapter is
 not deployed to the API; real dog accuracy and mobile performance remain unverified.
+
+## Pretrained dog sound-event inference
+
+An optional [AST local-WAV adapter](docs/PRETRAINED_DOG_AUDIO.md) returns the seven
+original dog-related AudioSet label scores using pinned safetensors weights.
+Dog2vec/AVES weight-specific terms remain unresolved; they are not integrated.
+Scores are uncalibrated, decisions abstain, and live audio routes are unchanged.

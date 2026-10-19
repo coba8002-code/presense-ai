@@ -12,8 +12,9 @@
 ## 현재 상태와 승인 범위
 
 기존 ZIP은 제공되지 않았다. 현재 코드는 이전 소스 복원이 아닌 신규 구성이다.
-FastAPI, NumPy 오디오 베이스라인, VLM 어댑터가 있으며 로컬 테스트 22개를 통과했다.
-실제 데이터 학습, PyTorch 모델, Flutter 앱, 유료 VLM 호출은 완료되지 않았다.
+2026-10-19 KST 기준 FastAPI, NumPy 오디오 베이스라인, VLM 어댑터와 검수 파이프라인이 있으며 로컬 테스트 112개를 통과했다.
+AST 실제 가중치 파일 추론 및 SmolVLM2 합성 LoRA 실행을 검증했다. 실제 개 데이터 학습·정확도 평가, Flutter 앱, 운영 배포는 미완료다.
+서비스 소개와 작업 범위는 [SERVICE_SCOPE.md](SERVICE_SCOPE.md), 새 음향 연결은 [PRETRAINED_DOG_AUDIO.md](PRETRAINED_DOG_AUDIO.md)를 참고한다.
 
 사용자는 상업용 학습 의향과 개발·PR 작성을 승인했다. 이 승인은 외부 데이터의
 저작권·라이선스·플랫폼 이용 권한을 대신하지 않는다. 권한이 불명확한 데이터는
