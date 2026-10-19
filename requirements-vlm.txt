@@ -1,0 +1,7 @@
+# Isolated experimental environment; torch CPU is installed separately in CI.
+transformers==4.57.1
+peft==0.17.1
+accelerate==1.10.1
+safetensors==0.6.2
+Pillow==11.3.0
+num2words==0.5.14

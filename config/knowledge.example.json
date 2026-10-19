@@ -1,0 +1,17 @@
+{
+  "queries": [
+    "강형욱 보듬 강아지 행동 설명",
+    "세상에 나쁜 개는 없다 행동 교육",
+    "Kikopup dog body language",
+    "Dogs Trust dog behaviour"
+  ],
+  "policies": {},
+  "gemini_model": "gemini-2.5-flash",
+  "daily_requests": 20,
+  "max_videos": 5,
+  "max_duration_seconds": 600,
+  "retention_days": 7,
+  "interval_seconds": 3600,
+  "notebook": null,
+  "notebook_endpoint": "global"
+}

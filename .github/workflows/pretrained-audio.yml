@@ -1,0 +1,33 @@
+name: pretrained-audio-smoke
+on:
+  workflow_dispatch:
+  push:
+    branches: ['codex/**']
+    paths: ['training/pretrained_audio.py', 'scripts/pretrained_audio_smoke.py', 'requirements-audio-model.txt', '.github/workflows/pretrained-audio.yml']
+permissions:
+  contents: read
+jobs:
+  cpu-inference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      HF_HUB_DISABLE_TELEMETRY: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install torch==2.8.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -r requirements-audio-model.txt
+      - run: python -m pip check
+      - run: python -m scripts.pretrained_audio_smoke
+      - name: Standalone local WAV inference
+        run: |
+          python -c "import wave; w=wave.open('/tmp/silence.wav','wb'); w.setparams((1,2,16000,0,'NONE','not compressed')); w.writeframes(bytes(32000)); w.close()"
+          python -m training.pretrained_audio --audio /tmp/silence.wav --output artifacts/ast-cli.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-ast-inference-not-dog-accuracy
+          path: artifacts/ast-*.json
+          retention-days: 7
+          if-no-files-found: error

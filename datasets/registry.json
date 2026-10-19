@@ -1,0 +1,97 @@
+{
+  "barkopedia": {
+    "status": "unknown",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "source": "https://github.com/UTA-ACL2/Barkopedia",
+    "version": "unknown",
+    "license": "MIT metadata on some subsets; underlying media rights not verified",
+    "rights_evidence": "https://github.com/UTA-ACL2/Barkopedia",
+    "consent": "unknown",
+    "reviewer": "initial source audit; not rights approval",
+    "reviewed_at": "2026-10-17",
+    "notes": "Official challenge describes YouTube/Reddit sources. Subset/version, underlying media and platform permissions must be verified. Do not scrape or download.",
+    "project_commercial_approval": {
+      "approved": true,
+      "approved_by": "repository owner via task conversation",
+      "date": "2026-10-17",
+      "scope": "Commercial training intent; does not grant third-party media, dataset or platform rights."
+    }
+  },
+  "catmeows": {
+    "status": "not-approved",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "source": "https://zenodo.org/records/4008297",
+    "version": "1.0.2",
+    "license": "Source terms: scientific research and non-commercial purposes",
+    "rights_evidence": "https://zenodo.org/records/4008297",
+    "consent": "unknown",
+    "reviewer": "initial source audit; not rights approval",
+    "reviewed_at": "2026-10-17",
+    "notes": "Commercial PetSense use blocked pending explicit permission/clarification. Context labels are brushing, isolation, waiting for food; they do not establish intent.",
+    "project_commercial_approval": {
+      "approved": true,
+      "approved_by": "repository owner via task conversation",
+      "date": "2026-10-17",
+      "scope": "Commercial training intent; does not grant third-party media, dataset or platform rights."
+    }
+  },
+  "meow-net": {
+    "status": "not-approved",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "source": "https://github.com/Yfyangd/meow",
+    "version": "unknown",
+    "license": "MIT code; training data subject to separate CatMeows terms",
+    "rights_evidence": "https://github.com/Yfyangd/meow",
+    "consent": "unknown",
+    "reviewer": "initial source audit; not rights approval",
+    "reviewed_at": "2026-10-17",
+    "notes": "Model code is not a dataset license. No replication on CatMeows for commercial use without rights clearance.",
+    "project_commercial_approval": {
+      "approved": true,
+      "approved_by": "repository owner via task conversation",
+      "date": "2026-10-17",
+      "scope": "Commercial training intent; does not grant third-party media, dataset or platform rights."
+    }
+  },
+  "ap-10k": {
+    "status": "unknown",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "source": "https://github.com/AlexTheBad/AP-10K",
+    "version": "unknown",
+    "license": "CC-BY-4.0 stated by official README",
+    "rights_evidence": "https://github.com/AlexTheBad/AP-10K",
+    "consent": "unknown",
+    "reviewer": "initial source audit; not rights approval",
+    "reviewed_at": "2026-10-17",
+    "notes": "Pose image dataset; not audio. Pin release and record attribution, media provenance and identity grouping before project approval.",
+    "project_commercial_approval": {
+      "approved": true,
+      "approved_by": "repository owner via task conversation",
+      "date": "2026-10-17",
+      "scope": "Commercial training intent; does not grant third-party media, dataset or platform rights."
+    }
+  },
+  "animal-kingdom": {
+    "status": "unknown",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "source": "https://github.com/sutdcv/Animal-Kingdom",
+    "version": "unknown",
+    "license": "unknown",
+    "rights_evidence": "https://github.com/sutdcv/Animal-Kingdom",
+    "consent": "unknown",
+    "reviewer": "initial source audit; not rights approval",
+    "reviewed_at": "2026-10-17",
+    "notes": "Official repository links a dataset request form. Full download terms and commercial media rights not verified; no form submitted or media downloaded.",
+    "project_commercial_approval": {
+      "approved": true,
+      "approved_by": "repository owner via task conversation",
+      "date": "2026-10-17",
+      "scope": "Commercial training intent; does not grant third-party media, dataset or platform rights."
+    }
+  }
+}
