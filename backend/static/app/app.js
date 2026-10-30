@@ -4,8 +4,10 @@ let candidate=null,records=[],recorded=null,recording=null,recordBusy=false,reco
 const labels={'Dog':'개 소리','Bark':'짖음','Yip':'짧고 높은 소리','Howl':'하울링','Bow-wow':'연속 짖음','Growling':'으르렁거림','Whimper (dog)':'낑낑거림'};
 function text(tag,value,parent){const el=document.createElement(tag);el.textContent=value;parent.append(el);return el;}
 function render(){const w=PetSenseAudio.week(records);$('weekly').replaceChildren();text('h3','최근 7일의 관찰 기록',$('weekly'));text('p',`${w.count}개 기록 · 한국 시간 기준 날짜 · 같은 이름은 합산됩니다.`,$('weekly'));for(const p of w.pets)text('p',`${p.pet}: ${p.count}개 기록 / ${p.days}일에 기록`,$('weekly'));text('p','기록량은 실제 짖음 빈도·상태 개선을 뜻하지 않습니다. 비교에는 같은 관찰 시간과 조건이 필요합니다.',$('weekly')); $('records').replaceChildren();$('count').textContent=`저장된 관찰 ${records.length}개 · 기록 수는 행동 빈도를 의미하지 않습니다.`;for(const r of [...records].reverse()){const el=text('article','',$('records'));el.className='record';text('strong',`${r.pet} · ${new Date(r.at).toLocaleString('ko-KR')}`,el);text('p',r.context||'상황 기록 없음',el);text('p','소리 사건 점수 기록 · 감정과 원인 판단 보류',el);const b=text('button','이 기록 삭제',el);b.className='secondary';b.onclick=()=>{const next=records.filter(x=>x.id!==r.id);persist(next);};}}
-function persist(next){try{localStorage.setItem(KEY,JSON.stringify(next));records=next;render();return true;}catch(e){$('status').textContent='브라우저 저장에 실패했습니다. 저장 공간과 설정을 확인하세요.';return false;}}
-try{const raw=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(raw))records=raw.filter(r=>r&&typeof r.id==='string'&&typeof r.pet==='string'&&typeof r.context==='string'&&Number.isFinite(r.at)).slice(-100);}catch(e){$('status').textContent='저장된 기록을 읽을 수 없습니다.';}render();
+function persist(next){if(globalThis.PetSenseSession?.enabled()){$('status').textContent='로그인 모드에서는 계정 메모와 분석 작업에서 기록을 확인하세요.';return false;}try{localStorage.setItem(KEY,JSON.stringify(next));records=next;render();return true;}catch(e){$('status').textContent='브라우저 저장에 실패했습니다. 저장 공간과 설정을 확인하세요.';return false;}}
+function loadLegacyRecords(){try{const raw=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(raw))records=raw.filter(r=>r&&typeof r.id==='string'&&typeof r.pet==='string'&&typeof r.context==='string'&&Number.isFinite(r.at)).slice(-100);}catch(e){$('status').textContent='저장된 기록을 읽을 수 없습니다.';}render();
+}
+if(globalThis.PetSenseSession){globalThis.PetSenseSession.ready.then(()=>{if(!PetSenseSession.enabled())loadLegacyRecords();else{records=[];render();}});}else loadLegacyRecords();
 let activeAnalysis=null;
 globalThis.PetSenseAnalysisInput=()=>({file:recorded||$('audio').files[0],start:recorded?0:Number($('start').value)});
 function cancelAnalysis(message='분석 요청을 취소했습니다. 이미 전송된 소리의 서버 처리는 잠시 계속될 수 있습니다.'){
@@ -22,7 +24,8 @@ $('analysis-form').onsubmit=async event=>{
  const task={controller:new AbortController(),timer:null};activeAnalysis=task;
  const context=$('context').value,pet=$('pet').value;
  const headers={'Content-Type':'audio/wav','X-Audio-Consent':'true','X-Audio-Species':'dog'};
- if($('auth-mode').value==='account')headers['X-PetSense-Session']=$('notes-session').value;
+ if(globalThis.PetSenseSession?.enabled())Object.assign(headers,PetSenseSession.headers());
+ else if($('auth-mode').value==='account')headers['X-PetSense-Session']=$('notes-session').value;
  else headers.Authorization=`Bearer ${$('token').value}`;
  $('submit').disabled=true;$('cancel-analysis').hidden=false;
  $('status').textContent='소리를 준비하고 분석합니다. 첫 실행에는 모델 준비 시간이 필요합니다.';
@@ -45,7 +48,7 @@ $('analysis-form').onsubmit=async event=>{
   const n=text('p','감정·원인 판단 보류',$('result'));n.className='notice';
   for(const score of result.dog_event_scores){const row=text('div','',$('result'));row.className='score';text('span',labels[score.label]||score.label,row);text('span',score.score.toFixed(3),row);const bar=document.createElement('progress');bar.max=1;bar.value=score.score;bar.setAttribute('aria-label',labels[score.label]||score.label);row.append(bar);}
   candidate={id:crypto.randomUUID(),at:Date.now(),pet,context,result,segment:{start:input.start,seconds:input.seconds}};
-  $('save').hidden=false;$('status').textContent='분석을 마쳤습니다. 저장 버튼을 누르면 이 브라우저에 결과가 남습니다.';
+  $('save').hidden=Boolean(globalThis.PetSenseSession?.enabled());$('status').textContent=globalThis.PetSenseSession?.enabled()?'분석을 마쳤습니다. 이 결과는 브라우저에 자동 저장하지 않습니다. 계정 메모와 분석 작업에서 보관 범위를 확인하세요.':'분석을 마쳤습니다. 저장 버튼을 누르면 이 브라우저에 결과가 남습니다.';
  }catch(e){if(activeAnalysis===task)$('status').textContent=e.message||'연결을 확인하세요.';}
  finally{clearTimeout(task.timer);if(activeAnalysis===task){activeAnalysis=null;$('submit').disabled=false;$('cancel-analysis').hidden=true;}}
 };
@@ -62,3 +65,5 @@ $('stop').onclick=()=>stopRecording();$('cancel-record').onclick=()=>stopRecordi
 $('audio').onchange=()=>{cancelAnalysis('파일이 변경되어 이전 요청을 취소했습니다.');stopRecording(true);recorded=null;$('record-status').textContent='선택한 음성 파일을 사용합니다.';};
 $('consent').onchange=()=>{if(!$('consent').checked){cancelAnalysis('동의가 해제되어 요청을 취소했습니다.');stopRecording(true);recorded=null;}};
 window.addEventListener('pagehide',()=>{cancelAnalysis();stopRecording(true);});
+
+window.addEventListener('petsense-session-change',()=>{cancelAnalysis('로그인 상태가 변경되어 이전 요청을 취소했습니다.');stopRecording(true);candidate=null;$('save').hidden=true;$('result').replaceChildren();if(globalThis.PetSenseSession?.enabled()){recorded=null;for(const id of ['pet','context','audio','token'])$(id).value='';for(const id of ['consent','notes-consent','job-consent'])if($(id))$(id).checked=false;$('record-status').textContent='';records=[];render();}});

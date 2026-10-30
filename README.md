@@ -181,8 +181,11 @@ Windows/iOS/Android 실제 기기와 Web Audio 코덱 검증은 별도입니다.
 
 국내외 영상 조사 확장과 실행 제한: [VIDEO_RESEARCH_EXPANSION.md](docs/VIDEO_RESEARCH_EXPANSION.md).12개 검색 대상·24검색어의 순환 메타데이터 탐색과 출처별 사례 후보를 지원합니다. 실제 영상 확보·추가 학습은 별도입니다.
 
-반려견별 서버 메모 연결과 삭제: [PET_PROFILES.md](docs/PET_PROFILES.md). 운영자 발급 계정 세션에서 개 전용 프로필을 관리하며 운영 회원가입/가족 공유는 후속입니다.
+반려견별 서버 메모 연결과 삭제: [PET_PROFILES.md](docs/PET_PROFILES.md). 운영자 발급 계정 세션에서 개 전용 프로필을 관리하며 실제 HTTPS 베타 가입/복구는 [WEB_MEMBERSHIP.md](docs/WEB_MEMBERSHIP.md), 가족 공유는 후속입니다.
 
 계정별 비동기 분석과 별도 임시 보관 동의: [AUDIO_JOBS.md](docs/AUDIO_JOBS.md). 기본 비활성화이며 별도 로컬 작업자와 고정 모델 캐시가 필요합니다. 운영 배포나 실제 행동 정확도 검증을 의미하지 않습니다.
 
 서비스 화면 시안은 서버의 `/design`에서 확인합니다: [SERVICE_GUI.md](docs/SERVICE_GUI.md). 회원가입부터 결과까지 클릭하는 오프라인 디자인이며 실제 가입/분석 호출은 하지 않습니다. [현재 완성도와 사업성 평가](docs/BUSINESS_ASSESSMENT_20261030.md)는 확인 사실·판단·수치 가정을 구분합니다.
+
+### 실제 HTTPS 웹 계정 베타
+`/auth`에서 가입·로그인·일회용 복구 코드·비밀번호 변경·재확인 탈퇴를 제공하고 `/app`의 프로필/메모/분석 작업은 Secure HttpOnly 쿠키로 연결합니다. 기본 비활성화이며 고정 HTTPS origin·운영자/개인정보 안내 설정이 필요합니다. 이메일 소유 확인·메일 전송·운영 배포는 포함하지 않습니다. `/design`은 계속 별도 시안입니다. [실행/검증 안내](docs/WEB_MEMBERSHIP.md), [API 계약](docs/WEB_AUTH_SPEC.md).

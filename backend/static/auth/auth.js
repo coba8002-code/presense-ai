@@ -1,0 +1,28 @@
+'use strict';
+(()=>{
+ const el=id=>document.getElementById(id);let cfg=null,member=null,busy=false,backup='',afterBackup='app';
+ function say(value){el('auth-status').textContent=value;}
+ function controls(){for(const button of document.querySelectorAll('button[type=submit]'))button.disabled=busy||!cfg;el('auth-logout').disabled=busy;}
+ function tab(name){if(!['login','signup','recover','account'].includes(name))name='login';if(name==='account'&&!member)name='login';for(const key of ['login','signup','recover','account'])el('form-'+key).hidden=key!==name;for(const button of document.querySelectorAll('[data-tab]')){if(button.dataset.tab===name)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');}location.hash=name;}
+ for(const button of document.querySelectorAll('[data-tab]'))button.onclick=()=>{if(!busy&&!backup)tab(button.dataset.tab);};
+ async function refresh(){const r=await fetch('/v1/auth/session',{credentials:'same-origin'});member=r.ok?await r.json():null;el('account-tab').hidden=!member;el('account-email').textContent=member?.email||'';}
+ async function api(path,data){
+  if(!cfg)throw new Error('서버의 HTTPS·계정 설정을 확인하세요.');
+  const response=await fetch('/v1/auth/'+path,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-PetSense-Request':'web',...(member?{'X-PetSense-CSRF':member.csrf_token}:{})},body:data?JSON.stringify(data):undefined});
+  if(!response.ok)throw new Error(({401:'이메일·비밀번호 또는 복구 정보를 확인하세요.',403:'보안 연결·동의·로그인 상태를 확인하세요.',409:'기존 가입 여부와 최신 이용 안내를 확인하세요. 필요하면 새로고침하세요.',413:'입력 내용이 너무 큽니다.',422:'이메일 형식·15~128자 비밀번호·43자 복구 코드를 확인하세요.',429:'계정 요청 한도에 도달했습니다. 잠시 후 다시 시도하세요.',503:'서버의 계정 설정이 준비되지 않았습니다.'})[response.status]||'계정 요청을 완료하지 못했습니다. 접수 여부는 로그인으로 확인하세요.');
+  return response.status===204?null:response.json();
+ }
+ async function action(fn){if(busy)return;busy=true;controls();say('계정 요청을 처리하고 있습니다.');try{await fn();}catch(error){say(error.message||'연결을 확인하세요.');}finally{for(const input of document.querySelectorAll('input[type=password]'))input.value='';busy=false;controls();}}
+ function matched(password,confirmation){if(password!==confirmation)throw new Error('비밀번호 확인이 일치하지 않습니다.');return password;}
+ function showBackup(code,destination){backup=code;afterBackup=destination;el('auth-recovery-code').value=code;el('auth-recovery-ack').checked=false;el('auth-recovery-done').disabled=true;el('auth-recovery').hidden=false;for(const key of ['login','signup','recover','account'])el('form-'+key).hidden=true;say('새 복구 코드를 보관한 뒤 계속하세요.');}
+ el('form-signup').onsubmit=event=>{event.preventDefault();return action(async()=>{const password=matched(el('signup-password').value,el('signup-confirm').value);const data=await api('signup',{email:el('signup-email').value,password,accept_terms:el('signup-terms').checked,accept_privacy:el('signup-privacy').checked,terms_version:cfg.terms_version,privacy_version:cfg.privacy_version});await refresh();showBackup(data.recovery_code,'app');});};
+ el('form-login').onsubmit=event=>{event.preventDefault();return action(async()=>{await api('login',{email:el('login-email').value,password:el('login-password').value});location.assign('/app');});};
+ el('form-recover').onsubmit=event=>{event.preventDefault();return action(async()=>{const password=matched(el('recover-password').value,el('recover-confirm').value);const data=await api('recover',{email:el('recover-email').value,password,recovery_code:el('recover-code').value.trim()});el('recover-code').value='';await refresh();showBackup(data.recovery_code,'login');});};
+ el('form-password').onsubmit=event=>{event.preventDefault();return action(async()=>{const new_password=matched(el('change-password').value,el('change-confirm').value);const data=await api('password',{password:el('change-current').value,new_password});await refresh();showBackup(data.recovery_code,'app');});};
+ el('form-delete').onsubmit=event=>{event.preventDefault();if(!el('delete-confirm').checked)return;return action(async()=>{await api('delete',{password:el('delete-password').value});member=null;el('account-tab').hidden=true;el('account-email').textContent='';tab('login');say('계정과 서버 자료·세션을 삭제했습니다. 기기의 별도 기록/다운로드는 직접 삭제하세요.');});};
+ el('auth-logout').onclick=()=>action(async()=>{await api('logout');member=null;el('account-tab').hidden=true;el('account-email').textContent='';tab('login');say('로그아웃했습니다.');});
+ el('auth-recovery-ack').onchange=()=>{el('auth-recovery-done').disabled=!el('auth-recovery-ack').checked;};
+ el('auth-recovery-done').onclick=()=>{if(!el('auth-recovery-ack').checked)return;backup='';el('auth-recovery-code').value='';el('auth-recovery').hidden=true;if(afterBackup==='app')location.assign('/app');else{tab('login');say('새 비밀번호로 로그인하세요. 이전 복구 코드는 사용할 수 없습니다.');}};
+ el('auth-recovery-download').onclick=()=>{if(!backup)return;const blob=new Blob(['PetSense AI 계정 복구 코드\n다른 사람에게 공유하지 마세요.\n\n'+backup+'\n'],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='petsense-recovery-code.txt';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+ (async()=>{try{const response=await fetch('/v1/auth/config');if(!response.ok)throw new Error();const data=await response.json();if(!data.enabled){say('서버에서 웹 계정을 아직 활성화하지 않았습니다.');return;}cfg=data;el('operator-info').textContent='운영자: '+cfg.operator+' · 이용 안내 '+cfg.terms_version;await refresh();tab(location.hash.slice(1)||(member?'account':'login'));say(member?'로그인된 계정입니다.':'복구 코드를 보관하는 베타 계정입니다. 이메일 소유 확인은 제공하지 않습니다.');}catch(error){cfg=null;say('HTTPS 주소와 서버 계정 설정을 확인하세요.');}finally{controls();}})();
+})();

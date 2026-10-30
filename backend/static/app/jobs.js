@@ -1,24 +1,27 @@
 'use strict';
 (()=>{
  const el=id=>document.getElementById(id);
+ const identity=()=>globalThis.PetSenseSession?.identity()??el('notes-session').value;
+ const authHeaders=()=>globalThis.PetSenseSession?.headers()??{'X-PetSense-Session':el('notes-session').value};
  const names={queued:'대기 중',running:'분석 중',succeeded:'완료',failed:'실패',cancelled:'취소됨',expired:'기한 만료'};
  let epoch=0,active=null,timer=null,polls=0;
  function text(tag,value,parent){const node=document.createElement(tag);node.textContent=value;parent.append(node);return node;}
- function reset(){epoch++;clearTimeout(timer);if(active)active.abort();active=null;el('job-submit').disabled=false;el('jobs-refresh').disabled=false;el('jobs-list').replaceChildren();el('jobs-status').textContent='';}
+ function reset(){epoch++;clearTimeout(timer);if(active)active.abort();active=null;el('job-submit').disabled=Boolean(globalThis.PetSenseSession?.enabled()&&!identity());el('jobs-refresh').disabled=Boolean(globalThis.PetSenseSession?.enabled()&&!identity());el('jobs-list').replaceChildren();el('jobs-status').textContent='';}
  async function action(fn){
-  if(active)return;const session=el('notes-session').value,mine=epoch,controller=new AbortController();
+  if(active)return;const session=identity(),mine=epoch,controller=new AbortController();
   if(!session){el('jobs-status').textContent='계정 세션을 입력하세요.';return;}
   active=controller;el('job-submit').disabled=true;el('jobs-refresh').disabled=true;
-  const current=()=>epoch===mine&&el('notes-session').value===session;
+  const current=()=>epoch===mine&&identity()===session;
   async function api(path='',method='GET',body,extra={}){
    if(!current())throw new Error('세션이 변경되었습니다.');
-   let response;try{response=await fetch('/v1/me/audio-jobs'+path,{method,signal:controller.signal,headers:{'X-PetSense-Session':session,'X-Delete-Confirm':method==='DELETE'?'cancel-job':'',...extra},body});}
+   let response;try{response=await fetch('/v1/me/audio-jobs'+path,{method,signal:controller.signal,headers:{...authHeaders(),'X-Delete-Confirm':method==='DELETE'?'cancel-job':'',...extra},body});}
    catch(error){throw new Error('연결을 확인하세요. 접수 여부는 작업 목록에서 확인하고 다시 등록하세요.');}
+   if(response.status===401)globalThis.PetSenseSession?.invalidate();
    if(!response.ok)throw new Error(({401:'세션이 만료되었거나 철회되었습니다.',403:'분석·임시 보관 동의를 확인하세요.',404:'작업 또는 반려견 프로필을 찾을 수 없습니다.',409:'같은 접수 번호의 내용이 다릅니다.',413:'선택 구간이 너무 큽니다.',422:'반려견 프로필과 소리 형식을 확인하세요.',429:'작업 한도에 도달했습니다. 대기 작업 완료 또는 일일 한도 초기화 후 다시 시도하세요.',503:'서버의 분석 작업 설정이 필요합니다.'})[response.status]||'분석 작업 요청에 실패했습니다.');
    const data=await response.json();if(!current())throw new Error('세션이 변경되었습니다.');return data;
   }
   try{await fn(api,current);}catch(error){if(current())el('jobs-status').textContent=error.message;}
-  finally{if(active===controller){active=null;el('job-submit').disabled=false;el('jobs-refresh').disabled=false;}}
+  finally{if(active===controller){active=null;el('job-submit').disabled=Boolean(globalThis.PetSenseSession?.enabled()&&!identity());el('jobs-refresh').disabled=Boolean(globalThis.PetSenseSession?.enabled()&&!identity());}}
  }
  function render(rows){
   el('jobs-list').replaceChildren();
@@ -46,6 +49,7 @@
   polls=0;await load(api);
  });
  el('notes-session').addEventListener('input',reset);
+ window.addEventListener('petsense-session-change',reset);
  window.addEventListener('pagehide',reset);
  globalThis.PetSenseJobs={reset};
 })();

@@ -39,7 +39,7 @@ def main():
     if args.output and args.output.exists():raise FileExistsError('Use fresh output')
     with tempfile.TemporaryDirectory() as td:
         db=Path(td)/'private.sqlite3';store=Store(db);_,token=store.issue();_,other=store.issue();pet=store.pet_create(token,'queue-test')
-        env={**os.environ,'PETSENSE_ACCOUNT_DB':str(db),'PETSENSE_ENABLE_AST_JOBS':'true','PETSENSE_ENABLE_AST':'false'}
+        env={**os.environ,'PETSENSE_ENABLE_WEB_AUTH':'false','PETSENSE_ACCOUNT_DB':str(db),'PETSENSE_ENABLE_AST_JOBS':'true','PETSENSE_ENABLE_AST':'false'}
         with socket.socket() as s:s.bind(('127.0.0.1',0));port=s.getsockname()[1]
         server=subprocess.Popen([sys.executable,'-m','uvicorn','backend.app:app','--host','127.0.0.1','--port',str(port)],cwd=ROOT,env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
         command=[sys.executable,'-m','backend.job_worker','--db',str(db),'--watch'] if args.real_ast else [sys.executable,'-c',MOCK_WORKER,str(db)]

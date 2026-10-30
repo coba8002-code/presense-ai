@@ -31,6 +31,7 @@ jobs:
       - run: node tests/test_product_app.cjs
       - run: node tests/test_mobile_audio.cjs
       - run: node tests/test_account_notes.cjs
+      - run: node tests/test_web_session.cjs
   browser:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -48,6 +49,7 @@ jobs:
       - run: python scripts/browser_smoke.py
       - run: python -m scripts.product_browser_smoke
       - run: python -m scripts.job_browser_smoke
+      - run: python -m scripts.member_browser_smoke
       - run: python -m scripts.design_browser_smoke --output-dir artifacts/service-gui
       - uses: actions/upload-artifact@v4
         with:
