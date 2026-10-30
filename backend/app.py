@@ -73,6 +73,8 @@ app.include_router(product_app_router)
 
 from backend.accounts import router as accounts_router
 app.include_router(accounts_router)
+from backend.pets import router as pets_router
+app.include_router(pets_router)
 
 @app.middleware('http')
 async def private_account_responses(request: Request, call_next):

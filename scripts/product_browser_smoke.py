@@ -99,8 +99,22 @@ def main():
                         assert len(payload['dog_event_scores'])==7
                     expect(page.locator('#save')).to_be_visible();page.locator('#save').click();expect(page.locator('#count')).to_contain_text('1개')
                     page.reload();expect(page.locator('#count')).to_contain_text('1개')
-                    page.locator('#pet').fill('테스트개');page.locator('#context').fill('상황 메모');page.locator('#notes-session').fill(session);page.locator('#notes-consent').check();page.locator('#notes-save').click()
+                    page.locator('#pet').fill('테스트개');page.locator('#context').fill('상황 메모');page.locator('#notes-session').fill(session);page.locator('#notes-consent').check()
+                    page.locator('#profile-name').fill('<b>테스트개</b>');page.locator('#profile-create').click()
+                    expect(page.locator('#profile-list .record')).to_have_count(1)
+                    expect(page.locator('#profile-list strong')).to_have_text('<b>테스트개</b>')
+                    assert page.locator('#profile-list b').count()==0
+                    pet_id=page.locator('#profile-select').input_value();assert pet_id
+                    with page.expect_request(lambda req:req.url.endswith('/v1/me/notes') and req.method=='POST') as saved:page.locator('#notes-save').click()
+                    assert saved.value.post_data_json['pet_id']==pet_id
                     expect(page.locator('#notes-list .record')).to_have_count(1)
+                    page.locator('#profile-name').fill('새이름');page.locator('#profile-update').click()
+                    expect(page.locator('#profile-list strong')).to_have_text('새이름')
+                    assert page.locator('#profile-select').input_value()==pet_id
+                    page.once('dialog',lambda dialog:dialog.accept());page.locator('#profile-list button').click()
+                    expect(page.locator('#profile-list .record')).to_have_count(0)
+                    page.locator('#notes-load').click();expect(page.locator('#notes-list .record')).to_have_count(0)
+                    assert session not in page.evaluate('JSON.stringify(localStorage)')
                     page.once('dialog',lambda dialog:dialog.accept());page.locator('#notes-delete-account').click();expect(page.locator('#notes-status')).to_contain_text('삭제했습니다')
                     expect(page.locator('#count')).to_contain_text('1개')
                     page.once('dialog',lambda dialog:dialog.accept());page.locator('#clear').click();expect(page.locator('#count')).to_contain_text('0개')
