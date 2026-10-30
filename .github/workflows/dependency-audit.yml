@@ -21,6 +21,19 @@ jobs:
       - run: mkdir -p artifacts
       - name: Audit fully pinned base runtime closure
         run: python -m pip_audit -r requirements.lock --strict --no-deps --disable-pip --format json --output artifacts/base-runtime-audit.json
+      - name: Print public dependency findings
+        if: always()
+        run: |
+          python - <<'PYTHON'
+          import json
+          from pathlib import Path
+          p=Path('artifacts/base-runtime-audit.json')
+          if p.exists():
+              data=json.loads(p.read_text())
+              print(json.dumps([{'name':d['name'],'version':d['version'],'vulns':d.get('vulns',[]),'skip_reason':d.get('skip_reason')} for d in data.get('dependencies',[]) if d.get('vulns') or d.get('skip_reason')]))
+          else:
+              raise SystemExit('Audit JSON missing; no clean result established')
+          PYTHON
       - uses: actions/upload-artifact@v4
         if: always()
         with:
