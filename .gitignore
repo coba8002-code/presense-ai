@@ -24,3 +24,6 @@ venv/
 
 config/knowledge.local.json
 *.sqlite3*
+
+.venv-*/
+pc-report.json

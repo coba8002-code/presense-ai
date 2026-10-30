@@ -61,3 +61,23 @@ app.include_router(knowledge_router)
 from backend.review import router as review_router
 
 app.include_router(review_router)
+
+# Whole-clip research scoring is isolated from the one-second streaming protocol.
+import asyncio
+from backend.audio_events import router as audio_events_router
+app.state.ast_lock = asyncio.Lock()
+app.include_router(audio_events_router)
+
+from backend.product_app import router as product_app_router
+app.include_router(product_app_router)
+
+from backend.accounts import router as accounts_router
+app.include_router(accounts_router)
+
+@app.middleware('http')
+async def private_account_responses(request: Request, call_next):
+    response = await call_next(request)
+    if request.url.path.startswith('/v1/me/'):
+        response.headers['Cache-Control'] = 'no-store'
+        response.headers['X-Content-Type-Options'] = 'nosniff'
+    return response
