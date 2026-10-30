@@ -31,3 +31,8 @@ MDN AbortController https://developer.mozilla.org/en-US/docs/Web/API/AbortContro
 PR #5 https://github.com/coba8002-code/presense-ai/pull/5 에 요청별 AST 자식 프로세스·입출력 한도·오프라인 캐시·타임아웃/취소/연결 종료 시 종료/회수 및 계정 모드를 반영했다. 공유 개발 토큰은 계정 모드를 우회하지 못하고 결과 반환 전 세션 철회/만료를 재검사한다. 모델 스레드 종료 불가에 관한 위 기록은 이전 구현의 한계다. 현재 경로의 상세는 ISOLATED_AUDIO.md를 따른다.
 실행 코드1ecab3b5dfb75267db9471a1b98a6f7009321f36의 backend/browser41051446920·41051454144 및 실제 AST41051446917이 성공했다. 실제 Chromium→계정 인증→HTTP→고정 AST 자식→결과→로컬/메모 저장·삭제를 합성 음성으로 확인했다. artifact12974038859의 ast-browser.json은 모델 지문·입력 해시·단일 소요시간을 기록한다.
 같은 브라우저 검사에서 모의429/503·offline·주입된 localStorage quota 오류 후 수동 재시도 복구가 통과했다. 로컬 Python146개·Node3종·컴파일·기존 스킬 지문 검사도 통과했다. OS 자원 샌드박스·지속 큐·운영 가입·실기기·실제 행동 정확도 완료를 의미하지 않는다.
+
+## 독립 영상 정답 계약·확보 방식
+PR #6 https://github.com/coba8002-code/presense-ai/pull/6 에 고정 영상 구간·관찰 라벨·개체/가정/세션/원본/내용 분할·독립 검수·불일치 조정·잠금 지문을 검증하는 오프라인 CLI와 가상 예제를 추가했다. 실제 원본 지문을 확인해도 decoding/시간 정렬/실제 성능을 검증한 것은 아니므로 evaluation_ready=false를 유지한다.
+실행 코드b0b9996d7ade5d3591fff249bbad1625d4e640ec의 backend/browser41053114599·41053123664가 성공했다. 로컬 Python153개·Node3종·컴파일·기존 스킬 지문 검사도 통과했다. 계약 추가 검사7개는 누출·검수·권한·파일 변경·CLI 비공개 출력 경계를 검사한다.
+LABEL_ACQUISITION.md에 기존 주석 자료·일반 검수자·보호자 상황 기록·모델 후보·자기지도학습·전문 자료의 역할과 제한을 정리했다. 모든 정답에 새 전문가 연결을 요구하지 않는다. 독립 관찰 정답은 필요하며 전문가는 기준·표본·모호한 해석에 집중한다. 실제 자료/학습/독립 성능은 미완료다. 다음 실행과 사용자 측 자료는 NEXT_STEPS.md를 따른다.

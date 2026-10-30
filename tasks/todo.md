@@ -354,3 +354,10 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] 실제 AST 합성 Chromium 결과의 모델/revision/입력 해시/단일 실행 시간을 ast-browser.json artifact에 보존.
 - [x] Chromium 모의429/503·offline·저장 quota 오류·수동 복구 검사 성공.
 - [ ] PR #5 검토/병합, 국내 PC·실제 휴대폰·새 개체 행동 평가. 코드 검증 완료와 구분.
+
+## 2026-10-30 독립 영상 평가 계약
+- [x] PR #6 https://github.com/coba8002-code/presense-ai/pull/6 생성.
+- [x] 실행 코드b0b9996의 backend/browser41053114599·41053123664 성공.
+- [x] 로컬153개 Python·Node3종·컴파일·기존 스킬 지문 검사 통과.
+- [x] 기존 주석·일반 검수·보호자 상황·모델 보조와 전문가 표본/불일치 검수를 구분한 LABEL_ACQUISITION.md, 담당/의존관계 NEXT_STEPS.md 작성.
+- [ ] 실제 독립 관찰 정답·디코딩/정렬·동일 분할 모델 비교와 검수 자료 학습. 가상 예제나 모델 후보를 실제 정답으로 바꾸지 않음.
