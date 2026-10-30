@@ -14,9 +14,9 @@ import sqlite3
 import tempfile
 import threading
 import time
-from backend.accounts import Store
+from backend.accounts import Store,SCHEMA_VERSION
 
-TABLES=('sessions','notes','pets','audio_jobs','audio_usage','auth_limits','auth_leases')
+TABLES=('sessions','notes','pets','audio_jobs','audio_usage','auth_limits','auth_leases','journal_cases','journal_followups')
 
 
 def timestamp(clock):
@@ -29,7 +29,7 @@ def cleanup_once(path,clock=time.time):
         raise ValueError('An existing private PetSense database is required')
     with closing(sqlite3.connect(path.resolve().as_uri()+'?mode=ro',uri=True)) as db:
         names={row[0] for row in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
-        if db.execute('PRAGMA user_version').fetchone()[0]!=4 or not set(TABLES+('members',)).issubset(names):
+        if db.execute('PRAGMA user_version').fetchone()[0]!=SCHEMA_VERSION or not set(TABLES+('members',)).issubset(names):
             raise ValueError('Initialize the current PetSense schema before maintenance')
     store=Store(path,clock=clock)
     with store.connect() as db:
@@ -39,7 +39,7 @@ def cleanup_once(path,clock=time.time):
         store._purge(db)
         remaining={table:db.execute('SELECT count(*) FROM '+table).fetchone()[0] for table in TABLES}
         cleared=media-db.execute('SELECT count(*) FROM audio_jobs WHERE media IS NOT NULL').fetchone()[0]
-    return {'status':'ok','observed_at_utc':timestamp(clock),'schema':4,
+    return {'status':'ok','observed_at_utc':timestamp(clock),'schema':SCHEMA_VERSION,
         'removed':{table:before[table]-remaining[table] for table in TABLES},
         'remaining':remaining,'media_cleared':cleared,
         'scope':'Local current DB TTL cleanup; no backup, swap, powered-off disk or operating-system deletion guarantee.'}

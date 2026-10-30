@@ -42,7 +42,7 @@ def operation(fn,*args):
 @router.get('/v1/me/pets')
 async def list_pets(request:Request):
     store,_,token=access(request)
-    return {'items':operation(store.pet_list,token),'limit':20,'retention_days':30}
+    return {'items':operation(store.pet_list,token),'limit':20,'retention_days':30,'retention_notice':'Default 30 days; explicit journal consent may extend a selected profile to the case expiry.'}
 
 @router.post('/v1/me/pets',status_code=201)
 async def create_pet(request:Request):

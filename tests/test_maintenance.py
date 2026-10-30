@@ -3,7 +3,7 @@ from pathlib import Path
 import sqlite3
 import tempfile
 import unittest
-from backend.accounts import Note, Store, RETENTION
+from backend.accounts import Note, Store, RETENTION, SCHEMA_VERSION
 from backend.job_store import JobStore
 from scripts.privacy_maintenance import cleanup_once, write_status
 from test_audio_jobs import wav, result
@@ -60,7 +60,7 @@ class PrivacyMaintenanceTests(unittest.TestCase):
         missing=Path(self.temp.name)/'missing.sqlite3'
         with self.assertRaises(ValueError):cleanup_once(missing)
         self.assertFalse(missing.exists())
-        for version in [0,3,5]:
+        for version in [0,SCHEMA_VERSION-1,SCHEMA_VERSION+1]:
             foreign=Path(self.temp.name)/f'foreign-{version}.sqlite3'
             with sqlite3.connect(foreign) as db:db.execute('PRAGMA user_version='+str(version))
             with self.assertRaises(ValueError):cleanup_once(foreign)
