@@ -45,4 +45,4 @@ python -m scripts.member_browser_smoke --real-ast --output artifacts/ast-member-
 ## 보안·운영 경계
 쿠키는 HttpOnly/Secure/SameSite=Strict,24시간이며 세션 원문을 JSON·브라우저 저장소에 넣지 않는다. 비밀번호는 scrypt, 복구/세션은 해시만 DB에 보관한다. 고정 Origin·세션 CSRF·입력4KB/10초 제한·DB 공유 요청/KDF 제한을 적용한다. 자세한 계약은 [WEB_AUTH_SPEC.md](WEB_AUTH_SPEC.md)에 있다.
 
-공개 운영에는 메일 소유 확인/복구 방식 결정, 입구 제한·OS 자원 격리, 독립 정리 타이머·백업 삭제, 국내 PC/실제 휴대폰 검증, 모니터링·복구·개인정보/약관 검토가 남는다. 이 베타를 공개 운영 보안 심사나 실동물 분석 정확도 증거로 표현하지 않는다. GitHub는 소스·CI이며 사용자 서비스의 추론 서버를 대신하지 않는다.
+공개 운영에는 메일 소유 확인/복구 방식 결정, 입구 제한·OS 자원 격리, [독립 정리 프로그램](PRIVACY_MAINTENANCE.md)의 국내 PC 서비스 설치·감시와 백업 삭제, 국내 PC/실제 휴대폰 검증, 모니터링·복구·개인정보/약관 검토가 남는다. 이 베타를 공개 운영 보안 심사나 실동물 분석 정확도 증거로 표현하지 않는다. GitHub는 소스·CI이며 사용자 서비스의 추론 서버를 대신하지 않는다.

@@ -193,3 +193,6 @@ Windows/iOS/Android 실제 기기와 Web Audio 코덱 검증은 별도입니다.
 ### 글로벌 제품 방향 · 2026-10-31 KST
 전 세계 보호자가 내 개를 이해하고 돌보며 함께 즐기고 소통하도록 확장합니다. [제품 전략](docs/global-20261031/01_PRODUCT_STRATEGY.md), [공식 경쟁·근거 조사](docs/global-20261031/02_COMPETITIVE_RESEARCH.md), [AI/권한/다국어 설계와 실행 순서](docs/global-20261031/03_ARCHITECTURE_AND_DELIVERY.md). 세계1위는 목표이며 현재 성과가 아닙니다.
 `/understand?lang=ko` 또는 `?lang=en`에서 행동 전후의 상황 카드를 만들고 명시적으로 다운로드하거나 로그인 계정의 상황 메모로 보관합니다. 이 흐름은 보호자 진술이며 모델 분석·의도 번역·학습 정답이 아닙니다. 가입/분석의 기존 화면은 한국어 베타이고 가족·커뮤니티/제휴는 계획입니다.
+
+### 요청과 분리된 만료 정리
+[독립 만료 정리](docs/PRIVACY_MAINTENANCE.md)는 기존 DB에 one-shot 또는 명시적 watch로 실행하고 비공개 집계 상태를 남깁니다. 국내 PC 서비스 설치·백업/오프라인 디스크 삭제를 수행한 것은 아닙니다.
