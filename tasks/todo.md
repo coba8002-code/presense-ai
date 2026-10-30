@@ -391,5 +391,6 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] 회원가입→프로필→홈→요청→처리→결과의6개 독립 HTML 시안 구현. 실제 가입/모델 호출과 분리.
 - [x] 원본 디자인 보드 생성·프로필 수집 범위를 이름 중심으로 정리.
 - [x] BUSINESS_ASSESSMENT_20261030.md에 확인 사실/판단/가정을 구분한 제품·AI·수익/실증 평가 작성.
-- [ ] 원격 Chromium 시안 검증·모바일/데스크톱 PNG artifact 및 검토용 PR.
+- [x] PR #10 실행 코드c497445의 backend/browser41065800327·41065842171 성공. 로컬186개·Node3종 및 실제 Chromium6화면/390·1440폭/API0호출 검사 통과.
+- [x] 실제 HTML 캡처7장 artifact12981444285 및 별도 이미지 보드/클릭형 HTML/평가서 ZIP 제작.
 - [ ] 운영 가입/복구·실제 개체/가정 품질·실기기·유료 유지 검증. 디자인이나 합성 검사를 출시 완료로 바꾸지 않음.

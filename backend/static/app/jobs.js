@@ -14,7 +14,7 @@
    if(!current())throw new Error('세션이 변경되었습니다.');
    let response;try{response=await fetch('/v1/me/audio-jobs'+path,{method,signal:controller.signal,headers:{'X-PetSense-Session':session,'X-Delete-Confirm':method==='DELETE'?'cancel-job':'',...extra},body});}
    catch(error){throw new Error('연결을 확인하세요. 접수 여부는 작업 목록에서 확인하고 다시 등록하세요.');}
-   if(!response.ok)throw new Error(({401:'세션이 만료되었거나 철회되었습니다.',403:'분석·임시 보관 동의를 확인하세요.',404:'작업 또는 반려견 프로필을 찾을 수 없습니다.',409:'같은 접수 번호의 내용이 다릅니다.',413:'선택 구간이 너무 큽니다.',422:'반려견 프로필과 소리 형식을 확인하세요.',429:'작업 한도에 도달했습니다. 완료 후 다시 시도하세요.',503:'서버의 분석 작업 설정이 필요합니다.'})[response.status]||'분석 작업 요청에 실패했습니다.');
+   if(!response.ok)throw new Error(({401:'세션이 만료되었거나 철회되었습니다.',403:'분석·임시 보관 동의를 확인하세요.',404:'작업 또는 반려견 프로필을 찾을 수 없습니다.',409:'같은 접수 번호의 내용이 다릅니다.',413:'선택 구간이 너무 큽니다.',422:'반려견 프로필과 소리 형식을 확인하세요.',429:'작업 한도에 도달했습니다. 대기 작업 완료 또는 일일 한도 초기화 후 다시 시도하세요.',503:'서버의 분석 작업 설정이 필요합니다.'})[response.status]||'분석 작업 요청에 실패했습니다.');
    const data=await response.json();if(!current())throw new Error('세션이 변경되었습니다.');return data;
   }
   try{await fn(api,current);}catch(error){if(current())el('jobs-status').textContent=error.message;}

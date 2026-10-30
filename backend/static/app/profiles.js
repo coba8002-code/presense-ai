@@ -21,7 +21,7 @@
   async function api(path='',method='GET',body){
    if(!current())throw new Error('세션이 변경되었습니다.');
    const response=await fetch('/v1/me/pets'+path,{method,signal:controller.signal,headers:{'Content-Type':'application/json','X-PetSense-Session':session,'X-Storage-Consent':String(el('notes-consent').checked),'X-Delete-Confirm':method==='DELETE'?'delete-pet':''},body:body?JSON.stringify(body):undefined});
-   if(!response.ok)throw new Error(({401:'세션이 만료되었거나 철회되었습니다.',403:'프로필·메모 보관 동의를 확인하세요.',404:'프로필을 찾을 수 없습니다.',409:'프로필은 계정당 20개까지 보관할 수 있습니다.',422:'이름은 공백 없이 1~40자로 입력하세요.',503:'서버 계정 설정을 확인하세요.'})[response.status]||'프로필 요청에 실패했습니다.');
+   if(!response.ok)throw new Error(({401:'세션이 만료되었거나 철회되었습니다.',403:'프로필·메모 보관 동의를 확인하세요.',404:'프로필을 찾을 수 없습니다.',409:'프로필은 계정당 20개까지 보관할 수 있습니다.',422:'이름을 1~40자로 입력하세요.',503:'서버 계정 설정을 확인하세요.'})[response.status]||'프로필 요청에 실패했습니다.');
    const data=response.status===204?null:await response.json();if(!current())throw new Error('세션이 변경되었습니다.');return data;
   }
   try{await fn(api,session);}catch(error){if(current())el('profile-status').textContent=error.message;}

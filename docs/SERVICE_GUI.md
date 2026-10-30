@@ -20,3 +20,5 @@
 ## 검증과 다운로드
 `scripts/design_browser_smoke.py --output-dir artifacts/gui-new`는 실제 Chromium에서 동의별 버튼 차단·화면 전환·HTML 문자 안전 표시·메모리 기록·새로고침 초기화·API0호출을 검사한다.390/1440폭에서 가로 넘침을 확인하고6개 화면/데스크톱 PNG를 저장한다. CI에는 한국어 스크린샷용 Noto CJK 폰트를 설치한다. 실제 iOS/Android·스크린리더·모든 글자 확대를 검증한 것은 아니다.
 다운로드 패키지는 index.html과 design/design.css, design/design.js를 함께 담는다. 압축을 풀고 index.html을 열면 서버 없이 클릭 시연할 수 있다. ‘개발 앱 /app’ 링크는 프로젝트 서버에서만 동작한다. 이미지 보드와 사업성 평가 Markdown도 별도로 제공한다.
+
+실행 코드c4974450ee6eafdb1df5faf41e1997681d40278a의 backend/browser41065800327·41065842171이 성공했다.186개 Python·Node3종 및 실제 시안 브라우저 흐름을 검증했다. 실제 HTML6화면/데스크톱 PNG7장은 https://github.com/coba8002-code/presense-ai/actions/runs/41065800327/artifacts/12981444285 (14일 보관). PR #10 https://github.com/coba8002-code/presense-ai/pull/10 . 파일은 디자인/샘플 화면이며 운영 가입/분석 화면 캡처가 아니다.
