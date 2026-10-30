@@ -1,6 +1,6 @@
 const vm=require('vm'),fs=require('fs'),assert=require('assert');
 function node(){return {children:[],value:'',checked:false,hidden:false,disabled:false,files:[],textContent:'',append(x){this.children.push(x)},replaceChildren(){this.children=[]},setAttribute(){},click(){}};}
-const nodes={};for(const id of ['records','count','status','analysis-form','pet','context','audio','token','consent','submit','result','save','clear','export','weekly','consult','start','record','stop','cancel-record','record-status','cancel-analysis'])nodes[id]=node();
+const nodes={};for(const id of ['records','count','status','analysis-form','pet','context','audio','token','consent','submit','result','save','clear','export','weekly','consult','start','record','stop','cancel-record','record-status','cancel-analysis','auth-mode','notes-session'])nodes[id]=node();
 const storage=new Map();let fail=false,calls=0;
 const ctx=vm.createContext({document:{getElementById:id=>nodes[id],createElement:()=>node()},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},crypto:{randomUUID:()=> 'case-1'},AbortController,confirm:()=>true,window:{addEventListener(){}},navigator:{},PetSenseAudio:{week:rs=>({count:rs.length,pets:[],records:rs}),convert:async()=>({blob:new Blob(),start:0,seconds:1})},Blob,URL:{createObjectURL:()=> 'blob:demo',revokeObjectURL(){}},setTimeout:()=>1,clearTimeout(){},fetch:async()=>{calls++;return {ok:!fail,status:503,json:async()=>({decision:'abstain',dog_event_scores:[{label:'Bark',score:.7}]})}}});
 vm.runInContext(fs.readFileSync('backend/static/app/app.js','utf8'),ctx);
@@ -11,7 +11,14 @@ vm.runInContext(fs.readFileSync('backend/static/app/app.js','utf8'),ctx);
  fail=false;await nodes['analysis-form'].onsubmit({preventDefault(){}});assert(!nodes.save.hidden);assert.equal(storage.size,0);
  nodes.save.onclick();const raw=storage.get('petsense.observations.v1');assert(raw);assert(!raw.includes('private-token'));assert.equal(JSON.parse(raw).length,1);assert(nodes.save.hidden);
  nodes.clear.onclick();assert.equal(storage.size,0);assert(nodes.count.textContent.includes('0개'));
+ nodes['auth-mode'].value='account';nodes['notes-session'].value='private-owner-session';
+ const devFetch=ctx.fetch;ctx.fetch=async(url,options)=>{assert.equal(options.headers['X-PetSense-Session'],'private-owner-session');assert(!options.headers.Authorization);return devFetch(url,options);};
+ await nodes['analysis-form'].onsubmit({preventDefault(){}});nodes.save.onclick();assert(!storage.get('petsense.observations.v1').includes('private-owner-session'));
+ nodes['auth-mode'].value='development';ctx.fetch=devFetch;nodes.clear.onclick();
  const normalFetch=ctx.fetch;
+ ctx.fetch=async()=>{throw new Error('browser-specific network error');};
+ await nodes['analysis-form'].onsubmit({preventDefault(){}});assert(nodes.status.textContent.includes('서버에 연결하지 못했습니다'));assert(nodes.save.hidden);assert(!nodes.submit.disabled);
+ ctx.fetch=normalFetch;
  let deliver,signal;ctx.fetch=(url,options)=>{signal=options.signal;return new Promise(resolve=>{deliver=resolve;});};
  const inFlight=nodes['analysis-form'].onsubmit({preventDefault(){}});await new Promise(resolve=>setImmediate(resolve));
  nodes['cancel-analysis'].onclick();assert(signal.aborted);assert(nodes.save.hidden);assert(!nodes.submit.disabled);
