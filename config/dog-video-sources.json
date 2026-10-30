@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "강형욱·보듬TV",
+      "language": "ko",
+      "queries": [
+        "강형욱 보듬TV 짖음 낑낑거림 하울링",
+        "강형욱 보듬TV 몸짓 분리불안 산책"
+      ],
+      "verification": "search_target_not_verified"
+    },
+    {
+      "name": "EBS 세상에 나쁜 개는 없다",
+      "language": "ko",
+      "queries": [
+        "EBS 세상에 나쁜 개는 없다 짖음 소리",
+        "EBS 세상에 나쁜 개는 없다 행동 몸짓"
+      ],
+      "verification": "search_target_not_verified"
+    },
+    {
+      "name": "KBS 개는 훌륭하다",
+      "language": "ko",
+      "queries": [
+        "KBS 개는 훌륭하다 짖음 으르렁",
+        "KBS 개는 훌륭하다 산책 행동"
+      ],
+      "verification": "search_target_not_verified"
+    },
+    {
+      "name": "설채현 관련 개 행동 교육",
+      "language": "ko",
+      "queries": [
+        "설채현 강아지 짖음 분리불안",
+        "설채현 강아지 행동 몸짓"
+      ],
+      "verification": "search_target_not_verified"
+    },
+    {
+      "name": "Kikopup",
+      "language": "en",
+      "queries": [
+        "Kikopup dog barking whining",
+        "Kikopup dog body language leash"
+      ],
+      "verification": "search_target_not_verified"
+    },
+    {
+      "name": "Dogs Trust",
+      "language": "en",
+      "queries": [
+        "Dogs Trust dog barking separation",
+        "Dogs Trust dog body language"
+      ],
+      "verification": "search_target_not_verified"
+    },
+    {
+      "name": "RSPCA",
+      "language": "en",
+      "queries": [
+        "RSPCA dog barking behaviour",
+        "RSPCA dog body language"
+      ],
+      "verification": "search_target_not_verified"
+    },
+    {
+      "name": "Battersea",
+      "language": "en",
+      "queries": [
+        "Battersea dog barking whining",
+        "Battersea dog behaviour body language"
+      ],
+      "verification": "search_target_not_verified"
+    },
+    {
+      "name": "Victoria Stilwell Positively",
+      "language": "en",
+      "queries": [
+        "Victoria Stilwell Positively dog barking",
+        "Victoria Stilwell dog body language"
+      ],
+      "verification": "search_target_not_verified"
+    },
+    {
+      "name": "Karen Pryor Clicker Training",
+      "language": "en",
+      "queries": [
+        "Karen Pryor Clicker Training barking",
+        "Karen Pryor dog behaviour training"
+      ],
+      "verification": "search_target_not_verified"
+    },
+    {
+      "name": "Fear Free Happy Homes",
+      "language": "en",
+      "queries": [
+        "Fear Free Happy Homes dog vocalization",
+        "Fear Free Happy Homes dog body language"
+      ],
+      "verification": "search_target_not_verified"
+    },
+    {
+      "name": "Zak George Dog Training",
+      "language": "en",
+      "queries": [
+        "Zak George Dog Training barking",
+        "Zak George dog behaviour leash"
+      ],
+      "verification": "search_target_not_verified"
+    }
+  ]
+}

@@ -26,15 +26,23 @@ def main():
     parser.add_argument('--query')
     parser.add_argument('--discover-only', action='store_true', help='Find metadata without Gemini or Notebook calls')
     parser.add_argument('--candidates', action='store_true', help='List local candidate review status without API calls')
+    parser.add_argument('--case-cards', action='store_true', help='Export local source-linked case candidates without API calls')
+    parser.add_argument('--research-catalog', type=Path, help='Rotate discovery-only query batches from a local source catalog')
     parser.add_argument('--audio-inbox', help='Optional existing rights-reviewed local audio job queue')
     parser.add_argument('--audio-output', default='artifacts/autolearn')
     args = parser.parse_args()
+    if args.research_catalog and not args.discover_only:
+        parser.error('--research-catalog requires --discover-only; it never enables video analysis')
     try:
         with httpx.Client() as client:
             db = open_db(args.db)
             try:
                 while True:
                     cfg = load_config(args.config)  # Rights revocation takes effect next cycle/read.
+                    if args.case_cards:
+                        from knowledge.case_cards import case_cards
+                        print(json.dumps(case_cards(db,cfg),ensure_ascii=False,allow_nan=False))
+                        return
                     if args.candidates:
                         from knowledge.candidates import candidates
                         print(json.dumps(candidates(db,cfg),ensure_ascii=False))
@@ -43,13 +51,27 @@ def main():
                         print(json.dumps(search(db,cfg,args.query),ensure_ascii=False))
                         return
                     provider = Providers(cfg, client, os.environ)
+                    batch = None
+                    if args.research_catalog:
+                        from knowledge.research_plan import select_batch, advance_batch
+                        if args.research_catalog.stat().st_size > 64000:raise ValueError('Catalog too large')
+                        cfg,batch = select_batch(db,cfg,json.loads(args.research_catalog.read_text()))
+                        provider = Providers(cfg,client,os.environ)
                     # Fail before any external call; keys never appear in output.
                     provider.credential('YOUTUBE_API_KEY')
                     if not args.discover_only:
                         provider.credential('GEMINI_API_KEY')
                     if cfg.notebook and not args.discover_only:
                         provider.credential('GOOGLE_ACCESS_TOKEN')
-                    result = cycle(db,cfg,provider,discovery_only=args.discover_only)
+                    cycle_now = time.time();day = int(cycle_now//86400)
+                    usage = db.execute('SELECT count FROM usage WHERE day=?',(day,)).fetchone()
+                    before = usage['count'] if usage else 0
+                    result = cycle(db,cfg,provider,now=cycle_now,discovery_only=args.discover_only)
+                    if batch:
+                        usage = db.execute('SELECT count FROM usage WHERE day=?',(day,)).fetchone()
+                        after = usage['count'] if usage else 0
+                        advance_batch(db,batch,after-before)
+                        result['research_batch'] = batch['name']
                     if args.audio_inbox:
                         from training.autolearn import scan
                         result['local_audio_jobs'] = scan(args.audio_inbox,args.audio_output)
