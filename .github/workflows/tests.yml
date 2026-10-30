@@ -32,6 +32,7 @@ jobs:
       - run: node tests/test_mobile_audio.cjs
       - run: node tests/test_account_notes.cjs
       - run: node tests/test_web_session.cjs
+      - run: node tests/test_case_guide.cjs
   browser:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -50,10 +51,18 @@ jobs:
       - run: python -m scripts.product_browser_smoke
       - run: python -m scripts.job_browser_smoke
       - run: python -m scripts.member_browser_smoke
+      - run: python -m scripts.guide_browser_smoke --output-dir artifacts/global-guide
       - run: python -m scripts.design_browser_smoke --output-dir artifacts/service-gui
       - uses: actions/upload-artifact@v4
         with:
           name: service-gui-concept-screens-not-production
           path: artifacts/service-gui/*.png
+          retention-days: 14
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bilingual-guided-record-synthetic-screens
+          path: artifacts/global-guide/*.png
           retention-days: 14
           if-no-files-found: error

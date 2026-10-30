@@ -140,6 +140,7 @@ def main():
                     page.locator('#profile-name').fill('합성 검사용 반려견')
                     page.locator('#profile-create').click()
                     expect(page.locator('#profile-list article')).to_have_count(1)
+                    pet_id = page.locator('#profile-select').input_value()
                     page.locator('#context').fill('실제 행동 정답이 아닌 합성 브라우저 검증')
                     page.locator('#notes-save').click()
                     expect(page.locator('#notes-list article')).to_have_count(1)
@@ -153,6 +154,24 @@ def main():
                     assert job['status'] == 'succeeded' and result['decision'] == 'abstain' and len(result['dog_event_scores']) == 7
                     if args.real_ast:
                         assert result['model'] == MODEL and result['revision'] == REVISION
+                    # The bilingual guide records owner context; it performs no inference.
+                    page.goto(base + '/understand?lang=en')
+                    expect(page.locator('html')).to_have_attribute('lang', 'en')
+                    page.locator('#behavior').select_option('barking')
+                    page.locator('#before').fill('<img src=x onerror=alert(1)>')
+                    page.locator('#during').fill('Repeated short sounds')
+                    page.locator('#after').fill('Walked away')
+                    page.locator('#case-form button').click()
+                    expect(page.locator('#case-card')).to_be_visible()
+                    expect(page.locator('#case-note')).to_contain_text('Guardian report')
+                    assert page.locator('#case-note img').count() == 0
+                    expect(page.locator('#guide-profile option')).to_have_count(2)
+                    page.locator('#guide-profile').select_option(pet_id)
+                    page.locator('#storage-consent').check()
+                    page.locator('#save-case').click()
+                    expect(page.locator('#guide-status')).to_contain_text('Saved to your server notes')
+                    page.goto(base + '/app')
+                    expect(page.locator('#web-logout')).to_be_visible()
                     page.locator('#web-logout').click()
                     expect(page.locator('#web-logout')).to_be_hidden()
                     assert page.locator('#audio').input_value() == ''
@@ -163,7 +182,7 @@ def main():
                     page.locator('#profile-load').click()
                     expect(page.locator('#profile-list article')).to_have_count(1)
                     page.locator('#notes-load').click()
-                    expect(page.locator('#notes-list article')).to_have_count(1)
+                    expect(page.locator('#notes-list article')).to_have_count(2)
                     page.locator('#jobs-refresh').click()
                     expect(page.locator('#jobs-list strong')).to_contain_text('완료')
                     page.locator('#web-logout').click()

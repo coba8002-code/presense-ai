@@ -83,6 +83,8 @@ from backend.web_auth import router as web_auth_router
 app.include_router(web_auth_router)
 from backend.auth_site import router as auth_site_router
 app.include_router(auth_site_router)
+from backend.understand import router as understand_router
+app.include_router(understand_router)
 
 @app.middleware('http')
 async def private_account_responses(request: Request, call_next):
