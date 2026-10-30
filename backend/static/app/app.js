@@ -19,7 +19,10 @@ $('analysis-form').onsubmit=async event=>{
  const file=recorded||$('audio').files[0];
  if(!file){$('status').textContent='녹음하거나 음성 파일을 선택하세요.';return;}
  const task={controller:new AbortController(),timer:null};activeAnalysis=task;
- const context=$('context').value,pet=$('pet').value,token=$('token').value;
+ const context=$('context').value,pet=$('pet').value;
+ const headers={'Content-Type':'audio/wav','X-Audio-Consent':'true','X-Audio-Species':'dog'};
+ if($('auth-mode').value==='account')headers['X-PetSense-Session']=$('notes-session').value;
+ else headers.Authorization=`Bearer ${$('token').value}`;
  $('submit').disabled=true;$('cancel-analysis').hidden=false;
  $('status').textContent='소리를 준비하고 분석합니다. 첫 실행에는 모델 준비 시간이 필요합니다.';
  task.timer=setTimeout(()=>{if(activeAnalysis===task)cancelAnalysis('분석 대기 시간이 길어 요청을 중단했습니다. 서버 준비 상태를 확인한 후 다시 시도하세요.');},90000);
@@ -27,9 +30,9 @@ $('analysis-form').onsubmit=async event=>{
   const input=await PetSenseAudio.convert(file,recorded?0:Number($('start').value));
   if(activeAnalysis!==task)return;
   if(!$('consent').checked)throw new Error('분석 동의가 해제되었습니다.');
-  const response=await fetch('/v1/audio/events',{method:'POST',signal:task.controller.signal,headers:{'Content-Type':'audio/wav','Authorization':`Bearer ${token}`,'X-Audio-Consent':'true','X-Audio-Species':'dog'},body:input.blob});
+  const response=await fetch('/v1/audio/events',{method:'POST',signal:task.controller.signal,headers,body:input.blob});
   if(!response.ok){
-   const messages={401:'서버 접근 토큰을 확인하세요.',403:'분석 동의가 필요합니다.',408:'소리 업로드 시간이 초과되었습니다. 연결을 확인하고 다시 시도하세요.',413:'파일이 너무 큽니다.',415:'WAV 파일을 선택하세요.',422:'16kHz PCM16, 0.1~10초 WAV인지 확인하세요.',429:'분석 요청이 많습니다. 잠시 후 직접 다시 시도하세요.',503:'서버의 AST 모델 설정이나 준비 상태를 확인하세요.',504:'서버 분석 대기 시간이 초과되었습니다. 잠시 후 다시 시도하세요.'};
+   const messages={401:'인증 방식과 서버 토큰 또는 계정 세션을 확인하세요.',403:'분석 동의가 필요합니다.',408:'소리 업로드 시간이 초과되었습니다. 연결을 확인하고 다시 시도하세요.',413:'파일이 너무 큽니다.',415:'WAV 파일을 선택하세요.',422:'16kHz PCM16, 0.1~10초 WAV인지 확인하세요.',429:'분석 요청이 많습니다. 잠시 후 직접 다시 시도하세요.',503:'서버의 AST 모델 설정이나 준비 상태를 확인하세요.',504:'서버 분석 대기 시간이 초과되었습니다. 잠시 후 다시 시도하세요.'};
    throw new Error(messages[response.status]||'분석을 완료하지 못했습니다.');
   }
   const result=await response.json();

@@ -1,4 +1,4 @@
-"""Chromium/HTTP/storage smoke; synthetic WAV and mocked AST response, not model accuracy."""
+"""Chromium/HTTP/storage smoke; synthetic WAV; optional real AST, never model accuracy."""
 import io
 import json
 import os
@@ -23,7 +23,7 @@ def main():
             w.setnchannels(1);w.setsampwidth(2);w.setframerate(44100);w.writeframes(b'\0\0'*44100)
         with socket.socket() as probe:probe.bind(('127.0.0.1',0));port=probe.getsockname()[1]
         real='--real-ast' in sys.argv
-        env={**os.environ,'PETSENSE_ACCOUNT_DB':str(db),'PETSENSE_ENABLE_AST':'true' if real else 'false','PETSENSE_API_TOKEN':'test-only'}
+        env={**os.environ,'PETSENSE_ACCOUNT_DB':str(db),'PETSENSE_ENABLE_AST':'true' if real else 'false','PETSENSE_API_TOKEN':'test-only','PETSENSE_REQUIRE_ACCOUNT':'true' if real else 'false'}
         server=subprocess.Popen([sys.executable,'-m','uvicorn','backend.app:app','--host','127.0.0.1','--port',str(port)],cwd=ROOT,env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
         try:
             base=f'http://127.0.0.1:{port}'
@@ -46,6 +46,8 @@ def main():
                     page.goto(base+'/app');page.locator('#pet').fill('테스트개');page.locator('#context').fill('합성 입력·브라우저 검사')
                     page.locator('#audio').set_input_files({'name':'test.wav','mimeType':'audio/wav','buffer':data.getvalue()})
                     page.locator('summary').click();page.locator('#token').fill('test-only');page.locator('#consent').check()
+                    if real:
+                        page.locator('#auth-mode').select_option('account');page.locator('#notes-session').fill(session)
                     with page.expect_response('**/v1/audio/events',timeout=90000) as observed:page.locator('#submit').click()
                     payload=observed.value.json()
                     assert payload['decision']=='abstain'

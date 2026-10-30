@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: ['codex/**']
-    paths: ['training/pretrained_audio.py', 'scripts/pretrained_audio_smoke.py', 'requirements-audio-model.txt', 'backend/audio_process.py', 'backend/audio_worker.py', 'backend/audio_events.py', 'scripts/product_browser_smoke.py', '.github/workflows/pretrained-audio.yml']
+    paths: ['training/pretrained_audio.py', 'scripts/pretrained_audio_smoke.py', 'requirements-audio-model.txt', 'backend/audio_process.py', 'backend/audio_worker.py', 'backend/audio_events.py', 'backend/audio_auth.py', 'backend/static/app/**', 'scripts/product_browser_smoke.py', '.github/workflows/pretrained-audio.yml']
 permissions:
   contents: read
 jobs:

@@ -1,11 +1,11 @@
 """Opt-in local AST WAV event scoring. No media persistence or cloud inference."""
 import asyncio
 import os
-import secrets
 from fastapi import APIRouter, HTTPException, Request
 from starlette.requests import ClientDisconnect
 from training.pretrained_audio import MAX_BYTES,read_wav_bytes
 from backend.audio_process import run_ast,WorkerError,WorkerTimeout
+from backend.audio_auth import authorize,revalidate
 
 router=APIRouter()
 UPLOAD_TIMEOUT=15
@@ -32,11 +32,7 @@ async def score_until_disconnect(request,raw):
 async def audio_events(request: Request):
     if os.getenv('PETSENSE_ENABLE_AST','false').lower()!='true':
         raise HTTPException(503,'Local AST event scoring is disabled')
-    token=os.getenv('PETSENSE_API_TOKEN','')
-    if not token:
-        raise HTTPException(503,'Audio event scoring is not configured')
-    if not secrets.compare_digest(request.headers.get('authorization',''),f'Bearer {token}'):
-        raise HTTPException(401,'Authentication required')
+    owner=authorize(request)
     if request.headers.get('x-audio-consent')!='true':
         raise HTTPException(403,'Explicit audio consent required')
     if request.headers.get('x-audio-species')!='dog':
@@ -67,5 +63,6 @@ async def audio_events(request: Request):
                 raise HTTPException(504,'Inference deadline exceeded; worker terminated') from None
             except WorkerError:
                 raise HTTPException(503,'Local AST unavailable; install dependencies and cache pinned weights') from None
+            revalidate(request,owner)
             return result
     finally:admission.leave()

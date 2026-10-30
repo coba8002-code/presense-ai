@@ -15,7 +15,7 @@ class ProductAppTests(unittest.TestCase):
         self.runner=worker.start();self.addCleanup(worker.stop)
         self.runner.return_value={'decision':'abstain','production_ready':False,'dog_event_scores':[{'label':'Bark','score':.3}]}
         app.state.audio_admission=Admission();app.state.ast_lock=asyncio.Lock()
-        self.env=patch.dict(os.environ,{'PETSENSE_ENABLE_AST':'true','PETSENSE_API_TOKEN':'test'});self.env.start();self.addCleanup(self.env.stop)
+        self.env=patch.dict(os.environ,{'PETSENSE_ENABLE_AST':'true','PETSENSE_API_TOKEN':'test','PETSENSE_REQUIRE_ACCOUNT':'false'});self.env.start();self.addCleanup(self.env.stop)
     def wav(self):
         b=io.BytesIO()
         with wave.open(b,'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(16000);w.writeframes(b'\0\0'*16000)
@@ -75,3 +75,25 @@ class ProductAppTests(unittest.TestCase):
             with self.assertRaises(HTTPException) as caught:await audio_events(Request(scope,receive))
             self.assertEqual(caught.exception.status_code,499)
         asyncio.run(scenario());self.assertEqual(cancelled,[True]);self.assertEqual(app.state.audio_admission.active,0)
+
+    def test_account_mode_does_not_allow_shared_token_bypass(self):
+        import tempfile
+        from pathlib import Path
+        from backend.accounts import Store
+        with tempfile.TemporaryDirectory() as td,patch.dict(os.environ,{'PETSENSE_REQUIRE_ACCOUNT':'true','PETSENSE_ACCOUNT_DB':str(Path(td)/'accounts.sqlite3')}):
+            _,token=Store(Path(td)/'accounts.sqlite3').issue()
+            self.assertEqual(self.call().status_code,401);self.runner.assert_not_called()
+            headers=self.headers();headers['X-PetSense-Session']=token
+            self.assertEqual(self.call(headers=headers).status_code,200)
+    def test_revoked_session_cannot_receive_result(self):
+        import tempfile
+        from pathlib import Path
+        from backend.accounts import Store
+        with tempfile.TemporaryDirectory() as td,patch.dict(os.environ,{'PETSENSE_REQUIRE_ACCOUNT':'true','PETSENSE_ACCOUNT_DB':str(Path(td)/'accounts.sqlite3')}):
+            store=Store(Path(td)/'accounts.sqlite3');owner,token=store.issue()
+            async def revoke(*args,**kwargs):
+                store.delete_account(owner)
+                return {'decision':'abstain'}
+            self.runner.side_effect=revoke;headers=self.headers();headers['X-PetSense-Session']=token
+            self.assertEqual(self.call(headers=headers).status_code,401)
+            self.assertEqual(app.state.audio_admission.active,0)
