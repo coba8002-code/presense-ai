@@ -315,3 +315,12 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [ ] 새 브라우저 CI 실행 결과 확인; 작성 완료를 실행 통과로 표시하지 않는다.
 - [ ] 최신 보호자 앱/메모/기획 변경의 별도 검토 PR 반영 및 원격 CI 확인.
 다음: 국내 PC 실제 모델E2E, 수집 데이터 검수 결과 수령, 운영 인증/비동기 작업 설계.
+
+## 원격 반영 및 공개 기준 평가 (2026-10-30 KST)
+- [x] 최신 보호자 앱/메모/계획 33개 변경을 PR #3으로 반영. https://github.com/coba8002-code/presense-ai/pull/3
+- [x] commit224f8d2의 backend/browser CI41023899244·41024327752 및 pretrained smoke41023899252 성공 확인.
+- [x] 실제 Chromium의 Web Audio 변환·브라우저 저장·실제 메모 API 검사 성공(AST 응답은 모의).
+- [x] 고정 revision ESC-10 부분집합 수집·원본/전처리 지문·400개 점수 재생 평가 도구 구현.
+- [x] AUROC/AP의 완전/역순/동점/순열/잘못된 입력 검사 및 로컬137개 테스트 통과.
+- [ ] 새 공개 음향 benchmark CI 실행과400개 실제 가중치 출력 검증.
+- [ ] 국내 PC/실제 휴대폰 E2E·별도 개체/가정 평가: 기존 미완료 유지.
