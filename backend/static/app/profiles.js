@@ -10,7 +10,7 @@
   pets.forEach((pet,index)=>option(pet.id,pet.name+' · 등록 '+(index+1)));
   if(pets.some(p=>p.id===selected))el('profile-select').value=selected;
   el('profile-list').replaceChildren();
-  for(const pet of pets){const row=document.createElement('article');row.className='record';const label=document.createElement('strong');label.textContent=pet.name;row.append(label);const button=document.createElement('button');button.textContent='프로필·연결 메모 삭제';button.className='secondary';button.onclick=()=>{if(active||!confirm('이 프로필과 연결된 서버 메모를 삭제할까요? 이름만 저장한 메모와 브라우저 기록은 남습니다.'))return;return action(async api=>{await api('/'+encodeURIComponent(pet.id),'DELETE');await load(api);el('profile-status').textContent='프로필과 연결 메모를 삭제했습니다.';});};row.append(button);el('profile-list').append(row);}
+  for(const pet of pets){const row=document.createElement('article');row.className='record';const label=document.createElement('strong');label.textContent=pet.name;row.append(label);const button=document.createElement('button');button.textContent='프로필·연결 메모 삭제';button.className='secondary';button.onclick=()=>{if(active||!confirm('이 프로필과 연결된 서버 메모를 삭제할까요? 이름만 저장한 메모와 브라우저 기록은 남습니다.'))return;return action(async api=>{await api('/'+encodeURIComponent(pet.id),'DELETE');globalThis.PetSenseJobs?.reset();await load(api);el('profile-status').textContent='프로필과 연결 메모를 삭제했습니다.';});};row.append(button);el('profile-list').append(row);}
  }
  function reset(){epoch++;if(active)active.abort();active=null;pets=[];binding='';busy(false);el('profile-select').value='';render();el('profile-name').value='';el('profile-status').textContent='';}
  async function action(fn){

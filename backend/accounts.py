@@ -29,10 +29,10 @@ class Store:
         self.path.parent.mkdir(parents=True,exist_ok=True)
         with self.connect() as db:
             version=db.execute('PRAGMA user_version').fetchone()[0]
-            if version>2:raise sqlite3.DatabaseError('Unsupported account schema')
-            if version<2:
+            if version>3:raise sqlite3.DatabaseError('Unsupported account schema')
+            if version<3:
                 db.execute('BEGIN IMMEDIATE')
-                if db.execute('PRAGMA user_version').fetchone()[0]>2:raise sqlite3.DatabaseError('Unsupported account schema')
+                if db.execute('PRAGMA user_version').fetchone()[0]>3:raise sqlite3.DatabaseError('Unsupported account schema')
                 db.execute('CREATE TABLE IF NOT EXISTS sessions(token_hash TEXT PRIMARY KEY, owner TEXT NOT NULL, expires REAL NOT NULL)')
                 db.execute('CREATE TABLE IF NOT EXISTS notes(id TEXT PRIMARY KEY, owner TEXT NOT NULL, created REAL NOT NULL, expires REAL NOT NULL, pet TEXT NOT NULL, context TEXT NOT NULL)')
                 if 'pet_id' not in {r[1] for r in db.execute('PRAGMA table_info(notes)')}:
@@ -41,7 +41,10 @@ class Store:
                 db.execute('CREATE INDEX IF NOT EXISTS notes_pet ON notes(owner,pet_id)')
                 db.execute('CREATE TABLE IF NOT EXISTS pets(id TEXT PRIMARY KEY, owner TEXT NOT NULL, name TEXT NOT NULL, created REAL NOT NULL, updated REAL NOT NULL, expires REAL NOT NULL)')
                 db.execute('CREATE INDEX IF NOT EXISTS pets_owner ON pets(owner)')
-                db.execute('PRAGMA user_version=2')
+                db.execute('CREATE TABLE IF NOT EXISTS audio_jobs(id TEXT PRIMARY KEY,owner TEXT NOT NULL,pet_id TEXT NOT NULL,key_hash TEXT NOT NULL,payload_hash TEXT NOT NULL,session_hash TEXT NOT NULL,created REAL NOT NULL,expires REAL NOT NULL,raw_deadline REAL NOT NULL,status TEXT NOT NULL,media BLOB,result TEXT,error TEXT,lease TEXT,lease_until REAL,UNIQUE(owner,key_hash))')
+                db.execute('CREATE INDEX IF NOT EXISTS audio_jobs_owner ON audio_jobs(owner,created)')
+                db.execute('CREATE TABLE IF NOT EXISTS audio_usage(owner TEXT NOT NULL,day INTEGER NOT NULL,count INTEGER NOT NULL,PRIMARY KEY(owner,day))')
+                db.execute('PRAGMA user_version=3')
         if os.name=='posix':os.chmod(self.path,0o600)
     @contextmanager
     def connect(self):
@@ -57,6 +60,11 @@ class Store:
             self._purge(db)
     def _purge(self,db):
         now=self.clock()
+        db.execute('DELETE FROM audio_jobs WHERE expires<=? OR pet_id IN (SELECT id FROM pets WHERE expires<=?)',(now,now))
+        db.execute("UPDATE audio_jobs SET status='expired',media=NULL,result=NULL,error='expired',lease=NULL WHERE status IN ('queued','running') AND raw_deadline<=?",(now,))
+        db.execute("UPDATE audio_jobs SET status='cancelled',media=NULL,result=NULL,error='session_revoked',lease=NULL WHERE status IN ('queued','running') AND NOT EXISTS (SELECT 1 FROM sessions s WHERE s.token_hash=audio_jobs.session_hash AND s.owner=audio_jobs.owner AND s.expires>?)",(now,))
+        db.execute("UPDATE audio_jobs SET status='failed',media=NULL,result=NULL,error='worker_lost',lease=NULL WHERE status='running' AND lease_until<=?",(now,))
+        db.execute('DELETE FROM audio_usage WHERE day<?',(int(now//86400)-1,))
         db.execute('DELETE FROM notes WHERE expires<=? OR pet_id IN (SELECT id FROM pets WHERE expires<=?)',(now,now))
         db.execute('DELETE FROM pets WHERE expires<=?',(now,))
         db.execute('DELETE FROM sessions WHERE expires<=?',(now,))
@@ -92,6 +100,7 @@ class Store:
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._pet(db,owner,pet_id)
             db.execute('DELETE FROM notes WHERE owner=? AND pet_id=?',(owner,pet_id))
+            db.execute('DELETE FROM audio_jobs WHERE owner=? AND pet_id=?',(owner,pet_id))
             db.execute('DELETE FROM pets WHERE owner=? AND id=?',(owner,pet_id))
     def issue(self,owner=None,ttl=86400):
         if not 60<=ttl<=604800:raise ValueError('Session lifetime must be 60 seconds to 7 days')
@@ -129,6 +138,8 @@ class Store:
         with self.connect() as db:
             db.execute('DELETE FROM notes WHERE owner=?',(owner,))
             db.execute('DELETE FROM pets WHERE owner=?',(owner,))
+            db.execute('DELETE FROM audio_jobs WHERE owner=?',(owner,))
+            db.execute('DELETE FROM audio_usage WHERE owner=?',(owner,))
             db.execute('DELETE FROM sessions WHERE owner=?',(owner,))
 
 def access(request):
