@@ -33,7 +33,7 @@ for file in sorted((root/'docs/strategy-20261028').glob('*.md')):
 qa=json.loads((root/'artifacts/latest-verification.json').read_text()) if (root/'artifacts/latest-verification.json').exists() else {'verification':'not recorded'}
 shutil.copy2(root/'tasks/todo.md',dest/'TODO.md')
 shutil.copy2(root/'tasks/plan.md',dest/'IMPLEMENTATION_PLAN.md')
-for name in ['NEXT_STEPS.md','LABEL_ACQUISITION.md','VIDEO_EVALUATION.md','ISOLATED_AUDIO.md','SELF_DIRECTED_PROGRESS.md']:
+for name in ['NEXT_STEPS.md','LABEL_ACQUISITION.md','VIDEO_EVALUATION.md','ISOLATED_AUDIO.md','SELF_DIRECTED_PROGRESS.md','VIDEO_RESEARCH_EXPANSION.md']:
  shutil.copy2(root/'docs'/name,dest/name)
 (dest/'QA.json').write_text(json.dumps(qa,ensure_ascii=False,indent=2))
 for name,source in [('PetSense_Strategy_v6_20261028.zip',True),('PetSense_App_Source_v6_20261028.zip',False)]:

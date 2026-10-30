@@ -247,7 +247,7 @@ class CandidateTests(unittest.TestCase):
         from knowledge.candidates import candidates
         cycle(self.db,self.cfg,self.provider,now=1000)
         row=candidates(self.db,self.cfg,now=1001)[0]
-        self.assertEqual(row['status'],'expert_review_required')
+        self.assertEqual(row['status'],'independent_review_required')
         self.assertFalse(row['training_ready'])
         self.assertNotIn('entries',row)
         self.assertEqual(candidates(self.db,self.cfg,now=90000)[0]['status'],'metadata_refresh_required')

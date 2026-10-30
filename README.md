@@ -178,3 +178,5 @@ Windows/iOS/Android 실제 기기와 Web Audio 코덱 검증은 별도입니다.
 ### 다음 실행과 평가 계약
 현재 담당/의존관계와 진행 순서: [NEXT_STEPS.md](docs/NEXT_STEPS.md).
 영상 비교 평가의 정답 계약과 가상 예제: [VIDEO_EVALUATION.md](docs/VIDEO_EVALUATION.md). 로컬 검증 CLI이며 실제 전문가 정답 확보·영상 추론·성능 평가 완료를 의미하지 않습니다.
+
+국내외 영상 조사 확장과 실행 제한: [VIDEO_RESEARCH_EXPANSION.md](docs/VIDEO_RESEARCH_EXPANSION.md).12개 검색 대상·24검색어의 순환 메타데이터 탐색과 출처별 사례 후보를 지원합니다. 실제 영상 확보·추가 학습은 별도입니다.

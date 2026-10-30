@@ -14,7 +14,7 @@ CHECKS=[('python',[sys.executable,'-m','unittest','discover','-s','tests','-q'])
         ('guardian-ui',['node','tests/test_product_app.cjs']),
         ('audio',['node','tests/test_mobile_audio.cjs']),
         ('account-ui',['node','tests/test_account_notes.cjs']),
-        ('compile',[sys.executable,'-m','compileall','-q','backend','training','evaluation','scripts','local_pc']),
+        ('compile',[sys.executable,'-m','compileall','-q','backend','training','evaluation','knowledge','scripts','local_pc']),
         ('pinned-skills',[sys.executable,'scripts/verify_skills.py'])]
 
 def main():
@@ -37,7 +37,7 @@ def main():
         results.append({'name':name,'command':cmd,'passed':passed,'exit_code':code,'seconds':time.monotonic()-started,'test_count':count})
         print(name,'passed' if passed else 'FAILED',flush=True)
     sources={}
-    for folder in ['backend','training','evaluation','scripts','tests','local_pc']:
+    for folder in ['backend','training','evaluation','knowledge','scripts','tests','local_pc']:
         for path in sorted((ROOT/folder).rglob('*')):
             if path.is_file() and '__pycache__' not in path.parts and path.suffix in {'.py','.js','.cjs','.html','.css'}:
                 sources[str(path.relative_to(ROOT))]=hashlib.sha256(path.read_bytes()).hexdigest()

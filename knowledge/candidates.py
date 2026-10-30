@@ -21,10 +21,10 @@ def candidates(db, config, now=None):
               or now-(row['analyzed'] or 0) >= config.retention_days*86400):
             status = 'awaiting_analysis'
         else:
-            status = 'expert_review_required'
+            status = 'independent_review_required'
         result.append(dict(source_id=row['id'],url=canonical(row['id']),
             channel_id=row['channel_id'],title=row['title'],status=status,
             training_ready=False,
-            remaining_training_requirements=['training_rights','expert_labels',
+            remaining_training_requirements=['training_rights','reviewed_observation_labels',
                 'authorized_media_access','animal_disjoint_evaluation']))
     return result

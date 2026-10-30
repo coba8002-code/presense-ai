@@ -36,3 +36,7 @@ PR #5 https://github.com/coba8002-code/presense-ai/pull/5 에 요청별 AST 자�
 PR #6 https://github.com/coba8002-code/presense-ai/pull/6 에 고정 영상 구간·관찰 라벨·개체/가정/세션/원본/내용 분할·독립 검수·불일치 조정·잠금 지문을 검증하는 오프라인 CLI와 가상 예제를 추가했다. 실제 원본 지문을 확인해도 decoding/시간 정렬/실제 성능을 검증한 것은 아니므로 evaluation_ready=false를 유지한다.
 실행 코드b0b9996d7ade5d3591fff249bbad1625d4e640ec의 backend/browser41053114599·41053123664가 성공했다. 로컬 Python153개·Node3종·컴파일·기존 스킬 지문 검사도 통과했다. 계약 추가 검사7개는 누출·검수·권한·파일 변경·CLI 비공개 출력 경계를 검사한다.
 LABEL_ACQUISITION.md에 기존 주석 자료·일반 검수자·보호자 상황 기록·모델 후보·자기지도학습·전문 자료의 역할과 제한을 정리했다. 모든 정답에 새 전문가 연결을 요구하지 않는다. 독립 관찰 정답은 필요하며 전문가는 기준·표본·모호한 해석에 집중한다. 실제 자료/학습/독립 성능은 미완료다. 다음 실행과 사용자 측 자료는 NEXT_STEPS.md를 따른다.
+
+## 국내외 개 영상 조사 확장
+PR #7 https://github.com/coba8002-code/presense-ai/pull/7 에12개 검색 대상명·24검색어·6배치 계획, 공식 API discovery-only 순환, 출처 사례 카드와 독립 검수 상태를 반영했다. 실행 코드48d1e97295f8b5414c200a2615865aa1716effc6의 backend/browser41055497784·41055998145가 성공했다. 로컬 Python162개·Node3종·knowledge 포함 컴파일/소스 지문 검사도 통과했다.
+실제 YouTube 공개 검색은 네트워크 권한을 추가한 명령에서도 tunnel403으로 실패했다. 키/브라우저가 연결되지 않았고 새로 발견/분석한 영상 및 추가 가중치 학습은0건이다. 검색 대상은 검증된 공식 채널/영상 목록이 아니다. 공식 DogSpeak README를 재확인해 온라인 영상 유래·비상업 조건·dog_7a/7b 동일 개체·CATVD 중복 가능성을 유지했다. 상세는 VIDEO_RESEARCH_EXPANSION.md를 따른다.
