@@ -84,3 +84,7 @@ POST /v1/me/notes는 X-Storage-Consent=true와 pet/context JSON만 받으며 임
 서버 업로드는15초, 추론 대기는60초 제한이다. asyncio timeout은 실행 중인 모델 스레드를 강제 종료하지 않으므로 단일 worker lock을 유지하며 새 요청은429를 받을 수 있다. 운영의 강제 중단·메모리 격리는 후속 프로세스 기반 worker가 필요하다. 408 업로드 제한, 504 추론 제한, 429 worker혼잡을 구분한다.
 검증: Python133개 및 Node모의 검사3종 통과. 새 scripts/product_browser_smoke.py는 실제 Chromium·HTTP·Web Audio 변환과 계정 메모 API를 검사하지만 AST 응답은 모의 처리한다. 작성/로컬 정적검사는 완료했고 원격 실행 결과는 별도 기록한다.
 공식 근거: https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort 및 https://docs.python.org/3.12/library/asyncio-task.html#asyncio.timeout . 새 외부 라이브러리 추가 없이 브라우저/표준 Python 기능으로 적용했다.
+
+## 2026-10-30 후속 검증 완료: 요청별 프로세스와 계정 분석
+이전 단락의 모델 스레드 추론은 /v1/audio/events에서 요청별 자식 프로세스로 대체했다. 업로드15초·작업60초, 취소/연결 종료/시간초과 시 자식 종료·회수, offline 캐시·입력/결과 한도와 모델/원본 해시 검증을 적용했다. PETSENSE_REQUIRE_ACCOUNT=true에서는 메모와 같은 계정 세션을 분석 권한에 사용하고 공유 개발 토큰을 차단한다. 결과 반환 전 세션도 재검사한다. 국내 저장소·지속 job·운영 로그인·가족 권한은 미구현이다.
+실행 코드1ecab3b의 실제 가중치 Chromium→계정 인증→API→독립 AST→결과/저장/삭제 CI41051446917이 성공했다. 합성 음성이며 실제 개 정확도 근거가 아니다. backend/browser41051446920에서 모의429/503·offline·quota 오류와 수동 복구도 확인했다. Windows/iOS/Android 물리 기기 검증은 남는다. 상세와 실행 명령: docs/ISOLATED_AUDIO.md.

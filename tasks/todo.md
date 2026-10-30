@@ -4,13 +4,13 @@ Current scope: **dog-only MVP**. Historical completed work below may describe th
 
 Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md).
 
-## 현재 실행 순서 — EXEC (2026-10-28 KST)
+## 현재 실행 순서 — EXEC (2026-10-30 KST 갱신)
 이 목록이 앞으로의 기준이다. 아래 과거 항목은 증거와 의존관계를 보존하기 위해 남긴다. 기능 구현, 모의 검증, 실기기 검증, 운영 출시를 각각 별도로 완료 처리한다.
 
 ### EXEC-00 현황·요구사항 대조 — 완료
 - [x] Issue #1과 현재 dog-only 지시, 코드·기획서·과거 TODO 대조.
 - [x] 브라우저 메모와 운영 계정, 소리 점수와 행동 정확도를 구분.
-증거: docs/strategy-20261028 및 현재 129개 Python 테스트. 로컬 Git 브랜치는 커밋 없는 스냅샷 상태이므로 원격 PR 최신 소스와의 동기화는 별도 미완료다.
+증거: docs/strategy-20261028 및 아래 날짜별 검증 기록. 로컬 Git은 커밋 없는 스냅샷이지만 변경 소스는 GitHub 커넥터로 PR #3·#4·#5에 반영했고 커밋별 원격 CI를 확인했다. 병합은 별도다.
 
 ### EXEC-01 계정별 저장 기반 — 개발용 완료
 의존: EXEC-00. 목적: 공유 토큰과 별도로 사용자별 메모를 격리한다.
@@ -35,15 +35,16 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] 모의 DOM 저장/동의/세션 누락/전체 삭제 검증.
 인수: 음성·토큰·모델 결과를 서버 메모 요청에 넣지 않는다. 실제 브라우저는 EXEC-04.
 
-### EXEC-04 실제 사용자 흐름 검증 — 다음
-- [ ] 로컬 가중치 캐시와 동일 환경에서 앱→AST→결과→저장→삭제 E2E.
+### EXEC-04 실제 사용자 흐름 검증 — 원격 Chromium 완료 / 국내 PC·실기기 대기
+- [x] GitHub Linux의 고정 가중치 캐시에서 Chromium→계정 인증→HTTP→AST 독립 프로세스→결과→저장→삭제 E2E. 합성 음성 입력.
+- [ ] 국내 PC의 캐시·Windows 프로세스·실제 소리로 같은 E2E 재현.
 - [ ] iOS Safari/Android Chrome 녹음·코덱·HTTPS·권한 취소·백그라운드 복귀.
-- [ ] 네트워크 끊김/저장 공간 부족/429/503에 대한 실제 브라우저 동작.
-인수: 기기/OS/모델 revision·샘플 해시·지연·실패 증거 기록. 제한: 현재 국내 PC/실기기 원격 연결 없음, 새 실제 가중치 실행 미완료. 합성/모의 테스트로 대체 완료하지 않는다.
+- [x] Chromium에서 모의429/503·브라우저 offline·주입된 저장 quota 오류 및 수동 복구 검사.
+인수: 기기/OS/모델 revision·샘플 해시·지연·실패 증거 기록. 실제 AST 실행41051446917, 모의 오류/복구41051446920. ast-browser.json은 합성 입력 해시·모델 revision·단일 실행 소요시간을 담는다. 국내 PC/실기기 연결 없음; 통신망/기기 신뢰성이나 지연 분포를 증명한 것은 아니다.
 
 ### EXEC-05 데이터와 모델 평가 — 병행 준비 / 외부 연결 대기
 - [ ] 국내 PC AI-Hub59/71878 원본 수령·개 부분·라벨/개체/가정/세션 스키마 검사.
-- [ ] ESC-10 실제 AST 점수/오탐 평가; 개체 분리 검증으로 해석하지 않음.
+- [x] ESC-10 실제 AST400개 순위 평가 및 저장 결과 재생. AUROC/AP1.0; 개체 분리 검증이나 서비스 임계값의 오탐 성능으로 해석하지 않음.
 - [ ] AP-10K 자세 추정 기준선, 실제 가정 외부 평가셋 구축.
 - [ ] Dog2vec/AVES 가중치 조건, DogSpeak/InterPet4D 상업 허락 확인.
 - [ ] 보듬TV 원본별 허락·제작자 제공 자료·전문가 사례 검수.
@@ -340,9 +341,15 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] 실제 자식의 타임아웃/취소 종료·회수 및 HTTP 연결 종료 검사.
 - [x] 런타임 오프라인 가중치·일반 자격 증명 환경변수 제거·캐시 준비 CLI.
 - [x] 로컬146개 Python 검사 및 Node3종 통과.
-- [ ] 실제 AST를 쓰는 Chromium/HTTP/독립 프로세스 CI 실행.
+- [x] 실제 AST Chromium/계정 세션/HTTP/독립 프로세스 CI41051446917 성공.
 - [ ] 지속 job queue·사용자별 권한/예산·재시작 복구·OS 자원/네트워크 제한.
 
 - [x] 분석의 계정 세션 모드와 공유 개발 토큰 우회 차단 구현.
 - [x] 결과 반환 전 세션 철회/만료 재검사 및 브라우저 세션 비저장 검사.
 - [ ] 운영 가입/복구/소셜로그인 및 사용자별 사용량 원장.
+
+## 2026-10-30 요청별 분석 검증 완료
+- [x] PR #5 https://github.com/coba8002-code/presense-ai/pull/5 생성; 실행 코드1ecab3b의 backend/browser41051446920·41051454144 및 실제 AST41051446917 성공.
+- [x] 실제 AST 합성 Chromium 결과의 모델/revision/입력 해시/단일 실행 시간을 ast-browser.json artifact에 보존.
+- [x] Chromium 모의429/503·offline·저장 quota 오류·수동 복구 검사 성공.
+- [ ] PR #5 검토/병합, 국내 PC·실제 휴대폰·새 개체 행동 평가. 코드 검증 완료와 구분.

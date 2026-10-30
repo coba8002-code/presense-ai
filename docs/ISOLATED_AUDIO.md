@@ -25,3 +25,8 @@ python -m scripts.cache_audio_model --cache-dir data/model-cache
 ## 계정 세션 모드
 PETSENSE_REQUIRE_ACCOUNT=true와 PETSENSE_ACCOUNT_DB를 설정하면 분석 API는 X-PetSense-Session만 인정하고 공유 개발 토큰으로의 우회를 차단한다. 앱의 분석 인증 방식을 ‘계정 세션 사용’으로 고르고 계정별 메모 영역에 발급된 세션을 입력한다. 분석 시작과 결과 반환 직전에 세션을 검사해 만료/철회된 세션으로 결과를 받지 못하게 한다. 세션 철회가 실행 중인 CPU 작업을 즉시 종료한다는 보장은 하지 않으며 결과 전달을 차단한다.
 이 모드는 기존 운영자 발급 세션을 분석 권한에 연결한 개발 기반이다. 셀프가입·본인확인·복구·소셜로그인·사용자별 사용량 원장까지 완료한 것은 아니다. 기본false는 기존 localhost 개발 토큰과의 호환을 위한 것이다. 계정이 필요한 공개 서비스에서 이 기본값을 그대로 사용하지 않는다.
+
+## 원격 확인 결과
+실행 코드1ecab3b5dfb75267db9471a1b98a6f7009321f36, PR #5. 실제 가중치 실행41051446917에서 고정 AST·합성 음성·실제 Chromium/HTTP·계정 세션·독립 프로세스·기록 저장/삭제가 성공했다. https://github.com/coba8002-code/presense-ai/actions/runs/41051446917
+동일 실행의 synthetic-ast-inference-not-dog-accuracy artifact12974038859에 ast-browser.json을 보존했다. 입력 SHA256·모델/revision·단일 browser_to_api_seconds·HTTP 상태를 기록한다. 단일 합성 smoke이며 개 행동 성능이나 p50/p95의 근거가 아니다.
+backend/browser41051446920에서 브라우저 offline, 모의429/503, 주입된 quota 오류와 수동 복구도 성공했다. 실제 통신 장애/휴대폰 저장장치 시험은 별도다.
