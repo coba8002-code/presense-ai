@@ -30,7 +30,9 @@ $('analysis-form').onsubmit=async event=>{
   const input=await PetSenseAudio.convert(file,recorded?0:Number($('start').value));
   if(activeAnalysis!==task)return;
   if(!$('consent').checked)throw new Error('분석 동의가 해제되었습니다.');
-  const response=await fetch('/v1/audio/events',{method:'POST',signal:task.controller.signal,headers,body:input.blob});
+  let response;
+  try{response=await fetch('/v1/audio/events',{method:'POST',signal:task.controller.signal,headers,body:input.blob});}
+  catch(error){if(task.controller.signal.aborted)throw error;throw new Error('서버에 연결하지 못했습니다. 연결 상태를 확인한 뒤 직접 다시 시도하세요.');}
   if(!response.ok){
    const messages={401:'인증 방식과 서버 토큰 또는 계정 세션을 확인하세요.',403:'분석 동의가 필요합니다.',408:'소리 업로드 시간이 초과되었습니다. 연결을 확인하고 다시 시도하세요.',413:'파일이 너무 큽니다.',415:'WAV 파일을 선택하세요.',422:'16kHz PCM16, 0.1~10초 WAV인지 확인하세요.',429:'분석 요청이 많습니다. 잠시 후 직접 다시 시도하세요.',503:'서버의 AST 모델 설정이나 준비 상태를 확인하세요.',504:'서버 분석 대기 시간이 초과되었습니다. 잠시 후 다시 시도하세요.'};
    throw new Error(messages[response.status]||'분석을 완료하지 못했습니다.');

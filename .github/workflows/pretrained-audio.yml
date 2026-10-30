@@ -24,7 +24,7 @@ jobs:
       - run: python -m pip install -r requirements.lock -r requirements-browser.lock
       - run: python -m playwright install --with-deps chromium
       - name: Real browser to isolated AST worker
-        run: python -m scripts.product_browser_smoke --real-ast
+        run: python -m scripts.product_browser_smoke --real-ast --output artifacts/ast-browser.json
       - name: Standalone local WAV inference
         run: |
           python -c "import wave; w=wave.open('/tmp/silence.wav','wb'); w.setparams((1,2,16000,0,'NONE','not compressed')); w.writeframes(bytes(32000)); w.close()"
