@@ -91,3 +91,6 @@ POST /v1/me/notes는 X-Storage-Consent=true와 pet/context JSON만 받으며 임
 
 ## 독립 정답 확보와 검증
 영상 정답 계약/CLI는 PR #6, 실행 코드b0b9996의 backend/browser41053114599·41053123664로 검증했다. 기존 주석과 일반 관찰 검수를 활용하고 전문가는 기준·불일치·표본에 집중한다. 전수 전문가 연동은 요구하지 않는다. 모델 후보 라벨·보호자 상황 보고·전문 해석을 독립 관찰 정답과 구분한다. 실제 정답/영상/성능은 별도 확보 조건이며 현재 계약 검증은 evaluation_ready=false다. 세부 전략: docs/LABEL_ACQUISITION.md, docs/VIDEO_EVALUATION.md. 로컬 최종153개 Python 및 Node3종 통과.
+
+## 프로필·영속 분석 큐·서비스 GUI 후속
+PR #8 프로필/소유권과 PR #9 동의 기반 SQLite 큐·별도 worker·멱등/취소·한도를 구현했다. 실행 코드f5e76dc의 실제 고정 AST 큐 Chromium41063644634가 성공했다. PR #10의 GUI 포함 backend/browser41065800327·41065842171,186개 Python·Node3종도 통과했다. /design은 가입부터 결과까지6화면 시안이고 실제 가입/API 호출은 하지 않는다. 상세는 PET_PROFILES.md, AUDIO_JOBS.md, SERVICE_GUI.md와 현재 tasks/todo.md를 따른다. 운영 인증/가족 권한/공유 입구 제한/정리 타이머·백업 삭제/실기기·실제 개체 품질은 남는다.
