@@ -1,0 +1,29 @@
+name: dependency-audit
+on:
+  workflow_dispatch:
+  push:
+    branches: ['codex/**']
+    paths: ['requirements.lock', '.github/workflows/dependency-audit.yml']
+  pull_request:
+    paths: ['requirements.lock', '.github/workflows/dependency-audit.yml']
+permissions:
+  contents: read
+jobs:
+  runtime-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pip-audit==2.10.1
+      - run: mkdir -p artifacts
+      - name: Audit fully pinned base runtime closure
+        run: python -m pip_audit -r requirements.lock --strict --no-deps --disable-pip --format json --output artifacts/base-runtime-audit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: base-runtime-dependency-audit
+          path: artifacts/base-runtime-audit.json
+          retention-days: 14
