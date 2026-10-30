@@ -141,3 +141,29 @@ An optional [AST local-WAV adapter](docs/PRETRAINED_DOG_AUDIO.md) returns the se
 original dog-related AudioSet label scores using pinned safetensors weights.
 Dog2vec/AVES weight-specific terms remain unresolved; they are not integrated.
 Scores are uncalibrated, decisions abstain, and live audio routes are unchanged.
+
+## 보호자 웹 앱 (2026-10-28)
+
+`/app`에서 WAV 사건 점수와 상황 메모, 브라우저 기록 저장·삭제·JSON 내보내기를 사용할 수 있습니다.
+AST 설치와 `PETSENSE_ENABLE_AST=true`, `PETSENSE_API_TOKEN` 설정이 필요합니다.
+API: `POST /v1/audio/events`, 16kHz PCM16 WAV, 0.1~10초, 2MB 이하.
+현재 개발 미리보기이며 감정/원인 판단은 보류합니다. 사용자 계정·영상 업로드·결제·전문가 연결은 후속입니다.
+
+확장 기획: [사업](docs/strategy-20261028/01_BUSINESS_PLAN.md), [제품](docs/strategy-20261028/02_PRODUCT_PLAN.md), [개발](docs/strategy-20261028/03_DEVELOPMENT_PLAN.md).
+
+### 보호자 앱 2차 개발
+
+음성 파일(WAV/MP3/M4A 등 브라우저 지원 형식, 최대20MB)을 선택하거나 마이크로 최대10초 녹음할 수 있습니다.
+선택 구간을 브라우저에서 16kHz mono PCM16 WAV로 변환해 `/v1/audio/events`로 전송합니다.
+녹음은 HTTPS 또는 localhost와 브라우저 권한이 필요하며 동의 철회·화면 이탈 시 마이크를 해제합니다.
+최근7일(KST 날짜)의 저장 기록 수/기록일 수와 상담 준비 텍스트 내보내기를 추가했습니다.
+이 통계는 저장된 최대100개 기록만 반영하며 실제 행동 빈도·변화나 진단을 의미하지 않습니다.
+Windows/iOS/Android 실제 기기와 Web Audio 코덱 검증은 별도입니다.
+
+### 계정별 보호자 메모 (단일 PC 개발 기반)
+
+`python -m backend.accounts --db data/private/notes.sqlite3 --token-file data/private/local-session.json`으로 개발 세션을 발급합니다.
+서버에 `PETSENSE_ACCOUNT_DB=data/private/notes.sqlite3`을 지정하면 `/app`의 계정 메모 영역이 연결됩니다.
+이름·상황만30일 보관하며 음성·분석 결과·세션은 서버 메모에 저장하지 않습니다.
+현재 로그인 서비스·계정 동기화 완성이 아니며 운영 인증과 백업 포함 삭제 검증은 남아 있습니다.
+앞으로의 실행 순서와 완료 조건은 [현재 TODO](tasks/todo.md)의 EXEC 항목을 따릅니다.

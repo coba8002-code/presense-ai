@@ -1,0 +1,38 @@
+const vm=require('vm'),fs=require('fs'),assert=require('assert');
+function node(){return {children:[],value:'',checked:false,hidden:false,disabled:false,files:[],textContent:'',append(x){this.children.push(x)},replaceChildren(){this.children=[]},setAttribute(){},click(){}};}
+const nodes={};for(const id of ['records','count','status','analysis-form','pet','context','audio','token','consent','submit','result','save','clear','export','weekly','consult','start','record','stop','cancel-record','record-status','cancel-analysis'])nodes[id]=node();
+const storage=new Map();let fail=false,calls=0;
+const ctx=vm.createContext({document:{getElementById:id=>nodes[id],createElement:()=>node()},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},crypto:{randomUUID:()=> 'case-1'},AbortController,confirm:()=>true,window:{addEventListener(){}},navigator:{},PetSenseAudio:{week:rs=>({count:rs.length,pets:[],records:rs}),convert:async()=>({blob:new Blob(),start:0,seconds:1})},Blob,URL:{createObjectURL:()=> 'blob:demo',revokeObjectURL(){}},setTimeout:()=>1,clearTimeout(){},fetch:async()=>{calls++;return {ok:!fail,status:503,json:async()=>({decision:'abstain',dog_event_scores:[{label:'Bark',score:.7}]})}}});
+vm.runInContext(fs.readFileSync('backend/static/app/app.js','utf8'),ctx);
+(async()=>{
+ nodes.audio.files=[{size:100}];nodes.pet.value='<img src=x>';nodes.context.value='현관';nodes.token.value='private-token';
+ await nodes['analysis-form'].onsubmit({preventDefault(){}});assert.equal(calls,0);
+ nodes.consent.checked=true;fail=true;await nodes['analysis-form'].onsubmit({preventDefault(){}});assert(nodes.save.hidden);assert(!nodes.submit.disabled);assert(nodes.status.textContent.includes('AST'));
+ fail=false;await nodes['analysis-form'].onsubmit({preventDefault(){}});assert(!nodes.save.hidden);assert.equal(storage.size,0);
+ nodes.save.onclick();const raw=storage.get('petsense.observations.v1');assert(raw);assert(!raw.includes('private-token'));assert.equal(JSON.parse(raw).length,1);assert(nodes.save.hidden);
+ nodes.clear.onclick();assert.equal(storage.size,0);assert(nodes.count.textContent.includes('0개'));
+ const normalFetch=ctx.fetch;
+ let deliver,signal;ctx.fetch=(url,options)=>{signal=options.signal;return new Promise(resolve=>{deliver=resolve;});};
+ const inFlight=nodes['analysis-form'].onsubmit({preventDefault(){}});await new Promise(resolve=>setImmediate(resolve));
+ nodes['cancel-analysis'].onclick();assert(signal.aborted);assert(nodes.save.hidden);assert(!nodes.submit.disabled);
+ deliver({ok:true,json:async()=>({decision:'abstain',dog_event_scores:[{label:'Bark',score:.9}]})});await inFlight;
+ assert(nodes.save.hidden);assert.equal(nodes.result.children.length,0);
+ ctx.fetch=normalFetch;
+ const normalConvert=ctx.PetSenseAudio.convert;let finishConvert;
+ ctx.PetSenseAudio.convert=()=>new Promise(resolve=>{finishConvert=resolve;});const beforeCalls=calls;
+ const preparing=nodes['analysis-form'].onsubmit({preventDefault(){}});nodes.consent.checked=false;nodes.consent.onchange();
+ finishConvert({blob:new Blob(),start:0,seconds:1});await preparing;assert.equal(calls,beforeCalls);assert(nodes.save.hidden);
+ ctx.PetSenseAudio.convert=normalConvert;nodes.consent.checked=true;
+ console.log('Cancellation mocks: fetch abort, stale result suppression, consent revocation during conversion passed.');
+ let stopped=0;
+ ctx.navigator.mediaDevices={getUserMedia:async()=>({getTracks:()=>[{stop(){stopped++;}}]})};
+ ctx.MediaRecorder=class{constructor(){this.state='inactive';this.mimeType='audio/webm';}start(){this.state='recording';}stop(){this.state='inactive';this.ondataavailable({data:new Blob(['audio'])});this.onstop();}};
+ nodes.consent.checked=true;await nodes.record.onclick();assert(nodes.record.disabled);assert(!nodes.stop.hidden);
+ nodes.stop.onclick();assert(stopped>0);assert(!nodes.record.disabled);assert(nodes['record-status'].textContent.includes('完了')||nodes['record-status'].textContent.includes('완료'));
+ await nodes.record.onclick();nodes.consent.checked=false;nodes.consent.onchange();assert(nodes.stop.hidden);assert(nodes['record-status'].textContent.includes('취소'));
+ nodes.consent.checked=true;
+ let releasePermission;ctx.navigator.mediaDevices.getUserMedia=()=>new Promise(resolve=>{releasePermission=resolve;});
+ const pending=nodes.record.onclick();nodes.consent.checked=false;nodes.consent.onchange();const before=stopped;releasePermission({getTracks:()=>[{stop(){stopped++;}}]});await pending;assert(stopped>before);assert(!nodes.record.disabled);
+ console.log('Microphone mocks: track release on stop, consent revocation and pending permission cancellation passed.');
+ console.log('UI simulated DOM: consent gate, service failure, success, explicit save, token exclusion and deletion passed.');
+})().catch(e=>{console.error(e);process.exit(1)});

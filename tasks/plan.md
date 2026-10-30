@@ -10,7 +10,7 @@ training/evaluation -> VLM contract/adapter -> verification and PR against devel
 - Python 3.12, FastAPI, Pydantic, NumPy, httpx; stdlib unittest for offline tests.
 - First transparent CPU baseline: standardized spectral features + softmax regression
   in NumPy. PyTorch deep models remain a later baseline, not a claimed delivery.
-- One dog or cat model per run; grounded event/context labels only. Local PCM WAV.
+- One dog model per run (current dog-only scope); grounded event/context labels only. Local PCM WAV.
 - Split globally by animal identity, never recordings; reject duplicate audio and
   unknown identity. Train normalization only on training animals. Validation selects
   regularization; test animals are evaluated once. Persist partitions and provenance.
@@ -95,3 +95,8 @@ an explicit fallback baseline, pinned revision and safetensors only. Bounded loc
 PCM16 WAV -> original multi-label scores -> dog-event subset, no emotion inference.
 Unit-test input boundaries and label mapping before implementation; CPU CI loads
 real weights and executes deterministic synthetic WAV inference. No dog accuracy claim.
+
+## 2026-10-28: 제품화 실행 재정렬
+기존 미완료 항목은 유지한다. 실행 상태의 기준은 tasks/todo.md의 EXEC 항목이다.
+순서: 현황 대조(EXEC-00) → 로컬 계정/세션과 기록 격리(EXEC-01) → 저장·삭제·만료 계약 검증(EXEC-02) → 앱 명시적 서버 보관 연결(EXEC-03) → 실제 브라우저/모델 E2E(EXEC-04) → 국내 PC 데이터/독립 평가(EXEC-05) → 비동기 분석·운영 인증/보관(EXEC-06) → 파일럿/유료 실험(EXEC-07).
+계정 기반은 국내 단일 PC 개발용 세션 발급 CLI로 시작한다. 계정 셀프가입·비밀번호·외부 결제는 포함하지 않는다. 기존 개발 토큰과 별도의 세션을 사용하고 보관 자료는 보호자 제출 기록으로 표시하며 모델 검증 자료로 자동 전환하지 않는다. 운영 인증 완료와 데이터 정확도 검증 완료는 별도 게이트다.

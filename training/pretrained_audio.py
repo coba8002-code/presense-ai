@@ -22,6 +22,12 @@ def read_wav(path):
         data = stream.read(MAX_BYTES + 1)
     if len(data) > MAX_BYTES:
         raise ValueError('Audio too large')
+    return read_wav_bytes(data)
+
+
+def read_wav_bytes(data):
+    if not isinstance(data, bytes) or not 44 <= len(data) <= MAX_BYTES:
+        raise ValueError('Expected bounded PCM16 WAV bytes')
     try:
         with wave.open(io.BytesIO(data), 'rb') as stream:
             channels, frames = stream.getnchannels(), stream.getnframes()
