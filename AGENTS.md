@@ -7,6 +7,11 @@ Read README.md and issue #1. Work in small PRs with tests and evidence. Do not c
 - Reject cat training and live audio requests; abstain on non-dog VLM observations.
 - Retain prior dataset audit evidence; do not claim cat support from generic schemas.
 
+## Product direction
+- Global dog-owner service: understand observable behavior, improve care, enjoy activities, and connect with trusted people.
+- Build Korean/English foundations first; do not claim a fully localized global launch or intent translation accuracy without independent evidence.
+- Keep observations, guardian reports, hypotheses, and verified follow-up separate.
+
 ## Architecture
 - Flutter Android/iOS app
 - FastAPI backend

@@ -189,3 +189,7 @@ Windows/iOS/Android 실제 기기와 Web Audio 코덱 검증은 별도입니다.
 
 ### 실제 HTTPS 웹 계정 베타
 `/auth`에서 가입·로그인·일회용 복구 코드·비밀번호 변경·재확인 탈퇴를 제공하고 `/app`의 프로필/메모/분석 작업은 Secure HttpOnly 쿠키로 연결합니다. 기본 비활성화이며 고정 HTTPS origin·운영자/개인정보 안내 설정이 필요합니다. 이메일 소유 확인·메일 전송·운영 배포는 포함하지 않습니다. `/design`은 계속 별도 시안입니다. [실행/검증 안내](docs/WEB_MEMBERSHIP.md), [API 계약](docs/WEB_AUTH_SPEC.md).
+
+### 글로벌 제품 방향 · 2026-10-31 KST
+전 세계 보호자가 내 개를 이해하고 돌보며 함께 즐기고 소통하도록 확장합니다. [제품 전략](docs/global-20261031/01_PRODUCT_STRATEGY.md), [공식 경쟁·근거 조사](docs/global-20261031/02_COMPETITIVE_RESEARCH.md), [AI/권한/다국어 설계와 실행 순서](docs/global-20261031/03_ARCHITECTURE_AND_DELIVERY.md). 세계1위는 목표이며 현재 성과가 아닙니다.
+`/understand?lang=ko` 또는 `?lang=en`에서 행동 전후의 상황 카드를 만들고 명시적으로 다운로드하거나 로그인 계정의 상황 메모로 보관합니다. 이 흐름은 보호자 진술이며 모델 분석·의도 번역·학습 정답이 아닙니다. 가입/분석의 기존 화면은 한국어 베타이고 가족·커뮤니티/제휴는 계획입니다.
