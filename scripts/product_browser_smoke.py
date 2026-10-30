@@ -63,7 +63,7 @@ def main():
             w.setnchannels(1);w.setsampwidth(2);w.setframerate(44100);w.writeframes(b'\0\0'*44100)
         with socket.socket() as probe:probe.bind(('127.0.0.1',0));port=probe.getsockname()[1]
         real=args.real_ast
-        env={**os.environ,'PETSENSE_ACCOUNT_DB':str(db),'PETSENSE_ENABLE_AST':'true' if real else 'false','PETSENSE_API_TOKEN':'test-only','PETSENSE_REQUIRE_ACCOUNT':'true' if real else 'false'}
+        env={**os.environ,'PETSENSE_ENABLE_WEB_AUTH':'false','PETSENSE_ENABLE_AST_JOBS':'false','PETSENSE_ACCOUNT_DB':str(db),'PETSENSE_ENABLE_AST':'true' if real else 'false','PETSENSE_API_TOKEN':'test-only','PETSENSE_REQUIRE_ACCOUNT':'true' if real else 'false'}
         server=subprocess.Popen([sys.executable,'-m','uvicorn','backend.app:app','--host','127.0.0.1','--port',str(port)],cwd=ROOT,env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
         try:
             base=f'http://127.0.0.1:{port}'

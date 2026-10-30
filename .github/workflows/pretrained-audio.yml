@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: ['codex/**']
-    paths: ['training/pretrained_audio.py', 'scripts/pretrained_audio_smoke.py', 'requirements-audio-model.txt', 'backend/audio_process.py', 'backend/audio_worker.py', 'backend/audio_events.py', 'backend/audio_auth.py', 'backend/audio_jobs.py', 'backend/job_store.py', 'backend/job_worker.py', 'backend/accounts.py', 'backend/pets.py', 'scripts/job_browser_smoke.py', 'backend/static/app/**', 'scripts/product_browser_smoke.py', '.github/workflows/pretrained-audio.yml']
+    paths: ['training/pretrained_audio.py', 'scripts/pretrained_audio_smoke.py', 'requirements-audio-model.txt', 'backend/audio_process.py', 'backend/audio_worker.py', 'backend/audio_events.py', 'backend/audio_auth.py', 'backend/audio_jobs.py', 'backend/job_store.py', 'backend/job_worker.py', 'backend/accounts.py', 'backend/web_auth.py', 'backend/web_security.py', 'backend/auth_store.py', 'backend/auth_site.py', 'backend/static/auth/**', 'scripts/member_browser_smoke.py', 'backend/pets.py', 'scripts/job_browser_smoke.py', 'backend/static/app/**', 'scripts/product_browser_smoke.py', '.github/workflows/pretrained-audio.yml']
 permissions:
   contents: read
 jobs:
@@ -27,6 +27,8 @@ jobs:
         run: python -m scripts.product_browser_smoke --real-ast --output artifacts/ast-browser.json
       - name: Real browser to persistent queue and isolated AST worker
         run: python -m scripts.job_browser_smoke --real-ast --output artifacts/ast-job-browser.json
+      - name: Real HTTPS membership to queue and isolated AST worker
+        run: python -m scripts.member_browser_smoke --real-ast --output artifacts/ast-member-browser.json
       - name: Standalone local WAV inference
         run: |
           python -c "import wave; w=wave.open('/tmp/silence.wav','wb'); w.setparams((1,2,16000,0,'NONE','not compressed')); w.writeframes(bytes(32000)); w.close()"

@@ -14,6 +14,7 @@ CHECKS=[('python',[sys.executable,'-m','unittest','discover','-s','tests','-q'])
         ('guardian-ui',['node','tests/test_product_app.cjs']),
         ('audio',['node','tests/test_mobile_audio.cjs']),
         ('account-ui',['node','tests/test_account_notes.cjs']),
+        ('web-session',['node','tests/test_web_session.cjs']),
         ('compile',[sys.executable,'-m','compileall','-q','backend','training','evaluation','knowledge','scripts','local_pc']),
         ('pinned-skills',[sys.executable,'scripts/verify_skills.py'])]
 
