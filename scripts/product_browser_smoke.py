@@ -22,7 +22,8 @@ def main():
         with wave.open(data,'wb') as w:
             w.setnchannels(1);w.setsampwidth(2);w.setframerate(44100);w.writeframes(b'\0\0'*44100)
         with socket.socket() as probe:probe.bind(('127.0.0.1',0));port=probe.getsockname()[1]
-        env={**os.environ,'PETSENSE_ACCOUNT_DB':str(db),'PETSENSE_ENABLE_AST':'false'}
+        real='--real-ast' in sys.argv
+        env={**os.environ,'PETSENSE_ACCOUNT_DB':str(db),'PETSENSE_ENABLE_AST':'true' if real else 'false','PETSENSE_API_TOKEN':'test-only'}
         server=subprocess.Popen([sys.executable,'-m','uvicorn','backend.app:app','--host','127.0.0.1','--port',str(port)],cwd=ROOT,env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
         try:
             base=f'http://127.0.0.1:{port}'
@@ -41,10 +42,17 @@ def main():
                             assert (w.getframerate(),w.getnchannels(),w.getsampwidth(),w.getnframes())==(16000,1,2,16000)
                         converted.append(True)
                         route.fulfill(status=200,content_type='application/json',body=json.dumps({'decision':'abstain','model':'mock-browser-smoke','dog_event_scores':[{'label':'Bark','score':.7}]}))
-                    page.route('**/v1/audio/events',response)
+                    if not real:page.route('**/v1/audio/events',response)
                     page.goto(base+'/app');page.locator('#pet').fill('테스트개');page.locator('#context').fill('합성 입력·브라우저 검사')
                     page.locator('#audio').set_input_files({'name':'test.wav','mimeType':'audio/wav','buffer':data.getvalue()})
-                    page.locator('summary').click();page.locator('#token').fill('test-only');page.locator('#consent').check();page.locator('#submit').click()
+                    page.locator('summary').click();page.locator('#token').fill('test-only');page.locator('#consent').check()
+                    with page.expect_response('**/v1/audio/events',timeout=90000) as observed:page.locator('#submit').click()
+                    payload=observed.value.json()
+                    assert payload['decision']=='abstain'
+                    if real:
+                        from training.pretrained_audio import MODEL,REVISION
+                        assert payload['model']==MODEL and payload['revision']==REVISION and payload['production_ready'] is False
+                        assert len(payload['dog_event_scores'])==7
                     expect(page.locator('#save')).to_be_visible();page.locator('#save').click();expect(page.locator('#count')).to_contain_text('1개')
                     page.reload();expect(page.locator('#count')).to_contain_text('1개')
                     page.locator('#pet').fill('테스트개');page.locator('#context').fill('상황 메모');page.locator('#notes-session').fill(session);page.locator('#notes-consent').check();page.locator('#notes-save').click()
@@ -52,8 +60,8 @@ def main():
                     page.once('dialog',lambda dialog:dialog.accept());page.locator('#notes-delete-account').click();expect(page.locator('#notes-status')).to_contain_text('삭제했습니다')
                     expect(page.locator('#count')).to_contain_text('1개')
                     page.once('dialog',lambda dialog:dialog.accept());page.locator('#clear').click();expect(page.locator('#count')).to_contain_text('0개')
-                    assert converted and not errors,errors
-                    print('Chromium smoke passed: real Web Audio conversion, browser storage, real note API; AST mocked.')
+                    assert (real or converted) and not errors,errors
+                    print('Chromium smoke passed: Web Audio, HTTP scoring, history and account deletion; AST '+('real pinned weights in isolated process' if real else 'mocked')+'.')
                 finally:browser.close()
         finally:
             server.terminate()

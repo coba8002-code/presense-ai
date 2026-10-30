@@ -171,3 +171,6 @@ Windows/iOS/Android 실제 기기와 Web Audio 코덱 검증은 별도입니다.
 ### 재현 가능한 검증
 `python -m scripts.verify_release --output artifacts/verification-new.json`은 Python/Node/컴파일/기존 스킬 지문 검사를 수행하고 관측한 테스트 수와 소스 해시를 기록합니다. 실제 모델/휴대폰 정확도와는 별개입니다.
 공개 음향 도구와 해석 범위는 [기준 평가](docs/PUBLIC_AUDIO_BENCHMARK.md), 실제 원격 실행 증거는 [진행 기록](docs/SELF_DIRECTED_PROGRESS.md)을 참고하세요.
+
+### 분석 프로세스 분리
+현재 오디오 API는 요청별 자식 프로세스로 AST를 실행합니다. 가중치는 사전에 캐시하며 런타임은 오프라인입니다. 타임아웃·연결 종료 시 자식을 종료·회수합니다. [준비 방법과 제한](docs/ISOLATED_AUDIO.md)을 확인하세요. 지속 작업 큐나 운영 보안 샌드박스가 완성된 것은 아닙니다.

@@ -333,3 +333,12 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [ ] 선택 torch/transformers/browser 환경 전체 의존성 감사.
 - [ ] 실제 국내 PC/휴대폰/새 개체 평가와 로커리 데이터 검수 결과 수신.
 - [ ] PR #2→#3→#4 사람 검토 및 병합. 자동 병합/배포 없음.
+
+## 요청별 독립 분석 프로세스
+- [x] 기존 모델 스레드를 stdin/stdout 프로토콜의 별도 자식으로 교체.
+- [x] 입력/결과 크기·모델 지문·원본 해시·보류 계약 검증.
+- [x] 실제 자식의 타임아웃/취소 종료·회수 및 HTTP 연결 종료 검사.
+- [x] 런타임 오프라인 가중치·일반 자격 증명 환경변수 제거·캐시 준비 CLI.
+- [x] 로컬144개 Python 검사 및 Node3종 통과.
+- [ ] 실제 AST를 쓰는 Chromium/HTTP/독립 프로세스 CI 실행.
+- [ ] 지속 job queue·사용자별 권한/예산·재시작 복구·OS 자원/네트워크 제한.
