@@ -75,6 +75,8 @@ from backend.accounts import router as accounts_router
 app.include_router(accounts_router)
 from backend.pets import router as pets_router
 app.include_router(pets_router)
+from backend.audio_jobs import router as audio_jobs_router
+app.include_router(audio_jobs_router)
 
 @app.middleware('http')
 async def private_account_responses(request: Request, call_next):

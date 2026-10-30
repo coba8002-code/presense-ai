@@ -14,6 +14,6 @@
  el('notes-load').onclick=()=>action(async()=>{offset=0;await load();});
  el('notes-next').onclick=()=>action(async()=>{offset+=100;await load();});
  el('notes-save').onclick=()=>action(async()=>{const pet=el('pet').value.trim(),context=el('context').value;if(!pet)throw new Error('반려견 이름을 입력하세요.');const body={pet,context},petId=globalThis.PetSenseProfiles?.selectedId();if(petId)body.pet_id=petId;await api('/v1/me/notes','POST',body);offset=0;await load();el('notes-status').textContent='이름·상황 메모를 서버에 보관했습니다. 분석 결과와 음성은 포함하지 않았습니다.';});
- el('notes-delete-account').onclick=()=>{if(!confirm('이 계정의 서버 프로필·메모와 발급된 세션을 모두 삭제할까요? 브라우저 관찰 기록은 따로 남습니다.'))return;return action(async()=>{await api('/v1/me/account','DELETE');el('notes-session').value='';globalThis.PetSenseProfiles?.reset();el('notes-list').replaceChildren();el('notes-next').hidden=true;el('notes-status').textContent='서버 프로필·메모와 세션을 삭제했습니다.';});};
+ el('notes-delete-account').onclick=()=>{if(!confirm('이 계정의 서버 프로필·메모와 발급된 세션을 모두 삭제할까요? 브라우저 관찰 기록은 따로 남습니다.'))return;return action(async()=>{await api('/v1/me/account','DELETE');el('notes-session').value='';globalThis.PetSenseProfiles?.reset();globalThis.PetSenseJobs?.reset();el('notes-list').replaceChildren();el('notes-next').hidden=true;el('notes-status').textContent='서버 프로필·메모와 세션을 삭제했습니다.';});};
  el('notes-session').oninput=()=>{offset=0;el('notes-list').replaceChildren();el('notes-next').hidden=true;el('notes-status').textContent='';};
 })();

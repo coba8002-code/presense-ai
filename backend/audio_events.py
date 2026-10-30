@@ -30,6 +30,8 @@ async def score_until_disconnect(request,raw):
 
 @router.post('/v1/audio/events')
 async def audio_events(request: Request):
+    if os.getenv('PETSENSE_ENABLE_AST_JOBS','false').lower()=='true':
+        raise HTTPException(503,'Direct scoring disabled while persistent audio jobs enabled')
     if os.getenv('PETSENSE_ENABLE_AST','false').lower()!='true':
         raise HTTPException(503,'Local AST event scoring is disabled')
     owner=authorize(request)

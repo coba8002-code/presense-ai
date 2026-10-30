@@ -7,6 +7,7 @@ function render(){const w=PetSenseAudio.week(records);$('weekly').replaceChildre
 function persist(next){try{localStorage.setItem(KEY,JSON.stringify(next));records=next;render();return true;}catch(e){$('status').textContent='브라우저 저장에 실패했습니다. 저장 공간과 설정을 확인하세요.';return false;}}
 try{const raw=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(raw))records=raw.filter(r=>r&&typeof r.id==='string'&&typeof r.pet==='string'&&typeof r.context==='string'&&Number.isFinite(r.at)).slice(-100);}catch(e){$('status').textContent='저장된 기록을 읽을 수 없습니다.';}render();
 let activeAnalysis=null;
+globalThis.PetSenseAnalysisInput=()=>({file:recorded||$('audio').files[0],start:recorded?0:Number($('start').value)});
 function cancelAnalysis(message='분석 요청을 취소했습니다. 이미 전송된 소리의 서버 처리는 잠시 계속될 수 있습니다.'){
  const task=activeAnalysis;if(!task)return;
  activeAnalysis=null;clearTimeout(task.timer);task.controller.abort();
