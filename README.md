@@ -167,3 +167,7 @@ Windows/iOS/Android 실제 기기와 Web Audio 코덱 검증은 별도입니다.
 이름·상황만30일 보관하며 음성·분석 결과·세션은 서버 메모에 저장하지 않습니다.
 현재 로그인 서비스·계정 동기화 완성이 아니며 운영 인증과 백업 포함 삭제 검증은 남아 있습니다.
 앞으로의 실행 순서와 완료 조건은 [현재 TODO](tasks/todo.md)의 EXEC 항목을 따릅니다.
+
+### 재현 가능한 검증
+`python -m scripts.verify_release --output artifacts/verification-new.json`은 Python/Node/컴파일/기존 스킬 지문 검사를 수행하고 관측한 테스트 수와 소스 해시를 기록합니다. 실제 모델/휴대폰 정확도와는 별개입니다.
+공개 음향 도구와 해석 범위는 [기준 평가](docs/PUBLIC_AUDIO_BENCHMARK.md), 실제 원격 실행 증거는 [진행 기록](docs/SELF_DIRECTED_PROGRESS.md)을 참고하세요.
