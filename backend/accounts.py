@@ -15,6 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 router=APIRouter()
 RETENTION=30*86400
+SCHEMA_VERSION=5
 
 class Note(BaseModel):
     model_config=ConfigDict(extra='forbid',strict=True)
@@ -29,10 +30,10 @@ class Store:
         self.path.parent.mkdir(parents=True,exist_ok=True)
         with self.connect() as db:
             version=db.execute('PRAGMA user_version').fetchone()[0]
-            if version>4:raise sqlite3.DatabaseError('Unsupported account schema')
-            if version<4:
+            if version>SCHEMA_VERSION:raise sqlite3.DatabaseError('Unsupported account schema')
+            if version<SCHEMA_VERSION:
                 db.execute('BEGIN IMMEDIATE')
-                if db.execute('PRAGMA user_version').fetchone()[0]>4:raise sqlite3.DatabaseError('Unsupported account schema')
+                if db.execute('PRAGMA user_version').fetchone()[0]>SCHEMA_VERSION:raise sqlite3.DatabaseError('Unsupported account schema')
                 db.execute('CREATE TABLE IF NOT EXISTS sessions(token_hash TEXT PRIMARY KEY, owner TEXT NOT NULL, expires REAL NOT NULL)')
                 db.execute('CREATE TABLE IF NOT EXISTS notes(id TEXT PRIMARY KEY, owner TEXT NOT NULL, created REAL NOT NULL, expires REAL NOT NULL, pet TEXT NOT NULL, context TEXT NOT NULL)')
                 if 'pet_id' not in {r[1] for r in db.execute('PRAGMA table_info(notes)')}:
@@ -47,7 +48,9 @@ class Store:
                 db.execute('CREATE TABLE IF NOT EXISTS members(owner TEXT PRIMARY KEY,email TEXT NOT NULL UNIQUE,password_salt TEXT NOT NULL,password_hash TEXT NOT NULL,recovery_hash TEXT NOT NULL,created REAL NOT NULL,updated REAL NOT NULL,terms_version TEXT NOT NULL,privacy_version TEXT NOT NULL)')
                 db.execute('CREATE TABLE IF NOT EXISTS auth_limits(bucket TEXT PRIMARY KEY,window REAL NOT NULL,count INTEGER NOT NULL)')
                 db.execute('CREATE TABLE IF NOT EXISTS auth_leases(id TEXT PRIMARY KEY,expires REAL NOT NULL)')
-                db.execute('PRAGMA user_version=4')
+                from backend.journal_schema import create_tables
+                create_tables(db)
+                db.execute('PRAGMA user_version='+str(SCHEMA_VERSION))
         if os.name=='posix':os.chmod(self.path,0o600)
     @contextmanager
     def connect(self):
@@ -63,6 +66,8 @@ class Store:
             self._purge(db)
     def _purge(self,db):
         now=self.clock()
+        from backend.journal_schema import purge
+        purge(db,now)
         db.execute('DELETE FROM auth_limits WHERE window<?',(now-86400,))
         db.execute('DELETE FROM auth_leases WHERE expires<=?',(now,))
         db.execute('DELETE FROM audio_jobs WHERE expires<=? OR pet_id IN (SELECT id FROM pets WHERE expires<=?)',(now,now))
@@ -99,11 +104,13 @@ class Store:
     def pet_update(self,token,pet_id,name):
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._pet(db,owner,pet_id)
-            db.execute('UPDATE pets SET name=?,updated=?,expires=? WHERE id=? AND owner=?',(name,self.clock(),self.clock()+RETENTION,pet_id,owner))
+            db.execute('UPDATE pets SET name=?,updated=?,expires=MAX(expires,?) WHERE id=? AND owner=?',(name,self.clock(),self.clock()+RETENTION,pet_id,owner))
             return self._pet(db,owner,pet_id)
     def pet_delete(self,token,pet_id):
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._pet(db,owner,pet_id)
+            from backend.journal_schema import delete_pet
+            delete_pet(db,owner,pet_id)
             db.execute('DELETE FROM notes WHERE owner=? AND pet_id=?',(owner,pet_id))
             db.execute('DELETE FROM audio_jobs WHERE owner=? AND pet_id=?',(owner,pet_id))
             db.execute('DELETE FROM pets WHERE owner=? AND id=?',(owner,pet_id))
@@ -145,7 +152,7 @@ class Store:
     def _erase_owner(self,db,owner):
         row=db.execute('SELECT email FROM members WHERE owner=?',(owner,)).fetchone()
         if row:db.execute('DELETE FROM auth_limits WHERE bucket=?',('identity:'+hashlib.sha256(row[0].encode()).hexdigest(),))
-        for table in ('notes','pets','audio_jobs','audio_usage','sessions','members'):
+        for table in ('journal_followups','journal_cases','notes','pets','audio_jobs','audio_usage','sessions','members'):
             db.execute('DELETE FROM '+table+' WHERE owner=?',(owner,))
 
 def access(request):
