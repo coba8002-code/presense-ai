@@ -6,7 +6,7 @@ from backend.accounts import access
 
 
 def authorize(request):
-    if os.getenv('PETSENSE_REQUIRE_ACCOUNT','false').lower()=='true':
+    if os.getenv('PETSENSE_REQUIRE_ACCOUNT','false').lower()=='true' or os.getenv('PETSENSE_ENABLE_WEB_AUTH','false').lower()=='true':
         _,owner,_=access(request)
         return owner
     token=os.getenv('PETSENSE_API_TOKEN','')

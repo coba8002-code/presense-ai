@@ -29,10 +29,10 @@ class Store:
         self.path.parent.mkdir(parents=True,exist_ok=True)
         with self.connect() as db:
             version=db.execute('PRAGMA user_version').fetchone()[0]
-            if version>3:raise sqlite3.DatabaseError('Unsupported account schema')
-            if version<3:
+            if version>4:raise sqlite3.DatabaseError('Unsupported account schema')
+            if version<4:
                 db.execute('BEGIN IMMEDIATE')
-                if db.execute('PRAGMA user_version').fetchone()[0]>3:raise sqlite3.DatabaseError('Unsupported account schema')
+                if db.execute('PRAGMA user_version').fetchone()[0]>4:raise sqlite3.DatabaseError('Unsupported account schema')
                 db.execute('CREATE TABLE IF NOT EXISTS sessions(token_hash TEXT PRIMARY KEY, owner TEXT NOT NULL, expires REAL NOT NULL)')
                 db.execute('CREATE TABLE IF NOT EXISTS notes(id TEXT PRIMARY KEY, owner TEXT NOT NULL, created REAL NOT NULL, expires REAL NOT NULL, pet TEXT NOT NULL, context TEXT NOT NULL)')
                 if 'pet_id' not in {r[1] for r in db.execute('PRAGMA table_info(notes)')}:
@@ -44,7 +44,10 @@ class Store:
                 db.execute('CREATE TABLE IF NOT EXISTS audio_jobs(id TEXT PRIMARY KEY,owner TEXT NOT NULL,pet_id TEXT NOT NULL,key_hash TEXT NOT NULL,payload_hash TEXT NOT NULL,session_hash TEXT NOT NULL,created REAL NOT NULL,expires REAL NOT NULL,raw_deadline REAL NOT NULL,status TEXT NOT NULL,media BLOB,result TEXT,error TEXT,lease TEXT,lease_until REAL,UNIQUE(owner,key_hash))')
                 db.execute('CREATE INDEX IF NOT EXISTS audio_jobs_owner ON audio_jobs(owner,created)')
                 db.execute('CREATE TABLE IF NOT EXISTS audio_usage(owner TEXT NOT NULL,day INTEGER NOT NULL,count INTEGER NOT NULL,PRIMARY KEY(owner,day))')
-                db.execute('PRAGMA user_version=3')
+                db.execute('CREATE TABLE IF NOT EXISTS members(owner TEXT PRIMARY KEY,email TEXT NOT NULL UNIQUE,password_salt TEXT NOT NULL,password_hash TEXT NOT NULL,recovery_hash TEXT NOT NULL,created REAL NOT NULL,updated REAL NOT NULL,terms_version TEXT NOT NULL,privacy_version TEXT NOT NULL)')
+                db.execute('CREATE TABLE IF NOT EXISTS auth_limits(bucket TEXT PRIMARY KEY,window REAL NOT NULL,count INTEGER NOT NULL)')
+                db.execute('CREATE TABLE IF NOT EXISTS auth_leases(id TEXT PRIMARY KEY,expires REAL NOT NULL)')
+                db.execute('PRAGMA user_version=4')
         if os.name=='posix':os.chmod(self.path,0o600)
     @contextmanager
     def connect(self):
@@ -60,6 +63,8 @@ class Store:
             self._purge(db)
     def _purge(self,db):
         now=self.clock()
+        db.execute('DELETE FROM auth_limits WHERE window<?',(now-86400,))
+        db.execute('DELETE FROM auth_leases WHERE expires<=?',(now,))
         db.execute('DELETE FROM audio_jobs WHERE expires<=? OR pet_id IN (SELECT id FROM pets WHERE expires<=?)',(now,now))
         db.execute("UPDATE audio_jobs SET status='expired',media=NULL,result=NULL,error='expired',lease=NULL WHERE status IN ('queued','running') AND raw_deadline<=?",(now,))
         db.execute("UPDATE audio_jobs SET status='cancelled',media=NULL,result=NULL,error='session_revoked',lease=NULL WHERE status IN ('queued','running') AND NOT EXISTS (SELECT 1 FROM sessions s WHERE s.token_hash=audio_jobs.session_hash AND s.owner=audio_jobs.owner AND s.expires>?)",(now,))
@@ -136,18 +141,20 @@ class Store:
             return db.execute('DELETE FROM notes WHERE owner=? AND id=?',(owner,note_id)).rowcount>0
     def delete_account(self,owner):
         with self.connect() as db:
-            db.execute('DELETE FROM notes WHERE owner=?',(owner,))
-            db.execute('DELETE FROM pets WHERE owner=?',(owner,))
-            db.execute('DELETE FROM audio_jobs WHERE owner=?',(owner,))
-            db.execute('DELETE FROM audio_usage WHERE owner=?',(owner,))
-            db.execute('DELETE FROM sessions WHERE owner=?',(owner,))
+            db.execute('BEGIN IMMEDIATE');self._erase_owner(db,owner)
+    def _erase_owner(self,db,owner):
+        row=db.execute('SELECT email FROM members WHERE owner=?',(owner,)).fetchone()
+        if row:db.execute('DELETE FROM auth_limits WHERE bucket=?',('identity:'+hashlib.sha256(row[0].encode()).hexdigest(),))
+        for table in ('notes','pets','audio_jobs','audio_usage','sessions','members'):
+            db.execute('DELETE FROM '+table+' WHERE owner=?',(owner,))
 
 def access(request):
     path=os.getenv('PETSENSE_ACCOUNT_DB','')
     if not path:raise HTTPException(503,'Account notes are not configured')
     try:store=Store(path)
     except (OSError,sqlite3.Error):raise HTTPException(503,'Account store unavailable') from None
-    token=request.headers.get('x-petsense-session','')
+    from backend.web_security import session_token
+    token=session_token(request)
     owner=store.authenticate(token)
     if not owner:raise HTTPException(401,'Session expired, revoked or missing')
     return store,owner,token
@@ -185,6 +192,8 @@ async def delete_note(note_id:str,request:Request):
 async def delete_account(request:Request):
     store,owner,_=access(request)
     if request.headers.get('x-delete-confirm')!='delete-account':raise HTTPException(400,'Account deletion confirmation required')
+    with store.connect() as db:
+        if db.execute('SELECT 1 FROM members WHERE owner=?',(owner,)).fetchone():raise HTTPException(403,'Password reauthentication required at web account endpoint')
     store.delete_account(owner)
 
 def main():

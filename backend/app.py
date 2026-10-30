@@ -79,11 +79,13 @@ from backend.audio_jobs import router as audio_jobs_router
 app.include_router(audio_jobs_router)
 from backend.design import router as design_router
 app.include_router(design_router)
+from backend.web_auth import router as web_auth_router
+app.include_router(web_auth_router)
 
 @app.middleware('http')
 async def private_account_responses(request: Request, call_next):
     response = await call_next(request)
-    if request.url.path.startswith('/v1/me/'):
+    if request.url.path.startswith(('/v1/me/','/v1/auth/')):
         response.headers['Cache-Control'] = 'no-store'
         response.headers['X-Content-Type-Options'] = 'nosniff'
     return response
