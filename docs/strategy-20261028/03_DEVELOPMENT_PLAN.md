@@ -88,3 +88,6 @@ POST /v1/me/notes는 X-Storage-Consent=true와 pet/context JSON만 받으며 임
 ## 2026-10-30 후속 검증 완료: 요청별 프로세스와 계정 분석
 이전 단락의 모델 스레드 추론은 /v1/audio/events에서 요청별 자식 프로세스로 대체했다. 업로드15초·작업60초, 취소/연결 종료/시간초과 시 자식 종료·회수, offline 캐시·입력/결과 한도와 모델/원본 해시 검증을 적용했다. PETSENSE_REQUIRE_ACCOUNT=true에서는 메모와 같은 계정 세션을 분석 권한에 사용하고 공유 개발 토큰을 차단한다. 결과 반환 전 세션도 재검사한다. 국내 저장소·지속 job·운영 로그인·가족 권한은 미구현이다.
 실행 코드1ecab3b의 실제 가중치 Chromium→계정 인증→API→독립 AST→결과/저장/삭제 CI41051446917이 성공했다. 합성 음성이며 실제 개 정확도 근거가 아니다. backend/browser41051446920에서 모의429/503·offline·quota 오류와 수동 복구도 확인했다. Windows/iOS/Android 물리 기기 검증은 남는다. 상세와 실행 명령: docs/ISOLATED_AUDIO.md.
+
+## 독립 정답 확보와 검증
+영상 정답 계약/CLI는 PR #6, 실행 코드b0b9996의 backend/browser41053114599·41053123664로 검증했다. 기존 주석과 일반 관찰 검수를 활용하고 전문가는 기준·불일치·표본에 집중한다. 전수 전문가 연동은 요구하지 않는다. 모델 후보 라벨·보호자 상황 보고·전문 해석을 독립 관찰 정답과 구분한다. 실제 정답/영상/성능은 별도 확보 조건이며 현재 계약 검증은 evaluation_ready=false다. 세부 전략: docs/LABEL_ACQUISITION.md, docs/VIDEO_EVALUATION.md. 로컬 최종153개 Python 및 Node3종 통과.
