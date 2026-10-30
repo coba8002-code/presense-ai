@@ -1,9 +1,6 @@
 name: public-dog-audio-benchmark
 on:
   workflow_dispatch:
-  push:
-    branches: ['codex/**']
-    paths: ['scripts/acquire_esc10.py', 'evaluation/sound_benchmark.py', '.github/workflows/public-audio-benchmark.yml']
 permissions:
   contents: read
 jobs:

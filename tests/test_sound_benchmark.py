@@ -14,3 +14,7 @@ class RankingMetricsTests(unittest.TestCase):
     def test_reject_invalid_or_degenerate(self):
         for labels,scores in [([],[]),([1],[.5]),([1,0],[float('nan'),.2]),([1,0],[2,0]),([1,0],[.5]),([2,0],[.2,.3])]:
             with self.subTest(labels=labels),self.assertRaises(ValueError):ranking_metrics(labels,scores)
+
+    def test_perfect_multi_positive_precision_stays_bounded(self):
+        r=ranking_metrics([1]*40+[0]*360,[1-i/100 for i in range(40)]+[0.]*360)
+        self.assertEqual(r['average_precision'],1.)

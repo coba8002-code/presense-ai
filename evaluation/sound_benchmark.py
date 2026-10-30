@@ -14,14 +14,14 @@ def ranking_metrics(labels,scores):
     positives=sum(labels);negatives=len(labels)-positives
     if not positives or not negatives:raise ValueError('Both classes required')
     ordered=sorted(zip(scores,labels),reverse=True)
-    tp=fp=0;ap=auc_pairs=0.;i=0
+    tp=fp=0;ap_terms=[];auc_pairs=0.;i=0
     while i<len(ordered):
         j=i
         while j<len(ordered) and ordered[j][0]==ordered[i][0]:j+=1
         group=ordered[i:j];p=sum(y for _,y in group);n=len(group)-p
         auc_pairs+=p*(negatives-fp-n)+.5*p*n
-        tp+=p;fp+=n;ap+=(p/positives)*(tp/(tp+fp));i=j
-    return {'auroc':auc_pairs/(positives*negatives),'average_precision':ap,'positive_clips':positives,'negative_clips':negatives}
+        tp+=p;fp+=n;ap_terms.append((p/positives)*(tp/(tp+fp)));i=j
+    return {'auroc':auc_pairs/(positives*negatives),'average_precision':min(1.,max(0.,math.fsum(ap_terms))),'positive_clips':positives,'negative_clips':negatives}
 
 
 def report(folder):

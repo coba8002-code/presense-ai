@@ -41,6 +41,8 @@ def main():
         for path in sorted((ROOT/folder).rglob('*')):
             if path.is_file() and '__pycache__' not in path.parts and path.suffix in {'.py','.js','.cjs','.html','.css'}:
                 sources[str(path.relative_to(ROOT))]=hashlib.sha256(path.read_bytes()).hexdigest()
+    for path in ROOT.glob('requirements*'):
+        if path.is_file():sources[path.name]=hashlib.sha256(path.read_bytes()).hexdigest()
     payload={'observed_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'all_passed':all(r['passed'] for r in results),'checks':results,'source_sha256':sources,'scope':'Offline checks. UI and model boundaries are mocked. Not physical-device or real-weight model accuracy evidence.'}
     with out.open('x') as f:json.dump(payload,f,indent=2)
     raise SystemExit(0 if payload['all_passed'] else 1)

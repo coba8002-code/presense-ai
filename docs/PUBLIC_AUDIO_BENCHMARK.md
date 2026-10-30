@@ -23,3 +23,10 @@ AUROC는 양성 점수가 음성보다 높을 순위 확률이며 동점은0.5�
 
 공식 출처 https://github.com/karolpiczak/ESC-50#license
 모델 배포 https://huggingface.co/MIT/ast-finetuned-audioset-10-10-0.4593
+
+## 2026-10-30 실행 결과
+원격 실행41025543775에서 실제 공개 음성400개(개40/기타360)의 수집·전처리·실제 AST 추론·평가·artifact 업로드가 모두 통과했다. 실행 커밋4e9c2645b7d82ab0f8c64f24eb5b85b4d1c6577d. 기록된 AUROC1.0, AP1.0000000000000004는 완전 분리 결과에 부동소수점 합산 오차가 붙은 값이다. 합산을 math.fsum과 유효 범위 제한으로 수정하고400개 기존 점수 artifact를 재생하는 CI를 추가했다. 원본 모델 추론을 다시 수행하는 검증과는 구분한다.
+자료가 쉽거나 사전학습 자료와 중복되면 이 결과가 높을 수 있다. 감정·행동 원인·새 개체·실제 가정 정확도100%라고 해석하거나 광고하지 않는다. 모델 결정은 abstain을 유지한다.
+원본 실행 https://github.com/coba8002-code/presense-ai/actions/runs/41025543775
+400개 점수 및 출처 artifact https://github.com/coba8002-code/presense-ai/actions/runs/41025543775/artifacts/12964800066
+artifact 보존은14일이다. 재생CI는 이 고정 결과를 읽기 때문에 만료되면 실패하며 새 전체 평가를 실행하고 source run을 갱신해야 한다. 장시간 전체 추론은 수동 workflow_dispatch로, 빠른 점수 재생은 계산 코드 변경 CI로 분리했다.
