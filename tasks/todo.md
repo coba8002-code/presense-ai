@@ -384,5 +384,5 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] 전역1작업 lease·늦은 결과 차단·대기 복구·실행 중단 실패 기록·실제 자식 취소 검사.
 - [x] 계정별 앱 접수·상태 조회·취소/삭제 화면 연결과 모의/실제 AST Chromium 명령.
 - [x] 로컬184개 Python 및 기존 Node3종 통과.
-- [ ] 새 큐의 원격 Chromium/실제 AST 실행·PR 검증.
+- [x] PR #9 실행 코드f5e76dc의 backend/browser41063644624·41063683186 및 실제 AST 큐 Chromium41063644634 성공.
 - [ ] 운영 인증·공유 입구 제한·OS 자원 격리·독립 정리 타이머/백업 삭제·실기기 검증.

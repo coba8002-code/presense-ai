@@ -41,3 +41,5 @@ HF_HOME은 준비한 캐시의 절대 경로로 설정한다. 마지막 명령�
 
 ## 검증
 14개 작업 검사: 중복/충돌/실제 동시 등록, 계정/프로필 격리, 전역1작업 lease, 종료 후 원본 제거, 늦은 결과 차단, 만료/프로필/계정 삭제, 한도/재시작, 세션 철회, 잘못된 모델 지문, worker 성공/취소, 실제 모델 자식의 취소/회수, HTTP 동의/입력/상태. scripts/job_browser_smoke.py는 실제 Chromium/HTTP/SQLite/별도 worker를 쓰고 기본 모델만 모의 처리한다. --real-ast는 실제 고정 가중치를 쓰며 별도 CI로 검증한다. 어떤 경우도 실제 개 행동 정확도나 실제 휴대폰 성능 증거가 아니다.
+
+실행 코드f5e76dc7ee2d2442202418080133b70efcea4a7c의 backend/browser41063644624·41063683186 및 실제 고정 AST 큐 Chromium41063644634가 성공했다. 실제 Chromium→업로드/계정·프로필/임시 동의→SQLite 큐→별도 worker→독립 AST→결과→완료/대기 작업 삭제·계정 격리를 합성 입력으로 확인했다. ast-job-browser.json에 모델 지문·입력 해시·단일 실행 시간을 기록한다. PR #9: https://github.com/coba8002-code/presense-ai/pull/9 . 로컬184개 Python·기존 Node3종도 통과했다.
