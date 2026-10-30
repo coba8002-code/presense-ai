@@ -81,7 +81,7 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 ## First PR delivery
 - [x] Verify fresh dependency installation in [GitHub CI](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044).
 - [x] HTTP socket-server health verified by browser smoke in [CI](https://github.com/coba8002-code/presense-ai/actions/runs/39023577386).
-- [ ] Run dependency vulnerability audit (pip-audit unavailable here).
+- [x] 기본 서버 lock 취약점 감사 완료, certifi 권고 수정 후41032114483 성공. 선택 AI/브라우저 환경 전체 감사는 별도.
 - [x] Publish draft PR [#2](https://github.com/coba8002-code/presense-ai/pull/2) targeting develop.
 - [x] Confirm backend GitHub CI passes on 7e23171: [successful run](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044).
 - [ ] Review and merge PR after remaining gates; merge not performed.
@@ -110,7 +110,7 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] Full offline suite: 30 tests passed; synthetic dog/cat preflight passed.
 - [x] WO-01 external checks: fresh dependency install and remote CI passed.
 - [x] WO-01 socket smoke passed in Chromium/HTTP CI.
-- [ ] WO-01 remaining: dependency vulnerability audit.
+- [x] WO-01 기본 서버 lock 감사와 certifi 수정 완료. 선택 환경 전체 감사는 후속.
 - [ ] WO-03 onward: follow the prerequisites in WORK_ORDER.md; no real-data or paid calls claimed.
 
 ## Near-real-time audio slice
@@ -312,6 +312,24 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] 사용자 취소/동의 철회/파일 변경/화면 이탈 시 이전 분석 결과 차단.
 - [x] 시간 초과/모델 혼잡/슬로 업로드 회귀 검사: Python133개 및 Node3종 통과.
 - [x] 실제 Web Audio·HTTP 메모 API를 검사하는 Chromium CI 시나리오 작성(AST는 모의 응답).
-- [ ] 새 브라우저 CI 실행 결과 확인; 작성 완료를 실행 통과로 표시하지 않는다.
-- [ ] 최신 보호자 앱/메모/기획 변경의 별도 검토 PR 반영 및 원격 CI 확인.
+- [x] 새 브라우저 CI 실행 성공 확인: 41023899244 및 41024327752(AST 응답 모의).
+- [x] 최신 보호자 앱/메모/기획 변경의 별도 PR #3 반영 및 원격 CI 성공 확인.
 다음: 국내 PC 실제 모델E2E, 수집 데이터 검수 결과 수령, 운영 인증/비동기 작업 설계.
+
+## 원격 반영 및 공개 기준 평가 (2026-10-30 KST)
+- [x] 최신 보호자 앱/메모/계획 33개 변경을 PR #3으로 반영. https://github.com/coba8002-code/presense-ai/pull/3
+- [x] commit224f8d2의 backend/browser CI41023899244·41024327752 및 pretrained smoke41023899252 성공 확인.
+- [x] 실제 Chromium의 Web Audio 변환·브라우저 저장·실제 메모 API 검사 성공(AST 응답은 모의).
+- [x] 고정 revision ESC-10 부분집합 수집·원본/전처리 지문·400개 점수 재생 평가 도구 구현.
+- [x] AUROC/AP의 완전/역순/동점/순열/잘못된 입력 검사 및 로컬137개 테스트 통과.
+- [x] 공개 음향400개 실제 가중치 출력 검증41025543775 및 보정 점수 재생41032108181 성공.
+- [ ] 국내 PC/실제 휴대폰 E2E·별도 개체/가정 평가: 기존 미완료 유지.
+
+## 2026-10-30 최종 검증 기록
+- [x] 실행 코드5cc47e5의 backend/browser41032114505·41032108034 성공.
+- [x] 400개 공개 음성 재생 AUROC1.0/AP1.0 확인. 공개 사건 순위이며 개체/가정 행동 정확도가 아님.
+- [x] certifi2026.10.23으로 기본 서버 감사41032114483 성공(알려진 취약점 없음).
+- [x] 로컬138개·Node3종·컴파일·스킬 지문 검사 재실행 통과.
+- [ ] 선택 torch/transformers/browser 환경 전체 의존성 감사.
+- [ ] 실제 국내 PC/휴대폰/새 개체 평가와 로커리 데이터 검수 결과 수신.
+- [ ] PR #2→#3→#4 사람 검토 및 병합. 자동 병합/배포 없음.
