@@ -186,8 +186,8 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 ### P0 — 실제 평가 계약과 정답 파일 (최우선, M)
 - [x] standing/sitting/lying/walking/unknown, 고정 구간 평가 단위와 정확 매칭 규칙 v1 문서화. 모델 예측·지표 실행은 후속.
 - [x] 기존 권한 레지스트리·전역 개체/가정/세션·원본 SHA256·분할·검수/이중 검수·정답 잠금 JSON 계약과 가상 형식 예제 구현.
-- [ ] 전문가가 VLM 답변을 보기 전 정답을 작성하고 일부 이중 검수·불일치 기록을 남기게 한다.
-검증: tests/test_video_contract.py의 누출5종·시간/중첩·권한·블라인드·이중 검수·지문·비공개 CLI7개 및 전체153개 로컬 통과. evaluation/video_contract.py, docs/VIDEO_EVALUATION.md. 실제 전문가 정답/동영상/예측 성능은 별도 확보해야 한다. 해시 검사만 성공해도 evaluation_ready=false를 유지한다.
+- [ ] 모델 답을 보지 않은 독립 검수자가 관찰 정답을 작성하고 일부 이중 검수·불일치 기록을 남긴다. 전문가는 기준·모호한 사례·표본 검수에 활용하며 모든 항목에 새 전문가 주석을 요구하지 않는다.
+검증: tests/test_video_contract.py의 누출5종·시간/중첩·권한·블라인드·이중 검수·지문·비공개 CLI7개 및 전체153개 로컬 통과. evaluation/video_contract.py, docs/VIDEO_EVALUATION.md. 실제 독립 정답/동영상/예측 성능은 별도 확보해야 한다. 해시 검사만 성공해도 evaluation_ready=false를 유지한다.
 
 ### P1 — 검수 파일 작업 재개 (M)
 - [ ] 승인 JSON을 현재 후보와 대조해 불러오고 변경/누락/중복 항목을 보고한다.
@@ -202,7 +202,7 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 검증: MockTransport 계약/비용 게이트 + 승인된 실제 샘플 1건 E2E. 의존: P0, 실제 인증·비용 범위·허가된 자료. 예상 파일: backend/video_provider.py, evaluation/video_run.py, tests/test_video_provider.py, VIDEO_EVALUATION.md.
 
 ### P3 — 실제 성능·비용 보고 (M)
-- [ ] 전문가 정답과 예측을 비교해 행동별 성능·유보/coverage·시간 오차·실패 사례를 산출한다.
+- [ ] 독립 검수된 관찰 정답과 예측을 비교해 행동별 성능·유보/coverage·시간 오차·실패 사례를 산출한다. 전문 해석의 검증은 별도 범위다.
 - [ ] 개체/가정 단위 분리와 신뢰구간, 요청 비용 및 p50/p95를 함께 보고한다.
 - [ ] validation으로 정한 모델·임계값을 고정하고 최종 test를 개발용 반복 데이터로 쓰지 않는다.
 검증: 알려진 정답의 지표 테스트, 실제 결과 재생으로 동일 보고서 생성. 의존: P0/P2 및 실제 정답 데이터. 예상 파일: evaluation/video_metrics.py, evaluation/video_report.py, tests/test_video_metrics.py, docs/VIDEO_BASELINE_REPORT.md.

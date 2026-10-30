@@ -149,7 +149,7 @@ def validate_contract(document, registry, media_root=None, now=None):
         'adjudicated': sum(any(v.label != r.label for v in r.reviews) for r in contract.records),
         'unit': 'one target dog in a fixed half-open [start,end) reference window',
         'prediction_match': 'exact clip_id + source SHA256 + start/end; one prediction or explicit abstention per window',
-        'remaining': ['decode and frame/time alignment verification', 'independent expert and identity evidence review',
+        'remaining': ['decode and frame/time alignment verification', 'independent reference and identity evidence review',
             'model predictions bound to this locked contract', 'held-out metrics and uncertainty reporting']}
 
 
