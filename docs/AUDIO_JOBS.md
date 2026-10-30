@@ -10,7 +10,7 @@ python -m scripts.cache_audio_model --cache-dir data/model-cache
 python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
 python -m backend.job_worker --db data/private/notes.sqlite3 --watch
 ```
-HF_HOME은 준비한 캐시의 절대 경로로 설정한다. 마지막 명령은 별도 터미널/서비스에서 실행한다. --watch 없이 실행하면 최대 한 작업만 처리한다. 작업자를 띄우지 않아도 접수할 수 있지만 처리되지 않으며15분 후 만료된다. 서버/작업자 둘 다 멈춘 디스크를 자동 삭제하는 기능은 아니다. 운영 정리 타이머·모니터링·백업 삭제 검증은 별도다.
+HF_HOME은 준비한 캐시의 절대 경로로 설정한다. 마지막 명령은 별도 터미널/서비스에서 실행한다. --watch 없이 실행하면 최대 한 작업만 처리한다. 작업자를 띄우지 않아도 접수할 수 있지만 처리되지 않으며15분 후 만료된다. 서버/작업자 둘 다 멈춘 디스크를 자동 삭제하는 기능은 아니다. [독립 정리 CLI](PRIVACY_MAINTENANCE.md)를 별도로 실행할 수 있으며 실제 PC 서비스 등록·모니터링·백업 삭제 검증은 별도다.
 큐 활성화 중에는 /v1/audio/events 직접 AST 추론을503으로 막아 같은 서버 모드에서 병렬 모델 경로가 생기지 않게 한다. 기본false에서는 기존 요청별 직접 분석을 유지한다. /v1/audio/chunks의 작은 기존 실시간 경로와 큐를 모델 성능으로 혼동하지 않는다.
 
 ## 사용자 흐름과 명시적 동의
