@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "locked_at": 1000,
+  "records": [
+    {
+      "clip_id": "example-window-0",
+      "dataset": "synthetic-contract-example",
+      "species": "dog",
+      "animal_id": "global-example-dog-0",
+      "household_id": "global-example-household-0",
+      "session_id": "global-example-session-0",
+      "source_id": "example-source-0",
+      "subject_reference": "Synthetic target dog; no actual footage exists",
+      "path": "media/example-0.mp4",
+      "sha256": "4b805b077949a141089686d35b41b7d1477eab03fd0993b07a046fb71a09fba6",
+      "split": "train",
+      "duration_seconds": 10.0,
+      "start_seconds": 0.0,
+      "end_seconds": 1.0,
+      "label": "standing",
+      "unknown_reason": null,
+      "reviews": [
+        {
+          "reviewer": "synthetic-reviewer-a",
+          "label": "standing",
+          "reviewed_at": 900,
+          "evidence": "Synthetic schema fixture; not a real expert review",
+          "model_output_seen": false
+        },
+        {
+          "reviewer": "synthetic-reviewer-b",
+          "label": "standing",
+          "reviewed_at": 900,
+          "evidence": "Synthetic schema fixture; not a real expert review",
+          "model_output_seen": false
+        }
+      ],
+      "adjudication": null
+    },
+    {
+      "clip_id": "example-window-1",
+      "dataset": "synthetic-contract-example",
+      "species": "dog",
+      "animal_id": "global-example-dog-1",
+      "household_id": "global-example-household-1",
+      "session_id": "global-example-session-1",
+      "source_id": "example-source-1",
+      "subject_reference": "Synthetic target dog; no actual footage exists",
+      "path": "media/example-1.mp4",
+      "sha256": "43fbdd389caa9268802a7b708aeec2625434b471fcd6fae43beec76d02b16260",
+      "split": "train",
+      "duration_seconds": 10.0,
+      "start_seconds": 0.0,
+      "end_seconds": 1.0,
+      "label": "sitting",
+      "unknown_reason": null,
+      "reviews": [
+        {
+          "reviewer": "synthetic-reviewer-a",
+          "label": "sitting",
+          "reviewed_at": 900,
+          "evidence": "Synthetic schema fixture; not a real expert review",
+          "model_output_seen": false
+        },
+        {
+          "reviewer": "synthetic-reviewer-b",
+          "label": "standing",
+          "reviewed_at": 900,
+          "evidence": "Synthetic schema fixture; not a real expert review",
+          "model_output_seen": false
+        }
+      ],
+      "adjudication": "Synthetic disagreement resolved to sitting; not real expert evidence"
+    },
+    {
+      "clip_id": "example-window-2",
+      "dataset": "synthetic-contract-example",
+      "species": "dog",
+      "animal_id": "global-example-dog-2",
+      "household_id": "global-example-household-2",
+      "session_id": "global-example-session-2",
+      "source_id": "example-source-2",
+      "subject_reference": "Synthetic target dog; no actual footage exists",
+      "path": "media/example-2.mp4",
+      "sha256": "1e75e1b6bb7ab2a45aad9dbaccd5ec605e86628a7c81a7d6222a9de19f9dba0b",
+      "split": "train",
+      "duration_seconds": 10.0,
+      "start_seconds": 0.0,
+      "end_seconds": 1.0,
+      "label": "lying",
+      "unknown_reason": null,
+      "reviews": [
+        {
+          "reviewer": "synthetic-reviewer-a",
+          "label": "lying",
+          "reviewed_at": 900,
+          "evidence": "Synthetic schema fixture; not a real expert review",
+          "model_output_seen": false
+        }
+      ],
+      "adjudication": null
+    },
+    {
+      "clip_id": "example-window-3",
+      "dataset": "synthetic-contract-example",
+      "species": "dog",
+      "animal_id": "global-example-dog-3",
+      "household_id": "global-example-household-3",
+      "session_id": "global-example-session-3",
+      "source_id": "example-source-3",
+      "subject_reference": "Synthetic target dog; no actual footage exists",
+      "path": "media/example-3.mp4",
+      "sha256": "171439239eb79e858c47880be378bad66cb3855e36bd9b79b36a26e73012b93a",
+      "split": "validation",
+      "duration_seconds": 10.0,
+      "start_seconds": 0.0,
+      "end_seconds": 1.0,
+      "label": "walking",
+      "unknown_reason": null,
+      "reviews": [
+        {
+          "reviewer": "synthetic-reviewer-a",
+          "label": "walking",
+          "reviewed_at": 900,
+          "evidence": "Synthetic schema fixture; not a real expert review",
+          "model_output_seen": false
+        }
+      ],
+      "adjudication": null
+    },
+    {
+      "clip_id": "example-window-4",
+      "dataset": "synthetic-contract-example",
+      "species": "dog",
+      "animal_id": "global-example-dog-4",
+      "household_id": "global-example-household-4",
+      "session_id": "global-example-session-4",
+      "source_id": "example-source-4",
+      "subject_reference": "Synthetic target dog; no actual footage exists",
+      "path": "media/example-4.mp4",
+      "sha256": "6edc66919788b7447bfcfd602ce769fc39041d678757c07e1c19af4bd3f842e3",
+      "split": "test",
+      "duration_seconds": 10.0,
+      "start_seconds": 0.0,
+      "end_seconds": 1.0,
+      "label": "unknown",
+      "unknown_reason": "occluded",
+      "reviews": [
+        {
+          "reviewer": "synthetic-reviewer-a",
+          "label": "unknown",
+          "reviewed_at": 900,
+          "evidence": "Synthetic schema fixture; not a real expert review",
+          "model_output_seen": false
+        }
+      ],
+      "adjudication": null
+    }
+  ]
+}

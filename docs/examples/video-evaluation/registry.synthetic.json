@@ -1,0 +1,16 @@
+{
+  "synthetic-contract-example": {
+    "status": "approved",
+    "training_allowed": true,
+    "commercial_allowed": true,
+    "media_acquisition_allowed": true,
+    "source": "synthetic://format-only-no-media",
+    "version": "1",
+    "license": "Author-created synthetic metadata only",
+    "rights_evidence": "No external footage or real animal annotations in this example",
+    "consent": "No personal data or real media",
+    "reviewer": "synthetic-format-fixture",
+    "reviewed_at": "1970-01-01",
+    "synthetic": true
+  }
+}

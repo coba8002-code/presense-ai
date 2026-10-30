@@ -43,6 +43,7 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 인수: 기기/OS/모델 revision·샘플 해시·지연·실패 증거 기록. 실제 AST 실행41051446917, 모의 오류/복구41051446920. ast-browser.json은 합성 입력 해시·모델 revision·단일 실행 소요시간을 담는다. 국내 PC/실기기 연결 없음; 통신망/기기 신뢰성이나 지연 분포를 증명한 것은 아니다.
 
 ### EXEC-05 데이터와 모델 평가 — 병행 준비 / 외부 연결 대기
+- [x] 고정 영상 평가 계약·가상 예제·전역 개체/가정/세션/원본/내용 분할 검사와 검수/잠금 CLI 구현. 실제 정답/성능과 구분.
 - [ ] 국내 PC AI-Hub59/71878 원본 수령·개 부분·라벨/개체/가정/세션 스키마 검사.
 - [x] ESC-10 실제 AST400개 순위 평가 및 저장 결과 재생. AUROC/AP1.0; 개체 분리 검증이나 서비스 임계값의 오탐 성능으로 해석하지 않음.
 - [ ] AP-10K 자세 추정 기준선, 실제 가정 외부 평가셋 구축.
@@ -183,10 +184,10 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 설계 근거: [DOG_MVP_ARCHITECTURE.md](../docs/DOG_MVP_ARCHITECTURE.md). 기존 미완료 항목을 삭제하지 않고 아래 순서로 재정렬한다. 문서의 수치·인프라·API는 제안이며 아직 구현된 동작이 아니다.
 
 ### P0 — 실제 평가 계약과 정답 파일 (최우선, M)
-- [ ] standing/sitting/lying/walking, unknown/유보, 평가 단위와 구간 매칭 규칙을 고정한다.
-- [ ] 원본 권한·개체/가정/세션·분할·전문가 라벨의 JSON 계약과 소규모 합성 형식 예제를 만든다.
+- [x] standing/sitting/lying/walking/unknown, 고정 구간 평가 단위와 정확 매칭 규칙 v1 문서화. 모델 예측·지표 실행은 후속.
+- [x] 기존 권한 레지스트리·전역 개체/가정/세션·원본 SHA256·분할·검수/이중 검수·정답 잠금 JSON 계약과 가상 형식 예제 구현.
 - [ ] 전문가가 VLM 답변을 보기 전 정답을 작성하고 일부 이중 검수·불일치 기록을 남기게 한다.
-검증: 평가 계약 입력의 경계/분할 테스트와 검수 가능한 예제. 의존: 없음. 예상 파일: evaluation/video_contract.py, tests/test_video_contract.py, docs/VIDEO_EVALUATION.md. 실제 샘플은 별도 확보해야 한다.
+검증: tests/test_video_contract.py의 누출5종·시간/중첩·권한·블라인드·이중 검수·지문·비공개 CLI7개 및 전체153개 로컬 통과. evaluation/video_contract.py, docs/VIDEO_EVALUATION.md. 실제 전문가 정답/동영상/예측 성능은 별도 확보해야 한다. 해시 검사만 성공해도 evaluation_ready=false를 유지한다.
 
 ### P1 — 검수 파일 작업 재개 (M)
 - [ ] 승인 JSON을 현재 후보와 대조해 불러오고 변경/누락/중복 항목을 보고한다.
