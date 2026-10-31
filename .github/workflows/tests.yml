@@ -34,6 +34,7 @@ jobs:
       - run: node tests/test_web_session.cjs
       - run: node tests/test_case_guide.cjs
       - run: node tests/test_journal_ui.cjs
+      - run: node tests/test_consultation_report.cjs
   browser:
     runs-on: ubuntu-latest
     timeout-minutes: 10

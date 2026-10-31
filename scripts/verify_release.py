@@ -17,6 +17,7 @@ CHECKS=[('python',[sys.executable,'-m','unittest','discover','-s','tests','-q'])
         ('web-session',['node','tests/test_web_session.cjs']),
         ('case-guide',['node','tests/test_case_guide.cjs']),
         ('journal-ui',['node','tests/test_journal_ui.cjs']),
+        ('consultation-report',['node','tests/test_consultation_report.cjs']),
         ('compile',[sys.executable,'-m','compileall','-q','backend','training','evaluation','knowledge','scripts','local_pc']),
         ('pinned-skills',[sys.executable,'scripts/verify_skills.py'])]
 

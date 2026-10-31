@@ -11,7 +11,7 @@ HEADERS = {'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
 
 def asset(name):
     files = {'': ('index.html', 'text/html'), 'case.js': ('case.js', 'text/javascript'),
-        'guide.js': ('guide.js', 'text/javascript'), 'care.js':('care.js','text/javascript'), 'journal.js':('journal.js','text/javascript'), 'journal-core.js':('journal-core.js','text/javascript'), 'guide.css': ('guide.css', 'text/css')}
+        'guide.js': ('guide.js', 'text/javascript'), 'care.js':('care.js','text/javascript'), 'report-core.js':('report-core.js','text/javascript'), 'report.js':('report.js','text/javascript'), 'journal.js':('journal.js','text/javascript'), 'journal-core.js':('journal-core.js','text/javascript'), 'guide.css': ('guide.css', 'text/css')}
     if name not in files:
         raise HTTPException(404, 'Not found')
     filename, mime = files[name]

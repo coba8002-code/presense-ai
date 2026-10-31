@@ -62,11 +62,11 @@
    if(new Date(data.observed_at)<new Date(selected.data.observed_at)){say(t.tooEarly);return;}
    const body=JSON.stringify(data);if(!pending||pending.body!==body||pending.id!==id)pending={body,id,key:crypto.randomUUID()};
    await api('/'+encodeURIComponent(id)+'/followups',{method:'POST',headers:{'Content-Type':'application/json','X-Journal-Consent':'journal-storage-v1','Idempotency-Key':pending.key},body});
-   await load(api,profile);await detail(api,id);say(t.added);
+   window.dispatchEvent(new Event('petsense-journal-mutated'));await load(api,profile);await detail(api,id);say(t.added);
   });
  };
  el('journal-export').onclick=()=>{if(selected)guide.download({version:1,exported_at:new Date().toISOString(),display_timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,case:selected},'petsense-journal-case.json');};
- el('journal-delete').onclick=()=>{if(!selected||!confirm(t.confirmDelete))return;return action(async(api,profile)=>{await api('/'+encodeURIComponent(selected.id),{method:'DELETE',headers:{'X-Delete-Confirm':'delete-case'}});clearDetail();await load(api,profile);say(t.removed);});};
+ el('journal-delete').onclick=()=>{if(!selected||!confirm(t.confirmDelete))return;return action(async(api,profile)=>{await api('/'+encodeURIComponent(selected.id),{method:'DELETE',headers:{'X-Delete-Confirm':'delete-case'}});window.dispatchEvent(new Event('petsense-journal-mutated'));clearDetail();await load(api,profile);say(t.removed);});};
  window.addEventListener('petsense-guide-change',reset);
  window.addEventListener('petsense-case-saved',event=>action(async(api,profile)=>{await load(api,profile);await detail(api,event.detail.id);}));
  window.addEventListener('pagehide',reset);guide.ready.then(controls);controls();
