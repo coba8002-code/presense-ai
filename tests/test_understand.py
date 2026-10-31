@@ -8,7 +8,7 @@ class UnderstandRoutesTests(unittest.TestCase):
     def test_public_bilingual_assets_are_bounded_and_do_not_enable_devices(self):
         async def run():
             async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='https://test') as client:
-                for path, content_type in [('/understand','text/html'),('/understand/case.js','text/javascript'),('/understand/guide.js','text/javascript'),('/understand/guide.css','text/css')]:
+                for path, content_type in [('/understand','text/html'),('/understand/case.js','text/javascript'),('/understand/guide.js','text/javascript'),('/understand/guide.css','text/css'),('/understand/journal-core.js','text/javascript'),('/understand/journal.js','text/javascript')]:
                     response=await client.get(path)
                     self.assertEqual(response.status_code,200)
                     self.assertIn(content_type,response.headers['content-type'])
