@@ -10,6 +10,10 @@ def journal_flow(page,base,pet_id,screenshots=None):
     expect(page.locator('#guide-status')).to_contain_text('Case saved to your journal')
     expect(page.locator('#journal-detail')).to_be_visible()
     assert page.locator('#journal-context img').count()==0
+    expect(page.locator('#journal-summary')).to_contain_text('Case records: 1')
+    expect(page.locator('#journal-summary')).to_contain_text('Cases without a followup: 1')
+    page.locator('#journal-window').select_option('30')
+    expect(page.locator('#journal-window')).to_be_enabled()
     page.locator('#follow-action').select_option('give_space')
     page.locator('#follow-what').fill('<b>Gave space</b>')
     page.locator('#follow-outcome').select_option('unknown')
@@ -17,6 +21,7 @@ def journal_flow(page,base,pet_id,screenshots=None):
     page.locator('#follow-consent').check();page.locator('#follow-save').click()
     expect(page.locator('#followup-list article')).to_have_count(1)
     assert page.locator('#followup-list b').count()==0
+    expect(page.locator('#journal-summary')).to_contain_text('Cases without a followup: 0')
     with page.expect_download() as observed:page.locator('#journal-export').click()
     exported=json.loads(Path(observed.value.path()).read_text())
     case=exported['case'];case_id=case['id']
@@ -32,6 +37,7 @@ def journal_flow(page,base,pet_id,screenshots=None):
     expect(page.locator('#guide-profile option')).to_have_count(2)
     page.locator('#guide-profile').select_option(pet_id);page.locator('#journal-load').click()
     expect(page.locator('#journal-list article')).to_have_count(1)
+    expect(page.locator('#journal-summary')).to_contain_text('상황 기록: 1')
     page.locator('#journal-list button').click()
     expect(page.locator('#followup-list article')).to_have_count(1)
     if screenshots:
