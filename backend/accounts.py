@@ -15,7 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 router=APIRouter()
 RETENTION=30*86400
-SCHEMA_VERSION=5
+SCHEMA_VERSION=6
 
 class Note(BaseModel):
     model_config=ConfigDict(extra='forbid',strict=True)
@@ -50,6 +50,8 @@ class Store:
                 db.execute('CREATE TABLE IF NOT EXISTS auth_leases(id TEXT PRIMARY KEY,expires REAL NOT NULL)')
                 from backend.journal_schema import create_tables
                 create_tables(db)
+                from backend.care_schema import create_tables as create_care_tables
+                create_care_tables(db)
                 db.execute('PRAGMA user_version='+str(SCHEMA_VERSION))
         if os.name=='posix':os.chmod(self.path,0o600)
     @contextmanager
@@ -68,6 +70,8 @@ class Store:
         now=self.clock()
         from backend.journal_schema import purge
         purge(db,now)
+        from backend.care_schema import purge as purge_care
+        purge_care(db,now)
         db.execute('DELETE FROM auth_limits WHERE window<?',(now-86400,))
         db.execute('DELETE FROM auth_leases WHERE expires<=?',(now,))
         db.execute('DELETE FROM audio_jobs WHERE expires<=? OR pet_id IN (SELECT id FROM pets WHERE expires<=?)',(now,now))
@@ -111,6 +115,7 @@ class Store:
             db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._pet(db,owner,pet_id)
             from backend.journal_schema import delete_pet
             delete_pet(db,owner,pet_id)
+            db.execute('DELETE FROM care_shares WHERE owner=? AND pet_id=?',(owner,pet_id))
             db.execute('DELETE FROM notes WHERE owner=? AND pet_id=?',(owner,pet_id))
             db.execute('DELETE FROM audio_jobs WHERE owner=? AND pet_id=?',(owner,pet_id))
             db.execute('DELETE FROM pets WHERE owner=? AND id=?',(owner,pet_id))
@@ -152,6 +157,7 @@ class Store:
     def _erase_owner(self,db,owner):
         row=db.execute('SELECT email FROM members WHERE owner=?',(owner,)).fetchone()
         if row:db.execute('DELETE FROM auth_limits WHERE bucket=?',('identity:'+hashlib.sha256(row[0].encode()).hexdigest(),))
+        db.execute('DELETE FROM care_shares WHERE owner=? OR recipient=?',(owner,owner))
         for table in ('journal_followups','journal_cases','notes','pets','audio_jobs','audio_usage','sessions','members'):
             db.execute('DELETE FROM '+table+' WHERE owner=?',(owner,))
 
