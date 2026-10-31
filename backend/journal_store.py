@@ -18,6 +18,19 @@ def fingerprint(data,key):
 
 
 class JournalStore(Store):
+    def summary(self,token,pet_id,days=7):
+        if type(days) is not int or days not in (7,30):raise ValueError('Invalid summary window')
+        with self.connect() as db:
+            owner=self._begin(db,token);self._pet(db,owner,pet_id)
+            end=self.clock();start=end-days*86400
+            rows=db.execute('SELECT c.payload,(SELECT count(*) FROM journal_followups f WHERE f.owner=c.owner AND f.case_id=c.id AND f.observed<=?) AS followups FROM journal_cases c WHERE c.owner=? AND c.pet_id=? AND c.expires>? AND c.observed>=? AND c.observed<=?',(end,owner,pet_id,end,start,end)).fetchall()
+            counts={};with_followup=0;followups=0
+            for row in rows:
+                behavior=json.loads(row['payload'])['behavior']
+                counts[behavior]=counts.get(behavior,0)+1
+                with_followup+=int(row['followups']>0);followups+=row['followups']
+            return {'kind':'guardian_record_summary','model_analysis':False,'training_approved':False,'days':days,'start':start,'end':end,'case_count':len(rows),'behavior_counts':counts,'cases_with_followup':with_followup,'cases_without_followup':len(rows)-with_followup,'followup_count':followups}
+
     @staticmethod
     def view(row):
         result={key:row[key] for key in ['id','pet_id','pet_name','created','expires','consent_version']}

@@ -163,6 +163,13 @@ class JournalApiTests(unittest.TestCase):
                     response=await client.post('/v1/me/journal',headers=headers,json=data)
                     self.assertEqual(response.status_code,201,response.text);self.assertEqual(response.headers['cache-control'],'no-store')
                     item=response.json();self.assertFalse(item['training_approved'])
+                    summary_url='/v1/me/journal/summary?pet_id='+pet['id']
+                    summary=await client.get(summary_url,headers=headers)
+                    self.assertEqual(summary.status_code,200)
+                    self.assertEqual(summary.json()['case_count'],1)
+                    self.assertEqual(summary.headers['cache-control'],'no-store')
+                    self.assertEqual((await client.get(summary_url)).status_code,401)
+                    self.assertEqual((await client.get(summary_url+'&days=8',headers=headers)).status_code,422)
                     detail=await client.get('/v1/me/journal/'+item['id'],headers=headers)
                     self.assertEqual(detail.status_code,200)
                     self.assertEqual((await client.delete('/v1/me/journal/'+item['id'],headers=headers)).status_code,400)

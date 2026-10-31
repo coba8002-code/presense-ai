@@ -7,13 +7,14 @@
  function text(tag,value,parent){const node=document.createElement(tag);node.textContent=value;parent.append(node);return node;}
  function say(value){el('journal-status').textContent=value;}
  function controls(){
+  el('journal-window').disabled=Boolean(active)||!guide.identity()||!guide.selectedId();
   for(const id of buttons)el(id).disabled=Boolean(active)||!guide.identity()||!guide.selectedId();
   for(const id of ['journal-export','journal-delete','follow-save'])el(id).disabled=Boolean(active)||!selected;
   for(const field of el('followup-form').querySelectorAll('input,select,textarea,button'))field.disabled=Boolean(active)||!selected;
   el('journal-next').hidden=next===null;
  }
  function clearDetail(){selected=null;pending=null;el('journal-detail').hidden=true;el('journal-context').replaceChildren();el('followup-list').replaceChildren();el('followup-form').reset();}
- function reset(){epoch++;active?.abort();active=null;next=null;clearDetail();el('journal-list').replaceChildren();say('');controls();}
+ function reset(){epoch++;active?.abort();active=null;next=null;clearDetail();el('journal-summary').replaceChildren();el('journal-list').replaceChildren();say('');controls();}
  async function action(fn){
   if(active)return;if(!guide.identity()||!guide.selectedId()){say(t.needProfile);return;}
   const mine=epoch,identity=guide.identity(),profile=guide.selectedId(),controller=new AbortController();active=controller;controls();
@@ -21,7 +22,15 @@
   async function api(path='',options={}){if(!current())throw new Error();const data=await guide.api('/v1/me/journal'+path,{...options,signal:controller.signal});if(!current())throw new Error();return data;}
   try{await fn(api,profile);}catch(error){if(current())say(t.error);}finally{if(active===controller){active=null;controls();}}
  }
+ async function summary(api,profile){
+  const container=el('journal-summary');container.replaceChildren();
+  const report=await api('/summary?pet_id='+encodeURIComponent(profile)+'&days='+el('journal-window').value);
+  text('p',date(report.start)+' — '+date(report.end),container);
+  text('p',t.recordTotal+': '+report.case_count+' · '+t.missing+': '+report.cases_without_followup+' · '+t.followCount+': '+report.followup_count,container);
+  for(const [behavior,count] of Object.entries(report.behavior_counts))text('p',(c[behavior]||behavior)+': '+count,container);
+ }
  async function load(api,profile,offset=0){
+  await summary(api,profile);
   const data=await api('?pet_id='+encodeURIComponent(profile)+'&offset='+offset);el('journal-list').replaceChildren();next=data.next_offset;
   for(const row of data.items){
    const article=text('article','',el('journal-list'));article.className='journal-entry';
@@ -43,6 +52,7 @@
   for(const follow of row.followups){const item=text('article','',el('followup-list'));item.className='journal-entry';text('strong',date(follow.data.observed_at)+' · '+t[follow.data.action],item);text('p',follow.data.what_done,item);text('p',t[follow.data.outcome],item);text('p',follow.data.note,item);}
   controls();
  }
+ el('journal-window').onchange=()=>action((api,profile)=>summary(api,profile));
  el('journal-load').onclick=()=>action(async(api,profile)=>{clearDetail();await load(api,profile);});
  el('journal-next').onclick=()=>action(async(api,profile)=>{clearDetail();await load(api,profile,next??0);});
  el('followup-form').onsubmit=event=>{

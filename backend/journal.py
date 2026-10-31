@@ -89,6 +89,12 @@ async def listing(request:Request,pet_id:str|None=None,offset:int=0):
     return operation(store.list_cases,token,pet_id,offset)
 
 
+@router.get('/v1/me/journal/summary')
+async def summary(request:Request,pet_id:str,days:int=7):
+    store,token=account(request)
+    return operation(store.summary,token,pet_id,days)
+
+
 @router.get('/v1/me/journal/{case_id}')
 async def detail(case_id:str,request:Request):
     store,token=account(request)
