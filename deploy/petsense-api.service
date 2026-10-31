@@ -1,0 +1,23 @@
+[Unit]
+Description=PetSense limited beta API
+After=network.target
+
+[Service]
+User=petsense
+Group=petsense
+WorkingDirectory=/opt/petsense/current
+EnvironmentFile=/etc/petsense/beta.env
+ExecStart=/opt/petsense/venv/bin/python -m scripts.serve_beta
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/petsense/private
+MemoryMax=1G
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

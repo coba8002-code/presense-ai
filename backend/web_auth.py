@@ -111,7 +111,10 @@ async def config(request:Request):
     config=settings()
     if config is None:return {'enabled':False}
     transport(request,config)
-    return {'enabled':True,**config,'email_verified':False,'recovery_method':'one_time_offline_code',
+    from backend.signup_policy import policy
+    try:signup_mode,_=policy(os.environ)
+    except ValueError:raise HTTPException(503,'Enrollment configuration unavailable') from None
+    return {'enabled':True,**config,'signup_mode':signup_mode,'email_verified':False,'recovery_method':'one_time_offline_code',
         'audio_jobs_enabled':os.getenv('PETSENSE_ENABLE_AST_JOBS','false').lower()=='true'}
 
 @router.post('/v1/auth/signup')
@@ -119,6 +122,10 @@ async def signup(request:Request):
     config=configured(request,True);data=await payload(request,Signup)
     if not data.accept_terms or not data.accept_privacy:raise HTTPException(403,'Terms and privacy consent required')
     if data.terms_version!=config['terms_version'] or data.privacy_version!=config['privacy_version']:raise HTTPException(409,'Policy version changed; reload before consenting')
+    from backend.signup_policy import permitted
+    try:allowed=permitted(os.environ,data.email)
+    except ValueError:raise HTTPException(503,'Enrollment configuration unavailable') from None
+    if not allowed:raise HTTPException(403,'Registration is not available for this beta')
     db=store()
     try:member=await password_action(db,request,data.email,'signup',lambda:db.register(data.email,data.password,config['terms_version'],config['privacy_version']))
     except ValueError:raise HTTPException(409,'Account registration unavailable; check existing login') from None

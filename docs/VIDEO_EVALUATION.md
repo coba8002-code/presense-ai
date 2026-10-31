@@ -47,3 +47,7 @@ P2/P3 후속: 모델/프롬프트/설정/시간/비용/정답 지문을 묶은 �
 
 ## 완료 증거와 남은 조건
 분할 누출5종·시간/중첩·잘못된 종·권한/합성 혼합·블라인드/시각/이중 검수·실파일 지문 변경·요약 CLI 비공개 로그를 회귀 검사한다. 이 구현은 형식 계약 단계다. 실제 정답 수집, 독립 이중 검수, 디코딩/정렬, 예측 실행과 독립 지표는 아직 완료하지 않았다.
+
+## 예측 채점 도구 추가
+`python -m evaluation.video_predictions --manifest <locked.json> --registry <registry.json> --predictions <predictions.json> --output <new-output.json>`
+예측은 contract_sha256,synthetic,split(validation/test),model,revision,records를 포함한다. 각 record는 clip_id,sha256,start_seconds,end_seconds,label(standing/sitting/lying/walking 또는 null),선택 latency_seconds다. 누락은 유보로 계산하고 split 밖/중복/잘못된 SHA·시간창은 거절한다. 정책 지문도 출력한다. 네 행동의 혼동행렬/F1과 unknown 유보율을 분리한다. 제공된 예측의 채점이며 실제 원본 디코딩·블라인드 검수·모델 실행이나 개체 신뢰구간을 검증하지 않는다. 현재 실자료 정확도는 미확인이다.
