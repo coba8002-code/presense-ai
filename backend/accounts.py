@@ -15,7 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 router=APIRouter()
 RETENTION=30*86400
-SCHEMA_VERSION=6
+SCHEMA_VERSION=7
 
 class Note(BaseModel):
     model_config=ConfigDict(extra='forbid',strict=True)
@@ -52,6 +52,8 @@ class Store:
                 create_tables(db)
                 from backend.care_schema import create_tables as create_care_tables
                 create_care_tables(db)
+                from backend.plan_schema import create_tables as create_plan_tables
+                create_plan_tables(db)
                 db.execute('PRAGMA user_version='+str(SCHEMA_VERSION))
         if os.name=='posix':os.chmod(self.path,0o600)
     @contextmanager
@@ -70,6 +72,8 @@ class Store:
         now=self.clock()
         from backend.journal_schema import purge
         purge(db,now)
+        from backend.plan_schema import purge as purge_plans
+        purge_plans(db,now)
         from backend.care_schema import purge as purge_care
         purge_care(db,now)
         db.execute('DELETE FROM auth_limits WHERE window<?',(now-86400,))
@@ -158,7 +162,7 @@ class Store:
         row=db.execute('SELECT email FROM members WHERE owner=?',(owner,)).fetchone()
         if row:db.execute('DELETE FROM auth_limits WHERE bucket=?',('identity:'+hashlib.sha256(row[0].encode()).hexdigest(),))
         db.execute('DELETE FROM care_shares WHERE owner=? OR recipient=?',(owner,owner))
-        for table in ('journal_followups','journal_cases','notes','pets','audio_jobs','audio_usage','sessions','members'):
+        for table in ('care_plans','journal_followups','journal_cases','notes','pets','audio_jobs','audio_usage','sessions','members'):
             db.execute('DELETE FROM '+table+' WHERE owner=?',(owner,))
 
 def access(request):
