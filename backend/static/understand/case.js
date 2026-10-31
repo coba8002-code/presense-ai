@@ -12,7 +12,7 @@
   const clean=key=>input[key].replace(/[\r\n\t]/g,' ').trim()||'—';
   const note=[t.reportSource,t.noteBehavior+': '+t[input.behavior],t.noteBefore+': '+clean('before'),t.noteDuring+': '+clean('during'),t.noteAfter+': '+clean('after'),t.noteDuration+': '+t[input.duration],t.noteChange+': '+t[input.change],t.noteDogs+': '+t[input.dogs],...(input.health?[t.noteHealth]:[])].join('\n');
   if(Array.from(note).length>500)throw new Error('Context note too long');
-  return {version:1,kind:'guardian_report',model_analysis:false,language,note,health_concern:input.health};
+  return {version:1,kind:'guardian_report',model_analysis:false,language,note,health_concern:input.health,observations:{...input}};
  }
  const api={copy,report};if(typeof module!=='undefined'&&module.exports)module.exports=api;else globalThis.PetSenseCase=api;
 })();

@@ -24,6 +24,7 @@ from playwright.sync_api import sync_playwright, expect
 from backend.accounts import Store
 from scripts.job_browser_smoke import MOCK_WORKER, stop
 from training.pretrained_audio import MODEL, REVISION
+from scripts.journal_browser_flow import journal_flow
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -64,6 +65,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--real-ast', action='store_true')
     parser.add_argument('--output', type=Path)
+    parser.add_argument('--journal-output-dir',type=Path)
     args = parser.parse_args()
     if args.output and args.output.exists():
         raise FileExistsError('Use fresh evidence output')
@@ -167,9 +169,7 @@ def main():
                     assert page.locator('#case-note img').count() == 0
                     expect(page.locator('#guide-profile option')).to_have_count(2)
                     page.locator('#guide-profile').select_option(pet_id)
-                    page.locator('#storage-consent').check()
-                    page.locator('#save-case').click()
-                    expect(page.locator('#guide-status')).to_contain_text('Saved to your server notes')
+                    journal_flow(page,base,pet_id,args.journal_output_dir)
                     page.goto(base + '/app')
                     expect(page.locator('#web-logout')).to_be_visible()
                     page.locator('#web-logout').click()
@@ -180,9 +180,9 @@ def main():
                         expect(page.locator(selector)).to_have_count(0)
                     login(page, base, email, password)
                     page.locator('#profile-load').click()
-                    expect(page.locator('#profile-list article')).to_have_count(1)
+                    expect(page.locator('#profile-list article')).to_have_count(2)
                     page.locator('#notes-load').click()
-                    expect(page.locator('#notes-list article')).to_have_count(2)
+                    expect(page.locator('#notes-list article')).to_have_count(1)
                     page.locator('#jobs-refresh').click()
                     expect(page.locator('#jobs-list strong')).to_contain_text('완료')
                     page.locator('#web-logout').click()
@@ -200,7 +200,7 @@ def main():
                     page.locator('#form-delete button').click()
                     expect(page.locator('#auth-status')).to_contain_text('삭제했습니다')
                     with store.connect() as conn:
-                        for table in ['members', 'sessions', 'pets', 'notes', 'audio_jobs', 'audio_usage']:
+                        for table in ['members', 'sessions', 'pets', 'notes', 'audio_jobs', 'audio_usage', 'journal_cases', 'journal_followups']:
                             assert conn.execute('SELECT count(*) FROM ' + table).fetchone()[0] == 0
                     storage = page.evaluate('JSON.stringify([localStorage,sessionStorage])')
                     assert all(value not in storage for value in [password, new_password, recovery, email, cookies[0]['value']])
@@ -211,7 +211,8 @@ def main():
                         with args.output.open('x') as out:
                             json.dump({'synthetic_input': True, 'real_ast': args.real_ast,
                                 'https_signup_login_recovery_deletion': True, 'cookie_flags_verified': True,
-                                'javascript_session_header_absent': True, 'account_data_erased': True,
+                                'javascript_session_header_absent': True,
+                                'journal_followup_export_delete_and_stale_profile_response':True, 'account_data_erased': True,
                                 'model': result.get('model'), 'revision': result.get('revision'),
                                 'input_sha256': result.get('input_sha256'), 'queue_result_seconds': seconds,
                                 'physical_device': False, 'scope': 'One synthetic HTTPS Chromium run; not email verification, dog behavior accuracy or production security audit.'}, out, indent=2)

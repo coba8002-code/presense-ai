@@ -12,7 +12,7 @@
   pets.forEach((pet,index)=>option(pet.id,pet.name+' · 등록 '+(index+1)));
   if(pets.some(p=>p.id===selected))el('profile-select').value=selected;
   el('profile-list').replaceChildren();
-  for(const pet of pets){const row=document.createElement('article');row.className='record';const label=document.createElement('strong');label.textContent=pet.name;row.append(label);const button=document.createElement('button');button.textContent='프로필·연결 메모 삭제';button.className='secondary';button.onclick=()=>{if(active||!confirm('이 프로필과 연결된 서버 메모·분석 작업을 삭제할까요? 이름만 저장한 메모와 브라우저 기록은 남습니다.'))return;return action(async api=>{await api('/'+encodeURIComponent(pet.id),'DELETE');globalThis.PetSenseJobs?.reset();await load(api);el('profile-status').textContent='프로필과 연결 메모·분석 작업을 삭제했습니다.';});};row.append(button);el('profile-list').append(row);}
+  for(const pet of pets){const row=document.createElement('article');row.className='record';const label=document.createElement('strong');label.textContent=pet.name;row.append(label);const expiry=document.createElement('p');expiry.textContent='보관 만료 '+new Date(pet.expires*1000).toLocaleDateString();row.append(expiry);const button=document.createElement('button');button.textContent='프로필·연결 메모 삭제';button.className='secondary';button.onclick=()=>{if(active||!confirm('이 프로필과 연결된 서버 메모·분석 작업·일지/후속 기록을 삭제할까요? 이름만 저장한 메모와 브라우저 기록은 남습니다.'))return;return action(async api=>{await api('/'+encodeURIComponent(pet.id),'DELETE');globalThis.PetSenseJobs?.reset();await load(api);el('profile-status').textContent='프로필과 연결 메모·분석 작업·일지/후속 기록을 삭제했습니다.';});};row.append(button);el('profile-list').append(row);}
  }
  function reset(){epoch++;if(active)active.abort();active=null;pets=[];binding='';busy(false);el('profile-select').value='';render();el('profile-name').value='';el('profile-status').textContent='';}
  async function action(fn){
@@ -30,7 +30,7 @@
   try{await fn(api,session);}catch(error){if(current())el('profile-status').textContent=error.message;}
   finally{if(active===controller){active=null;busy(false);}}
  }
- async function load(api){const data=await api();pets=data.items;binding=identity();render();el('profile-status').textContent='반려견 프로필 '+pets.length+'개 · 등록/이름 수정부터 30일 보관';}
+ async function load(api){const data=await api();pets=data.items;binding=identity();render();el('profile-status').textContent='반려견 프로필 '+pets.length+'개 · 기본30일, 일지 별도 동의에 따라 연장 가능';}
  el('profile-load').onclick=()=>action(load);
  el('profile-create').onclick=()=>action(async api=>{const pet=await api('','POST',{name:el('profile-name').value});await load(api);el('profile-select').value=pet.id;el('profile-select').onchange();});
  el('profile-update').onclick=()=>action(async api=>{const id=globalThis.PetSenseProfiles.selectedId();if(!id)throw new Error('이름을 수정할 프로필을 선택하세요.');const pet=await api('/'+encodeURIComponent(id),'PATCH',{name:el('profile-name').value});await load(api);el('profile-select').value=pet.id;el('profile-select').onchange();});
