@@ -95,3 +95,6 @@ async def private_account_responses(request: Request, call_next):
         response.headers['Cache-Control'] = 'no-store'
         response.headers['X-Content-Type-Options'] = 'nosniff'
     return response
+
+from backend.care import router as care_router
+app.include_router(care_router)

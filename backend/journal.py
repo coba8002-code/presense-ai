@@ -47,8 +47,8 @@ class FollowupInput(TimedInput):
         return value.strip()
 
 
-async def payload(request,model):
-    if request.headers.get('x-journal-consent')!=CONSENT:raise HTTPException(403,'Explicit journal storage consent required')
+async def payload(request,model,consent=CONSENT):
+    if request.headers.get('x-journal-consent')!=consent:raise HTTPException(403,'Explicit journal storage consent required')
     raw=bytearray()
     try:
         async with asyncio.timeout(15):
