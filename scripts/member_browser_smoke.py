@@ -67,6 +67,7 @@ def login(page, base, email, password):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--real-ast', action='store_true')
+    parser.add_argument('--mobile', action='store_true',help='Chromium touch/viewport emulation, not a physical device')
     parser.add_argument('--output', type=Path)
     parser.add_argument('--journal-output-dir',type=Path)
     args = parser.parse_args()
@@ -85,6 +86,7 @@ def main():
             'PETSENSE_ENABLE_WEB_AUTH': 'true', 'PETSENSE_PUBLIC_ORIGIN': base,
             'PETSENSE_OPERATOR_NAME': 'Synthetic test operator',
             'PETSENSE_PRIVACY_CONTACT': 'privacy@example.invalid',
+            'PETSENSE_SIGNUP_MODE':'allowlist','PETSENSE_SIGNUP_ALLOWLIST':'synthetic@example.invalid,care-reader@example.invalid',
             'PETSENSE_TERMS_VERSION': 'test-v1', 'PETSENSE_PRIVACY_VERSION': 'test-v1',
             'PETSENSE_ENABLE_AST_JOBS': 'true', 'PETSENSE_ENABLE_AST': 'false',
             'PETSENSE_ENABLE_CLOUD': 'false', 'PETSENSE_ENABLE_KNOWLEDGE': 'false'}
@@ -114,7 +116,7 @@ def main():
             with sync_playwright() as pw:
                 browser = pw.chromium.launch(args=['--ignore-certificate-errors-spki-list=' + pin])
                 try:
-                    context = browser.new_context()
+                    context = browser.new_context(**({'viewport':{'width':390,'height':844},'is_mobile':True,'has_touch':True,'device_scale_factor':2} if args.mobile else {}))
                     # Fail immediately if membership reads or writes legacy shared history.
                     context.add_init_script("""(() => {
                         window.memberStorageViolations=[];
@@ -126,6 +128,9 @@ def main():
                     page.on('pageerror', lambda error: errors.append(str(error)))
                     page.on('request', lambda req: forbidden_headers.append(True) if '/v1/' in req.url and 'x-petsense-session' in req.headers else None)
                     page.goto(base + '/auth#signup')
+                    if args.mobile:
+                        assert page.evaluate('navigator.maxTouchPoints>0 && innerWidth===390')
+                        assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
                     expect(page.locator('#form-signup button')).to_be_enabled()
                     page.locator('#signup-email').fill(email)
                     page.locator('#signup-password').fill(password)
@@ -172,6 +177,7 @@ def main():
                     assert page.locator('#case-note img').count() == 0
                     expect(page.locator('#guide-profile option')).to_have_count(2)
                     page.locator('#guide-profile').select_option(pet_id)
+                    if args.mobile:assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
                     journal_flow(page,base,pet_id,args.journal_output_dir)
                     care_flow(page,base,pet_id)
                     report_flow(page,base,pet_id)
@@ -221,7 +227,7 @@ def main():
                                 'journal_followup_export_delete_and_stale_profile_response':True, 'two_account_care_sharing_revoke_delete':True, 'consultation_report_download_and_stale_response':True, 'care_plan_followup_completion_delete':True, 'account_data_erased': True,
                                 'model': result.get('model'), 'revision': result.get('revision'),
                                 'input_sha256': result.get('input_sha256'), 'queue_result_seconds': seconds,
-                                'physical_device': False, 'scope': 'One synthetic HTTPS Chromium run; not email verification, dog behavior accuracy or production security audit.'}, out, indent=2)
+                                'physical_device': False,'mobile_chromium_emulation':args.mobile, 'scope': 'One synthetic HTTPS Chromium run; not email verification, dog behavior accuracy or production security audit.'}, out, indent=2)
                     print('HTTPS membership smoke passed: signup, secure cookie, profile/note, queue worker, logout/login, recovery and password-confirmed deletion; AST ' + ('real pinned weights.' if args.real_ast else 'mocked.'))
                 finally:
                     browser.close()

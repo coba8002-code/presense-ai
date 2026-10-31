@@ -53,6 +53,13 @@ jobs:
       - run: python -m scripts.product_browser_smoke
       - run: python -m scripts.job_browser_smoke
       - run: python -m scripts.member_browser_smoke --journal-output-dir artifacts/journal
+      - run: python -m scripts.member_browser_smoke --mobile --output artifacts/mobile-membership.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mobile-chromium-emulation-not-physical-device
+          path: artifacts/mobile-membership.json
+          retention-days: 14
+          if-no-files-found: error
       - run: python -m scripts.guide_browser_smoke --output-dir artifacts/global-guide
       - run: python -m scripts.design_browser_smoke --output-dir artifacts/service-gui
       - uses: actions/upload-artifact@v4
