@@ -13,7 +13,7 @@
   for(const field of el('followup-form').querySelectorAll('input,select,textarea,button'))field.disabled=Boolean(active)||!selected;
   el('journal-next').hidden=next===null;
  }
- function clearDetail(){selected=null;pending=null;el('journal-detail').hidden=true;el('journal-context').replaceChildren();el('followup-list').replaceChildren();el('followup-form').reset();}
+ function clearDetail(){window.dispatchEvent(new CustomEvent('petsense-journal-selected',{detail:null}));selected=null;pending=null;el('journal-detail').hidden=true;el('journal-context').replaceChildren();el('followup-list').replaceChildren();el('followup-form').reset();}
  function reset(){epoch++;active?.abort();active=null;next=null;clearDetail();el('journal-summary').replaceChildren();el('journal-list').replaceChildren();say('');controls();}
  async function action(fn){
   if(active)return;if(!guide.identity()||!guide.selectedId()){say(t.needProfile);return;}
@@ -50,7 +50,7 @@
   if(data.health_concern)text('p',c.healthAdvice,context);
   text('p',t.source,context);
   for(const follow of row.followups){const item=text('article','',el('followup-list'));item.className='journal-entry';text('strong',date(follow.data.observed_at)+' · '+t[follow.data.action],item);text('p',follow.data.what_done,item);text('p',t[follow.data.outcome],item);text('p',follow.data.note,item);}
-  controls();
+  controls();window.dispatchEvent(new CustomEvent('petsense-journal-selected',{detail:row}));
  }
  el('journal-window').onchange=()=>action((api,profile)=>summary(api,profile));
  el('journal-load').onclick=()=>action(async(api,profile)=>{clearDetail();await load(api,profile);});

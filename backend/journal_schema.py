@@ -15,5 +15,6 @@ def purge(db,now):
 
 
 def delete_pet(db,owner,pet_id):
+    db.execute('DELETE FROM care_plans WHERE owner=? AND case_id IN (SELECT id FROM journal_cases WHERE owner=? AND pet_id=?)',(owner,owner,pet_id))
     db.execute('DELETE FROM journal_followups WHERE owner=? AND case_id IN (SELECT id FROM journal_cases WHERE owner=? AND pet_id=?)',(owner,owner,pet_id))
     db.execute('DELETE FROM journal_cases WHERE owner=? AND pet_id=?',(owner,pet_id))

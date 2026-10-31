@@ -101,5 +101,6 @@ class JournalStore(Store):
     def delete_case(self,token,case_id):
         with self.connect() as db:
             owner=self._begin(db,token);self._case(db,owner,case_id)
+            db.execute('DELETE FROM care_plans WHERE owner=? AND case_id=?',(owner,case_id))
             db.execute('DELETE FROM journal_followups WHERE owner=? AND case_id=?',(owner,case_id))
             db.execute('DELETE FROM journal_cases WHERE owner=? AND id=?',(owner,case_id))

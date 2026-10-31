@@ -98,3 +98,6 @@ async def private_account_responses(request: Request, call_next):
 
 from backend.care import router as care_router
 app.include_router(care_router)
+
+from backend.plans import router as plans_router
+app.include_router(plans_router)
