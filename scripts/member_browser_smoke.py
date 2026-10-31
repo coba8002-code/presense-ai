@@ -26,6 +26,7 @@ from scripts.job_browser_smoke import MOCK_WORKER, stop
 from training.pretrained_audio import MODEL, REVISION
 from scripts.journal_browser_flow import journal_flow
 from scripts.care_browser_flow import care_flow
+from scripts.report_browser_flow import report_flow
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -172,6 +173,7 @@ def main():
                     page.locator('#guide-profile').select_option(pet_id)
                     journal_flow(page,base,pet_id,args.journal_output_dir)
                     care_flow(page,base,pet_id)
+                    report_flow(page,base,pet_id)
                     page.goto(base + '/app')
                     expect(page.locator('#web-logout')).to_be_visible()
                     page.locator('#web-logout').click()
@@ -214,7 +216,7 @@ def main():
                             json.dump({'synthetic_input': True, 'real_ast': args.real_ast,
                                 'https_signup_login_recovery_deletion': True, 'cookie_flags_verified': True,
                                 'javascript_session_header_absent': True,
-                                'journal_followup_export_delete_and_stale_profile_response':True, 'two_account_care_sharing_revoke_delete':True, 'account_data_erased': True,
+                                'journal_followup_export_delete_and_stale_profile_response':True, 'two_account_care_sharing_revoke_delete':True, 'consultation_report_download_and_stale_response':True, 'account_data_erased': True,
                                 'model': result.get('model'), 'revision': result.get('revision'),
                                 'input_sha256': result.get('input_sha256'), 'queue_result_seconds': seconds,
                                 'physical_device': False, 'scope': 'One synthetic HTTPS Chromium run; not email verification, dog behavior accuracy or production security audit.'}, out, indent=2)

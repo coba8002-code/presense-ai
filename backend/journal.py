@@ -95,6 +95,13 @@ async def summary(request:Request,pet_id:str,days:int=7):
     return operation(store.summary,token,pet_id,days)
 
 
+@router.get('/v1/me/journal/report')
+async def report(request:Request,pet_id:str,days:int=7):
+    from backend.consultation_report import build_report
+    store,token=account(request)
+    return operation(build_report,store,token,pet_id,days)
+
+
 @router.get('/v1/me/journal/{case_id}')
 async def detail(case_id:str,request:Request):
     store,token=account(request)
