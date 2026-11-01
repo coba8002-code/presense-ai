@@ -54,7 +54,13 @@ def adapt(document):
    neck=d.keypoints.get('neck');tail=d.keypoints.get('tail_root');angle=None
    if neck and tail and neck.confidence>=.5 and tail.confidence>=.5 and math.hypot(neck.x-tail.x,neck.y-tail.y)>1:
     angle=math.degrees(math.atan2(neck.y-tail.y,neck.x-tail.x))
-   rows.append({'track_candidate_id':chosen,'box':d.box,'score':d.score,'torso_angle_degrees':angle,
+   previous_match=next((p for p in previous if p['track_candidate_id']==chosen),None)
+   displacement=angle_delta=None
+   if previous_match and previous_time is not None:
+    dt=frame.seconds-previous_time;a=previous_match['box'];b=d.box
+    displacement={'x_per_second':((b[0]+b[2]-a[0]-a[2])/2/doc.width)/dt,'y_per_second':((b[1]+b[3]-a[1]-a[3])/2/doc.height)/dt,'unit':'normalized_image_axes_not_physical_velocity'}
+    if angle is not None and previous_match['torso_angle_degrees'] is not None:angle_delta=(angle-previous_match['torso_angle_degrees']+180)%360-180
+   rows.append({'image_displacement':displacement,'torso_angle_delta_degrees':angle_delta,'track_candidate_id':chosen,'box':d.box,'score':d.score,'torso_angle_degrees':angle,
     'keypoints_supplied':len(d.keypoints),'visible_keypoints':sum(p.confidence>=.5 for p in d.keypoints.values()),
     'association':'geometry_candidate_not_identity' if any(p['track_candidate_id']==chosen for p in previous) else 'new_or_ambiguous_candidate','pose_abstained':angle is None})
   output.append({'seconds':frame.seconds,'detections':rows});previous=rows;previous_time=frame.seconds

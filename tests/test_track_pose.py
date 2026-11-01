@@ -7,7 +7,7 @@ class TrackPoseTests(unittest.TestCase):
   p={'neck':{'x':10.,'y':10.,'confidence':.9},'tail_root':{'x':2.,'y':10.,'confidence':.9}}
   r=adapt(self.doc([{'seconds':0.,'detections':[self.det(points=p)]},{'seconds':.2,'detections':[self.det([1.,0.,21.,20.],p)]}]))
   a,b=r['frames'];self.assertEqual(a['detections'][0]['track_candidate_id'],b['detections'][0]['track_candidate_id'])
-  self.assertEqual(a['detections'][0]['torso_angle_degrees'],0);self.assertFalse(r['identity_verified']);self.assertEqual(r['speaker'],'unconfirmed')
+  self.assertEqual(a['detections'][0]['torso_angle_degrees'],0);self.assertAlmostEqual(b['detections'][0]['image_displacement']['x_per_second'],.05);self.assertEqual(b['detections'][0]['torso_angle_delta_degrees'],0);self.assertFalse(r['identity_verified']);self.assertEqual(r['speaker'],'unconfirmed')
  def test_ambiguous_crossing_and_gap_do_not_preserve_identity(self):
   r=adapt(self.doc([{'seconds':0.,'detections':[self.det(),self.det()]},{'seconds':.2,'detections':[self.det()]},{'seconds':2.,'detections':[self.det()]}]))
   tracks=[f['detections'][0]['track_candidate_id'] for f in r['frames']]

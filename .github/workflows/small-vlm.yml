@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: ['codex/**']
-    paths: ['training/event_candidates.py', 'training/av_ast.py', 'training/av_ast_worker.py', 'training/av_alignment.py', 'training/audio_timeline.py', 'scripts/video_browser_smoke.py', 'backend/static/video/**', 'training/small_vlm.py', 'training/small_vlm_infer.py', 'requirements-vlm.txt', '.github/workflows/small-vlm.yml']
+    paths: ['training/dog_pose.py', 'training/track_pose.py', 'requirements-pose-model.txt', 'training/event_candidates.py', 'training/av_ast.py', 'training/av_ast_worker.py', 'training/av_alignment.py', 'training/audio_timeline.py', 'scripts/video_browser_smoke.py', 'backend/static/video/**', 'training/small_vlm.py', 'training/small_vlm_infer.py', 'requirements-vlm.txt', '.github/workflows/small-vlm.yml']
 permissions:
   contents: read
 jobs:
@@ -31,11 +31,15 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
-          python -m pip install -r requirements.lock -r requirements-browser.lock
+          python -m pip install -r requirements.lock -r requirements-browser.lock -r requirements-pose-model.txt
           python -m playwright install --with-deps chromium
           python -c "from huggingface_hub import snapshot_download; from training.pretrained_audio import MODEL,REVISION; snapshot_download(MODEL, revision=REVISION, token=False, allow_patterns=['*.json','*.safetensors'])"
-      - name: Actual cached AST + SmolVLM on synthetic video through browser report flow
-        run: python -m scripts.video_browser_smoke --real-models
+      - name: Cache pinned public animal detector/keypoints and verify native pose forward pass
+        run: |
+          python -c "from training.dog_pose import prepare_public_cache; prepare_public_cache()"
+          python -c "from PIL import Image; from training.dog_pose import LocalDogPose; m=LocalDogPose(); p=m.keypoints(Image.new('RGB',(320,240)),[0.,0.,320.,240.]); assert len(p)==17"
+      - name: Actual cached AST + SmolVLM + dog detector/keypoints on synthetic AV through browser report flow
+        run: python -m scripts.video_browser_smoke --real-models --real-pose
       - uses: actions/upload-artifact@v4
         with:
           name: synthetic-smolvlm-adapter-not-for-production
