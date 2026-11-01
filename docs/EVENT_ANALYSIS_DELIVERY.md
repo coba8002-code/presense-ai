@@ -32,7 +32,7 @@ python -m evaluation.event_evaluation \
 
 Output is exclusive-create. Inputs <=8MB; models/events/windows bounded. Synthetic scores demonstrate plumbing, never animal performance. Event references must be known/unknown separately; known-empty windows allow false-positive measurement. Duplicate predicted events count as FP. Events cannot escape parent window. Threshold .5 tIoU is fixed evaluation policy, not a dog decision threshold. Event labels are the existing seven AudioSet labels and are not collapsed as synonyms. Parent reviewers/rights/identities and event reviewer names are metadata assertions, not independent verification of expertise, blind annotation or copyright rights. Actual recordings and review evidence must be audited before real evaluation.
 
-No probabilities means Brier is null. Provided sigmoid values are not automatically calibrated; Brier here concerns event presence, never emotion. Latency is supplied, not timed by evaluator. Cluster confidence intervals, keypoint localization/ID tracking metrics, explanation reviewer rubric and independent causal validation remain future evaluation work. Pose scores must still use video_predictions. Missing predictions and empty event lists have different meanings (abstain versus an accepted negative).
+No probabilities means Brier is null. Provided sigmoid values are not automatically calibrated; Brier here concerns event presence, never emotion. Latency is supplied, not timed by evaluator. Household-cluster intervals and a hash-bound explanation review rubric were subsequently implemented below; actual keypoint localization/ID tracking metrics and independent causal validation still require further evaluation work. Pose scores must still use video_predictions. Missing predictions and empty event lists have different meanings (abstain versus an accepted negative).
 
 ## Product flow
 
@@ -78,3 +78,23 @@ Existing journal summary now includes `record_pattern`, derived only from that o
 Actual measured sound/movement baseline still needs independently sourced measurements and consented account persistence; it is not fabricated from self-selected diaries. Technical alignment does not implement automatic speaker/ID tracking or VLM interpretation.
 
 Validation added: real generated AV fixture with known ~0.3s delayed audio, variable-frame-rate fixture, absent audio, damaged file, pre/mid-process cancellation and private temp cleanup; browser same-source report import, wrong-hash rejection, energy and reported-frame path; account reporting-pattern enough/insufficient history; existing English/Korean account/journal browser flow. All inputs synthetic, no dog behavior accuracy evidence.
+
+## Independent audit completion: cluster intervals, failure review and explanation rubric
+
+`evaluation.analysis_audit` reuses all event-evaluation binding and rights/split gates. It aggregates known-window TP/FP/FN/duration per household and computes deterministic household-cluster percentile bootstrap intervals for micro event F1 and FP/hour. Fewer than5 independent households returns insufficient status and null intervals. 100–2000 draws, fixed seed, valid F1 draw count, known-only scope and limitations are explicit. No BCa, representativeness or causal claim. The supplied reference registry/identities remain assertions requiring independent audit.
+
+Failure queues preserve source hash/window and whether prediction is missing/abstained or mismatched. They are unreviewed and training_eligible=false. They support collecting failures for later adjudication/re-evaluation, never generate new ground truth or authorize use of media.
+
+An optional human explanation rubric is bound to the exact normalized model-run digest AND the UTF-8 hash of each reviewed explanation text. Reviewer IDs must be distinct per clip; two reviews expose disagreements requiring adjudication. Dimensions: grounding, causal overclaim, emotion/intent overclaim, useful next question. Explicit identity-blind=true attestation is required. It does not prove reviewer identity/qualifications, consensus truth or automatic training approval. No explanations/reviewer names are copied into summary output; no network, storage API or training is invoked.
+
+```
+python -m evaluation.analysis_audit \
+  --parent docs/examples/video-evaluation/reference.synthetic.json \
+  --registry docs/examples/video-evaluation/registry.synthetic.json \
+  --reference docs/examples/video-evaluation/events.synthetic.json \
+  --run docs/examples/video-evaluation/analysis-run.synthetic.json \
+  --reviews docs/examples/video-evaluation/explanation-review.synthetic.json \
+  --output /tmp/petsense-analysis-audit.json
+```
+
+Input files <=8MB, exclusive output, bounded windows/reviews, offline only. Synthetic fixture has one validation household: null CI is the correct result, not an error. Six-household synthetic unit test verifies bootstrap reproducibility only. Real intervals and expert review require real independent groups and reviewers. This closes the evaluation software gap, not the evidence gap. Product integration remains the existing evidence UI; no automated expert validation is shown to users.

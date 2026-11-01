@@ -1,3 +1,5 @@
+> 완료 관리 안내 (2026-11-01): 기존 이력의 체크박스는 당시 스냅샷으로 보존한다. 현재 분석 작업은 아래 “분석 고도화 6영역 정본”과 해당 PR의 정확한 HEAD 검사 기록으로 판정한다. 과거 미체크 개수를 현재 미완료 수로 합산하지 않는다. 실제 모델/데이터/운영 검증은 별도로 남는다.
+
 # PetSense AI remaining work
 
 Current scope: **dog-only MVP**. Historical completed work below may describe the earlier two-species bootstrap.
@@ -460,7 +462,7 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] 고정 독립 관찰 계약에 묶인 예측 채점과 누락/유보/unknown 분리 도구 구현.
 - [x] 제한 베타 closed/allowlist 가입 정책과 값 비출력 배포 전 검사 구현.
 - [x] 국내 Linux용 loopback API·Caddy HTTPS·독립 만료 서비스·인증/장애 복구 절차 작성.
-- [ ] 실제 390px touch Chromium 전체 계정/복구 CI 결과 확인.
+- [x] 390px touch Chromium 계정/복구 CI 통과 (dc3f746:41267586133/41267582532). 실제 휴대폰 검증과 구분.
 - [ ] 실제 개 독립 정답/예측, 실제 휴대폰, 운영 서버/도메인 연결 후 배포 검증.
 - [ ] 이메일 소유 확인/메일 복구와 암호화 백업·삭제 이력 재적용 검증.
 
@@ -482,7 +484,7 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] 기기 내 영상 6장 추출·시각 표시·보호자 관찰·근거 후보 화면 /video-review와 /app 연결.
 - [x] 동의/개체 철회·취소·손상영상·상충 단서·외부 요청 차단 합성 브라우저 검사.
 - [x] 음향 격리 환경 웹 의존성 오류 수정 및 재발 방지 검사.
-- [ ] 최신 코드 원격 CI 최종 확인. 영상 화면은 AI 미연결이며 실제 추적·음성 정렬은 미구현.
+- [x] 해당 단계 원격 CI 통과 (PR24/25 검증 기록). 후속 파일 내 AV 정렬 구현 완료, 실제 추적/AI 영상 추론은 미연결.
 
 ## 분석 고도화 6영역 정본 · 2026-11-01
 
@@ -493,9 +495,9 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 | 1. 소리 | [x] AST 음질·유보, 시간창 점수 어댑터, [x] 보호자 구간/반복/간격; [ ] 학습된 시작/끝 검출·잡음 분리·AST/Dog2vec 실비교 | test_audio_timeline / test_pretrained_audio / test_event_timeline.cjs; 기존 실제 AST CI는 PR24 | 시간창은 주입 모의 검사, AST 자체만 합성 입력 실제 추론 확인. 실제 발성 성능 미검증 | 승인된 독립 음원/시간 정답·생활 소음·TV재생 음성, 모델/데이터 권리 및 fairseq 호환성 확인 |
 | 2. 영상 | [x] 사건 주변 최대12장·가림/판단불가·같은 개 확인, [ ] 자동 ID/관절/변화·VLM 추론 | video_browser_smoke 이벤트 시각/6장·4장·철회·취소·손상·상충; test_behavior_evidence | 합성 영상 실제 디코딩만 검증. 개체 추적/동작 모델 없음 | 회사 이미지 지원 모델 API/모델명/안전 인증, 권리 확인 영상·관절/ID 정답 및 독립 실험 |
 | 3. 시간축/근거 | [x] 영상 시각 기반 직접 사건, 오프라인 오디오 오프셋 경계, 지지/불일치 시각·부족정보·질문 UI; [x] 단일파일 실제 오디오/프레임 PTS 추출·정합·보고서 UI; [ ] 실센서 AV 동기 검증 | test_event_timeline / test_audio_timeline / test_av_alignment / video_browser_smoke | 합성 AV 지연/VFR/무음/취소/폐기 및 파일 내 PTS 기술 검증. 실센서·발성 귀속 미검증 | 타임스탬프 근거와 정답 동기 영상, 발성 개체 미확인 유지; 전후 순서로 원인 단정 금지 |
-| 4. 가설/감정·의도 | [x] 좁은 규칙 후보·대안·판단유보·출처 표시; [ ] 독립 해석 리뷰·안전한 교정지식 검색·확신 보정 | test_behavior_evidence / UI 상충 검사; event_evaluation 제공 이벤트 확률 Brier | 규칙은 미검증, 감정·의도 정답/모델 없음. Brier는 이벤트 존재만 측정 | 전문가 독립 리뷰/해석 근거·반례·유보 루브릭. 소리/자세만으로 감정·의도 라벨 생성 금지 |
+| 4. 가설/감정·의도 | [x] 좁은 규칙 후보·대안·판단유보·출처 표시; [x] 해석 근거/원인·감정 단정/추가질문 검토 계약·불일치 표시; [ ] 실제 독립 해석 리뷰·교정지식 검색·실측 확신 보정 | test_behavior_evidence / test_analysis_audit / UI 상충 검사; event_evaluation 제공 이벤트 확률 Brier | 규칙은 미검증, 감정·의도 정답/모델 없음. Brier는 이벤트 존재만 측정 | 전문가 독립 리뷰/해석 근거·반례·유보 루브릭. 소리/자세만으로 감정·의도 라벨 생성 금지 |
 | 5. 개체 기준선/피드백 | [x] 같은 개/모델 측정치 ISO 날짜 5일 중앙값/변화·다른개/모델/피드백 제외; [x] 계정 일지 기록패턴 참고/표본부족 UI; [ ] 실측 기준선 보관·기기/맥락 층화·검토된 피드백 절차 | test_audio_timeline | 실측 어댑터는 오프라인 합성만. 제품 일지 참고는 guardian_report/모델없음으로 별도 표시. 실제 장기 개인화 없음 | 보관 동의·불변 관측ID·확인된 날짜/기기/맥락. 피드백은 자동 학습 정답으로 편입하지 않음 |
-| 6. 독립 평가/실패 재평가 | [x] 부모 계약의 개체·가정·원본/내용 분리, 이벤트 정답/예측 해시결합, 동일 평가구간 세모드 비교, F1/오탐/h/시작끝오차/ID일치/Brier/유보/지연; [ ] 그룹 신뢰구간·관절/ID추적·설명 리뷰·제품 실측 | test_event_evaluation / test_video_contract / test_video_predictions; synthetic CLI example | 합성 제공 예측만. 실제 기준성능·해석 정확도/개선률 미확립 | 권리/원본 CRC·해시 확인, blind 리뷰/미확인구간, 잠금 평가셋. 실패군 고정→모델/학습 변경→같은 셋 재평가 |
+| 6. 독립 평가/실패 재평가 | [x] 부모 계약의 개체·가정·원본/내용 분리, 이벤트 정답/예측 해시결합, 동일 평가구간 세모드 비교, F1/오탐/h/시작끝오차/ID일치/Brier/유보/지연; [x] 가정 클러스터 CI·실패 검토 큐·설명 해시결합 이중 리뷰 루브릭; [ ] 실제 관절/ID추적·독립 전문가 리뷰·제품 실측 | test_event_evaluation / test_analysis_audit / test_video_contract / test_video_predictions; synthetic CLI examples | 합성 제공 예측만. 실제 기준성능·해석 정확도/개선률 미확립 | 권리/원본 CRC·해시 확인, blind 리뷰/미확인구간, 잠금 평가셋. 실패군 고정→모델/학습 변경→같은 셋 재평가 |
 
 진행 순서: 평가셋/기준성능 → AV시간축 → 추적·포즈/VLM관찰 → 근거해석/개인화 → 실패사례 학습·재평가. 실제 자료 대기 중에는 인터페이스·검증·UI를 병행한다. 현재 평가 도구와 UI는 자동 모델 고도화 완료가 아니다.
 
