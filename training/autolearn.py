@@ -57,16 +57,20 @@ def decide(metrics, incumbent, synthetic, limits):
 
 
 def lineage(rows):
-    return {field: sorted({r[field] for r in rows})
-            for field in ('animal_id', 'recording_group', 'sha256')}
+    from training.grouping import valid_identity
+    fields=['animal_id','recording_group','sha256']
+    fields += [key for key in ('household_id','source_id','duplicate_group') if any(key in r for r in rows)]
+    return {field: sorted({valid_identity(r[field]) for r in rows if field in r}) for field in fields}
 
 
 def assert_disjoint(first, second):
     if not isinstance(first, dict) or not isinstance(second, dict):
         raise ValueError('Invalid training lineage')
-    for field in ('animal_id', 'recording_group', 'sha256'):
-        if (not isinstance(first.get(field), list) or not first[field]
-                or not all(isinstance(v, str) and v for v in first[field])):
+    fields=['animal_id','recording_group','sha256']
+    fields += [key for key in ('household_id','source_id','duplicate_group') if key in first or key in second]
+    for field in fields:
+        if any(not isinstance(item.get(field), list) or not item[field]
+                or not all(isinstance(v, str) and v for v in item[field]) for item in (first,second)):
             raise ValueError('Missing incumbent training lineage')
         if set(first[field]) & set(second[field]):
             raise ValueError(f'Training/benchmark overlap: {field}')

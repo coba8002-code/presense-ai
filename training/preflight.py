@@ -6,6 +6,7 @@ from pathlib import Path
 
 from training.audio import features, FEATURE_VERSION
 from training.data import fingerprint, load_records, split_records
+from training.grouping import animal_groups
 
 
 def check(manifest: str | Path, registry: str | Path, species: str, seed: int = 42) -> dict:
@@ -20,6 +21,9 @@ def check(manifest: str | Path, registry: str | Path, species: str, seed: int = 
         'synthetic': all(policy.get('synthetic') is True for policy in policies.values()),
         'record_count': len(rows),
         'animal_count': len({row['animal_id'] for row in rows}),
+        'connected_group_count': len(set(animal_groups(rows).values())),
+        'grouping_field_coverage': {key:sum(key in r for r in rows) for key in
+                                    ('household_id','recording_group','source_id','duplicate_group')},
         'manifest_fingerprint': fingerprint(rows),
         'datasets': sorted(policies),
         'partitions': {
