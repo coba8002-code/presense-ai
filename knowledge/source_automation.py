@@ -126,6 +126,8 @@ def cycle(db,config,client,env,now=None,force=False):
      from knowledge.providers import Providers
      from knowledge.pipeline import cycle as knowledge_cycle
      k=load_config(cfg.knowledge_config)
+     discovered=[r[0] for r in db.execute('SELECT id FROM research_links WHERE expires>? ORDER BY last_seen DESC,id LIMIT 20',(now,))]
+     k=type(k).model_validate({**k.model_dump(),'video_ids':list(dict.fromkeys([*k.video_ids,*discovered]))[:20]})
      if k.notebook and not (env.get('GOOGLE_ACCESS_TOKEN') or env.get('GOOGLE_ACCESS_TOKEN_FILE')):raise ValueError('Notebook credentials missing')
      summary=knowledge_cycle(db,k,Providers(k,client,env),now=now)
      report['link_analysis']={'status':'cycle_executed','summary':summary}
@@ -143,7 +145,7 @@ def cycle(db,config,client,env,now=None,force=False):
   with db:db.execute('UPDATE automation_status SET payload=? WHERE id=1',(json.dumps(report,allow_nan=False),))
   return report
 
-def status(db,now=None):
+def status(db,now=None,config=None):
  now=time.time() if now is None else now
  names={r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
  if not {'research_links','automation_status'}<=names:return {'status':'not_initialized','links':[],'training_ready':False}
@@ -160,6 +162,9 @@ def status(db,now=None):
    if k=='link_analysis':
     last[k]['counts']={name:value.get('summary',{}).get(name,0) for name in ('discovered','analyzed','synced','blocked','errors')}
  links=[{'video_id':r[0],'title':r[1],'channel_id':r[2],'verification':r[3],'url':canonical(r[0]),'training_ready':False,'analysis_status':'not_analyzed'} for r in db.execute('SELECT id,title,channel_id,verification FROM research_links WHERE expires>? ORDER BY last_seen DESC,id LIMIT 100',(now,))]
+ from knowledge.source_progress import progress
+ stages=progress(db,config,now)
+ for link in links:link.update(stages.get(link['video_id'],{}))
  return {'status':'worker_status_available' if row else 'candidates_only','last_cycle_at':row[0] if row else None,'last_cycle':last,'links':links,'training_ready':False,'notice':'Candidate metadata only; no source is automatically approved or trained.'}
 
 def main():
@@ -171,7 +176,12 @@ def main():
    if a.seed:
     if a.seed.stat().st_size>128000:raise ValueError('Seed too large')
     import_candidates(db,json.loads(a.seed.read_bytes()),retention_days=cfg.retention_days)
-   if a.status:print(json.dumps(status(db),ensure_ascii=False));return
+   if a.status:
+    knowledge_config=None
+    if cfg.knowledge_config:
+     from knowledge.worker import load_config
+     knowledge_config=load_config(cfg.knowledge_config)
+    print(json.dumps(status(db,config=knowledge_config),ensure_ascii=False));return
    with httpx.Client() as client:
     while True:
      if a.config.stat().st_size>64000:raise ValueError('Config too large')

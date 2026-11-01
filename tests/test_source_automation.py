@@ -66,3 +66,15 @@ class AutomationIntegrationTests(unittest.TestCase):
   body=('<?xml version="1.0" encoding="UTF-16"?><!DOCTYPE feed [<!ENTITY private "injected">]>'+XML.replace('Dog observation','&private;')).encode('utf-16')
   with httpx.Client(transport=httpx.MockTransport(lambda _:httpx.Response(200,content=body,headers={'content-type':'application/atom+xml'}))) as c:r=cycle(self.db,self.cfg,c,{},now=1000)
   self.assertEqual(r['feed_errors'],1);self.assertEqual(status(self.db,now=1000)['links'],[])
+ def test_discovered_ids_reach_official_metadata_checks_without_granting_rights(self):
+  from unittest.mock import patch
+  from test_knowledge import FakeProviders,VIDEO,CHANNEL
+  import_candidates(self.db,[{'video_id':'qPpEpQXTQb4','title':'index','query':'dog','evidence_url':'https://example.org/source'}],now=1000)
+  p=FakeProviders();p.discover=lambda _:self.fail('Unexpected search');seen=[]
+  original=p.video
+  def video(vid):seen.append(vid);return original(vid)
+  p.video=video
+  path=Path(self.tmp.name)/'config.json';path.write_text(json.dumps({'queries':['unused'],'video_ids':[VIDEO],'targeted_only':True,'policies':{}}))
+  cfg=AutomationConfig(enable_link_analysis=True,paid_link_analysis_approved=True,knowledge_config=str(path))
+  with patch('knowledge.providers.Providers',return_value=p),httpx.Client() as c:r=cycle(self.db,cfg,c,{'PETSENSE_ENABLE_KNOWLEDGE':'true','YOUTUBE_API_KEY':'synthetic','GEMINI_API_KEY':'synthetic'},now=1000)
+  self.assertEqual(set(seen),{VIDEO,'qPpEpQXTQb4'});self.assertEqual(p.analyzed,0);self.assertEqual(r['link_analysis']['summary']['blocked'],2)

@@ -17,7 +17,12 @@ async def research_status(request: Request):
         return JSONResponse({'configured': False, 'status': 'not_configured', 'links': [], 'training_ready': False}, headers={'Cache-Control': 'no-store'})
     try:
         with sqlite3.connect(Path(path).resolve().as_uri() + '?mode=ro', uri=True, timeout=2) as db:
-            report = status(db)
+            config = None
+            config_path = os.getenv('PETSENSE_KNOWLEDGE_CONFIG', '')
+            if config_path:
+                from knowledge.worker import load_config
+                config = load_config(config_path)
+            report = status(db, config=config)
     except (OSError, ValueError, sqlite3.Error):
         raise HTTPException(503, 'Discovery status unavailable') from None
     return JSONResponse({'configured': True, **report}, headers={'Cache-Control': 'no-store'})

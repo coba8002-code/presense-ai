@@ -19,3 +19,12 @@ class ResearchStatusTests(unittest.TestCase):
  def test_unconfigured_explicit_and_asset_allowlist(self):
   with patch.dict(os.environ,{'PETSENSE_KNOWLEDGE_DB':''}):self.assertEqual(self.call().json()['status'],'not_configured')
   self.assertEqual(asyncio.run(request('GET','/app/research.js')).status_code,200)
+ def test_current_policy_controls_display_without_exposing_analysis_or_policy_evidence(self):
+  from test_knowledge import VIDEO,CHANNEL,FakeProviders,config
+  from knowledge.pipeline import cycle
+  cfg=config();path=self.root/'policy.json';path.write_text(cfg.model_dump_json())
+  with open_db(self.path) as db:
+   import_candidates(db,[{'video_id':VIDEO,'title':'source','query':'dog','evidence_url':'https://example.org/source'}]);cycle(db,cfg,FakeProviders())
+  with patch.dict(os.environ,{'PETSENSE_KNOWLEDGE_CONFIG':str(path)}):
+   r=self.call();self.assertEqual(r.json()['links'][0]['analysis_status'],'machine_extracted_unreviewed');self.assertNotIn('contract-123',r.text);self.assertNotIn('Dog moves away',r.text)
+   cfg.policies.clear();path.write_text(cfg.model_dump_json());self.assertEqual(self.call().json()['links'][0]['analysis_status'],'permission_required')

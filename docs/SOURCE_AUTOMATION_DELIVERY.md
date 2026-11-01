@@ -32,3 +32,24 @@ python -m knowledge.source_automation --config config/source-automation.example.
 4. 가중치 학습에는 별도의 학습 이용권, 허용된 로컬 원본, 개체/가정/원본 식별자, 검토된 정답과 잠금 평가셋이 필요하다. 링크/강사의 해석/보호자 피드백만으로 정답을 생성하지 않는다. `enable_local_training`은 기존 검수된 오디오 작업만 소비하며 모델 자동 배포를 하지 않는다.
 
 지속 작업은 이 클라우드 세션에서 운영 서비스로 설치되지 않았다. 실제 국내 PC 파일/프로세스와 사용자 휴대폰에는 현재 접근하지 못했다. AX 로그인은 필요하지 않다. 실행 코드/원격 CI의 최종 상태는 해당 PR의 HEAD 검사 기록을 참조한다.
+
+## 후속 실행: 지정 링크 분석과 검수 패키지
+
+같은 날 추가 요청에 따라 EBS 교양의 공개 검색 결과 2건을 더해 후보를 총 4건으로 확장했다. 원본 화면·소리·자막은 보지 못했으며 검색 제목을 행동 정답으로 사용하지 않았다. 새 `config/knowledge-targeted.example.json`은 해당 ID를 고정하고 `targeted_only=true`로 검색 및 다른 저장 영상의 신규 처리를 제한한다. 기존 Notebook 자료의 철회/만료 정리는 계속 적용한다. 채널 정책은 비어 있고 권한을 부여하지 않는다.
+
+- [EBS 후보 1](https://www.youtube.com/watch?v=NpQgmiT1c0Y)
+- [EBS 후보 2](https://www.youtube.com/watch?v=xEAX6ixFmyc)
+- 해외 교정 지식의 출처 검토 대상으로 [Dogs Trust 행동 관찰 자료](https://www.dogstrust.org.uk/dog-advice/understanding-your-dog/body-language)와 [RSPCA 짖음 안내](https://www.rspca.org.uk/adviceandwelfare/pets/dogs/behaviour/barking)를 확인했다. 링크 참고 자료이며 영상/글을 모델 가중치 학습 데이터로 편입하지 않았다.
+
+새 워커는 현재 유효한 research_links를 공식 메타데이터 검증 대상 ID에 연결한다. 색인 링크만으로 채널·공개 여부·길이·분석 이용권을 확정하지 않는다. 기존 일일 한도·권한/만료·종/시간·모델 검사와 독립 검수 요구를 그대로 거친다. API 설정이 없는 상태에서 공식 워커를 실제 실행했으며, 외부 호출 전에 인증 구성 검사에서 중단됐다. 실제 영상 분석 및 YouTube 가중치 학습은 **0건**이다. 과거 합성 큐 결과를 이번 실제 학습으로 재사용하지 않는다.
+
+```sh
+python -m knowledge.worker --config config/knowledge-targeted.example.json --db data/source-discovery/knowledge.sqlite3
+python -m knowledge.source_progress --db data/source-discovery/knowledge.sqlite3 --config config/knowledge-targeted.example.json --output artifacts/youtube-review-packet.json
+```
+
+두 번째 명령은 네트워크·미디어 접근 없이 검수 패키지를 생성한다. 출력 파일은 새 파일만 허용하고 처음부터 0600으로 생성한다. 실제 로컬 4후보로 실행한 결과는 sources=4, proposals=0, training_ready=false였다. 관찰 시각·검수자·라벨·개체·촬영 그룹을 자동 작성하지 않는다. 실제 승인된 분석이 있을 때만 유효한 관찰 제안을 제시하며, 승인/학습을 대신하지 않는다. 독립 검수 시에는 관찰과 강사 주장 분리, 영상 편집/배경음/더빙, 발성 개체 확인, 전후 맥락, 교정 전후의 다른 조건, 숨겨진 통증·환경 요인을 확인해야 한다.
+
+`/app`은 ‘분석 미실행’ 고정 표시를 제거하고 현재 정책에 따른 메타데이터 미확인·이용 범위 확인·분석 대기·모델 변경·기한 만료·AI 관찰 추출/독립 검수 전을 구분한다. 분석 내용이나 정책 증거는 이 상태 API로 보내지 않는다. `PETSENSE_KNOWLEDGE_CONFIG`에 운영 설정 경로가 연결되지 않으면 승인된 분석으로 표시하지 않는다. 분석 건수와 검수 제안 수는 학습 완료/정확도를 뜻하지 않는다.
+
+검증은 지정 ID 전달/다른 영상 제외/권한 미승격, 현재 정책 철회·분석 기한/모델/무결성, 제안의 미검토 상태, 브라우저의 새 상태 표시·이용 조건 철회 반영을 포함한다. provider-shaped 자료는 합성 테스트이며 실제 YouTube 분석으로 주장하지 않는다. 실제 외부 분석·검수·학습·국내 PC 설치는 앞의 입력/운영 의존성이 여전히 남아 있다.
