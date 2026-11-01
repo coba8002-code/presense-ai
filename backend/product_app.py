@@ -15,3 +15,15 @@ def serve(name):
 async def page():return serve('')
 @router.get('/app/{name}')
 async def asset(name:str):return serve(name)
+
+@router.get('/video-review')
+async def video_review():return await video_asset('index.html')
+
+@router.get('/video-review/{name}')
+async def video_asset(name:str):
+    types={'index.html':'text/html','video.js':'text/javascript','style.css':'text/css'}
+    if name not in types:raise HTTPException(404,'Not found')
+    return Response((Path(__file__).parent/'static/video'/name).read_text(),media_type=types[name],headers={
+        'Cache-Control':'no-store','Referrer-Policy':'no-referrer','X-Content-Type-Options':'nosniff',
+        'Permissions-Policy':'microphone=(), camera=(), geolocation=()',
+        'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; media-src blob:; img-src data:; connect-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'"})
