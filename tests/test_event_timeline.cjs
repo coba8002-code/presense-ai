@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict');const t=require('../backend/static/video/timeline.js');
+assert.throws(()=>t.normalize([{label:'bark',start:2,end:1}],3,0));
+assert.throws(()=>t.normalize([{label:'bark',start:0,end:1}],3,-1));
+const e=t.normalize([{label:'bark',start:0,end:.2},{label:'bark',start:.8,end:1}],3,1);
+assert.equal(e[0].start,1);assert.equal(t.summarize(e).intervals[0],.6);
+assert.equal(t.summarize(e).speaker,'unconfirmed');
+const p=t.plan(3,e);assert(p.length<=12);assert(p.every(x=>x>0&&x<3));assert(p.every((x,i)=>!i||p[i-1]<x));
+assert(t.plan(3,[]).length===6);
+assert.throws(()=>t.normalize(new Array(21).fill({label:'bark',start:0,end:1}),3));
+assert.throws(()=>t.plan(NaN,[]));
+console.log('Event timeline boundaries and common clock passed');

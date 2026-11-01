@@ -50,6 +50,17 @@ def main():
                 page.screenshot(path=str(out),full_page=True)
                 page.locator('#posture-2').select_option('standing');expect(page.locator('#result')).to_contain_text('관찰 변경됨')
                 page.locator('#summarize').click();expect(page.locator('#result')).to_contain_text('판단 유보')
+                page.locator('#event-start').fill('0.5');page.locator('#event-end').fill('0.8');page.locator('#event-add').click()
+                expect(page.locator('#summarize')).to_be_disabled();assert page.locator('.frame').count()==0
+                expect(page.locator('#event-status')).to_contain_text('발성 개체 미확인')
+                page.locator('#extract').click();expect(page.locator('#summarize')).to_be_enabled()
+                assert page.locator('.frame').count()==4
+                stamps=[float(t.split(' · ')[1].replace('초','')) for t in page.locator('.frame h3').all_text_contents()]
+                assert stamps==[.1,.5,.65,1.2],stamps
+                page.locator('#summarize').click();expect(page.locator('#result')).to_contain_text('보호자 표시 소리 1개')
+                page.locator('#event-end').fill('0.2');page.locator('#event-add').click()
+                expect(page.locator('#event-status')).to_contain_text('시작·종료')
+                page.locator('#events-clear').click();expect(page.locator('#summarize')).to_be_disabled()
                 page.locator('#identity').uncheck();assert page.locator('.frame').count()==0;expect(page.locator('#clip')).to_be_disabled()
                 page.locator('#identity').check();page.locator('#clip').set_input_files(str(clip));expect(page.locator('#extract')).to_be_enabled()
                 page.locator('#extract').click();page.locator('#cancel').click()
