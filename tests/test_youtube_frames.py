@@ -45,6 +45,7 @@ class YouTubeFramesTests(unittest.TestCase):
                      household_id='home-'+r['animal_id'],reviewer='frame-human',review_evidence='viewed exact PNG',
                      reviewed_at=1002,frame_inspected=True) for r in prepared['candidates']]
 
+    @patch.dict('sys.modules', {'PIL':None})
     def test_real_video_to_review_to_trainer_manifest(self):
         bindings=self.setup_media()
         prepared=self.run_export(bindings,self.root/'prepare')

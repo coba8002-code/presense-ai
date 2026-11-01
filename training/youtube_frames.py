@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 import shutil
 import sqlite3
+import struct
 import subprocess
 import tempfile
 import time
@@ -18,7 +19,7 @@ from knowledge.models import StrictModel
 from knowledge.worker import load_config
 from training.video_media import validate_media, read_json, file_hash, MAX_FILE
 from training.video_review import Review, digest
-from training.small_vlm import load_manifest, image_from_bytes
+from training.small_vlm import load_manifest
 
 
 class FrameReview(StrictModel):
@@ -49,7 +50,13 @@ def extract_frame(source, seconds, target):
         '-f','image2',str(target)],check=True,timeout=30,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     if not target.is_file() or not 0<target.stat().st_size<=8*1024*1024:
         raise ValueError('Missing or oversized frame')
-    image_from_bytes(target.read_bytes())
+    # These pixels were just encoded by FFmpeg. Keep preparation independent of
+    # optional Pillow/Torch packages; the actual trainer decodes with Pillow.
+    with target.open('rb') as stream: header=stream.read(33)
+    if len(header)!=33 or header[:8]!=b'\x89PNG\r\n\x1a\n' or header[12:16]!=b'IHDR':
+        raise ValueError('Invalid generated PNG')
+    width,height=struct.unpack('>II',header[16:24])
+    if not 1<=width<=640 or not 1<=height<=640: raise ValueError('Generated frame dimensions exceeded')
 
 
 def export_frames(db,config,reviews,registry,bindings,media_root,output,frame_reviews=None,now=None,config_loader=None):
