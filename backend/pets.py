@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 from starlette.requests import ClientDisconnect
 from backend.accounts import access
+from backend.pet_details import DogDetails
 
 router=APIRouter()
 
@@ -13,6 +14,7 @@ class PetInput(BaseModel):
     model_config=ConfigDict(extra='forbid',strict=True)
     name:str=Field(min_length=1,max_length=40)
     species:Literal['dog']='dog'
+    details:DogDetails|None=None
 
     @field_validator('name')
     @classmethod
@@ -47,12 +49,13 @@ async def list_pets(request:Request):
 @router.post('/v1/me/pets',status_code=201)
 async def create_pet(request:Request):
     store,_,token=access(request);data=await payload(request)
-    return operation(store.pet_create,token,data.name)
+    return operation(store.pet_create,token,data.name,data.details.model_dump() if data.details else None)
 
 @router.patch('/v1/me/pets/{pet_id}')
 async def update_pet(pet_id:str,request:Request):
     store,_,token=access(request);data=await payload(request)
-    return operation(store.pet_update,token,pet_id,data.name)
+    details=data.details.model_dump() if data.details else (DogDetails().model_dump() if 'details' in data.model_fields_set else None)
+    return operation(store.pet_update,token,pet_id,data.name,details)
 
 @router.delete('/v1/me/pets/{pet_id}',status_code=204)
 async def delete_pet(pet_id:str,request:Request):

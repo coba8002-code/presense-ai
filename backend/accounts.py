@@ -15,7 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 router=APIRouter()
 RETENTION=30*86400
-SCHEMA_VERSION=8
+SCHEMA_VERSION=9
 
 class Note(BaseModel):
     model_config=ConfigDict(extra='forbid',strict=True)
@@ -56,6 +56,8 @@ class Store:
                 create_plan_tables(db)
                 from backend.measurement_schema import create_tables as create_measurements
                 create_measurements(db)
+                from backend.pet_details import create_tables as create_details
+                create_details(db)
                 db.execute('PRAGMA user_version='+str(SCHEMA_VERSION))
         if os.name=='posix':os.chmod(self.path,0o600)
     @contextmanager
@@ -90,6 +92,8 @@ class Store:
         db.execute('DELETE FROM notes WHERE expires<=? OR pet_id IN (SELECT id FROM pets WHERE expires<=?)',(now,now))
         db.execute('DELETE FROM pets WHERE expires<=?',(now,))
         db.execute('DELETE FROM sessions WHERE expires<=?',(now,))
+        from backend.pet_details import purge as purge_details
+        purge_details(db)
     def session_owner(self,db,token):
         if not isinstance(token,str) or not 20<=len(token)<=200:raise PermissionError('Invalid session')
         row=db.execute('SELECT owner FROM sessions WHERE token_hash=? AND expires>?',
@@ -100,23 +104,34 @@ class Store:
         row=db.execute('SELECT id,name,created,updated,expires FROM pets WHERE id=? AND owner=? AND expires>?',
             (pet_id,owner,self.clock())).fetchone()
         if not row:raise KeyError('Pet not found')
-        return dict(zip(['id','name','created','updated','expires'],row),species='dog')
+        data=dict(zip(['id','name','created','updated','expires'],row),species='dog')
+        detail=db.execute('SELECT reported_at,payload FROM pet_details WHERE pet_id=? AND owner=?',(pet_id,owner)).fetchone()
+        data['details']={**json.loads(detail[1]),'source':'guardian_report','verified':False,'reported_at':detail[0]} if detail else None
+        return data
     def pet_list(self,token):
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._purge(db)
             ids=[r[0] for r in db.execute('SELECT id FROM pets WHERE owner=? ORDER BY created,id LIMIT 20',(owner,))]
             return [self._pet(db,owner,item) for item in ids]
-    def pet_create(self,token,name):
+    def pet_create(self,token,name,details=None):
+        if details is not None:
+            from backend.pet_details import DogDetails
+            details=DogDetails.model_validate(details).model_dump()
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._purge(db)
             if db.execute('SELECT count(*) FROM pets WHERE owner=?',(owner,)).fetchone()[0]>=20:raise ValueError('Pet limit reached')
             pet_id=str(uuid.uuid4());now=self.clock()
             db.execute('INSERT INTO pets VALUES(?,?,?,?,?,?)',(pet_id,owner,name,now,now,now+RETENTION))
+            if details is not None:db.execute('INSERT INTO pet_details VALUES(?,?,?,?)',(pet_id,owner,now,json.dumps(details,allow_nan=False)))
             return self._pet(db,owner,pet_id)
-    def pet_update(self,token,pet_id,name):
+    def pet_update(self,token,pet_id,name,details=None):
+        if details is not None:
+            from backend.pet_details import DogDetails
+            details=DogDetails.model_validate(details).model_dump()
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._pet(db,owner,pet_id)
             db.execute('UPDATE pets SET name=?,updated=?,expires=MAX(expires,?) WHERE id=? AND owner=?',(name,self.clock(),self.clock()+RETENTION,pet_id,owner))
+            if details is not None:db.execute('INSERT OR REPLACE INTO pet_details VALUES(?,?,?,?)',(pet_id,owner,self.clock(),json.dumps(details,allow_nan=False)))
             return self._pet(db,owner,pet_id)
     def pet_delete(self,token,pet_id):
         with self.connect() as db:
@@ -129,6 +144,8 @@ class Store:
             db.execute('DELETE FROM notes WHERE owner=? AND pet_id=?',(owner,pet_id))
             db.execute('DELETE FROM audio_jobs WHERE owner=? AND pet_id=?',(owner,pet_id))
             db.execute('DELETE FROM pets WHERE owner=? AND id=?',(owner,pet_id))
+            from backend.pet_details import purge as purge_details
+            purge_details(db)
     def issue(self,owner=None,ttl=86400):
         if not 60<=ttl<=604800:raise ValueError('Session lifetime must be 60 seconds to 7 days')
         owner=str(uuid.UUID(owner)) if owner else str(uuid.uuid4())
@@ -168,7 +185,7 @@ class Store:
         row=db.execute('SELECT email FROM members WHERE owner=?',(owner,)).fetchone()
         if row:db.execute('DELETE FROM auth_limits WHERE bucket=?',('identity:'+hashlib.sha256(row[0].encode()).hexdigest(),))
         db.execute('DELETE FROM care_shares WHERE owner=? OR recipient=?',(owner,owner))
-        for table in ('observation_feedback','model_observations','care_plans','journal_followups','journal_cases','notes','pets','audio_jobs','audio_usage','sessions','members'):
+        for table in ('job_contexts','pet_details','observation_feedback','model_observations','care_plans','journal_followups','journal_cases','notes','pets','audio_jobs','audio_usage','sessions','members'):
             db.execute('DELETE FROM '+table+' WHERE owner=?',(owner,))
 
 def access(request):
