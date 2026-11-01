@@ -20,7 +20,7 @@ def failure_recovery(page,data,response):
     """Controlled browser failures; no physical-device/network reliability claim."""
     page.locator('#pet').fill('복구 검사')
     page.locator('#audio').set_input_files({'name':'test.wav','mimeType':'audio/wav','buffer':data})
-    page.locator('summary').click();page.locator('#token').fill('test-only');page.locator('#consent').check()
+    page.locator('#development-analysis summary').click();page.locator('#token').fill('test-only');page.locator('#consent').check()
     for code,message in [(429,'분석 요청이 많습니다'),(503,'AST 모델 설정')]:
         page.unroute('**/v1/audio/events')
         calls=[]
@@ -85,7 +85,7 @@ def main():
                     if not real:page.route('**/v1/audio/events',response)
                     page.goto(base+'/app');page.locator('#pet').fill('테스트개');page.locator('#context').fill('합성 입력·브라우저 검사')
                     page.locator('#audio').set_input_files({'name':'test.wav','mimeType':'audio/wav','buffer':data.getvalue()})
-                    page.locator('summary').click();page.locator('#token').fill('test-only');page.locator('#consent').check()
+                    page.locator('#development-analysis summary').click();page.locator('#token').fill('test-only');page.locator('#consent').check()
                     if real:
                         page.locator('#auth-mode').select_option('account');page.locator('#notes-session').fill(session)
                     started=time.monotonic()

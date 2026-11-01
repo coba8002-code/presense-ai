@@ -34,7 +34,7 @@ def stop(proc):
     except subprocess.TimeoutExpired:proc.kill();proc.wait()
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--real-ast',action='store_true');parser.add_argument('--output',type=Path)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--real-ast',action='store_true');parser.add_argument('--output',type=Path);parser.add_argument('--mobile',action='store_true')
     args=parser.parse_args()
     if args.output and args.output.exists():raise FileExistsError('Use fresh output')
     with tempfile.TemporaryDirectory() as td:
@@ -56,10 +56,17 @@ def main():
             with sync_playwright() as pw:
                 browser=pw.chromium.launch()
                 try:
-                    page=browser.new_page();errors=[];page.on('pageerror',lambda err:errors.append(str(err)))
+                    page=browser.new_page(viewport={'width':390 if args.mobile else 1280,'height':844},is_mobile=args.mobile,has_touch=args.mobile);errors=[];page.on('pageerror',lambda err:errors.append(str(err)))
                     page.goto(base+'/app');page.locator('#notes-session').fill(token);page.locator('#profile-load').click()
                     expect(page.locator('#profile-select option')).to_have_count(2)
                     page.locator('#profile-select').select_option(pet['id'])
+                    page.locator('#notes-consent').check();page.locator('#profile-details summary').click()
+                    page.locator('#profile-breed-kind').select_option('mixed');page.locator('#profile-age').fill('24');page.locator('#profile-weight').fill('12.5');page.locator('#profile-ears').select_option('floppy')
+                    with page.expect_response(lambda r:r.url.endswith('/v1/me/pets/'+pet['id']) and r.request.method=='PATCH') as saved:
+                        page.locator('#profile-update').click()
+                    assert saved.value.status==200;expect(page.locator('#profile-update')).to_be_enabled()
+                    expect(page.locator('#profile-age')).to_have_value('24')
+                    page.locator('#capture-details summary').click();page.locator('#capture-setting').select_option('play');page.locator('#capture-dogs').select_option('multiple');page.locator('#capture-visibility').select_option('occluded');page.locator('#capture-device').fill('synthetic-phone');page.locator('#capture-consent').check()
                     page.locator('#audio').set_input_files({'name':'synthetic.wav','mimeType':'audio/wav','buffer':raw.getvalue()})
                     page.locator('#consent').check();page.locator('#job-consent').check()
                     started=time.monotonic();page.locator('#job-submit').click()
@@ -70,17 +77,22 @@ def main():
                     job=response.json()['items'][0];result=job['result']
                     assert job['status']=='succeeded' and result['decision']=='abstain'
                     assert len(result['dog_event_scores'])==7
+                    context=job['guardian_context'];assert context['source']=='guardian_report' and context['verified'] is False and context['model_conditioning'] is False
+                    assert context['profile']['details']['breed_kind']=='mixed' and context['profile']['details']['age_months']==24
+                    assert context['context']['dogs']=='multiple';expect(page.locator('#jobs-list')).to_contain_text('발성 개체 미확인')
                     if args.real_ast:assert result['model']==MODEL and result['revision']==REVISION
                     page.once('dialog',lambda dialog:dialog.accept());page.locator('#jobs-list button').filter(has_text='작업 취소·결과 삭제').click()
                     expect(page.locator('#jobs-list strong')).to_contain_text('취소됨')
                     erased=page.request.get(base+'/v1/me/audio-jobs/'+job['id'],headers={'X-PetSense-Session':token}).json()
                     assert erased['result'] is None
+                    assert erased['guardian_context'] is None
                     stop(worker)
                     page.locator('#job-submit').click()
                     expect(page.locator('#jobs-list strong').filter(has_text='대기 중')).to_have_count(1)
                     page.once('dialog',lambda dialog:dialog.accept());page.locator('#jobs-list button').filter(has_text='작업 취소·결과 삭제').click()
                     expect(page.locator('#jobs-list strong').filter(has_text='취소됨')).to_have_count(2)
                     page.locator('#notes-session').fill(other);expect(page.locator('#jobs-list article')).to_have_count(0)
+                    expect(page.locator('#profile-age')).to_have_value('');expect(page.locator('#capture-consent')).not_to_be_checked();expect(page.locator('#capture-device')).to_have_value('')
                     page.locator('#jobs-refresh').click();expect(page.locator('#jobs-status')).to_contain_text('0개')
                     persisted=page.evaluate('JSON.stringify(localStorage)');assert token not in persisted and other not in persisted
                     assert not errors,errors

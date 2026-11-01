@@ -21,24 +21,31 @@ class JobStore(Store):
             yield db
 
     @staticmethod
-    def view(row,reused=None):
+    def view(row,reused=None,db=None):
         data={key:row[key] for key in ('id','pet_id','created','expires','raw_deadline','status','error')}
         data['result']=json.loads(row['result']) if row['status']=='succeeded' and row['result'] else None
         data['training_approved']=False
+        context=db.execute('SELECT payload FROM job_contexts WHERE job_id=? AND owner=?',(row['id'],row['owner'])).fetchone() if db else None
+        data['guardian_context']=json.loads(context[0]) if context else None
         if reused is not None:data['reused']=reused
         return data
 
-    def enqueue(self,token,pet_id,key,raw):
+    def enqueue(self,token,pet_id,key,raw,context=None):
+        if context is not None:
+            from backend.pet_details import CaptureContext
+            context=CaptureContext.model_validate(context).model_dump()
         if not isinstance(key,str) or not re.fullmatch(r'[A-Za-z0-9._-]{16,128}',key):raise ValueError('Invalid idempotency key')
         _,digest=read_wav_bytes(raw)
         key_hash=hashlib.sha256(key.encode()).hexdigest()
-        fingerprint=hashlib.sha256(json.dumps([pet_id,digest,MODEL,REVISION,'temporary-audio-v1']).encode()).hexdigest()
+        identity=[pet_id,digest,MODEL,REVISION,'temporary-audio-v1']
+        if context is not None:identity.append(context)
+        fingerprint=hashlib.sha256(json.dumps(identity,sort_keys=True).encode()).hexdigest()
         with self.connect() as db:
-            db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._purge(db);self._pet(db,owner,pet_id)
+            db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._purge(db);pet=self._pet(db,owner,pet_id)
             old=db.execute('SELECT * FROM audio_jobs WHERE owner=? AND key_hash=?',(owner,key_hash)).fetchone()
             if old:
                 if old['payload_hash']!=fingerprint:raise Conflict('Idempotency content changed')
-                return self.view(old,True)
+                return self.view(old,True,db)
             now=self.clock();day=int(now//86400)
             count=db.execute('SELECT count FROM audio_usage WHERE owner=? AND day=?',(owner,day)).fetchone()
             if count and count[0]>=20:raise Capacity('Daily job quota reached')
@@ -48,20 +55,26 @@ class JobStore(Store):
             db.execute("INSERT INTO audio_jobs(id,owner,pet_id,key_hash,payload_hash,session_hash,created,expires,raw_deadline,status,media) VALUES(?,?,?,?,?,?,?,?,?,'queued',?)",
                 (job_id,owner,pet_id,key_hash,fingerprint,hashlib.sha256(token.encode()).hexdigest(),now,now+86400,now+900,raw))
             db.execute('INSERT INTO audio_usage VALUES(?,?,1) ON CONFLICT(owner,day) DO UPDATE SET count=count+1',(owner,day))
-            return self.view(db.execute('SELECT * FROM audio_jobs WHERE id=?',(job_id,)).fetchone(),False)
+            if context is not None:
+                from backend.pet_details import interpretation_limits
+                snapshot={'source':'guardian_report','verified':False,'reported_at':now,'context':context,
+                          'profile':{'pet_id':pet_id,'details':pet['details']},'model_conditioning':False,'training_approved':False,
+                          'interpretation_limits':interpretation_limits(pet['details'],context)}
+                db.execute('INSERT INTO job_contexts VALUES(?,?,?,?)',(job_id,owner,pet_id,json.dumps(snapshot,allow_nan=False)))
+            return self.view(db.execute('SELECT * FROM audio_jobs WHERE id=?',(job_id,)).fetchone(),False,db)
 
     def get(self,token,job_id):
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._purge(db)
             row=db.execute('SELECT * FROM audio_jobs WHERE id=? AND owner=?',(job_id,owner)).fetchone()
             if not row:raise KeyError('Job not found')
-            return self.view(row)
+            return self.view(row,db=db)
 
     def list_jobs(self,token):
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._purge(db)
             rows=db.execute('SELECT * FROM audio_jobs WHERE owner=? ORDER BY created DESC,id DESC LIMIT 20',(owner,)).fetchall()
-            return [self.view(row) for row in rows]
+            return [self.view(row,db=db) for row in rows]
 
     def cancel(self,token,job_id):
         with self.connect() as db:
@@ -69,8 +82,9 @@ class JobStore(Store):
             if not db.execute('SELECT 1 FROM audio_jobs WHERE id=? AND owner=?',(job_id,owner)).fetchone():raise KeyError('Job not found')
             from backend.measurement_schema import delete_job
             delete_job(db,owner,job_id)
+            db.execute('DELETE FROM job_contexts WHERE job_id=? AND owner=?',(job_id,owner))
             db.execute("UPDATE audio_jobs SET status='cancelled',media=NULL,result=NULL,error='client_cancelled',lease=NULL WHERE id=? AND owner=?",(job_id,owner))
-            return self.view(db.execute('SELECT * FROM audio_jobs WHERE id=?',(job_id,)).fetchone())
+            return self.view(db.execute('SELECT * FROM audio_jobs WHERE id=?',(job_id,)).fetchone(),db=db)
 
     def claim(self):
         with self.connect() as db:

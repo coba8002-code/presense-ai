@@ -8,6 +8,7 @@ from starlette.requests import ClientDisconnect
 from backend.accounts import access
 from backend.job_store import JobStore, Conflict, Capacity
 from training.pretrained_audio import MAX_BYTES,read_wav_bytes
+from backend.pet_details import CaptureContext
 
 router=APIRouter()
 
@@ -35,6 +36,13 @@ async def create_job(request:Request):
     if request.headers.get('content-type')!='audio/wav':raise HTTPException(415,'Expected audio/wav')
     key=request.headers.get('idempotency-key','');pet_id=request.headers.get('x-petsense-pet-id','')
     if not re.fullmatch(r'[A-Za-z0-9._-]{16,128}',key) or len(pet_id)!=36:raise HTTPException(422,'Job key and dog profile required')
+    context=None
+    supplied=request.headers.get('x-petsense-context')
+    if supplied is not None:
+        if request.headers.get('x-context-storage-consent')!='guardian-context-v1':raise HTTPException(403,'Separate guardian-context storage consent required')
+        if len(supplied.encode())>2048:raise HTTPException(413,'Context too large')
+        try:context=CaptureContext.model_validate_json(supplied).model_dump()
+        except ValueError:raise HTTPException(422,'Invalid guardian context') from None
     admission=request.app.state.audio_admission
     try:admission.enter()
     except ValueError:raise HTTPException(429,'Upload busy',headers={'Retry-After':'1'}) from None
@@ -48,7 +56,7 @@ async def create_job(request:Request):
             read_wav_bytes(bytes(body))
         except TimeoutError:raise HTTPException(408,'Audio upload deadline exceeded') from None
         except (ValueError,ClientDisconnect):raise HTTPException(422,'Invalid bounded PCM16 WAV') from None
-        return operation(store.enqueue,token,pet_id,key,bytes(body))
+        return operation(store.enqueue,token,pet_id,key,bytes(body),context)
     finally:admission.leave()
 
 @router.get('/v1/me/audio-jobs')
