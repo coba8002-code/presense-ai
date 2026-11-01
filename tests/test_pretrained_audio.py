@@ -42,3 +42,21 @@ class PretrainedAudioTests(unittest.TestCase):
     def test_missing_or_nonfinite_model_output_rejected(self):
         with self.assertRaises(ValueError): dog_scores(np.zeros(1), {0:'Bark'})
         with self.assertRaises(ValueError): dog_scores(np.full(7, np.nan), dict(enumerate(DOG_LABELS)))
+
+
+class AudioIsolationTests(unittest.TestCase):
+    def test_quality_does_not_import_web_or_schema_dependencies(self):
+        import subprocess, sys
+        code = """
+import builtins
+original=builtins.__import__
+def isolated(name,*args,**kwargs):
+    if name.split('.')[0] in {'backend','pydantic','httpx','fastapi'}:
+        raise ImportError('Forbidden audio dependency: '+name)
+    return original(name,*args,**kwargs)
+builtins.__import__=isolated
+from training.audio_quality import audio_quality
+import numpy as np
+assert audio_quality(np.zeros(16000))['warnings']==['near_silence']
+"""
+        subprocess.run([sys.executable,'-c',code],check=True,capture_output=True)
