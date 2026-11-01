@@ -199,3 +199,5 @@ Windows/iOS/Android 실제 기기와 Web Audio 코덱 검증은 별도입니다.
 
 ### 반려견별 구조화 일지 · 후속 관찰
 `/understand?lang=ko` 또는 `?lang=en`에서 상황을 만든 뒤 반려견·관찰 시각·30일/90일 보관을 선택합니다. 일지에서 보호자가 한 행동과 이후 관찰을 연결하고, 선택한 상황과 후속 기록을 JSON으로 내보내거나 삭제할 수 있습니다. 보호자 진술이며 교정 효과·모델 분석·학습 정답으로 자동 승인하지 않습니다. 기존 메모/소리 결과의 보관 기간은 유지합니다. [계약·실행·검증](docs/JOURNAL.md).
+
+Current video-source automation and its execution limits: [SOURCE_AUTOMATION_DELIVERY](docs/SOURCE_AUTOMATION_DELIVERY.md).

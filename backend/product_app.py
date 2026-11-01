@@ -2,7 +2,7 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 router=APIRouter()
-FILES={'':('index.html','text/html'),'app.js':('app.js','text/javascript'),'app.css':('app.css','text/css'),'audio.js':('audio.js','text/javascript'),'notes.js':('notes.js','text/javascript'),'profiles.js':('profiles.js','text/javascript'),'jobs.js':('jobs.js','text/javascript'),'session.js':('session.js','text/javascript'),'measurements.js':('measurements.js','text/javascript')}
+FILES={'research.js':('research.js','text/javascript'),'':('index.html','text/html'),'app.js':('app.js','text/javascript'),'app.css':('app.css','text/css'),'audio.js':('audio.js','text/javascript'),'notes.js':('notes.js','text/javascript'),'profiles.js':('profiles.js','text/javascript'),'jobs.js':('jobs.js','text/javascript'),'session.js':('session.js','text/javascript'),'measurements.js':('measurements.js','text/javascript')}
 
 def serve(name):
     if name not in FILES:raise HTTPException(404,'Not found')

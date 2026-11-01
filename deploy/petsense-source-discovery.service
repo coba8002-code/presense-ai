@@ -1,0 +1,19 @@
+[Unit]
+Description=PetSense bounded source metadata discovery (not automatic rights approval)
+After=network-online.target
+
+[Service]
+User=petsense
+Group=petsense
+WorkingDirectory=/opt/petsense/current
+ExecStart=/opt/petsense/venv/bin/python -m knowledge.source_automation --config /etc/petsense/source-automation.json --db /var/lib/petsense/private/knowledge.sqlite3 --watch
+Restart=on-failure
+RestartSec=30
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/petsense/private
+
+[Install]
+WantedBy=multi-user.target
