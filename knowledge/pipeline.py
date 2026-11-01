@@ -102,8 +102,12 @@ def _cycle(db, config, provider, now, discovery_only=False):
     ids = []
     # Refresh saved sources before discovery so deleted/private sources are withdrawn.
     for row in db.execute('SELECT id FROM videos WHERE verified <= ? ORDER BY verified LIMIT 20', (now-86400,)):
-        ids.append(row['id'])
-    for query in config.queries:
+        if not config.targeted_only or row['id'] in config.video_ids:
+            ids.append(row['id'])
+    # An indexed link is only an ID hint. Official metadata, rights, quotas,
+    # retention and dog-only analysis checks below still apply to every target.
+    ids.extend(config.video_ids)
+    for query in ([] if config.targeted_only else config.queries):
         try:
             ids.extend(request(db, config, now, provider.discover, query))
         except BudgetExceeded:
@@ -111,7 +115,8 @@ def _cycle(db, config, provider, now, discovery_only=False):
             break
         except ValueError:
             summary['errors'] += 1
-    ids.extend(row['id'] for row in db.execute('SELECT id FROM videos ORDER BY attempted LIMIT 20'))
+    ids.extend(row['id'] for row in db.execute('SELECT id FROM videos ORDER BY attempted LIMIT 20')
+               if not config.targeted_only or row['id'] in config.video_ids)
     ids = list(dict.fromkeys(ids))[:40]
     for video_id in ids:
         try:

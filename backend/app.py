@@ -108,3 +108,6 @@ app.include_router(local_vision_router)
 
 from backend.measurements import router as measurement_router
 app.include_router(measurement_router)
+
+from backend.research_status import router as research_status_router
+app.include_router(research_status_router)

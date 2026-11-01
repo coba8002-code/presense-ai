@@ -1,0 +1,9 @@
+{
+  "channels": [],
+  "interval_seconds": 3600,
+  "daily_feed_requests": 20,
+  "retention_days": 7,
+  "enable_link_analysis": false,
+  "paid_link_analysis_approved": false,
+  "enable_local_training": false
+}
