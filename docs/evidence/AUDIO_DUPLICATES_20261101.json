@@ -1,0 +1,723 @@
+{
+  "compared_file_pairs": 19435,
+  "raw_equal_pairs": [],
+  "canonical_equal_pairs": [],
+  "similarity_candidates": [
+    {
+      "ids": [
+        "barkmeow:dog_1.wav",
+        "esc10:audio/3-170015-A-0.wav"
+      ],
+      "seconds": [
+        3.0,
+        3.0
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 1.0000000000000004,
+      "absolute_waveform_correlation": 1.0000000000000002,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_11.wav",
+        "esc10:audio/3-180256-A-0.wav"
+      ],
+      "seconds": [
+        0.75,
+        0.75
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9995250484218321,
+      "absolute_waveform_correlation": 0.9999999530891102,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_12.wav",
+        "esc10:audio/4-184575-A-0.wav"
+      ],
+      "seconds": [
+        4.0,
+        4.0
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9993539104778383,
+      "absolute_waveform_correlation": 0.999984635672853,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_13.wav",
+        "esc10:audio/5-231762-A-0.wav"
+      ],
+      "seconds": [
+        0.5,
+        0.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9962122641411725,
+      "absolute_waveform_correlation": 0.9999996624457713,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_14.wav",
+        "esc10:audio/3-180977-A-0.wav"
+      ],
+      "seconds": [
+        3.25,
+        3.25
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9993692053324937,
+      "absolute_waveform_correlation": 0.999992200798496,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_15.wav",
+        "esc10:audio/2-122104-B-0.wav"
+      ],
+      "seconds": [
+        1.75,
+        1.75
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9987841443634434,
+      "absolute_waveform_correlation": 0.9999998294000717,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_16.wav",
+        "esc10:audio/5-208030-A-0.wav"
+      ],
+      "seconds": [
+        2.0,
+        2.0
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9995599666567949,
+      "absolute_waveform_correlation": 0.999959077494428,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_17.wav",
+        "esc10:audio/5-9032-A-0.wav"
+      ],
+      "seconds": [
+        2.5,
+        2.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9995685292399488,
+      "absolute_waveform_correlation": 0.9999973545351841,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_18.wav",
+        "esc10:audio/5-213855-A-0.wav"
+      ],
+      "seconds": [
+        0.75,
+        0.75
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.998262915593902,
+      "absolute_waveform_correlation": 0.9999995546704854,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_19.wav",
+        "esc10:audio/1-85362-A-0.wav"
+      ],
+      "seconds": [
+        0.5,
+        0.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9988623155736611,
+      "absolute_waveform_correlation": 0.9999992313593085,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_2.wav",
+        "esc10:audio/1-59513-A-0.wav"
+      ],
+      "seconds": [
+        0.5,
+        0.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9983698228529112,
+      "absolute_waveform_correlation": 0.9999999726616635,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_20.wav",
+        "esc10:audio/4-182395-A-0.wav"
+      ],
+      "seconds": [
+        0.0,
+        0.0
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9997004186157842,
+      "absolute_waveform_correlation": 0.9999993842767926,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_22.wav",
+        "esc10:audio/4-207124-A-0.wav"
+      ],
+      "seconds": [
+        2.5,
+        2.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9995168308791935,
+      "absolute_waveform_correlation": 0.9999999429838469,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_23.wav",
+        "esc10:audio/1-30344-A-0.wav"
+      ],
+      "seconds": [
+        1.25,
+        1.25
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9994024655863125,
+      "absolute_waveform_correlation": 0.9999972519310333,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_24.wav",
+        "esc10:audio/5-217158-A-0.wav"
+      ],
+      "seconds": [
+        0.0,
+        0.0
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.99512512466883,
+      "absolute_waveform_correlation": 0.9999999797898422,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_25.wav",
+        "esc10:audio/5-203128-B-0.wav"
+      ],
+      "seconds": [
+        3.0,
+        3.0
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9990933041014317,
+      "absolute_waveform_correlation": 0.9999763019074304,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_26.wav",
+        "esc10:audio/3-144028-A-0.wav"
+      ],
+      "seconds": [
+        3.75,
+        3.75
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9993867644304975,
+      "absolute_waveform_correlation": 0.9999898481168271,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_27.wav",
+        "esc10:audio/2-118964-A-0.wav"
+      ],
+      "seconds": [
+        2.0,
+        2.0
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 1.0,
+      "absolute_waveform_correlation": 1.0000000000000002,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_28.wav",
+        "esc10:audio/1-110389-A-0.wav"
+      ],
+      "seconds": [
+        0.5,
+        0.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9999999999999972,
+      "absolute_waveform_correlation": 1.0000000000000002,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_29.wav",
+        "esc10:audio/4-191687-A-0.wav"
+      ],
+      "seconds": [
+        3.25,
+        3.25
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9995278476251901,
+      "absolute_waveform_correlation": 0.9999998876374416,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_3.wav",
+        "esc10:audio/2-122104-A-0.wav"
+      ],
+      "seconds": [
+        1.25,
+        1.25
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9983463958255061,
+      "absolute_waveform_correlation": 0.9999998007164341,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_30.wav",
+        "esc10:audio/3-155312-A-0.wav"
+      ],
+      "seconds": [
+        1.75,
+        1.75
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9858676582757899,
+      "absolute_waveform_correlation": 0.999999981641223,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_31.wav",
+        "esc10:audio/3-136288-A-0.wav"
+      ],
+      "seconds": [
+        2.25,
+        2.25
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.995036154380578,
+      "absolute_waveform_correlation": 0.9999982000978119,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_32.wav",
+        "esc10:audio/5-212454-A-0.wav"
+      ],
+      "seconds": [
+        3.75,
+        3.75
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9993601780260091,
+      "absolute_waveform_correlation": 0.9999945155435699,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_33.wav",
+        "esc10:audio/1-100032-A-0.wav"
+      ],
+      "seconds": [
+        2.5,
+        2.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9996646612196003,
+      "absolute_waveform_correlation": 0.9999874772589677,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_34.wav",
+        "esc10:audio/2-118072-A-0.wav"
+      ],
+      "seconds": [
+        1.5,
+        1.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9999999999999991,
+      "absolute_waveform_correlation": 1.0,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_34.wav",
+        "esc10:audio/4-164064-C-1.wav"
+      ],
+      "seconds": [
+        1.75,
+        2.75
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9850942023193728,
+      "absolute_waveform_correlation": 0.9862313972190252,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_35.wav",
+        "esc10:audio/5-203128-A-0.wav"
+      ],
+      "seconds": [
+        2.5,
+        2.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9995623703981065,
+      "absolute_waveform_correlation": 0.9999893041059338,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_36.wav",
+        "esc10:audio/4-192236-A-0.wav"
+      ],
+      "seconds": [
+        0.75,
+        0.75
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9987041251692133,
+      "absolute_waveform_correlation": 0.9999948823902602,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_37.wav",
+        "esc10:audio/1-30226-A-0.wav"
+      ],
+      "seconds": [
+        2.25,
+        2.25
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9981967282449148,
+      "absolute_waveform_correlation": 0.9999966625659126,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_4.wav",
+        "esc10:audio/3-157695-A-0.wav"
+      ],
+      "seconds": [
+        1.5,
+        1.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9993358124258189,
+      "absolute_waveform_correlation": 0.9999980141576277,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_41.wav",
+        "esc10:audio/2-114587-A-0.wav"
+      ],
+      "seconds": [
+        0.5,
+        0.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9993502078807825,
+      "absolute_waveform_correlation": 0.9999955891826149,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_42.wav",
+        "esc10:audio/3-163459-A-0.wav"
+      ],
+      "seconds": [
+        0.75,
+        0.75
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.999317695946874,
+      "absolute_waveform_correlation": 0.9999818189224244,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_43.wav",
+        "esc10:audio/2-116400-A-0.wav"
+      ],
+      "seconds": [
+        0.75,
+        0.75
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9985946924858286,
+      "absolute_waveform_correlation": 0.9999970986538886,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_44.wav",
+        "esc10:audio/4-194754-A-0.wav"
+      ],
+      "seconds": [
+        4.0,
+        4.0
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9977172396330587,
+      "absolute_waveform_correlation": 0.9999995570179552,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_45.wav",
+        "esc10:audio/1-32318-A-0.wav"
+      ],
+      "seconds": [
+        0.25,
+        0.25
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9983141298465217,
+      "absolute_waveform_correlation": 0.9999969523563028,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_5.wav",
+        "esc10:audio/2-114280-A-0.wav"
+      ],
+      "seconds": [
+        3.0,
+        3.0
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9996509150553889,
+      "absolute_waveform_correlation": 0.9999998987189475,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_6.wav",
+        "esc10:audio/4-183992-A-0.wav"
+      ],
+      "seconds": [
+        1.0,
+        1.0
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9989146753295592,
+      "absolute_waveform_correlation": 0.999998473983876,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_7.wav",
+        "esc10:audio/2-117271-A-0.wav"
+      ],
+      "seconds": [
+        2.5,
+        2.5
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9989399023936748,
+      "absolute_waveform_correlation": 0.9999989245722963,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_8.wav",
+        "esc10:audio/1-97392-A-0.wav"
+      ],
+      "seconds": [
+        2.0,
+        2.0
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9995258141918661,
+      "absolute_waveform_correlation": 0.9999991425572194,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    },
+    {
+      "ids": [
+        "barkmeow:dog_9.wav",
+        "esc10:audio/4-199261-A-0.wav"
+      ],
+      "seconds": [
+        1.25,
+        1.25
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9992229104321172,
+      "absolute_waveform_correlation": 0.9999999618908463,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    }
+  ],
+  "independence_proven": false,
+  "training_approved": false,
+  "method": {
+    "sample_rate": 16000,
+    "pcm": "mono signed16",
+    "window_seconds": 1,
+    "hop_seconds": 0.25,
+    "spectral_threshold": 0.97,
+    "absolute_waveform_threshold": 0.9,
+    "top_window_pairs_checked_per_file_pair": 8
+  },
+  "limitations": [
+    "Candidate similarity is not verified shared provenance or animal identity",
+    "Grid alignment can miss arbitrary trims, time stretch, pitch shift, compression and mixing",
+    "Segments shorter than 1 second and near-silence do not enter similarity search",
+    "No match is not evidence of independent animals, households or recordings",
+    "Unknown pretrained corpora not inspected; no independence or accuracy claim"
+  ],
+  "inventories": {
+    "barkmeow": {
+      "sha256": "01609983de64bcf9a4a8e53c7fb58ffc3f7c98b80bb17c847c1ea10c942ed922",
+      "file_count": 46,
+      "source_revision": null
+    },
+    "esc10": {
+      "sha256": "dc4d6b13d1ca6843e40a681bdc04a055fc0d9bc94ad5724eae641ad33a5a5bee",
+      "file_count": 400,
+      "source_revision": "33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6"
+    }
+  },
+  "ffmpeg_version": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers",
+  "numpy_version": "2.3.5",
+  "new_downloads": 0,
+  "training_performed": false,
+  "report_sha256": "689f133cbbbe315fd216daa8c76b2568d9148320ba56c9e1677e541c608f0ce4",
+  "inspected_files": 446,
+  "candidate_count": 41,
+  "cross_dataset_candidate_count": 41,
+  "known_source_overlap": "BarkMeow archive inventory lacks original recording URLs/individual IDs; filename is not origin identity. Cross-corpus publisher-origin overlap unresolved.",
+  "barkmeow_files_with_candidates": 40,
+  "esc_files_with_candidates": 41,
+  "label_conflict_candidates": [
+    {
+      "ids": [
+        "barkmeow:dog_34.wav",
+        "esc10:audio/4-164064-C-1.wav"
+      ],
+      "seconds": [
+        1.75,
+        2.75
+      ],
+      "window_seconds": 1,
+      "spectral_cosine": 0.9850942023193728,
+      "absolute_waveform_correlation": 0.9862313972190252,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false
+    }
+  ],
+  "review_decision": "Exclude candidate-linked records from any claim of new independent evaluation pending provenance and listening review. No-match records are also unapproved."
+}
