@@ -61,6 +61,7 @@
    const modelLines=['출처: 로컬 보고서 주장 · 실행기 진위/성능 미검증 · 판단 유보'];
    if(alignment.audio_model){const m=alignment.audio_model;modelLines.push('음향: '+m.model+' @ '+m.revision);
     for(const w of m.windows){const top=[...w.dog_event_scores].sort((a,b)=>b.score-a.score)[0];modelLines.push(w.start.toFixed(2)+'–'+w.end.toFixed(2)+'초 · 최고 원시 점수 '+top.label+' '+top.score.toFixed(3)+' (확률·확정 이벤트 아님)');}}
+   if(alignment.audio_model?.candidate_events){const e=alignment.audio_model.candidate_events;modelLines.push('실험적 구간 후보 · 미검증 임곗값 · 확정 이벤트 아님');for(const c of e.candidates)modelLines.push(c.label+' '+c.start.toFixed(2)+'–'+c.end.toFixed(2)+'초 · 시작/끝은 점수창 범위 · 발성 개체 미확인 · 음질 '+(c.quality_flags.join(', ')||'문제 미탐지(양호 보장 아님)'));}
    if(alignment.vision_model){const m=alignment.vision_model;modelLines.push('정지 프레임 후보: '+m.model+' @ '+m.revision);
     for(const o of m.observations)modelLines.push(o.seconds.toFixed(2)+'초 · '+o.posture_candidate+' (개체 확인·동작·감정 해석 아님)');}
    $('local-model-status').textContent=(alignment.audio_model||alignment.vision_model)?modelLines.join('\n'):'로컬 모델 결과 없음';

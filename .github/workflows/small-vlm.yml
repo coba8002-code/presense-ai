@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: ['codex/**']
-    paths: ['training/av_ast.py', 'training/av_ast_worker.py', 'training/av_alignment.py', 'training/audio_timeline.py', 'scripts/video_browser_smoke.py', 'backend/static/video/**', 'training/small_vlm.py', 'training/small_vlm_infer.py', 'requirements-vlm.txt', '.github/workflows/small-vlm.yml']
+    paths: ['training/event_candidates.py', 'training/av_ast.py', 'training/av_ast_worker.py', 'training/av_alignment.py', 'training/audio_timeline.py', 'scripts/video_browser_smoke.py', 'backend/static/video/**', 'training/small_vlm.py', 'training/small_vlm_infer.py', 'requirements-vlm.txt', '.github/workflows/small-vlm.yml']
 permissions:
   contents: read
 jobs:

@@ -32,6 +32,11 @@
    if(m.model!=='MIT/ast-finetuned-audioset-10-10-0.4593'||m.revision!=='f826b80d28226b62986cc218e5cec390b1096902'||m.decision!=='abstain'||m.species_verified!==false||!Array.isArray(m.windows)||!m.windows.length||m.windows.length>60)throw new Error('Invalid audio model');
    for(const w of m.windows){if(!finite(w.start)||!finite(w.end)||w.start<0||w.end<=w.start||w.end>duration||!Array.isArray(w.dog_event_scores)||w.dog_event_scores.length!==7||new Set(w.dog_event_scores.map(s=>s.label)).size!==7||w.dog_event_scores.some(s=>!labels.includes(s.label)||!finite(s.score)||s.score<0||s.score>1))throw new Error('Invalid audio scores');}
   }
+  if(r.audio_model?.candidate_events){
+   const e=r.audio_model.candidate_events;
+   if(e.validated!==false||e.decision!=='abstain'||!Array.isArray(e.candidates)||e.candidates.length>420)throw new Error('Invalid candidate policy');
+   for(const c of e.candidates)if(!['Dog','Bark','Yip','Howl','Bow-wow','Growling','Whimper (dog)'].includes(c.label)||!finite(c.start)||!finite(c.end)||c.start<0||c.end<=c.start||c.end>duration||!Array.isArray(c.quality_flags)||c.quality_flags.some(x=>!['near_silence','clipping'].includes(x))||c.speaker!=='unconfirmed'||c.status!=='unvalidated_candidate')throw new Error('Invalid candidate envelope');
+  }
   if(r.vision_model){
    const m=r.vision_model;
    if(m.model!=='HuggingFaceTB/SmolVLM2-256M-Video-Instruct'||m.revision!=='067788b187b95ebe7b2e040b3e4299e342e5b8fd'||m.decision!=='abstain'||m.species_verified!==false||!Array.isArray(m.observations)||!m.observations.length||m.observations.length>6)throw new Error('Invalid vision model');

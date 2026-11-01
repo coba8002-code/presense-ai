@@ -15,7 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 router=APIRouter()
 RETENTION=30*86400
-SCHEMA_VERSION=7
+SCHEMA_VERSION=8
 
 class Note(BaseModel):
     model_config=ConfigDict(extra='forbid',strict=True)
@@ -54,6 +54,8 @@ class Store:
                 create_care_tables(db)
                 from backend.plan_schema import create_tables as create_plan_tables
                 create_plan_tables(db)
+                from backend.measurement_schema import create_tables as create_measurements
+                create_measurements(db)
                 db.execute('PRAGMA user_version='+str(SCHEMA_VERSION))
         if os.name=='posix':os.chmod(self.path,0o600)
     @contextmanager
@@ -70,6 +72,8 @@ class Store:
             self._purge(db)
     def _purge(self,db):
         now=self.clock()
+        from backend.measurement_schema import purge as purge_observations
+        purge_observations(db,now)
         from backend.journal_schema import purge
         purge(db,now)
         from backend.plan_schema import purge as purge_plans
@@ -117,6 +121,8 @@ class Store:
     def pet_delete(self,token,pet_id):
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token);self._pet(db,owner,pet_id)
+            from backend.measurement_schema import delete_pet as delete_observations
+            delete_observations(db,owner,pet_id)
             from backend.journal_schema import delete_pet
             delete_pet(db,owner,pet_id)
             db.execute('DELETE FROM care_shares WHERE owner=? AND pet_id=?',(owner,pet_id))
@@ -162,7 +168,7 @@ class Store:
         row=db.execute('SELECT email FROM members WHERE owner=?',(owner,)).fetchone()
         if row:db.execute('DELETE FROM auth_limits WHERE bucket=?',('identity:'+hashlib.sha256(row[0].encode()).hexdigest(),))
         db.execute('DELETE FROM care_shares WHERE owner=? OR recipient=?',(owner,owner))
-        for table in ('care_plans','journal_followups','journal_cases','notes','pets','audio_jobs','audio_usage','sessions','members'):
+        for table in ('observation_feedback','model_observations','care_plans','journal_followups','journal_cases','notes','pets','audio_jobs','audio_usage','sessions','members'):
             db.execute('DELETE FROM '+table+' WHERE owner=?',(owner,))
 
 def access(request):

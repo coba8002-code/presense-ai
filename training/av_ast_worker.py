@@ -5,6 +5,7 @@ import sys
 from training.av_alignment import align
 from training.audio_timeline import analyze_windows
 from training.pretrained_audio import ASTDogAudio,MODEL,REVISION
+from training.event_candidates import candidates
 
 
 def main():
@@ -18,7 +19,8 @@ def main():
    trim=math.ceil(-start*16000);signal=signal[trim:];start+=trim/16000
   signal=signal[:int((duration-start)*16000)]
   result=analyze_windows(signal,model.analyze,offset=start,video_duration=duration)
-  return {'model':MODEL,'revision':REVISION,'score_type':'uncalibrated_independent_sigmoid','decision':'abstain','species_verified':False,
+  event_windows=[{'start':w['start'],'end':w['end'],'dog_event_scores':w['score_result']['dog_event_scores'],'audio_quality':w['audio_quality']} for w in result['windows']]
+  return {'candidate_events':candidates(event_windows),'model':MODEL,'revision':REVISION,'score_type':'uncalibrated_independent_sigmoid','decision':'abstain','species_verified':False,
    'windows':[{'start':w['start'],'end':w['end'],'dog_event_scores':w['score_result']['dog_event_scores']} for w in result['windows']],
    'limitations':['Window scores are not detected onset/offset events','No speaker, intent, emotion or independent accuracy verification']}
  def vision(report,image_at):

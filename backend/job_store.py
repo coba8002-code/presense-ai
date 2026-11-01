@@ -67,6 +67,8 @@ class JobStore(Store):
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE');owner=self.session_owner(db,token)
             if not db.execute('SELECT 1 FROM audio_jobs WHERE id=? AND owner=?',(job_id,owner)).fetchone():raise KeyError('Job not found')
+            from backend.measurement_schema import delete_job
+            delete_job(db,owner,job_id)
             db.execute("UPDATE audio_jobs SET status='cancelled',media=NULL,result=NULL,error='client_cancelled',lease=NULL WHERE id=? AND owner=?",(job_id,owner))
             return self.view(db.execute('SELECT * FROM audio_jobs WHERE id=?',(job_id,)).fetchone())
 
@@ -87,7 +89,10 @@ class JobStore(Store):
 
     def finish(self,claim,result=None,error=None):
         if result is not None:
-            try:validate_result(claim['raw'],json.dumps(result,allow_nan=False).encode())
+            try:
+                validate_result(claim['raw'],json.dumps(result,allow_nan=False).encode())
+                signal,_=read_wav_bytes(claim['raw'])
+                result={**result,'input_duration_seconds':len(signal)/16000,'input_sample_rate':16000}
             except (WorkerError,ValueError,TypeError):raise ValueError('Invalid model result') from None
         if error not in (None,'model_unavailable','deadline_exceeded','worker_lost'):raise ValueError('Invalid worker error')
         with self.connect() as db:

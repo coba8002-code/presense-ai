@@ -105,3 +105,6 @@ app.include_router(plans_router)
 from backend.local_vision import router as local_vision_router
 app.state.local_vision_lock=asyncio.Lock()
 app.include_router(local_vision_router)
+
+from backend.measurements import router as measurement_router
+app.include_router(measurement_router)

@@ -22,7 +22,7 @@ import backend.job_worker as worker
 from backend.job_store import JobStore
 from training.pretrained_audio import MODEL,REVISION,DOG_LABELS
 async def mock(raw,timeout):
- return dict(model=MODEL,revision=REVISION,input_sha256=hashlib.sha256(raw).hexdigest(),decision='abstain',production_ready=False,species_verified=False,dog_event_scores=[dict(label=x,score=.1) for x in DOG_LABELS],runtime='synthetic-test-double')
+ return dict(execution_kind='synthetic_fixture',duration_seconds=1.,model=MODEL,revision=REVISION,input_sha256=hashlib.sha256(raw).hexdigest(),decision='abstain',production_ready=False,species_verified=False,dog_event_scores=[dict(label=x,score=.1) for x in DOG_LABELS],runtime='synthetic-test-double')
 worker.run_ast=mock
 asyncio.run(worker.serve(JobStore(sys.argv[1]),True))
 '''
