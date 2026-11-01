@@ -537,3 +537,5 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [ ] 국내PC AI-Hub 원본 경로/무결성·개체 필드 연결. 이용승인은 완료, 클라우드에 실제 원본 미연결.
 - [ ] InterPet4D/DogSpeak 등 NC자료 상업 이용조건 해결; Mendeley 직접다운로드403 자료는 원본 미확보. 임의 미러/접근제어 우회 없음.
 - [ ] 독립 전문가 관찰/해석 검토, 잠금 AV 정답셋, 실제 학습·성능 비교. 이번 작업 신규 모델학습0/유튜브 영상학습0.
+
+- [x] 자료별 이용목적 lane/명시 NC·ND·research-only 상업학습 차단 연결, 공식후보7종 등록. dog-only 조사10종의 미발송 허가 검토 목록8종 생성. 연구분리는 사용허가가 아니며 실제 목적 검토 전 학습 금지.

@@ -60,6 +60,18 @@
 
 ## 재현과 전달
 
+### 실제 적용된 이용목적 분리
+
+`datasets/registry.json`에 DogSpeak/InterPet4D/BarkMeow/Dog Pain/Pawgaze/B-DoPED/Canine Emotions AV의 출처·고정 버전·조건·상태를 등록했다. `commercial_candidate`는 상업 이용조건 후보일 뿐 라벨/개체/권리 승인 완료가 아니다. `research_review`는 연구 목적의 허용 여부를 검토할 대기열이다. 기업의 제품개발 연구는 비상업 사용으로 자동 인정되지 않는다. `permission_required`는 조건 확인/허가가 필요한 자료다.
+
+`training.data.approve_dataset`은 연구/허가대기 lane과 명시된 NC/ND/research-only 조건을 상업 학습에서 거부한다. 단순히 training_allowed/commercial_allowed를 true로 바꾸어도 이를 통과하지 않는다. 별도 사용권을 확보하면 운영자가 증빙과 실제 적용 라이선스·lane을 함께 검토해야 하며, 기존 승인/정답/분할 검사도 유지된다. 이 분류기는 법률 검증이나 모든 자유형 라이선스 문장의 완전한 해석기가 아니다.
+
+```sh
+python -m training.source_routes --registry datasets/registry.json --output artifacts/source-routing-new.json
+```
+
+명령은 원본/정책을 변경하지 않고 신규 보고서와 미발송 이용허가 요청 목록을 생성한다. 과거 고양이 자료는 현재 dog-only 요청에서 제외한다. 연구용 학습기 가동/가중치 승격/메일 발송/새 미디어 다운로드는 수행하지 않는다. 신규 학습0 상태는 그대로다.
+
 ```sh
 python -m scripts.research_acquisition --output data/verified-public-expansion
 # 이미 받은 고정 원본을 재검사할 때
