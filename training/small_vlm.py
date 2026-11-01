@@ -51,7 +51,13 @@ def load_manifest(manifest, registry):
         if row['species'] != 'dog' or row['label'] not in LABELS or row['split'] not in ('train', 'validation', 'test'):
             raise ValueError('Dog-only static posture manifest required')
         policies[row['dataset']] = approve_dataset(registry, row['dataset'])
-        for field in ('animal_id', 'recording_group', 'source_id'):
+        grouping = ('animal_id', 'recording_group', 'source_id')
+        if 'candidate_id' in row or 'household_id' in row:
+            value = row.get('household_id')
+            if not isinstance(value, str) or not value.strip() or value != value.strip():
+                raise ValueError('Known household required for source-linked frames')
+            grouping += ('household_id',)
+        for field in grouping:
             if row[field].lower() in ('unknown', 'none', 'null', 'pending'):
                 raise ValueError('Known grouping identities required')
             key = (field, row[field])
