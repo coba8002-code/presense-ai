@@ -91,8 +91,9 @@ frames.json은 아래 형태의 배열이다. 예시는 형식 설명용이며 �
 registry.json은 기존 `training.data.approve_dataset` 계약을 사용한다. status approved,
 training_allowed/commercial_allowed true 및 source/version/license/rights_evidence/
 consent/reviewer/reviewed_at이 필요하다. 이 값은 운영자의 검토 선언이며 법적 증빙의
-진위를 자동 확인하지 않는다. 기존 비디오 리뷰 결과가 이 manifest로 자동 변환되지는
-않는다. 권한 있는 원본에서 프레임 추출·시점·자세 재검토가 먼저 필요하다.
+진위를 자동 확인하지 않는다. 기존 비디오 리뷰와 권한 있는 원본에서 프레임을 추출하고,
+실제 프레임의 자세를 재검토한 뒤 이 manifest로 내보내는 연결은
+[YOUTUBE_TRAINING](YOUTUBE_TRAINING.md)의 `training.youtube_frames`를 사용한다.
 
 최소 5마리, 2개 이상 라벨, train/validation/test의 모든 라벨 포함을 요구한다.
 개체·녹화 세션·원본 source가 partition을 넘으면 거절한다. 동일 SHA256 중복, 경로
