@@ -71,15 +71,17 @@ def load_records(manifest: str | Path, registry: str | Path, species: str) -> tu
 
 def split_records(rows: list, seed: int) -> dict:
     import random
-    groups = sorted({r['animal_id'] for r in rows})
+    from training.grouping import animal_groups
+    connected = animal_groups(rows)
+    groups = sorted(set(connected.values()))
     if len(groups) < 5:
-        raise ValueError('At least five known animals required for three partitions')
+        raise ValueError('Grouping overlap or insufficient data: at least five connected animal/source/household groups required')
     random.Random(seed).shuffle(groups)
     held_out = max(1, len(groups) // 5)
     memberships = {'test': set(groups[:held_out]),
                    'validation': set(groups[held_out:2 * held_out]),
                    'train': set(groups[2 * held_out:])}
-    result = {key: sorted([r for r in rows if r['animal_id'] in animals],
+    result = {key: sorted([r for r in rows if connected[r['animal_id']] in animals],
                           key=lambda row: row['path']) for key, animals in memberships.items()}
     labels = {r['label'] for r in rows}
     if len(labels) < 2 or any({r['label'] for r in part} != labels for part in result.values()):
