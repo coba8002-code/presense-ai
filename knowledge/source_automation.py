@@ -83,8 +83,10 @@ def _feed(db,cfg,client,channel,now):
   def safe_header(name):
    v=r.headers.get(name,'');return v if len(v)<=256 and all(32<=ord(c)<127 for c in v) else ''
   etag,modified=safe_header('etag'),safe_header('last-modified')
- if b'<!DOCTYPE' in raw.upper() or b'<!ENTITY' in raw.upper():raise ValueError('Unsupported XML declaration')
- root=ET.fromstring(raw);ns={'a':'http://www.w3.org/2005/Atom','y':'http://www.youtube.com/xml/schemas/2015'}
+ # Validate encoding before declaration checks: UTF-16 could hide DTD bytes.
+ source=raw.decode('utf-8-sig')
+ if '\x00' in source or '<!DOCTYPE' in source.upper() or '<!ENTITY' in source.upper():raise ValueError('Unsupported XML declaration')
+ root=ET.fromstring(source);ns={'a':'http://www.w3.org/2005/Atom','y':'http://www.youtube.com/xml/schemas/2015'}
  if root.tag!='{http://www.w3.org/2005/Atom}feed' or root.findtext('y:channelId',namespaces=ns)!=channel:raise ValueError('Feed/channel mismatch')
  entries=root.findall('a:entry',ns)
  if len(entries)>100:raise ValueError('Feed entry limit')

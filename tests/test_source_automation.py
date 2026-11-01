@@ -62,3 +62,7 @@ class AutomationIntegrationTests(unittest.TestCase):
   with httpx.Client(transport=httpx.MockTransport(handler)) as c:
    cycle(self.db,self.cfg,c,{},now=1000);r=cycle(self.db,self.cfg,c,{},now=1000+8*86400)
   self.assertEqual(r['discovered'],1)
+ def test_utf16_entity_declaration_cannot_bypass_xml_gate(self):
+  body=('<?xml version="1.0" encoding="UTF-16"?><!DOCTYPE feed [<!ENTITY private "injected">]>'+XML.replace('Dog observation','&private;')).encode('utf-16')
+  with httpx.Client(transport=httpx.MockTransport(lambda _:httpx.Response(200,content=body,headers={'content-type':'application/atom+xml'}))) as c:r=cycle(self.db,self.cfg,c,{},now=1000)
+  self.assertEqual(r['feed_errors'],1);self.assertEqual(status(self.db,now=1000)['links'],[])
