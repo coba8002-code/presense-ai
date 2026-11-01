@@ -9,8 +9,7 @@ New Sprint 02 bootstrap based on `develop` documentation and [issue #1](https://
 The prior `PetSense_AI_AgentSkills_Integration.zip` was not provided and has **not**
 been imported. There was no application source on develop. Current code includes a
 local FastAPI service, NumPy audio baseline and an opt-in VLM adapter. Flutter,
-Production PyTorch models, fusion and pet memory remain follow-up work. An optional experimental SmolVLM2 LoRA trainer is available. No real-data training
-or paid cloud inference has been performed. See [작업지시서](docs/WORK_ORDER.md) and [remaining tasks](tasks/todo.md).
+Production model accuracy remains unvalidated. An optional experimental SmolVLM2 LoRA trainer is available. Actual ESC-10 research training is documented in [REAL_AUDIO_TRAINING](docs/REAL_AUDIO_TRAINING.md); it is not a production model. See [public data acquisition](docs/DATA_EXPANSION.md), [작업지시서](docs/WORK_ORDER.md), and [remaining tasks](tasks/todo.md) for current evidence and limitations.
 
 ## Setup and tests
 

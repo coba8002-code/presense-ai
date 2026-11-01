@@ -4,12 +4,15 @@ from pathlib import Path
 
 
 def approve_dataset(registry: str | Path, dataset: str) -> dict:
+    from training.source_routes import restricted_license
     entries = json.loads(Path(registry).read_text())
     if not isinstance(entries, dict):
         raise ValueError('Dataset registry must be a JSON object')
     policy = entries.get(dataset, {})
     if not isinstance(policy, dict):
         raise ValueError('Dataset policy must be a JSON object')
+    if restricted_license(policy) or policy.get('usage_lane', 'commercial_candidate') != 'commercial_candidate':
+        raise ValueError('Research/restricted sources cannot enter the commercial training pipeline')
     if 'synthetic' in policy and not isinstance(policy['synthetic'], bool):
         raise ValueError('Synthetic provenance flag must be a boolean')
     required = ('source', 'version', 'license', 'rights_evidence', 'consent',

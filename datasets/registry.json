@@ -35,7 +35,8 @@
       "approved_by": "repository owner via task conversation",
       "date": "2026-10-17",
       "scope": "Commercial training intent; does not grant third-party media, dataset or platform rights."
-    }
+    },
+    "species": "cat"
   },
   "meow-net": {
     "status": "not-approved",
@@ -54,7 +55,8 @@
       "approved_by": "repository owner via task conversation",
       "date": "2026-10-17",
       "scope": "Commercial training intent; does not grant third-party media, dataset or platform rights."
-    }
+    },
+    "species": "cat"
   },
   "ap-10k": {
     "status": "unknown",
@@ -93,5 +95,103 @@
       "date": "2026-10-17",
       "scope": "Commercial training intent; does not grant third-party media, dataset or platform rights."
     }
+  },
+  "dogspeak": {
+    "status": "review-required",
+    "source": "https://huggingface.co/datasets/ArlingtonCL2/DogSpeak_Dataset",
+    "version": "34c9047dcff6744700ce772d6acb313884ba8b14",
+    "license": "CC BY-NC-SA 4.0",
+    "usage_lane": "research_review",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://huggingface.co/datasets/ArlingtonCL2/DogSpeak_Dataset",
+    "consent": "pending",
+    "reviewer": "source audit; not rights or label approval",
+    "reviewed_at": "2026-11-01",
+    "notes": "metadata only"
+  },
+  "interpet4d": {
+    "status": "review-required",
+    "source": "https://huggingface.co/datasets/ohicarip/interpet4d",
+    "version": "7835a62bbe1ca3a37cb9957186700b1eb6e40c44",
+    "license": "CC BY-NC 4.0",
+    "usage_lane": "research_review",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://huggingface.co/datasets/ohicarip/interpet4d",
+    "consent": "pending",
+    "reviewer": "source audit; not rights or label approval",
+    "reviewed_at": "2026-11-01",
+    "notes": "metadata only"
+  },
+  "barkmeow": {
+    "status": "review-required",
+    "source": "https://zenodo.org/records/3563990",
+    "version": "0.2",
+    "license": "CC BY 4.0",
+    "usage_lane": "commercial_candidate",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://zenodo.org/records/3563990",
+    "consent": "pending",
+    "reviewer": "source audit; not rights or label approval",
+    "reviewed_at": "2026-11-01",
+    "notes": "46 dog WAV acquired; identity and event reviews missing"
+  },
+  "dog-pain": {
+    "status": "review-required",
+    "source": "https://zenodo.org/records/15304081",
+    "version": "v2",
+    "license": "CC BY 4.0",
+    "usage_lane": "commercial_candidate",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://zenodo.org/records/15304081",
+    "consent": "pending",
+    "reviewer": "source audit; not rights or label approval",
+    "reviewed_at": "2026-11-01",
+    "notes": "table acquired; no videos; not general emotion truth"
+  },
+  "pawgaze": {
+    "status": "review-required",
+    "source": "https://huggingface.co/datasets/pawgaze/pawgaze",
+    "version": "09ecc254448bfa9b979ca765d659b8ca841ffdd9",
+    "license": "unknown",
+    "usage_lane": "permission_required",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://huggingface.co/datasets/pawgaze/pawgaze",
+    "consent": "pending",
+    "reviewer": "source audit; not rights or label approval",
+    "reviewed_at": "2026-11-01",
+    "notes": "metadata only; linked YouTube media rights unverified"
+  },
+  "b-doped": {
+    "status": "review-required",
+    "source": "https://huggingface.co/datasets/1Konny/B-DoPED",
+    "version": "f600b8a34332e01b13ca608cc5dc850c73f26eb1",
+    "license": "research-only",
+    "usage_lane": "research_review",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://huggingface.co/datasets/1Konny/B-DoPED",
+    "consent": "pending",
+    "reviewer": "source audit; not rights or label approval",
+    "reviewed_at": "2026-11-01",
+    "notes": "synthetic; metadata only"
+  },
+  "canine-emotions-av": {
+    "status": "review-required",
+    "source": "https://data.mendeley.com/datasets/5g5hg9hrkv/1",
+    "version": "1",
+    "license": "CC BY-NC-ND 4.0",
+    "usage_lane": "permission_required",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://data.mendeley.com/datasets/5g5hg9hrkv/1",
+    "consent": "pending",
+    "reviewer": "source audit; not rights or label approval",
+    "reviewed_at": "2026-11-01",
+    "notes": "no media; clustering labels not expert ground truth"
   }
 }
