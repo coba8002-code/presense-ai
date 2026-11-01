@@ -43,3 +43,16 @@ class AVTests(unittest.TestCase):
     with self.assertRaises(InterruptedError):align(p,consent=True,cancel=flag)
   finally:timer.cancel()
   self.assertFalse(list(self.root.glob('private-*')))
+
+ def test_frame_and_audio_hooks_use_decoded_private_media(self):
+  p=self.fixture();seen={}
+  def sound(signal,start,duration):
+   seen['samples']=len(signal);self.assertAlmostEqual(start,.3,delta=.025)
+   return {'test_observer':True}
+  def picture(report,image):
+   self.assertTrue(image(0).startswith(b'\x89PNG\r\n\x1a\n'))
+   with self.assertRaises(ValueError):image(-1)
+   seen['frames']=len(report['frame_times']);return {'test_observer':True}
+  result=align(p,consent=True,audio_observer=sound,frame_observer=picture)
+  self.assertGreater(seen['samples'],16000);self.assertGreater(seen['frames'],5)
+  self.assertTrue(result['model_inference'])

@@ -98,3 +98,23 @@ python -m evaluation.analysis_audit \
 ```
 
 Input files <=8MB, exclusive output, bounded windows/reviews, offline only. Synthetic fixture has one validation household: null CI is the correct result, not an error. Six-household synthetic unit test verifies bootstrap reproducibility only. Real intervals and expert review require real independent groups and reviewers. This closes the evaluation software gap, not the evidence gap. Product integration remains the existing evidence UI; no automated expert validation is shown to users.
+
+## Actual local model execution completion (AST + SmolVLM)
+
+Company AX/API credentials are NOT required for this experimental local path. `training.av_ast` now runs fixed public pretrained AST and optionally SmolVLM2-256M in a private Linux/WSL child process against the same local consented source snapshot. The warm cache is required; model workers force HF_HUB_OFFLINE/TRANSFORMERS_OFFLINE and strip key/token/password/secret/application environment variables. No network or model provider is used for media. Public weight cache setup is distinct from inference and must use the pinned revisions documented in PRETRAINED_AUDIO/SMALL_VLM_TUNING. It does not create a hosted service or new persistent access.
+
+```
+# In an isolated environment with requirements-vlm, torch/torchvision CPU and ffmpeg:
+python -m training.av_ast --video /local/path/clip.webm --consent-local \
+  --with-vision --output /local/path/local-model-report.json
+```
+
+Without --with-vision the same command only runs cached AST. File validation and explicit consent precede worker creation. The outer worker has a <=120s default deadline (configurable API bound <=300s), output <=200KB and no media in logs/stdout except the bounded metadata report. Model-assisted alignment uses a115s internal processing budget; plain alignment retains45s. Its nested ffmpeg/ffprobe processes share the isolated worker process group, so cancellation kills the group; all private media snapshots/results live under the parent's private temp root and are discarded. This isolated runner requires Linux/WSL; native Windows process-tree semantics are not claimed. Original input is preserved.
+
+AST processes overlapping 1s windows with .5s hop plus the final tail. Trim/pad boundaries are reconciled with decoded source clock; output retains all7 uncalibrated independent sigmoid scores. Scores are NOT event onset/offset or calibrated dog probabilities. SmolVLM reads at most6 actually decoded PNG frames selected by index from ffprobe frame timestamps, using only safetensors, fixed revisions and trust_remote_code=false. It emits standing/sitting/lying/unknown posture candidates, never validated observations, tracking or motion. Both models retain decision=abstain and species_verified=false; non-dog rejection is not independently reliable. No fine-tuning, labels, emotion/intent, action recommendation or model promotion occurs.
+
+Import the same-source model report into `/video-review`. Separate display shows pinned model/revision, raw audio-window top scores and frame posture candidates, labelled uncalibrated/unverified and not filled into guardian annotations. The report's source hash and schema/model/revision/window/score/candidate bounds are checked; generator authenticity is still not cryptographically verified. Existing CSP connect-src none and local consent/clear/cancel guards remain. No model is run inside the browser, and importing a report does not authorize training or server upload.
+
+Local verification used an actual generated test-pattern video plus synthetic sine audio (no animal/customer data). The cached AST and SmolVLM forward passes completed, and the actual report was imported/rendered in Chromium at mobile viewport with no outbound requests. Six posture candidates were unknown for the generated test pattern. This is integration evidence only, not dog accuracy. New worker tests cover consent-before-spawn, timeout/cancellation, malformed output, stripped credentials and temp-root cleanup; frame hooks validate actual decoded PNGs. Existing CI pipelines now exercise actual cached AST-only and AST+SmolVLM AV/browser paths. The small VLM CI's pre-existing optimizer smoke remains synthetic and is not real dog training.
+
+Remaining model work: automatic dog/speaker identity/pose/tracking, calibrated sound event thresholds, actual independent dog evaluation, trained/validated behavior interpretation and measured personalized baselines. Actual deployment and physical-device checks still require the domestic PC/device target. No model credentials need be posted in chat to use this local prototype path.

@@ -6,7 +6,7 @@
  function clear(message='취소·기록 삭제됨') {
   epoch++;if(controller)controller.abort();controller=null;ready=false;times=[];
   video.pause();video.controls=true;video.removeAttribute('src');video.load();if(url)URL.revokeObjectURL(url);url=null;
-  selectedFile=null;alignment=null;$('alignment').disabled=true;$('alignment').value='';$('energy').hidden=true;$('alignment-status').textContent='기술 정렬 보고서 없음';events=[];$('event-input').disabled=true;$('event-status').textContent='이벤트 없음 · 발성 개체 미확인';$('event-start').value='';$('event-end').value='';$('clip').value='';$('frames').replaceChildren();$('result').textContent='판단 유보 · 관찰 기록 없음';
+  selectedFile=null;alignment=null;$('local-model-status').textContent='로컬 모델 결과 없음';$('alignment').disabled=true;$('alignment').value='';$('energy').hidden=true;$('alignment-status').textContent='기술 정렬 보고서 없음';events=[];$('event-input').disabled=true;$('event-status').textContent='이벤트 없음 · 발성 개체 미확인';$('event-start').value='';$('event-end').value='';$('clip').value='';$('frames').replaceChildren();$('result').textContent='판단 유보 · 관찰 기록 없음';
   $('extract').disabled=true;$('summarize').disabled=true;$('status').textContent=message;
  }
  function wait(event,signal,action) {
@@ -48,7 +48,7 @@
  $('alignment').onchange=async()=>{
   const file=$('alignment').files[0],original=selectedFile;
   invalidateFrames();const ticket=epoch;
-  alignment=null;$('energy').hidden=true;
+  alignment=null;$('local-model-status').textContent='로컬 모델 결과 없음';$('energy').hidden=true;
   if(!ready||!allowed()||!file||file.size>200000){$('alignment-status').textContent='200 KB 이하 로컬 보고서가 필요합니다.';return;}
   try{
    const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await original.arrayBuffer())),b=>b.toString(16).padStart(2,'0')).join('');
@@ -58,6 +58,13 @@
    invalidateFrames();const canvas=$('energy'),ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#147c79';
    for(const w of alignment.audio_windows){const x=w.start/video.duration*canvas.width,h=Math.max(0,(w.rms_dbfs+80)/80)*canvas.height;ctx.fillRect(x,canvas.height-h,Math.max(1,(w.end-w.start)/video.duration*canvas.width),h);}
    canvas.hidden=!alignment.audio_present;
+   const modelLines=['출처: 로컬 보고서 주장 · 실행기 진위/성능 미검증 · 판단 유보'];
+   if(alignment.audio_model){const m=alignment.audio_model;modelLines.push('음향: '+m.model+' @ '+m.revision);
+    for(const w of m.windows){const top=[...w.dog_event_scores].sort((a,b)=>b.score-a.score)[0];modelLines.push(w.start.toFixed(2)+'–'+w.end.toFixed(2)+'초 · 최고 원시 점수 '+top.label+' '+top.score.toFixed(3)+' (확률·확정 이벤트 아님)');}}
+   if(alignment.vision_model){const m=alignment.vision_model;modelLines.push('정지 프레임 후보: '+m.model+' @ '+m.revision);
+    for(const o of m.observations)modelLines.push(o.seconds.toFixed(2)+'초 · '+o.posture_candidate+' (개체 확인·동작·감정 해석 아님)');}
+   $('local-model-status').textContent=(alignment.audio_model||alignment.vision_model)?modelLines.join('\n'):'로컬 모델 결과 없음';
+
    $('alignment-status').textContent=alignment.audio_present?'동일 파일 해시 확인 · 로컬 보고서의 오디오/프레임 PTS 연결 · 도구 진위/센서 동기 미검증 · 소리 분류 없음':'동일 파일 해시 확인 · 보고서에 오디오 트랙 없음';
   }catch(e){if(ticket===epoch){alignment=null;$('alignment-status').textContent='보고서 형식·파일 해시·시간축이 일치하지 않습니다.';}}
  };

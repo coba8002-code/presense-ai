@@ -13,3 +13,10 @@ const report={schema_version:1,source_sha256:'a',source:'local_ffmpeg_decoded_pt
 assert.equal(t.validateAlignment(report,'a',3),report);assert.throws(()=>t.validateAlignment(report,'b',3));
 assert.throws(()=>t.validateAlignment({...report,frame_times:[0,.1,.1]},'a',3));
 assert.throws(()=>t.validateAlignment({...report,audio_present:false},'a',3));
+const labels=['Dog','Bark','Yip','Howl','Bow-wow','Growling','Whimper (dog)'];
+const ast={model:'MIT/ast-finetuned-audioset-10-10-0.4593',revision:'f826b80d28226b62986cc218e5cec390b1096902',decision:'abstain',species_verified:false,windows:[{start:0,end:1,dog_event_scores:labels.map(label=>({label,score:.2}))}]};
+assert(t.validateAlignment({...report,audio_model:ast},'a',3));
+assert.throws(()=>t.validateAlignment({...report,audio_model:{...ast,decision:'confirmed'}},'a',3));
+const vlm={model:'HuggingFaceTB/SmolVLM2-256M-Video-Instruct',revision:'067788b187b95ebe7b2e040b3e4299e342e5b8fd',decision:'abstain',species_verified:false,observations:[{seconds:0,posture_candidate:'unknown'}]};
+assert(t.validateAlignment({...report,vision_model:vlm},'a',3));
+assert.throws(()=>t.validateAlignment({...report,vision_model:{...vlm,observations:[{seconds:0,posture_candidate:'angry'}]}},'a',3));

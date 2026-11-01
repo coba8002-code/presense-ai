@@ -13,7 +13,8 @@ import time
 import numpy as np
 
 
-def align(path,*,consent=False,cancel=None):
+def align(path,*,consent=False,cancel=None,audio_observer=None,isolate_processes=True,frame_observer=None,max_seconds=45):
+ if type(max_seconds) not in (float,int) or not math.isfinite(max_seconds) or not 0<max_seconds<=300:raise ValueError('Bounded processing deadline required')
  if consent is not True:raise ValueError('Explicit local processing consent required')
  def cancelled():
   if cancel is not None and cancel.is_set():raise InterruptedError('Local AV processing cancelled')
@@ -22,7 +23,7 @@ def align(path,*,consent=False,cancel=None):
  tools={k:shutil.which(k) for k in ('ffmpeg','ffprobe')}
  if not all(tools.values()):raise ValueError('Local ffmpeg/ffprobe required')
  media=path.read_bytes();original_hash=hashlib.sha256(media).hexdigest()
- deadline=time.monotonic()+45
+ deadline=time.monotonic()+max_seconds
  with tempfile.TemporaryDirectory(prefix='petsense-av-') as td:
   root=Path(td);seq=0
   source=root/('source'+path.suffix.lower());source.write_bytes(media);del media
@@ -31,7 +32,7 @@ def align(path,*,consent=False,cancel=None):
    cancelled();seq+=1;out=root/f'out{seq}'
    with out.open('wb') as stream:
     proc=subprocess.Popen([tools[tool],'-v','error',*args],stdout=stream,stderr=subprocess.DEVNULL,
-     cwd=root,env={k:os.environ[k] for k in ('PATH','SystemRoot') if k in os.environ},start_new_session=os.name=='posix')
+     cwd=root,env={k:os.environ[k] for k in ('PATH','SystemRoot') if k in os.environ},start_new_session=isolate_processes and os.name=='posix')
     try:
      while proc.poll() is None:
       cancelled()
@@ -40,7 +41,7 @@ def align(path,*,consent=False,cancel=None):
      if proc.returncode or out.stat().st_size>limit:raise ValueError('Unsupported or damaged local AV')
     finally:
      if proc.poll() is None:
-      if os.name=='posix':os.killpg(proc.pid,signal.SIGKILL)
+      if isolate_processes and os.name=='posix':os.killpg(proc.pid,signal.SIGKILL)
       else:proc.kill()
      proc.wait()
    cancelled();return out.read_bytes()
@@ -76,9 +77,19 @@ def align(path,*,consent=False,cancel=None):
    start=first-origin
    if start<-.05 or start+len(signal_data)/16000>duration+.1:raise ValueError('Audio outside bounded video clock')
    report['audio_start']=start
+   if audio_observer is not None:
+    cancelled()
+    report['audio_model']=audio_observer(signal_data,start,duration)
+    cancelled()
    for i in range(0,len(signal_data),1600):
     chunk=signal_data[i:i+1600];a=max(0.,start+i/16000);b=min(duration,start+(i+len(chunk))/16000)
     if b>a:report['audio_windows'].append({'start':a,'end':b,'rms_dbfs':float(20*np.log10(max(float(np.sqrt(np.mean(chunk*chunk))),1e-12)))})
+  if frame_observer is not None:
+   def image_at(index):
+    if type(index) is not int or not 0<=index<len(pts):raise ValueError('Invalid decoded frame index')
+    return run('ffmpeg',flags+['-i',str(source),'-map','0:v:0','-vf',f'select=eq(n\\,{index}),scale=512:512:force_original_aspect_ratio=decrease','-frames:v','1','-vsync','0','-c:v','png','-f','image2pipe','pipe:1'])
+   report['vision_model']=frame_observer(report,image_at)
+  report['model_inference']=bool((audio_observer is not None and audio) or frame_observer is not None)
   cancelled()
   if hashlib.sha256(path.read_bytes()).hexdigest()!=original_hash:raise ValueError('Source changed during alignment')
   return report

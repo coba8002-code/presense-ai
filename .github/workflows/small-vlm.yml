@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: ['codex/**']
-    paths: ['training/small_vlm.py', 'training/small_vlm_infer.py', 'requirements-vlm.txt', '.github/workflows/small-vlm.yml']
+    paths: ['training/av_ast.py', 'training/av_ast_worker.py', 'training/av_alignment.py', 'training/audio_timeline.py', 'scripts/video_browser_smoke.py', 'backend/static/video/**', 'training/small_vlm.py', 'training/small_vlm_infer.py', 'requirements-vlm.txt', '.github/workflows/small-vlm.yml']
 permissions:
   contents: read
 jobs:
@@ -27,6 +27,15 @@ jobs:
         run: |
           python -c "from PIL import Image; Image.new('RGB', (128, 128), (60, 80, 100)).save('/tmp/smoke.png')"
           python -m training.small_vlm_infer --run artifacts/smolvlm-smoke --image /tmp/smoke.png --allow-synthetic
+      - name: Prepare synthetic AV browser integration
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install -r requirements.lock -r requirements-browser.lock
+          python -m playwright install --with-deps chromium
+          python -c "from huggingface_hub import snapshot_download; from training.pretrained_audio import MODEL,REVISION; snapshot_download(MODEL, revision=REVISION, token=False, allow_patterns=['*.json','*.safetensors'])"
+      - name: Actual cached AST + SmolVLM on synthetic video through browser report flow
+        run: python -m scripts.video_browser_smoke --real-models
       - uses: actions/upload-artifact@v4
         with:
           name: synthetic-smolvlm-adapter-not-for-production
