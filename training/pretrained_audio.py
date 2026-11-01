@@ -80,10 +80,12 @@ class ASTDogAudio:
         with torch.inference_mode():
             logits = self.model(**inputs).logits[0].cpu().numpy()
         scores = dog_scores(logits, self.model.config.id2label)
+        from backend.behavior_evidence import audio_quality
+        quality = audio_quality(signal)
         return dict(model=MODEL, revision=REVISION, license='bsd-3-clause', input_sha256=digest,
                     sample_rate=16000, duration_seconds=len(signal)/16000,
                     preprocessing_and_inference_seconds=time.monotonic()-started,
-                    dog_event_scores=scores, score_type='uncalibrated_independent_sigmoid',
+                    audio_quality=quality, dog_event_scores=scores, score_type='uncalibrated_independent_sigmoid',
                     decision='abstain', reason='No validated dog-specific decision thresholds',
                     species_verified=False, production_ready=False,
                     limitations=['Clip-level scores, not event timestamps',
