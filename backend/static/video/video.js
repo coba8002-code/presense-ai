@@ -1,12 +1,12 @@
 'use strict';
 (() => {
  const $=id=>document.getElementById(id), video=$('video');
- let url=null, epoch=0, controller=null, times=[], ready=false, events=[];
+ let url=null, epoch=0, controller=null, times=[], ready=false, events=[], selectedFile=null, alignment=null;
  const allowed=()=> $('consent').checked && $('identity').checked;
  function clear(message='취소·기록 삭제됨') {
   epoch++;if(controller)controller.abort();controller=null;ready=false;times=[];
   video.pause();video.controls=true;video.removeAttribute('src');video.load();if(url)URL.revokeObjectURL(url);url=null;
-  events=[];$('event-input').disabled=true;$('event-status').textContent='이벤트 없음 · 발성 개체 미확인';$('event-start').value='';$('event-end').value='';$('clip').value='';$('frames').replaceChildren();$('result').textContent='판단 유보 · 관찰 기록 없음';
+  selectedFile=null;alignment=null;$('alignment').disabled=true;$('alignment').value='';$('energy').hidden=true;$('alignment-status').textContent='기술 정렬 보고서 없음';events=[];$('event-input').disabled=true;$('event-status').textContent='이벤트 없음 · 발성 개체 미확인';$('event-start').value='';$('event-end').value='';$('clip').value='';$('frames').replaceChildren();$('result').textContent='판단 유보 · 관찰 기록 없음';
   $('extract').disabled=true;$('summarize').disabled=true;$('status').textContent=message;
  }
  function wait(event,signal,action) {
@@ -27,7 +27,7 @@
   try{await wait('loadedmetadata',signal,()=>{video.src=url;});
    if(ticket!==epoch)return;
    if(!Number.isFinite(video.duration)||video.duration<.5||video.duration>30||!video.videoWidth||video.videoWidth>1920||video.videoHeight>1080)throw new Error('bounds');
-   ready=true;$('event-input').disabled=false;$('event-add').disabled=false;$('events-clear').disabled=false;$('extract').disabled=false;$('status').textContent=`${video.duration.toFixed(2)}초 · 모델 미연결 · 기기 내 관찰 준비됨`;
+   selectedFile=file;ready=true;$('alignment').disabled=false;$('event-input').disabled=false;$('event-add').disabled=false;$('events-clear').disabled=false;$('extract').disabled=false;$('status').textContent=`${video.duration.toFixed(2)}초 · 모델 미연결 · 기기 내 관찰 준비됨`;
   }catch(e){if(ticket===epoch)clear('영상 길이·해상도·디코딩을 확인할 수 없습니다. 다른 짧은 영상을 선택하세요.');}
  };
  function invalidateFrames(){
@@ -45,13 +45,31 @@
   }catch(e){$('event-status').textContent='시작·종료 시각과 최대 20개 한도를 확인하세요.';}
  };
  $('events-clear').onclick=()=>{events=[];invalidateFrames();$('event-status').textContent='이벤트 없음 · 발성 개체 미확인';};
+ $('alignment').onchange=async()=>{
+  const file=$('alignment').files[0],original=selectedFile;
+  invalidateFrames();const ticket=epoch;
+  alignment=null;$('energy').hidden=true;
+  if(!ready||!allowed()||!file||file.size>200000){$('alignment-status').textContent='200 KB 이하 로컬 보고서가 필요합니다.';return;}
+  try{
+   const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await original.arrayBuffer())),b=>b.toString(16).padStart(2,'0')).join('');
+   const report=JSON.parse(await file.text());
+   if(ticket!==epoch||original!==selectedFile||!allowed())return;
+   alignment=PetTimeline.validateAlignment(report,hash,video.duration);
+   invalidateFrames();const canvas=$('energy'),ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#147c79';
+   for(const w of alignment.audio_windows){const x=w.start/video.duration*canvas.width,h=Math.max(0,(w.rms_dbfs+80)/80)*canvas.height;ctx.fillRect(x,canvas.height-h,Math.max(1,(w.end-w.start)/video.duration*canvas.width),h);}
+   canvas.hidden=!alignment.audio_present;
+   $('alignment-status').textContent=alignment.audio_present?'동일 파일 해시 확인 · 로컬 보고서의 오디오/프레임 PTS 연결 · 도구 진위/센서 동기 미검증 · 소리 분류 없음':'동일 파일 해시 확인 · 보고서에 오디오 트랙 없음';
+  }catch(e){if(ticket===epoch){alignment=null;$('alignment-status').textContent='보고서 형식·파일 해시·시간축이 일치하지 않습니다.';}}
+ };
  function select(id,options){const s=document.createElement('select');s.id=id;for(const [value,text]of options){const o=document.createElement('option');o.value=value;o.textContent=text;s.append(o);}s.onchange=()=>{$('result').textContent='판단 유보 · 관찰 변경됨. 다시 확인하세요.';};return s;}
  $('extract').onclick=async()=>{
   if(!ready||!allowed())return;
   epoch++;const ticket=epoch;if(controller)controller.abort();controller=new AbortController();const signal=controller.signal;
   $('extract').disabled=true;$('summarize').disabled=true;$('frames').replaceChildren();times=[];$('result').textContent='판단 유보 · 장면 추출 중';video.pause();video.controls=false;
   try{
-   const targets=PetTimeline.plan(video.duration,events);
+   let targets=PetTimeline.plan(video.duration,events);
+   if(alignment)targets=[...new Set(targets.map(t=>alignment.frame_times.reduce((a,b)=>Math.abs(b-t)<Math.abs(a-t)?b:a)))].filter(t=>t>.001&&t<video.duration-.001).sort((a,b)=>a-b);
+   if(!targets.length)throw new Error('No seekable frames');
    for(let i=0;i<targets.length;i++){
     const target=targets[i];
     await wait('seeked',signal,()=>{video.currentTime=target;});

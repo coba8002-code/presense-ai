@@ -9,3 +9,7 @@ assert(t.plan(3,[]).length===6);
 assert.throws(()=>t.normalize(new Array(21).fill({label:'bark',start:0,end:1}),3));
 assert.throws(()=>t.plan(NaN,[]));
 console.log('Event timeline boundaries and common clock passed');
+const report={schema_version:1,source_sha256:'a',source:'local_ffmpeg_decoded_pts',clock:'relative_to_first_decoded_video_frame',duration:3,audio_present:true,audio_start:.3,frame_times:[0,.1,.3],audio_windows:[{start:.3,end:.4,rms_dbfs:-20}]};
+assert.equal(t.validateAlignment(report,'a',3),report);assert.throws(()=>t.validateAlignment(report,'b',3));
+assert.throws(()=>t.validateAlignment({...report,frame_times:[0,.1,.1]},'a',3));
+assert.throws(()=>t.validateAlignment({...report,audio_present:false},'a',3));

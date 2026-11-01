@@ -10,13 +10,16 @@ import time
 import httpx
 from playwright.sync_api import sync_playwright, expect
 from scripts.job_browser_smoke import stop
+from training.av_alignment import align
 
 ROOT=Path(__file__).resolve().parents[1]
 
 def main():
     with tempfile.TemporaryDirectory() as td:
         clip=Path(td)/'synthetic.webm'
-        subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','testsrc2=size=320x240:rate=10:duration=2','-c:v','libvpx','-an',str(clip)],check=True)
+        subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','testsrc2=size=320x240:rate=10:duration=2','-f','lavfi','-i','sine=frequency=800:sample_rate=48000:duration=2','-c:v','libvpx','-c:a','libopus',str(clip)],check=True)
+        alignment=align(clip,consent=True)
+        report=Path(td)/'alignment.json';report.write_text(json.dumps(alignment))
         with socket.socket() as s:s.bind(('127.0.0.1',0));port=s.getsockname()[1]
         base=f'http://127.0.0.1:{port}'
         server=subprocess.Popen([sys.executable,'-m','uvicorn','backend.app:app','--host','127.0.0.1','--port',str(port)],cwd=ROOT,env={**os.environ,'PETSENSE_ENABLE_CLOUD':'false','PETSENSE_ENABLE_LOCAL_VLM':'false'},stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
@@ -61,6 +64,16 @@ def main():
                 page.locator('#event-end').fill('0.2');page.locator('#event-add').click()
                 expect(page.locator('#event-status')).to_contain_text('시작·종료')
                 page.locator('#events-clear').click();expect(page.locator('#summarize')).to_be_disabled()
+                page.locator('#alignment').set_input_files(str(report))
+                expect(page.locator('#alignment-status')).to_contain_text('동일 파일 해시 확인')
+                expect(page.locator('#energy')).to_be_visible()
+                page.locator('#extract').click();expect(page.locator('#summarize')).to_be_enabled()
+                assert page.locator('.frame').count()>1
+                bad={**alignment,'source_sha256':'0'*64}
+                page.locator('#alignment').set_input_files({'name':'wrong.json','mimeType':'application/json','buffer':json.dumps(bad).encode()})
+                expect(page.locator('#alignment-status')).to_contain_text('일치하지 않습니다')
+                expect(page.locator('#energy')).to_be_hidden()
+
                 page.locator('#identity').uncheck();assert page.locator('.frame').count()==0;expect(page.locator('#clip')).to_be_disabled()
                 page.locator('#identity').check();page.locator('#clip').set_input_files(str(clip));expect(page.locator('#extract')).to_be_enabled()
                 page.locator('#extract').click();page.locator('#cancel').click()

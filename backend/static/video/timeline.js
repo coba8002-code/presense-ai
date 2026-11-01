@@ -21,5 +21,13 @@
   for(const e of events.slice(0,3))for(const x of [e.start-.4,e.start,(e.start+e.end)/2,e.end+.4])points.push(Math.max(.05,Math.min(duration-.05,x)));
   return [...new Set(points.map(x=>Math.round(x*1000)/1000))].sort((a,b)=>a-b);
  }
- const api={normalize,summarize,plan};if(typeof module!=='undefined')module.exports=api;else root.PetTimeline=api;
+ function validateAlignment(r,hash,duration){
+  if(!r||r.schema_version!==1||r.source_sha256!==hash||r.source!=='local_ffmpeg_decoded_pts'||r.clock!=='relative_to_first_decoded_video_frame'||!finite(r.duration)||Math.abs(r.duration-duration)>.1||typeof r.audio_present!=='boolean'||!Array.isArray(r.frame_times)||!r.frame_times.length||r.frame_times.length>1800||!Array.isArray(r.audio_windows)||r.audio_windows.length>310)throw new Error('Invalid alignment report');
+  if(r.frame_times.some((v,i)=>!finite(v)||v<0||v>duration+.05||(i&&v<=r.frame_times[i-1])))throw new Error('Invalid frame clock');
+  let last=-1;for(const w of r.audio_windows){if(!w||!finite(w.start)||!finite(w.end)||!finite(w.rms_dbfs)||w.start<0||w.start<last||w.end<=w.start||w.end>duration+.1||w.rms_dbfs>0||w.rms_dbfs< -240)throw new Error('Invalid audio clock');last=w.end-.000001;}
+  if(r.audio_present&&(!finite(r.audio_start)||r.audio_start<-.05||r.audio_start>duration||!r.audio_windows.length))throw new Error('Invalid audio origin');
+  if(!r.audio_present&&r.audio_windows.length)throw new Error('Absent audio cannot have energy windows');
+  return r;
+ }
+ const api={normalize,summarize,plan,validateAlignment};if(typeof module!=='undefined')module.exports=api;else root.PetTimeline=api;
 })(globalThis);

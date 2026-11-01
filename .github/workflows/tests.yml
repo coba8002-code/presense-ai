@@ -50,6 +50,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg fonts-noto-cjk
+      - run: python -m unittest discover -s tests -p test_av_alignment.py -q
       - run: python -m scripts.video_browser_smoke
       - run: python scripts/browser_smoke.py
       - run: python -m scripts.product_browser_smoke
