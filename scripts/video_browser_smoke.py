@@ -1,4 +1,5 @@
 """Real synthetic-video browser extraction; no AI/model or external media calls."""
+import argparse
 import json
 import os
 from pathlib import Path
@@ -10,13 +11,20 @@ import time
 import httpx
 from playwright.sync_api import sync_playwright, expect
 from scripts.job_browser_smoke import stop
+from training.av_alignment import align
 
 ROOT=Path(__file__).resolve().parents[1]
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--real-models',action='store_true',help='Explicitly run cached local AST + SmolVLM; synthetic media only');parser.add_argument('--real-audio',action='store_true',help='Explicit cached AST only');args=parser.parse_args()
     with tempfile.TemporaryDirectory() as td:
         clip=Path(td)/'synthetic.webm'
-        subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','testsrc2=size=320x240:rate=10:duration=2','-c:v','libvpx','-an',str(clip)],check=True)
+        subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','testsrc2=size=320x240:rate=10:duration=2','-f','lavfi','-i','sine=frequency=800:sample_rate=48000:duration=2','-c:v','libvpx','-c:a','libopus',str(clip)],check=True)
+        if args.real_models or args.real_audio:
+            from training.av_ast import run
+            alignment=run(clip,consent=True,vision=args.real_models)
+        else:alignment=align(clip,consent=True)
+        report=Path(td)/'alignment.json';report.write_text(json.dumps(alignment))
         with socket.socket() as s:s.bind(('127.0.0.1',0));port=s.getsockname()[1]
         base=f'http://127.0.0.1:{port}'
         server=subprocess.Popen([sys.executable,'-m','uvicorn','backend.app:app','--host','127.0.0.1','--port',str(port)],cwd=ROOT,env={**os.environ,'PETSENSE_ENABLE_CLOUD':'false','PETSENSE_ENABLE_LOCAL_VLM':'false'},stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
@@ -50,6 +58,30 @@ def main():
                 page.screenshot(path=str(out),full_page=True)
                 page.locator('#posture-2').select_option('standing');expect(page.locator('#result')).to_contain_text('관찰 변경됨')
                 page.locator('#summarize').click();expect(page.locator('#result')).to_contain_text('판단 유보')
+                page.locator('#event-start').fill('0.5');page.locator('#event-end').fill('0.8');page.locator('#event-add').click()
+                expect(page.locator('#summarize')).to_be_disabled();assert page.locator('.frame').count()==0
+                expect(page.locator('#event-status')).to_contain_text('발성 개체 미확인')
+                page.locator('#extract').click();expect(page.locator('#summarize')).to_be_enabled()
+                assert page.locator('.frame').count()==4
+                stamps=[float(t.split(' · ')[1].replace('초','')) for t in page.locator('.frame h3').all_text_contents()]
+                assert stamps==[.1,.5,.65,1.2],stamps
+                page.locator('#summarize').click();expect(page.locator('#result')).to_contain_text('보호자 표시 소리 1개')
+                page.locator('#event-end').fill('0.2');page.locator('#event-add').click()
+                expect(page.locator('#event-status')).to_contain_text('시작·종료')
+                page.locator('#events-clear').click();expect(page.locator('#summarize')).to_be_disabled()
+                page.locator('#alignment').set_input_files(str(report))
+                expect(page.locator('#alignment-status')).to_contain_text('동일 파일 해시 확인')
+                expect(page.locator('#energy')).to_be_visible()
+                if args.real_models:
+                    expect(page.locator('#local-model-status')).to_contain_text('SmolVLM2')
+                    expect(page.locator('#local-model-status')).to_contain_text('확률·확정 이벤트 아님')
+                page.locator('#extract').click();expect(page.locator('#summarize')).to_be_enabled()
+                assert page.locator('.frame').count()>1
+                bad={**alignment,'source_sha256':'0'*64}
+                page.locator('#alignment').set_input_files({'name':'wrong.json','mimeType':'application/json','buffer':json.dumps(bad).encode()})
+                expect(page.locator('#alignment-status')).to_contain_text('일치하지 않습니다')
+                expect(page.locator('#energy')).to_be_hidden()
+
                 page.locator('#identity').uncheck();assert page.locator('.frame').count()==0;expect(page.locator('#clip')).to_be_disabled()
                 page.locator('#identity').check();page.locator('#clip').set_input_files(str(clip));expect(page.locator('#extract')).to_be_enabled()
                 page.locator('#extract').click();page.locator('#cancel').click()
@@ -61,7 +93,7 @@ def main():
                 assert not errors,errors
                 assert page.evaluate('localStorage.length')==0
                 b.close()
-            print(json.dumps({'synthetic_video':True,'frames':6,'mobile_viewport':True,'model_inference':False,'consent_identity_cancel_conflict_decode_failure':True,'outbound_requests':outbound,'passed':True}))
+            print(json.dumps({'synthetic_video':True,'frames':6,'mobile_viewport':True,'model_inference':args.real_models or args.real_audio,'consent_identity_cancel_conflict_decode_failure':True,'outbound_requests':outbound,'passed':True}))
         finally:stop(server)
 
 if __name__=='__main__':main()

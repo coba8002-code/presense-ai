@@ -11,6 +11,8 @@ def journal_flow(page,base,pet_id,screenshots=None):
     expect(page.locator('#journal-detail')).to_be_visible()
     assert page.locator('#journal-context img').count()==0
     expect(page.locator('#journal-summary')).to_contain_text('Case records: 1')
+    expect(page.locator('#journal-summary')).to_contain_text('Insufficient history')
+    expect(page.locator('#journal-summary')).to_contain_text('not actual vocalization/movement rates')
     expect(page.locator('#journal-summary')).to_contain_text('Cases without a followup: 1')
     page.locator('#journal-window').select_option('30')
     expect(page.locator('#journal-window')).to_be_enabled()
@@ -38,6 +40,7 @@ def journal_flow(page,base,pet_id,screenshots=None):
     page.locator('#guide-profile').select_option(pet_id);page.locator('#journal-load').click()
     expect(page.locator('#journal-list article')).to_have_count(1)
     expect(page.locator('#journal-summary')).to_contain_text('상황 기록: 1')
+    expect(page.locator('#journal-summary')).to_contain_text('기록 기준선 미충족')
     page.locator('#journal-list button').click()
     expect(page.locator('#followup-list article')).to_have_count(1)
     if screenshots:

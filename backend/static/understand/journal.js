@@ -27,6 +27,15 @@
   const report=await api('/summary?pet_id='+encodeURIComponent(profile)+'&days='+el('journal-window').value);
   text('p',date(report.start)+' — '+date(report.end),container);
   text('p',t.recordTotal+': '+report.case_count+' · '+t.missing+': '+report.cases_without_followup+' · '+t.followCount+': '+report.followup_count,container);
+  const pattern=report.record_pattern;
+  if(pattern){
+   const ko=document.documentElement.lang==='ko';
+   text('h3',ko?'보호자 기록 패턴 참고':'Caregiver reporting pattern',container);
+   text('p',ko?'출처: 보호자 일지 · 모델 버전 없음 · UTC 날짜 · 기록한 날만 비교':'Source: caregiver journal · no model version · UTC days · recorded days only',container);
+   text('p',pattern.ready?(ko?'과거 기록일 중앙값: ':'Historical median records per recorded day: ')+pattern.median_records_per_recorded_day:(ko?'기록 기준선 미충족: 과거 기록일 5일 이상 필요':'Insufficient history: at least 5 prior recorded days required'),container);
+   text('p',(ko?'오늘 기록 수: ':'Today’s recorded entries: ')+(pattern.current_day_records??(ko?'미기록 (행동 없음이 아님)':'not recorded (not absence of behavior)')),container);
+   text('p',ko?'기록 습관의 참고치입니다. 실제 발성·움직임의 빈도나 개선 효과가 아닙니다. 실측 모델 기준선은 미연결이며 피드백은 학습하지 않습니다.':'Describes reporting habits, not actual vocalization/movement rates or improvement. Measured-model baseline is not connected; feedback is not used for learning.',container);
+  }
   for(const [behavior,count] of Object.entries(report.behavior_counts))text('p',(c[behavior]||behavior)+': '+count,container);
  }
  async function load(api,profile,offset=0){

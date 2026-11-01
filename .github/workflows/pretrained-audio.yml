@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: ['codex/**']
-    paths: ['training/audio_quality.py', 'backend/behavior_evidence.py', 'training/pretrained_audio.py', 'scripts/pretrained_audio_smoke.py', 'requirements-audio-model.txt', 'backend/audio_process.py', 'backend/audio_worker.py', 'backend/audio_events.py', 'backend/audio_auth.py', 'backend/audio_jobs.py', 'backend/job_store.py', 'backend/job_worker.py', 'backend/accounts.py', 'backend/journal.py', 'backend/journal_store.py', 'backend/journal_schema.py', 'backend/local_vlm.py', 'backend/local_vision.py', 'backend/signup_policy.py', 'backend/plans.py', 'backend/plan_store.py', 'backend/plan_schema.py', 'scripts/plans_browser_flow.py', 'backend/consultation_report.py', 'scripts/report_browser_flow.py', 'backend/care.py', 'backend/care_store.py', 'backend/care_schema.py', 'scripts/care_browser_flow.py', 'backend/web_auth.py', 'backend/web_security.py', 'backend/auth_store.py', 'backend/auth_site.py', 'backend/understand.py', 'backend/static/understand/**', 'backend/static/auth/**', 'scripts/member_browser_smoke.py', 'scripts/journal_browser_flow.py', 'backend/pets.py', 'scripts/job_browser_smoke.py', 'backend/static/app/**', 'scripts/product_browser_smoke.py', '.github/workflows/pretrained-audio.yml']
+    paths: ['training/av_ast.py', 'training/av_ast_worker.py', 'training/av_alignment.py', 'training/audio_timeline.py', 'scripts/video_browser_smoke.py', 'backend/static/video/**', 'training/audio_quality.py', 'backend/behavior_evidence.py', 'training/pretrained_audio.py', 'scripts/pretrained_audio_smoke.py', 'requirements-audio-model.txt', 'backend/audio_process.py', 'backend/audio_worker.py', 'backend/audio_events.py', 'backend/audio_auth.py', 'backend/audio_jobs.py', 'backend/job_store.py', 'backend/job_worker.py', 'backend/accounts.py', 'backend/journal.py', 'backend/journal_store.py', 'backend/journal_schema.py', 'backend/local_vlm.py', 'backend/local_vision.py', 'backend/signup_policy.py', 'backend/plans.py', 'backend/plan_store.py', 'backend/plan_schema.py', 'scripts/plans_browser_flow.py', 'backend/consultation_report.py', 'scripts/report_browser_flow.py', 'backend/care.py', 'backend/care_store.py', 'backend/care_schema.py', 'scripts/care_browser_flow.py', 'backend/web_auth.py', 'backend/web_security.py', 'backend/auth_store.py', 'backend/auth_site.py', 'backend/understand.py', 'backend/static/understand/**', 'backend/static/auth/**', 'scripts/member_browser_smoke.py', 'scripts/journal_browser_flow.py', 'backend/pets.py', 'scripts/job_browser_smoke.py', 'backend/static/app/**', 'scripts/product_browser_smoke.py', '.github/workflows/pretrained-audio.yml']
 permissions:
   contents: read
 jobs:
@@ -29,6 +29,11 @@ jobs:
         run: python -m scripts.job_browser_smoke --real-ast --output artifacts/ast-job-browser.json
       - name: Real HTTPS membership to queue and isolated AST worker
         run: python -m scripts.member_browser_smoke --real-ast --output artifacts/ast-member-browser.json
+      - name: Real cached AST AV extraction and report browser integration
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m scripts.video_browser_smoke --real-audio
       - name: Standalone local WAV inference
         run: |
           python -c "import wave; w=wave.open('/tmp/silence.wav','wb'); w.setparams((1,2,16000,0,'NONE','not compressed')); w.writeframes(bytes(32000)); w.close()"

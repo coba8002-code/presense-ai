@@ -126,3 +126,6 @@ adapter_reload_equal=true, synthetic=true, production_ready=false.
 [합성 smoke 어댑터 다운로드](https://github.com/coba8002-code/presense-ai/actions/runs/39128020164/artifacts/12136917167)
 (7일 보관). 로컬 unittest 108개 통과. 실제 개 학습 데이터는 아직 제공되지 않아
 실제 자세 미세조정 및 정확도 비교 결과는 없다.
+
+
+2026-11-01 후속: 학습 어댑터가 아닌 공개 고정 base 모델의 로컬 AV 프레임 추론/보고서 UI를 구현했다. 실행/한계/검증은 [EVENT_ANALYSIS_DELIVERY](EVENT_ANALYSIS_DELIVERY.md)의 Actual local model execution 절을 따른다. 실제 개 정답/비개체 유보 정확도는 미검증이며 프로덕션 API 자동 배포가 아니다.

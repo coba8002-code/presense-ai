@@ -21,7 +21,7 @@ async def video_review():return await video_asset('index.html')
 
 @router.get('/video-review/{name}')
 async def video_asset(name:str):
-    types={'index.html':'text/html','video.js':'text/javascript','style.css':'text/css'}
+    types={'index.html':'text/html','video.js':'text/javascript','timeline.js':'text/javascript','style.css':'text/css'}
     if name not in types:raise HTTPException(404,'Not found')
     return Response((Path(__file__).parent/'static/video'/name).read_text(),media_type=types[name],headers={
         'Cache-Control':'no-store','Referrer-Policy':'no-referrer','X-Content-Type-Options':'nosniff',
