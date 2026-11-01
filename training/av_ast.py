@@ -16,8 +16,8 @@ from training.pretrained_audio import MODEL,REVISION,DOG_LABELS
 def worker_command():return [sys.executable,'-m','training.av_ast_worker']
 
 
-def run(path,*,consent=False,timeout=120,cancel=None,vision=False):
- if type(vision) is not bool:raise ValueError('Explicit vision flag required')
+def run(path,*,consent=False,timeout=120,cancel=None,vision=False,pose=False):
+ if type(vision) is not bool or type(pose) is not bool:raise ValueError('Explicit vision flag required')
  if os.name!='posix':raise ValueError('Use Linux/WSL for isolated AV scoring')
  if consent is not True:raise ValueError('Explicit local consent required')
  if type(timeout) not in (int,float) or not math.isfinite(timeout) or not 0<timeout<=300:raise ValueError('Invalid bounded timeout')
@@ -33,7 +33,7 @@ def run(path,*,consent=False,timeout=120,cancel=None,vision=False):
   with (Path(td)/'result.json').open('w+b') as out:
    proc=subprocess.Popen(worker_command(),cwd=Path(__file__).resolve().parents[1],stdin=subprocess.PIPE,stdout=out,stderr=subprocess.DEVNULL,env=env,start_new_session=os.name=='posix')
    try:
-    payload=json.dumps({'path':str(path),'consent':True,'vision':vision}).encode()
+    payload=json.dumps({'path':str(path),'consent':True,'vision':vision,'pose':pose}).encode()
     if len(payload)>4096:raise ValueError('Path too long')
     proc.stdin.write(payload);proc.stdin.close();deadline=time.monotonic()+timeout
     while proc.poll() is None:
@@ -63,6 +63,14 @@ def run(path,*,consent=False,timeout=120,cancel=None,vision=False):
      if v.get('model')!=VM or v.get('revision')!=VR or v.get('decision')!='abstain' or v.get('species_verified') is not False or not isinstance(v.get('observations'),list) or not 1<=len(v['observations'])<=6:raise ValueError('Invalid vision model contract')
      for obs in v['observations']:
       if obs.get('posture_candidate') not in LABELS or type(obs.get('seconds')) not in (float,int) or not math.isfinite(obs['seconds']) or not 0<=obs['seconds']<=r['duration']:raise ValueError('Invalid vision candidate')
+    if pose:
+     from training.dog_pose import DETECTOR,DETECTOR_REV,POSE,POSE_REV
+     from training.track_pose import adapt
+     p=r.get('pose_model',{})
+     if p.get('detector_model')!=DETECTOR or p.get('detector_revision')!=DETECTOR_REV or p.get('keypoint_model')!=POSE or p.get('keypoint_revision')!=POSE_REV or p.get('decision')!='abstain' or p.get('identity_verified') is not False or not isinstance(p.get('frames'),list) or not 1<=len(p['frames'])<=6:raise ValueError('Invalid dog pose model contract')
+     if any(not isinstance(f.get('detections'),list) or len(f['detections'])>4 for f in p['frames']):raise ValueError('Pose detection limit')
+     doc={'source_sha256':digest,'source_kind':'upstream_model','model':DETECTOR+'/'+POSE,'revision':DETECTOR_REV+'+'+POSE_REV,'width':p['width'],'height':p['height'],'frames':[{'seconds':f['seconds'],'detections':[{k:d[k] for k in ('box','score','keypoints')} for d in f['detections']]} for f in p['frames']]}
+     adapt(doc)
     return r
    finally:
     if proc.poll() is None:
@@ -72,8 +80,8 @@ def run(path,*,consent=False,timeout=120,cancel=None,vision=False):
 
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--video',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--consent-local',action='store_true');p.add_argument('--with-vision',action='store_true');a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--video',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--consent-local',action='store_true');p.add_argument('--with-vision',action='store_true');p.add_argument('--with-pose',action='store_true');a=p.parse_args()
  if a.output.exists():raise ValueError('Preserve existing report')
- r=run(a.video,consent=a.consent_local,vision=a.with_vision)
+ r=run(a.video,consent=a.consent_local,vision=a.with_vision,pose=a.with_pose)
  with a.output.open('x') as stream:json.dump(r,stream,allow_nan=False,indent=2)
 if __name__=='__main__':main()

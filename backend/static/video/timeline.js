@@ -32,10 +32,27 @@
    if(m.model!=='MIT/ast-finetuned-audioset-10-10-0.4593'||m.revision!=='f826b80d28226b62986cc218e5cec390b1096902'||m.decision!=='abstain'||m.species_verified!==false||!Array.isArray(m.windows)||!m.windows.length||m.windows.length>60)throw new Error('Invalid audio model');
    for(const w of m.windows){if(!finite(w.start)||!finite(w.end)||w.start<0||w.end<=w.start||w.end>duration||!Array.isArray(w.dog_event_scores)||w.dog_event_scores.length!==7||new Set(w.dog_event_scores.map(s=>s.label)).size!==7||w.dog_event_scores.some(s=>!labels.includes(s.label)||!finite(s.score)||s.score<0||s.score>1))throw new Error('Invalid audio scores');}
   }
+  if(r.audio_model?.candidate_events){
+   const e=r.audio_model.candidate_events;
+   if(e.validated!==false||e.decision!=='abstain'||!Array.isArray(e.candidates)||e.candidates.length>420)throw new Error('Invalid candidate policy');
+   for(const c of e.candidates)if(!['Dog','Bark','Yip','Howl','Bow-wow','Growling','Whimper (dog)'].includes(c.label)||!finite(c.start)||!finite(c.end)||c.start<0||c.end<=c.start||c.end>duration||!Array.isArray(c.quality_flags)||c.quality_flags.some(x=>!['near_silence','clipping'].includes(x))||c.speaker!=='unconfirmed'||c.status!=='unvalidated_candidate')throw new Error('Invalid candidate envelope');
+  }
   if(r.vision_model){
    const m=r.vision_model;
    if(m.model!=='HuggingFaceTB/SmolVLM2-256M-Video-Instruct'||m.revision!=='067788b187b95ebe7b2e040b3e4299e342e5b8fd'||m.decision!=='abstain'||m.species_verified!==false||!Array.isArray(m.observations)||!m.observations.length||m.observations.length>6)throw new Error('Invalid vision model');
    for(const o of m.observations)if(!finite(o.seconds)||o.seconds<0||o.seconds>duration||!['standing','sitting','lying','unknown'].includes(o.posture_candidate))throw new Error('Invalid posture candidate');
+  }
+  if(r.pose_model){
+   const p=r.pose_model,names=['left_eye','right_eye','nose','neck','tail_root','left_shoulder','left_elbow','left_front_paw','right_shoulder','right_elbow','right_front_paw','left_hip','left_knee','left_back_paw','right_hip','right_knee','right_back_paw'];
+   if(p.detector_model!=='PekingU/rtdetr_r50vd'||p.detector_revision!=='df939e661d8c52e80608d1ec566561aabd25a4e7'||p.keypoint_model!=='litert-community/RTMPose-Animal-AP10K-LiteRT'||p.keypoint_revision!=='1daee634c9db6889268124735374e6a9c1c2fc7b'||p.decision!=='abstain'||p.identity_verified!==false||p.species_verified!==false||p.confidence_kind!=='clipped_raw_simcc_peak_not_probability'||!Number.isInteger(p.width)||!Number.isInteger(p.height)||p.width<1||p.height<1||p.width*p.height>4000000||!Array.isArray(p.frames)||!p.frames.length||p.frames.length>6)throw new Error('Invalid dog pose models');
+   let last=-1;
+   for(const f of p.frames){
+    if(!finite(f.seconds)||f.seconds<=last||f.seconds<0||f.seconds>duration||!Array.isArray(f.detections)||f.detections.length>4)throw new Error('Invalid dog detection timeline');last=f.seconds;
+    for(const d of f.detections){
+     if(!Array.isArray(d.box)||d.box.length!==4||d.box.some(v=>!finite(v))||d.box[0]<0||d.box[1]<0||d.box[2]<=d.box[0]||d.box[3]<=d.box[1]||d.box[2]>p.width||d.box[3]>p.height||!finite(d.score)||d.score<0||d.score>1||!/^clip-candidate-[0-9]{5}$/.test(d.track_candidate_id)||!d.keypoints||Object.keys(d.keypoints).length!==17)throw new Error('Invalid dog candidate');
+     for(const [name,pt]of Object.entries(d.keypoints))if(!names.includes(name)||!finite(pt.x)||!finite(pt.y)||!finite(pt.confidence)||pt.x<0||pt.y<0||pt.x>p.width||pt.y>p.height||pt.confidence<0||pt.confidence>1)throw new Error('Invalid AP10K keypoint');
+    }
+   }
   }
   return r;
  }

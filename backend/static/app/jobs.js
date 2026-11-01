@@ -27,8 +27,9 @@
   el('jobs-list').replaceChildren();
   for(const row of rows){const article=text('article','',el('jobs-list'));article.className='record';text('strong',(names[row.status]||'확인 필요')+' · '+new Date(row.created*1000).toLocaleString('ko-KR'),article);
    if(row.error)text('p',({worker_lost:'작업자가 중단됐습니다. 소리를 확인한 뒤 새 작업으로 등록하세요.',deadline_exceeded:'분석 제한 시간을 초과했습니다.',model_unavailable:'모델 캐시·실행 환경을 확인하세요.',expired:'대기 가능한 시간이 지났습니다.',session_revoked:'등록 세션이 만료되거나 철회되었습니다.',client_cancelled:'취소하고 원본·결과를 삭제했습니다.'})[row.error]||'분석을 완료하지 못했습니다.',article);
-   if(row.status==='succeeded'&&row.result){text('p','소리 사건 점수 · 감정·원인 판단 보류',article);for(const score of row.result.dog_event_scores||[])text('p',score.label+': '+Number(score.score).toFixed(3),article);}
-   if(!['cancelled','expired'].includes(row.status)){const button=text('button','작업 취소·결과 삭제',article);button.className='secondary';button.onclick=()=>{if(active||!confirm('이 작업을 취소하고 보관 중인 소리·결과를 삭제할까요?'))return;return action(async api=>{await api('/'+encodeURIComponent(row.id),'DELETE');await load(api);});};}
+   if(row.status==='succeeded'&&row.result){
+    if(['pretrained_model','synthetic_fixture'].includes(row.result.execution_kind)){const save=text('button','모델 관찰로 별도 보관',article);save.dataset.measureJob=row.id;save.onclick=()=>globalThis.PetSenseMeasurements?.saveJob(row);}text('p','소리 사건 점수 · 감정·원인 판단 보류',article);for(const score of row.result.dog_event_scores||[])text('p',score.label+': '+Number(score.score).toFixed(3),article);}
+   if(!['cancelled','expired'].includes(row.status)){const button=text('button','작업 취소·결과 삭제',article);button.className='secondary';button.onclick=()=>{if(active||!confirm('이 작업을 취소하고 보관 중인 소리·결과를 삭제할까요?'))return;return action(async api=>{await api('/'+encodeURIComponent(row.id),'DELETE');window.dispatchEvent(new Event('petsense-observations-invalidated'));await load(api);});};}
   }
  }
  async function load(api){const data=await api();render(data.items);clearTimeout(timer);const pending=data.items.some(r=>['queued','running'].includes(r.status));

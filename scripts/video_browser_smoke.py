@@ -16,13 +16,13 @@ from training.av_alignment import align
 ROOT=Path(__file__).resolve().parents[1]
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--real-models',action='store_true',help='Explicitly run cached local AST + SmolVLM; synthetic media only');parser.add_argument('--real-audio',action='store_true',help='Explicit cached AST only');args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--real-models',action='store_true',help='Explicitly run cached local AST + SmolVLM; synthetic media only');parser.add_argument('--real-pose',action='store_true',help='Explicit cached dog detector + AP10K animal keypoints');parser.add_argument('--real-audio',action='store_true',help='Explicit cached AST only');args=parser.parse_args()
     with tempfile.TemporaryDirectory() as td:
         clip=Path(td)/'synthetic.webm'
         subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','testsrc2=size=320x240:rate=10:duration=2','-f','lavfi','-i','sine=frequency=800:sample_rate=48000:duration=2','-c:v','libvpx','-c:a','libopus',str(clip)],check=True)
-        if args.real_models or args.real_audio:
+        if args.real_models or args.real_audio or args.real_pose:
             from training.av_ast import run
-            alignment=run(clip,consent=True,vision=args.real_models)
+            alignment=run(clip,consent=True,vision=args.real_models,pose=args.real_pose)
         else:alignment=align(clip,consent=True)
         report=Path(td)/'alignment.json';report.write_text(json.dumps(alignment))
         with socket.socket() as s:s.bind(('127.0.0.1',0));port=s.getsockname()[1]
@@ -75,6 +75,9 @@ def main():
                 if args.real_models:
                     expect(page.locator('#local-model-status')).to_contain_text('SmolVLM2')
                     expect(page.locator('#local-model-status')).to_contain_text('확률·확정 이벤트 아님')
+                if args.real_pose:
+                    expect(page.locator('#local-model-status')).to_contain_text('RTMPose')
+                    expect(page.locator('#local-model-status')).to_contain_text('검출 0개는 강아지 없음의 증거가 아닙니다')
                 page.locator('#extract').click();expect(page.locator('#summarize')).to_be_enabled()
                 assert page.locator('.frame').count()>1
                 bad={**alignment,'source_sha256':'0'*64}
@@ -93,7 +96,7 @@ def main():
                 assert not errors,errors
                 assert page.evaluate('localStorage.length')==0
                 b.close()
-            print(json.dumps({'synthetic_video':True,'frames':6,'mobile_viewport':True,'model_inference':args.real_models or args.real_audio,'consent_identity_cancel_conflict_decode_failure':True,'outbound_requests':outbound,'passed':True}))
+            print(json.dumps({'synthetic_video':True,'frames':6,'mobile_viewport':True,'model_inference':args.real_models or args.real_audio or args.real_pose,'consent_identity_cancel_conflict_decode_failure':True,'outbound_requests':outbound,'passed':True}))
         finally:stop(server)
 
 if __name__=='__main__':main()

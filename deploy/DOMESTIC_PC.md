@@ -8,7 +8,7 @@ PowerShell: `wsl --status`, `wsl --list --verbose`. WSL2 배포판과 systemd �
 WSL에서 Python3.12와 Caddy가 필요하다. 소스/가상환경·전용 계정과 환경 파일 경로는 deploy/README.md를 따른다. DB는 Windows 공유 폴더(/mnt/c 등)가 아닌 WSL Linux의 비공개 파일시스템에 두어 POSIX 권한을 검증한다. 전용 계정이 실행하고 DB 부모0700/파일0600, 환경 파일0600을 유지한다.
 
 ## 실행 순서
-1. source ZIP 또는 codex/private-beta-readiness-20261031 브랜치 소스를 PC로 가져온다. 프로젝트 루트에서 기본 requirements.lock을 설치하고 전체 테스트를 실행한다. 미확인 바이너리나 공유 인증 코드를 추가하지 않는다.
+1. source ZIP 또는 codex/model-observation-history-20261101 브랜치 소스를 PC로 가져온다. 프로젝트 루트에서 기본 requirements.lock을 설치하고 전체 테스트를 실행한다. 미확인 바이너리나 공유 인증 코드를 추가하지 않는다.
 2. beta.env.example을 비공개 beta.env로 복사해 실제 HTTPS주소/운영자/연락처/약관버전을 설정한다. SIGNUP_MODE는 closed를 유지한다. 환경 파일을 서비스의 EnvironmentFile로 연결하고 임의 셸 실행에 붙여넣지 않는다.
 3. 데이터 폴더와 DB를 초기화/마이그레이션한다. 기존자료가 있으면 정합성·삭제 이력을 확인한 뒤 진행한다. `python -m scripts.beta_preflight`의 모든 구성 검사 통과 여부를 확인한다.
 4. `python -m scripts.serve_beta` 또는 petsense-api.service를 사용한다. 서비스 실행 Python은 requirements.lock을 설치한 가상환경이다. API는127.0.0.1:8000만 수신한다.
@@ -23,3 +23,5 @@ WSL에서 Python3.12와 Caddy가 필요하다. 소스/가상환경·전용 계�
 - AI-Hub59/71878 다운로드·크기/해시/CRC 결과와 비식별 라벨 구조
 - iPhone/Android 기종/OS별 시험 결과
 키·비밀번호·복구 코드·원본 개인정보는 채팅으로 보내지 않는다. 이 결과가 오기 전에는 실제 PC 배포/학습/휴대폰 검증을 완료 처리하지 않는다.
+
+현재 모델 이력 기능은 schema8이다. 기존7에서 서비스/worker를 멈추고 현재 Store로 초기화/마이그레이션한 뒤 사전 검사를 수행한다. 실제 백업·복구/배포는 별도 실증 항목이며 schema8 DB를 오래된 코드로 롤백하지 않는다.

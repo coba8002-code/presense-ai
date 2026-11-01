@@ -22,7 +22,7 @@ import backend.job_worker as worker
 from backend.job_store import JobStore
 from training.pretrained_audio import MODEL,REVISION,DOG_LABELS
 async def mock(raw,timeout):
- return dict(model=MODEL,revision=REVISION,input_sha256=hashlib.sha256(raw).hexdigest(),decision='abstain',production_ready=False,species_verified=False,dog_event_scores=[dict(label=x,score=.1) for x in DOG_LABELS],runtime='synthetic-test-double')
+ return dict(execution_kind='synthetic_fixture',duration_seconds=1.,model=MODEL,revision=REVISION,input_sha256=hashlib.sha256(raw).hexdigest(),decision='abstain',production_ready=False,species_verified=False,dog_event_scores=[dict(label=x,score=.1) for x in DOG_LABELS],runtime='synthetic-test-double')
 worker.run_ast=mock
 asyncio.run(worker.serve(JobStore(sys.argv[1]),True))
 '''
@@ -71,14 +71,14 @@ def main():
                     assert job['status']=='succeeded' and result['decision']=='abstain'
                     assert len(result['dog_event_scores'])==7
                     if args.real_ast:assert result['model']==MODEL and result['revision']==REVISION
-                    page.once('dialog',lambda dialog:dialog.accept());page.locator('#jobs-list button').click()
+                    page.once('dialog',lambda dialog:dialog.accept());page.locator('#jobs-list button').filter(has_text='작업 취소·결과 삭제').click()
                     expect(page.locator('#jobs-list strong')).to_contain_text('취소됨')
                     erased=page.request.get(base+'/v1/me/audio-jobs/'+job['id'],headers={'X-PetSense-Session':token}).json()
                     assert erased['result'] is None
                     stop(worker)
                     page.locator('#job-submit').click()
                     expect(page.locator('#jobs-list strong').filter(has_text='대기 중')).to_have_count(1)
-                    page.once('dialog',lambda dialog:dialog.accept());page.locator('#jobs-list button').click()
+                    page.once('dialog',lambda dialog:dialog.accept());page.locator('#jobs-list button').filter(has_text='작업 취소·결과 삭제').click()
                     expect(page.locator('#jobs-list strong').filter(has_text='취소됨')).to_have_count(2)
                     page.locator('#notes-session').fill(other);expect(page.locator('#jobs-list article')).to_have_count(0)
                     page.locator('#jobs-refresh').click();expect(page.locator('#jobs-status')).to_contain_text('0개')

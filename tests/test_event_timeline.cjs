@@ -20,3 +20,6 @@ assert.throws(()=>t.validateAlignment({...report,audio_model:{...ast,decision:'c
 const vlm={model:'HuggingFaceTB/SmolVLM2-256M-Video-Instruct',revision:'067788b187b95ebe7b2e040b3e4299e342e5b8fd',decision:'abstain',species_verified:false,observations:[{seconds:0,posture_candidate:'unknown'}]};
 assert(t.validateAlignment({...report,vision_model:vlm},'a',3));
 assert.throws(()=>t.validateAlignment({...report,vision_model:{...vlm,observations:[{seconds:0,posture_candidate:'angry'}]}},'a',3));
+const pose={detector_model:'PekingU/rtdetr_r50vd',detector_revision:'df939e661d8c52e80608d1ec566561aabd25a4e7',keypoint_model:'litert-community/RTMPose-Animal-AP10K-LiteRT',keypoint_revision:'1daee634c9db6889268124735374e6a9c1c2fc7b',decision:'abstain',identity_verified:false,species_verified:false,confidence_kind:'clipped_raw_simcc_peak_not_probability',width:100,height:100,frames:[{seconds:0,detections:[]}]};
+assert(t.validateAlignment({...report,pose_model:pose},'a',3));
+assert.throws(()=>t.validateAlignment({...report,pose_model:{...pose,identity_verified:true}},'a',3));

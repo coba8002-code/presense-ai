@@ -16,7 +16,7 @@ import threading
 import time
 from backend.accounts import Store,SCHEMA_VERSION
 
-TABLES=('sessions','notes','pets','audio_jobs','audio_usage','auth_limits','auth_leases','journal_cases','journal_followups','care_shares','care_plans')
+TABLES=('observation_feedback','model_observations','sessions','notes','pets','audio_jobs','audio_usage','auth_limits','auth_leases','journal_cases','journal_followups','care_shares','care_plans')
 
 
 def timestamp(clock):

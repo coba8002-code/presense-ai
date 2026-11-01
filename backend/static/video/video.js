@@ -61,9 +61,13 @@
    const modelLines=['출처: 로컬 보고서 주장 · 실행기 진위/성능 미검증 · 판단 유보'];
    if(alignment.audio_model){const m=alignment.audio_model;modelLines.push('음향: '+m.model+' @ '+m.revision);
     for(const w of m.windows){const top=[...w.dog_event_scores].sort((a,b)=>b.score-a.score)[0];modelLines.push(w.start.toFixed(2)+'–'+w.end.toFixed(2)+'초 · 최고 원시 점수 '+top.label+' '+top.score.toFixed(3)+' (확률·확정 이벤트 아님)');}}
+   if(alignment.audio_model?.candidate_events){const e=alignment.audio_model.candidate_events;modelLines.push('실험적 구간 후보 · 미검증 임곗값 · 확정 이벤트 아님');for(const c of e.candidates)modelLines.push(c.label+' '+c.start.toFixed(2)+'–'+c.end.toFixed(2)+'초 · 시작/끝은 점수창 범위 · 발성 개체 미확인 · 음질 '+(c.quality_flags.join(', ')||'문제 미탐지(양호 보장 아님)'));}
    if(alignment.vision_model){const m=alignment.vision_model;modelLines.push('정지 프레임 후보: '+m.model+' @ '+m.revision);
     for(const o of m.observations)modelLines.push(o.seconds.toFixed(2)+'초 · '+o.posture_candidate+' (개체 확인·동작·감정 해석 아님)');}
-   $('local-model-status').textContent=(alignment.audio_model||alignment.vision_model)?modelLines.join('\n'):'로컬 모델 결과 없음';
+   if(alignment.pose_model){const p=alignment.pose_model;modelLines.push('개 검출 후보: '+p.detector_model+' · 관절 후보: AP10K RTMPose · 점수 미보정 · ID/발성 미확인');
+    modelLines.push('관절 실행 '+p.pose_forward_calls+'회 · 검출 0개는 강아지 없음의 증거가 아닙니다.');
+    for(const f of p.frames){modelLines.push(f.seconds.toFixed(2)+'초 · 개 검출 후보 '+f.detections.length+'개');for(const d of f.detections)modelLines.push(d.track_candidate_id+' (클립 내 연결 후보) · 검출 점수 '+d.score.toFixed(3)+' · 관절 후보 '+Object.keys(d.keypoints).length+'점 · 실제 동일 개/행동 검증 아님');}}
+   $('local-model-status').textContent=(alignment.audio_model||alignment.vision_model||alignment.pose_model)?modelLines.join('\n'):'로컬 모델 결과 없음';
 
    $('alignment-status').textContent=alignment.audio_present?'동일 파일 해시 확인 · 로컬 보고서의 오디오/프레임 PTS 연결 · 도구 진위/센서 동기 미검증 · 소리 분류 없음':'동일 파일 해시 확인 · 보고서에 오디오 트랙 없음';
   }catch(e){if(ticket===epoch){alignment=null;$('alignment-status').textContent='보고서 형식·파일 해시·시간축이 일치하지 않습니다.';}}

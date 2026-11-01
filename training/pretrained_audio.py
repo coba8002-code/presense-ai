@@ -82,7 +82,7 @@ class ASTDogAudio:
         scores = dog_scores(logits, self.model.config.id2label)
         from training.audio_quality import audio_quality
         quality = audio_quality(signal)
-        return dict(model=MODEL, revision=REVISION, license='bsd-3-clause', input_sha256=digest,
+        return dict(execution_kind='pretrained_model', model=MODEL, revision=REVISION, license='bsd-3-clause', input_sha256=digest,
                     sample_rate=16000, duration_seconds=len(signal)/16000,
                     preprocessing_and_inference_seconds=time.monotonic()-started,
                     audio_quality=quality, dog_event_scores=scores, score_type='uncalibrated_independent_sigmoid',

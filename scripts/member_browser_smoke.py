@@ -164,6 +164,28 @@ def main():
                     assert job['status'] == 'succeeded' and result['decision'] == 'abstain' and len(result['dog_event_scores']) == 7
                     if args.real_ast:
                         assert result['model'] == MODEL and result['revision'] == REVISION
+                    page.locator('#measurement-device').fill('synthetic-phone')
+                    page.locator('#measurement-condition').select_option('indoors_quiet')
+                    page.locator('[data-measure-job]').click()
+                    expect(page.locator('#measurements-status')).to_contain_text('보관 동의')
+                    page.locator('#measurement-consent').check();page.locator('#measurement-identity').check()
+                    page.locator('[data-measure-job]').click()
+                    expect(page.locator('#measurement-list article')).to_have_count(1)
+                    expect(page.locator('#measurement-baseline')).to_contain_text('기준선 미충족')
+                    expect(page.locator('#measurement-list')).to_contain_text('pretrained_model' if args.real_ast else 'synthetic_fixture')
+                    page.locator('#measurement-list select').select_option('noise')
+                    page.locator('#measurement-list button').filter(has_text='피드백 제출').click()
+                    expect(page.locator('#measurement-list')).to_contain_text('미검토 (noise)')
+                    page.locator('#measurement-list button').filter(has_text='피드백 철회').click()
+                    expect(page.locator('#measurement-list')).to_contain_text('피드백: 없음')
+                    page.locator('#measurement-list button').filter(has_text='피드백 제출').click()
+                    expect(page.locator('#measurement-list')).to_contain_text('미검토')
+                    page.locator('#measurement-condition').select_option('outdoors')
+                    expect(page.locator('#measurement-list article')).to_have_count(0)
+                    page.locator('#measurement-contexts-load').click()
+                    expect(page.locator('#measurement-contexts option')).to_have_count(2)
+                    page.locator('#measurement-contexts').select_option('0');page.locator('#measurements-load').click()
+                    expect(page.locator('#measurement-list article')).to_have_count(1)
                     # The bilingual guide records owner context; it performs no inference.
                     page.goto(base + '/understand?lang=en')
                     expect(page.locator('html')).to_have_attribute('lang', 'en')
@@ -212,7 +234,7 @@ def main():
                     page.locator('#form-delete button').click()
                     expect(page.locator('#auth-status')).to_contain_text('삭제했습니다')
                     with store.connect() as conn:
-                        for table in ['members', 'sessions', 'pets', 'notes', 'audio_jobs', 'audio_usage', 'journal_cases', 'journal_followups', 'care_shares','care_plans']:
+                        for table in ['members', 'sessions', 'pets', 'notes', 'audio_jobs', 'audio_usage', 'journal_cases', 'journal_followups', 'care_shares','care_plans','model_observations','observation_feedback']:
                             assert conn.execute('SELECT count(*) FROM ' + table).fetchone()[0] == 0
                     storage = page.evaluate('JSON.stringify([localStorage,sessionStorage])')
                     assert all(value not in storage for value in [password, new_password, recovery, email, cookies[0]['value']])
@@ -224,7 +246,7 @@ def main():
                             json.dump({'synthetic_input': True, 'real_ast': args.real_ast,
                                 'https_signup_login_recovery_deletion': True, 'cookie_flags_verified': True,
                                 'javascript_session_header_absent': True,
-                                'journal_followup_export_delete_and_stale_profile_response':True, 'two_account_care_sharing_revoke_delete':True, 'consultation_report_download_and_stale_response':True, 'care_plan_followup_completion_delete':True, 'account_data_erased': True,
+                                'journal_followup_export_delete_and_stale_profile_response':True, 'two_account_care_sharing_revoke_delete':True, 'consultation_report_download_and_stale_response':True, 'care_plan_followup_completion_delete':True, 'account_data_erased': True,'measurement_metadata_consent_source_context_feedback':True,
                                 'model': result.get('model'), 'revision': result.get('revision'),
                                 'input_sha256': result.get('input_sha256'), 'queue_result_seconds': seconds,
                                 'physical_device': False,'mobile_chromium_emulation':args.mobile, 'scope': 'One synthetic HTTPS Chromium run; not email verification, dog behavior accuracy or production security audit.'}, out, indent=2)
