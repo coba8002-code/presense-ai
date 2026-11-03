@@ -185,12 +185,13 @@
   ],
   "date": "2026-11-03",
   "base_commit": "dd803155b96887d87869ee4389521931701966e5",
-  "python_tests": 376,
+  "python_tests": 378,
   "javascript_test_items": 10,
   "browser_invocations": 10,
   "fixed_product_findings": [
     "QA-01 non-ASCII auth headers",
-    "QA-02 missing event label with zero exit threshold"
+    "QA-02 missing event label with zero exit threshold",
+    "QA-03 reject image decoders before open"
   ],
   "loopback": {
     "requests": 200,
@@ -251,12 +252,16 @@
     "verified/qa-skills.log": "b269edf8e16784ef7dd221c2a51c0481f2840817bc6c9642ed51cba74dab68ee",
     "verified/research_browser_smoke.log": "9fa9aa3c323c1e6f8e88455e4eae1940cf86aea2f03c48f32827d1720919ca74",
     "verified/skills.log": "fb8ba0cf5e3666e17122cc7a56aa996f6df516dbe2db55a9b33f9287fce6ef9b",
-    "verified/video_browser_smoke.log": "93a3bd8635d00cd48b3152ebe1ab8a2a2f8100ceaf4e16e2de157ef962b846a3"
+    "verified/video_browser_smoke.log": "93a3bd8635d00cd48b3152ebe1ab8a2a2f8100ceaf4e16e2de157ef962b846a3",
+    "python-image-final.log": "0d4f62e31a73d61a2004778d0574f76ea73a129d1a3000cc3163900ee964feb9"
   },
   "limitations": [
     "Synthetic/mocked analysis in browser tests",
     "Local loopback is not production inference capacity",
     "No physical iOS/Android or domestic-PC verification",
     "Initial QA runner import/output-argument errors corrected; initial logs retained"
-  ]
+  ],
+  "python_final_environment": "isolated Pillow 13.0.0 with base runtime",
+  "optional_audit": "QA_OPTIONAL_DEPENDENCIES_20261103.json; 8 advisory IDs remain open",
+  "note": "16-stage suite used 376 tests; later image-only change separately verified with full 378-test suite; browser code unchanged"
 }

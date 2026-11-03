@@ -1,0 +1,153 @@
+{
+  "date": "2026-11-03",
+  "scope": "12 direct pins from browser/audio/VLM/pose requirements; not transitive closure or separate torch wheel",
+  "before": {
+    "raw_advisory_records": 84,
+    "distinct_advisory_ids": 64
+  },
+  "packages": [
+    {
+      "name": "playwright",
+      "version": "1.62.0",
+      "advisories": []
+    },
+    {
+      "name": "pyee",
+      "version": "13.0.1",
+      "advisories": []
+    },
+    {
+      "name": "greenlet",
+      "version": "3.5.5",
+      "advisories": []
+    },
+    {
+      "name": "typing-extensions",
+      "version": "4.16.0",
+      "advisories": []
+    },
+    {
+      "name": "transformers",
+      "version": "4.57.1",
+      "advisories": [
+        {
+          "id": "PYSEC-2025-217",
+          "aliases": [
+            "CVE-2025-14929"
+          ],
+          "fix_versions": []
+        },
+        {
+          "id": "PYSEC-2026-2288",
+          "aliases": [
+            "CVE-2026-1839",
+            "GHSA-69w3-r845-3855"
+          ],
+          "fix_versions": [
+            "5.0.0"
+          ]
+        },
+        {
+          "id": "PYSEC-2025-218",
+          "aliases": [
+            "CVE-2025-14930"
+          ],
+          "fix_versions": []
+        },
+        {
+          "id": "PYSEC-2026-2289",
+          "aliases": [
+            "CVE-2026-4372",
+            "GHSA-29pf-2h5f-8g72"
+          ],
+          "fix_versions": [
+            "5.3.0"
+          ]
+        },
+        {
+          "id": "PYSEC-2026-2290",
+          "aliases": [
+            "GHSA-fgcw-684q-jj6r",
+            "CVE-2026-5241"
+          ],
+          "fix_versions": [
+            "5.5.0"
+          ]
+        },
+        {
+          "id": "PYSEC-2026-3929",
+          "aliases": [
+            "GHSA-xrqw-3rrv-vx5w",
+            "CVE-2026-9856"
+          ],
+          "fix_versions": [
+            "5.10.0"
+          ]
+        },
+        {
+          "id": "PYSEC-2026-4174",
+          "aliases": [
+            "CVE-2026-80047",
+            "GHSA-x9r9-c232-4q39"
+          ],
+          "fix_versions": []
+        }
+      ]
+    },
+    {
+      "name": "safetensors",
+      "version": "0.6.2",
+      "advisories": []
+    },
+    {
+      "name": "numpy",
+      "version": "2.3.5",
+      "advisories": []
+    },
+    {
+      "name": "peft",
+      "version": "0.17.1",
+      "advisories": []
+    },
+    {
+      "name": "accelerate",
+      "version": "1.10.1",
+      "advisories": [
+        {
+          "id": "PYSEC-2026-3804",
+          "aliases": [
+            "CVE-2026-69112",
+            "GHSA-4j2p-28q2-5m79"
+          ],
+          "fix_versions": []
+        }
+      ]
+    },
+    {
+      "name": "pillow",
+      "version": "13.0.0",
+      "advisories": []
+    },
+    {
+      "name": "num2words",
+      "version": "0.5.14",
+      "advisories": []
+    },
+    {
+      "name": "ai-edge-litert",
+      "version": "2.3.0",
+      "advisories": []
+    }
+  ],
+  "remaining_distinct_advisory_ids": 8,
+  "status": "not_clean; model dependency migration remains open",
+  "review_by": "2026-11-10",
+  "mitigations": [
+    "Pillow updated 11.3.0 -> 13.0.0",
+    "Pillow decoder allowlist enforced before Image.open",
+    "Model IDs and revisions pinned; safetensors and trust_remote_code=False",
+    "No untrusted checkpoint conversion or Trainer resume used in current path"
+  ],
+  "deferral_reason": "Transformers 5.22.1 requires safetensors>=0.8.0 versus current 0.6.2 and a major-version model/PEFT migration. Separate AST, SmolVLM LoRA and pose compatibility tests needed; do not force-update or claim advisory clean. Accelerate advisory has no fixed version in current feed.",
+  "raw_report_sha256": "103189afa909ecada76a8df14c315e4fb8a61f2a9935d5263dfc2da5560cd40c"
+}

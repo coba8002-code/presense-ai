@@ -77,8 +77,12 @@ def load_manifest(manifest, registry):
 
 
 def image_from_bytes(data):
-    from PIL import Image
-    with Image.open(io.BytesIO(data)) as img:
+    from PIL import Image, UnidentifiedImageError
+    try:
+        image = Image.open(io.BytesIO(data), formats=('PNG', 'JPEG'))
+    except UnidentifiedImageError:
+        raise ValueError('Unsupported frame format') from None
+    with image as img:
         if img.format not in ('PNG', 'JPEG') or img.width * img.height > 4_000_000 or getattr(img, 'n_frames', 1) != 1:
             raise ValueError('Unsupported frame dimensions/format')
         return img.convert('RGB')
