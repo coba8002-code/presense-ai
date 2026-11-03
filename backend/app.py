@@ -11,7 +11,7 @@ async def health() -> dict:
 @app.post('/v1/vision/observe')
 async def vision(request: Request):
     import os
-    import secrets
+    from backend.credential_compare import credential_matches
     import httpx
     from fastapi import HTTPException
     from pydantic import ValidationError
@@ -22,7 +22,7 @@ async def vision(request: Request):
     token = os.getenv('PETSENSE_API_TOKEN', '')
     if not token:
         raise HTTPException(503, 'Cloud observation is not configured')
-    if not secrets.compare_digest(request.headers.get('authorization', ''), f'Bearer {token}'):
+    if not credential_matches(request.headers.get('authorization', ''), f'Bearer {token}'):
         raise HTTPException(401, 'Authentication required')
     key, model = os.getenv('OPENAI_API_KEY', ''), os.getenv('PETSENSE_VLM_MODEL', '')
     if not key or not model:

@@ -6,7 +6,7 @@ import json
 import math
 import os
 from pathlib import Path
-import secrets
+from backend.credential_compare import credential_matches
 import time
 
 from fastapi import APIRouter, HTTPException, Request
@@ -106,7 +106,7 @@ async def audio_chunk(request: Request):
     token = os.getenv('PETSENSE_API_TOKEN', '')
     if not token:
         raise HTTPException(503, 'Live audio is not configured')
-    if not secrets.compare_digest(request.headers.get('authorization', ''), f'Bearer {token}'):
+    if not credential_matches(request.headers.get('authorization', ''), f'Bearer {token}'):
         raise HTTPException(401, 'Authentication required')
     if request.headers.get('x-audio-consent') != 'true':
         raise HTTPException(403, 'Explicit audio sharing consent required')

@@ -1,0 +1,267 @@
+{
+  "scope": "local synthetic QA; browser workers mock inference",
+  "checks": [
+    {
+      "check": "skills",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "scripts/verify_skills.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.03
+    },
+    {
+      "check": "qa-skills",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "scripts/verify_qa_skills.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.03
+    },
+    {
+      "check": "python",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 47.52
+    },
+    {
+      "check": "compile",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "compileall",
+        "-q",
+        "backend",
+        "training",
+        "evaluation",
+        "knowledge",
+        "scripts"
+      ],
+      "exit_code": 0,
+      "seconds": 0.03
+    },
+    {
+      "check": "javascript",
+      "command": [
+        "node",
+        "--test",
+        "tests/test_account_notes.cjs",
+        "tests/test_capture.cjs",
+        "tests/test_case_guide.cjs",
+        "tests/test_consultation_report.cjs",
+        "tests/test_event_timeline.cjs",
+        "tests/test_journal_ui.cjs",
+        "tests/test_mobile_audio.cjs",
+        "tests/test_product_app.cjs",
+        "tests/test_web_session.cjs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.22
+    },
+    {
+      "check": "loopback",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "scripts.qa_loopback_load"
+      ],
+      "exit_code": 0,
+      "seconds": 0.97
+    },
+    {
+      "check": "browser_smoke",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "scripts/browser_smoke.py"
+      ],
+      "exit_code": 0,
+      "seconds": 10.31
+    },
+    {
+      "check": "video_browser_smoke",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "scripts.video_browser_smoke"
+      ],
+      "exit_code": 0,
+      "seconds": 3.83
+    },
+    {
+      "check": "research_browser_smoke",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "scripts.research_browser_smoke"
+      ],
+      "exit_code": 0,
+      "seconds": 2.59
+    },
+    {
+      "check": "product_browser_smoke",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "scripts.product_browser_smoke"
+      ],
+      "exit_code": 0,
+      "seconds": 3.1
+    },
+    {
+      "check": "job_browser_smoke",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "scripts.job_browser_smoke"
+      ],
+      "exit_code": 0,
+      "seconds": 4.16
+    },
+    {
+      "check": "member_browser_smoke",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "scripts.member_browser_smoke"
+      ],
+      "exit_code": 0,
+      "seconds": 11.43
+    },
+    {
+      "check": "guide_browser_smoke",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "scripts.guide_browser_smoke",
+        "--output-dir",
+        "/workspace/presense-ai/artifacts/qa-hardening-20261103/verified/guide_browser_smoke"
+      ],
+      "exit_code": 0,
+      "seconds": 3.04
+    },
+    {
+      "check": "design_browser_smoke",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "scripts.design_browser_smoke",
+        "--output-dir",
+        "/workspace/presense-ai/artifacts/qa-hardening-20261103/verified/design_browser_smoke"
+      ],
+      "exit_code": 0,
+      "seconds": 3.08
+    },
+    {
+      "check": "job-mobile",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "scripts.job_browser_smoke",
+        "--mobile"
+      ],
+      "exit_code": 0,
+      "seconds": 4.04
+    },
+    {
+      "check": "member-mobile",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "scripts.member_browser_smoke",
+        "--mobile"
+      ],
+      "exit_code": 0,
+      "seconds": 11.16
+    }
+  ],
+  "date": "2026-11-03",
+  "base_commit": "dd803155b96887d87869ee4389521931701966e5",
+  "python_tests": 378,
+  "javascript_test_items": 10,
+  "browser_invocations": 10,
+  "fixed_product_findings": [
+    "QA-01 non-ASCII auth headers",
+    "QA-02 missing event label with zero exit threshold",
+    "QA-03 reject image decoders before open"
+  ],
+  "loopback": {
+    "requests": 200,
+    "concurrency": 4,
+    "successful": 200,
+    "p50_ms": 2.478,
+    "p95_ms": 3.221,
+    "max_ms": 6.534,
+    "scope": "loopback health and app HTML only; no inference or production capacity claim"
+  },
+  "runtime_audit": {
+    "packages": 17,
+    "known_vulnerabilities": 0
+  },
+  "real_model_accuracy_tested": false,
+  "physical_device_tested": false,
+  "production_deployed": false,
+  "logs": {
+    "auth-green.log": "ea0fae297da7708dd5394317856793a49872466b9ea572b9c68895691263c677",
+    "auth-red.log": "4cd591a5c533d34536d543ad3a64ff6c23f05778a7ce2d5aef19b7607b82f87e",
+    "browser-rerun.log": "dc35c61b44b9b45ff0ea48f444f8ab146a154a5d1a3b2715b7368e26bae3c68d",
+    "design-rerun.log": "5f8764f59f357c213933cfb74995e9f7519021668247587a2154449300d798d3",
+    "final/browser_smoke.log": "fd49c0516748bf37ba1abda32abfa6e87f36a832c4aa759954c0465ca12e728f",
+    "final/compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "final/design_browser_smoke.log": "37548dea4277541acdde2007fc838a0f22ed95ccc32509d6a5c91352ed851c43",
+    "final/guide_browser_smoke.log": "10b8a377ad08e730e62cbf675afa6a49f30f31cfd41afe6ec7134efaebdf47e9",
+    "final/javascript.log": "abf7e605afe07e75767d4e61c617d7f7f0a35f04ba32dfd93ca9709e4abbe10c",
+    "final/job-mobile.log": "124bfc25adc6be0bf6b06c3bab000d0ca4f7b7f568b29828be93e527fc48e449",
+    "final/job_browser_smoke.log": "124bfc25adc6be0bf6b06c3bab000d0ca4f7b7f568b29828be93e527fc48e449",
+    "final/loopback.log": "fce69b6af5165d09d24ddf3a409d22f4efd4575cc4e8b2253de293a77ed4993b",
+    "final/member-mobile.log": "9d3b195e3d683f87da58943e8c317faa755868eba67586e8d58b2854a5d0018c",
+    "final/member_browser_smoke.log": "9d3b195e3d683f87da58943e8c317faa755868eba67586e8d58b2854a5d0018c",
+    "final/product_browser_smoke.log": "bc7dac19cc7bb2bb96e6a1c460abe165ddbb3b9ed504f0198bd93dd829ced672",
+    "final/python.log": "7da00bf683e6c17370cd67123ea04191b0bc0f7e0f51f2be10fb33d2d071903c",
+    "final/qa-skills.log": "b269edf8e16784ef7dd221c2a51c0481f2840817bc6c9642ed51cba74dab68ee",
+    "final/research_browser_smoke.log": "9fa9aa3c323c1e6f8e88455e4eae1940cf86aea2f03c48f32827d1720919ca74",
+    "final/skills.log": "fb8ba0cf5e3666e17122cc7a56aa996f6df516dbe2db55a9b33f9287fce6ef9b",
+    "final/video_browser_smoke.log": "93a3bd8635d00cd48b3152ebe1ab8a2a2f8100ceaf4e16e2de157ef962b846a3",
+    "guide-rerun.log": "84eca22b2084690ff431d2deda859755173e95fce66fb459791f9771f4698dbb",
+    "member-desktop.log": "9d3b195e3d683f87da58943e8c317faa755868eba67586e8d58b2854a5d0018c",
+    "member-mobile.log": "9d3b195e3d683f87da58943e8c317faa755868eba67586e8d58b2854a5d0018c",
+    "properties-green.log": "abe65b3ec6b874f05e16df4157fd14987188ba520da1344d39c3eea246227531",
+    "properties-red.log": "5c4f7726e82b902dda8a46ca6207700847bb9af33a31d3cfdbfffd54cc421de1",
+    "python-baseline.log": "190d27c487a7cd211510a80de6ac3ce24c8d67d1fddac43c0aa3e88dba8e2f90",
+    "runtime-audit.log": "3726d0be0b6073cc249993ed7e230ed039d07c5509939d707e9173cc961343d3",
+    "verified/browser_smoke.log": "dc35c61b44b9b45ff0ea48f444f8ab146a154a5d1a3b2715b7368e26bae3c68d",
+    "verified/compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "verified/design_browser_smoke.log": "5f8764f59f357c213933cfb74995e9f7519021668247587a2154449300d798d3",
+    "verified/guide_browser_smoke.log": "84eca22b2084690ff431d2deda859755173e95fce66fb459791f9771f4698dbb",
+    "verified/javascript.log": "0e2719f831a0f504813a4ebd2da515a51ddcc53ae899445dc1581cb7da383921",
+    "verified/job-mobile.log": "124bfc25adc6be0bf6b06c3bab000d0ca4f7b7f568b29828be93e527fc48e449",
+    "verified/job_browser_smoke.log": "124bfc25adc6be0bf6b06c3bab000d0ca4f7b7f568b29828be93e527fc48e449",
+    "verified/loopback.log": "4e9d7d9f5f5662fbd40ab3b2adcba3f544e27c6565e955c9294a2b1576f5202a",
+    "verified/member-mobile.log": "9d3b195e3d683f87da58943e8c317faa755868eba67586e8d58b2854a5d0018c",
+    "verified/member_browser_smoke.log": "9d3b195e3d683f87da58943e8c317faa755868eba67586e8d58b2854a5d0018c",
+    "verified/product_browser_smoke.log": "bc7dac19cc7bb2bb96e6a1c460abe165ddbb3b9ed504f0198bd93dd829ced672",
+    "verified/python.log": "e7e0343b777b429c1379da10baf17d670c2a648c8ae12f218952eb75bb994200",
+    "verified/qa-skills.log": "b269edf8e16784ef7dd221c2a51c0481f2840817bc6c9642ed51cba74dab68ee",
+    "verified/research_browser_smoke.log": "9fa9aa3c323c1e6f8e88455e4eae1940cf86aea2f03c48f32827d1720919ca74",
+    "verified/skills.log": "fb8ba0cf5e3666e17122cc7a56aa996f6df516dbe2db55a9b33f9287fce6ef9b",
+    "verified/video_browser_smoke.log": "93a3bd8635d00cd48b3152ebe1ab8a2a2f8100ceaf4e16e2de157ef962b846a3",
+    "python-image-final.log": "0d4f62e31a73d61a2004778d0574f76ea73a129d1a3000cc3163900ee964feb9"
+  },
+  "limitations": [
+    "Synthetic/mocked analysis in browser tests",
+    "Local loopback is not production inference capacity",
+    "No physical iOS/Android or domestic-PC verification",
+    "Initial QA runner import/output-argument errors corrected; initial logs retained"
+  ],
+  "python_final_environment": "isolated Pillow 13.0.0 with base runtime",
+  "optional_audit": "QA_OPTIONAL_DEPENDENCIES_20261103.json; 8 advisory IDs remain open",
+  "note": "16-stage suite used 376 tests; later image-only change separately verified with full 378-test suite; browser code unchanged"
+}

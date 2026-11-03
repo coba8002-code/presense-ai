@@ -2,7 +2,7 @@
 import hashlib
 import os
 import re
-import secrets
+from backend.credential_compare import credential_matches
 from urllib.parse import urlsplit
 from fastapi import HTTPException
 from backend.auth_store import email_value
@@ -43,10 +43,10 @@ def session_token(request):
     if cookie or header:transport(request,config)
     if cookie:
         if not re.fullmatch(r'[A-Za-z0-9_-]{43}',cookie):raise HTTPException(401,'Invalid session')
-        if header and not secrets.compare_digest(header,cookie):raise HTTPException(401,'Conflicting credentials')
+        if header and not credential_matches(header,cookie):raise HTTPException(401,'Conflicting credentials')
         if request.method not in ('GET','HEAD','OPTIONS'):
             origin(request,config)
-            if not secrets.compare_digest(request.headers.get('x-petsense-csrf',''),csrf_value(cookie)):
+            if not credential_matches(request.headers.get('x-petsense-csrf',''),csrf_value(cookie)):
                 raise HTTPException(403,'CSRF verification failed')
         return cookie
     return header
