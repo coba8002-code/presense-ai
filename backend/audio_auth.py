@@ -1,6 +1,6 @@
 """Explicit development-token or owner-session authorization for audio requests."""
 import os
-import secrets
+from backend.credential_compare import credential_matches
 from fastapi import HTTPException
 from backend.accounts import access
 
@@ -11,7 +11,7 @@ def authorize(request):
         return owner
     token=os.getenv('PETSENSE_API_TOKEN','')
     if not token:raise HTTPException(503,'Audio event scoring is not configured')
-    if not secrets.compare_digest(request.headers.get('authorization',''),f'Bearer {token}'):
+    if not credential_matches(request.headers.get('authorization',''),f'Bearer {token}'):
         raise HTTPException(401,'Authentication required')
     return None
 

@@ -32,7 +32,7 @@ def candidates(windows,*,enter=.6,exit=.4,max_gap=.2):
      'quality_flags':sorted({f for _,_,flags in active for f in flags}),'speaker':'unconfirmed','status':'unvalidated_candidate'})
     active.clear()
   for w,scores,flags in parsed:
-   if active and (w['start']>active[-1][0]['end']+max_gap or scores.get(label,0)<exit):finish()
+   if active and (label not in scores or w['start']>active[-1][0]['end']+max_gap or scores[label]<exit):finish()
    if scores.get(label,0)>=enter or (active and scores.get(label,0)>=exit):active.append((w,scores,flags))
   finish()
  return {'policy':'experimental-hysteresis-v1','enter':enter,'exit':exit,'max_gap':max_gap,'validated':False,'decision':'abstain',

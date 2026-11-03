@@ -6,6 +6,14 @@ Current scope: **dog-only MVP**. Historical completed work below may describe th
 
 Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md).
 
+## QA 집중 검증 — 2026-11-03
+- [x] 인기 GitHub QA 스킬 4종을 커밋·해시·라이선스와 함께 설치. 기존 스킬 보존.
+- [x] 비ASCII 인증 헤더 500 및 소리 이벤트 누락 관측 오류를 실패 재현 후 수정.
+- [x] 그룹 격리/PCM/시간축 불변조건 검사와 재현 가능한 로컬 QA 실행기 추가.
+- [x] 실제 Chromium·HTTPS 계정 흐름, 모바일 에뮬레이션, 제한 로컬 부하 및 기본 의존성 감사 실행.
+- [ ] 실기기·실모델 동시 추론/장시간 운영·실제 행동 정확도 검증은 별도 조건 확보 후 진행.
+증거·세부 실행 결과: [QA 보고서](../docs/QA_HARDENING_20261103.md). 원격 CI/배포와 로컬 통과를 구분한다.
+
 ## 현재 실행 순서 — EXEC (2026-10-30 KST 갱신)
 이 목록이 앞으로의 기준이다. 아래 과거 항목은 증거와 의존관계를 보존하기 위해 남긴다. 기능 구현, 모의 검증, 실기기 검증, 운영 출시를 각각 별도로 완료 처리한다.
 

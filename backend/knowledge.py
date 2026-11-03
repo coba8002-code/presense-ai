@@ -2,7 +2,7 @@
 from contextlib import closing
 import os
 from pathlib import Path
-import secrets
+from backend.credential_compare import credential_matches
 import sqlite3
 from fastapi import APIRouter, HTTPException, Query, Request
 from knowledge.worker import load_config
@@ -16,7 +16,7 @@ async def knowledge_search(request: Request, q: str = Query(min_length=1,max_len
     token = os.getenv('PETSENSE_API_TOKEN','')
     if not token:
         raise HTTPException(503,'Knowledge retrieval is not configured')
-    if not secrets.compare_digest(request.headers.get('authorization',''), 'Bearer '+token):
+    if not credential_matches(request.headers.get('authorization',''), 'Bearer '+token):
         raise HTTPException(401,'Authentication required')
     path = os.getenv('PETSENSE_KNOWLEDGE_DB','')
     config = os.getenv('PETSENSE_KNOWLEDGE_CONFIG','')
