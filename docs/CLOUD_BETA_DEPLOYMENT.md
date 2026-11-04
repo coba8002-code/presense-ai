@@ -4,6 +4,17 @@
 병합 SHA a0330a0424dd6c5881dea85cb3f3b5e905801705, 병합 후 CI 41763854944 성공.
 main은 이전 상태로 유지한다. 운영용 소스는 검증한 develop 또는 명시한 클라우드 PR HEAD다.
 
+## 실제 배포 확인
+
+Vercel 프로젝트 petsense-ai-beta를 연결된 Pro 팀에 생성했다. Node 24,
+rootDirectory=cloud, 루트 외부의 기존 영상 소스 접근을 설정했다.
+초기 테스트 배포 dpl_23HdL1d6XPg9keLywQsMTE8hmuvd는 소스 bd4e11f3으로 READY다.
+주소: https://petsense-ai-beta.vercel.app (Vercel 계정 보호 유지).
+인증된 Vercel 조회에서 /, /health.json, /video-review/ 모두 HTTP200을 확인했다.
+CSP/nosniff/Referrer-Policy 헤더가 적용됐으며 health의 model_ready=false다.
+Supabase 공개 설정은 아직 없어 로그인은 차단된 연결 준비 화면이다.
+실 가입/이메일/저장/AI가 작동한다고 주장하지 않는다.
+
 ## 구현 범위
 
 같은 저장소의 cloud/는 Vite 브라우저 앱이고 Supabase Auth와 Postgres를 사용한다.
@@ -38,7 +49,8 @@ AI 미연결 요청은 awaiting_model이며 완료/감정 확률/진단을 생�
 
 인증 정보가 없는 빌드는 연결 준비 안내와 로컬 영상 화면만 제공하며 로그인 폼을 숨긴다.
 이 상태를 운영 가능한 전체 서비스라고 표시하지 않는다. Supabase 계정은 명시적 탈퇴까지 유지되며
-프로필/노트/요청/계획은 생성 후 30일 표시, 시간당 정리 작업으로 물리 삭제한다.
+프로필/노트/요청/계획은 생성 후 최대 30일 표시, 시간당 정리 작업으로 물리 삭제한다.
+반려견 삭제/만료 시 연결된 기록은 함께 삭제되므로 더 짧게 보관될 수 있다.
 실 DB/cron 적용 전 현재 상태는 스키마 준비이며 실제 정리 가동을 의미하지 않는다.
 
 ## 검증 증거와 재현

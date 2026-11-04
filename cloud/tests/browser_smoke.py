@@ -4,6 +4,7 @@ Not evidence of live Supabase email, RLS, deployment, or model accuracy.
 import base64
 import json
 import time
+import os
 from pathlib import Path
 from playwright.sync_api import sync_playwright, expect
 
@@ -56,6 +57,15 @@ with sync_playwright() as p:
     page = browser.new_page(viewport={'width':1440,'height':1000})
     errors=[]
     page.on('pageerror', lambda e: errors.append(str(e)))
+    if os.environ.get('PETSENSE_EXPECT_UNCONFIGURED') == '1':
+        page.goto(origin)
+        page.wait_for_load_state('networkidle')
+        expect(page.locator('#config-block')).to_be_visible()
+        expect(page.locator('#auth-area')).to_be_hidden()
+        assert not errors,errors
+        print('Unconfigured build: login hidden; no Auth or data requests')
+        browser.close()
+        raise SystemExit(0)
     page.route('https://*.supabase.co/**',route_api)
     page.goto(origin)
     page.wait_for_load_state('networkidle')

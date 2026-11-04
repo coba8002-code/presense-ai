@@ -605,5 +605,6 @@ Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md
 - [x] 원점 제한/활성 세션 검증/선행 세션 철회가 있는 탈퇴 함수와 시간당30일 만료 정리 SQL 준비.
 - [ ] Supabase 조직 선택 답변→가격 안내/동의→전용 서울 프로젝트 생성. 다른 서비스 DB 재사용 금지.
 - [ ] 실제 스키마/RLS·advisors·cron·탈퇴 Edge 함수 적용 및 실 데이터 격리 검사.
-- [ ] Vercel 배포 URL·공개 설정 연결, Auth URL/redirect·이메일 인증/복구 실 연결 검증.
+- [x] Vercel PetSense 전용 프로젝트/보호된 테스트 배포 READY, /·health·영상 화면 HTTP200 확인. Supabase 미설정 시 로그인 차단.
+- [ ] Supabase 공개 설정 연결, Auth URL/redirect·이메일 인증/복구 실 연결 검증.
 - [ ] 클라우드 AI 워커/원본 업로드 및 기존 로컬 기능 전체 이전. 현재 텍스트 요청은 모델 연결 대기.
