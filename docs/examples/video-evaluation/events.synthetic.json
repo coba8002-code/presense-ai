@@ -1,0 +1,23 @@
+{
+  "parent_sha256": "11a576190519b5f31fe0dc90c93f2a66c5a3fc4a98241d434a51963d9a0602fe",
+  "synthetic": true,
+  "locked_at": 1000,
+  "split": "validation",
+  "clips": [
+    {
+      "clip_id": "example-window-3",
+      "known": true,
+      "reviewers": [
+        "synthetic-blind-reviewer"
+      ],
+      "events": [
+        {
+          "label": "Bark",
+          "start": 0.0,
+          "end": 1.0,
+          "animal_id": null
+        }
+      ]
+    }
+  ]
+}

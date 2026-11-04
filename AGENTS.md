@@ -2,10 +2,20 @@
 
 Read README.md and issue #1. Work in small PRs with tests and evidence. Do not claim models have been trained until metrics and reproducible runs exist.
 
+## Current product scope
+- User decision: dog-only MVP. Cat support is deferred.
+- Reject cat training and live audio requests; abstain on non-dog VLM observations.
+- Retain prior dataset audit evidence; do not claim cat support from generic schemas.
+
+## Product direction
+- Global dog-owner service: understand observable behavior, improve care, enjoy activities, and connect with trusted people.
+- Build Korean/English foundations first; do not claim a fully localized global launch or intent translation accuracy without independent evidence.
+- Keep observations, guardian reports, hypotheses, and verified follow-up separate.
+
 ## Architecture
 - Flutter Android/iOS app
 - FastAPI backend
-- Python/PyTorch dog/cat audio classifiers
+- Python/PyTorch dog audio classifiers; cats are a later expansion
 - Cloud VLM for observable postures, context, and environment
 - Multimodal fusion, per-pet history, privacy-first data collection
 

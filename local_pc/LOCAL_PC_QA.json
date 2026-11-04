@@ -1,0 +1,16 @@
+{
+  "date_kst": "2026-10-28",
+  "full_suite": "117 passed",
+  "local_pc_tests": "5 passed after final finite-size guard change",
+  "esc10_preprocessing": {
+    "real_files": 400,
+    "dog_files": 40,
+    "wav_format": "PCM16 mono 16000Hz 80000 frames",
+    "output_hashes_verified": 400
+  },
+  "pc_probe": "passed on Linux build environment, not user PC",
+  "aihub_authenticated_download": "not run: user domestic PC required",
+  "ast_new_weight_inference": "not run in this build",
+  "windows_wsl_device_test": "not run",
+  "training_performed": false
+}

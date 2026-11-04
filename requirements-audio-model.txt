@@ -1,0 +1,4 @@
+# Optional isolated inference environment; CPU torch/torchaudio installed separately.
+transformers==4.57.1
+safetensors==0.6.2
+numpy==2.3.5

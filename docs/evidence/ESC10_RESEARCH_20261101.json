@@ -1,0 +1,148 @@
+{
+  "scope": "ESC-10 dog sound versus background research only",
+  "production_ready": false,
+  "animal_disjoint_verified": false,
+  "household_disjoint_verified": false,
+  "behavior_accuracy_verified": false,
+  "deployment_decision": "blocked",
+  "selected_penalty": 0.1,
+  "validation": {
+    "labels": [
+      "background",
+      "dog_sound"
+    ],
+    "count": 80,
+    "accuracy": 0.875,
+    "macro_f1": 0.7703788748564868,
+    "per_class_f1": [
+      0.9253731343283582,
+      0.6153846153846154
+    ],
+    "class_counts": [
+      72,
+      8
+    ],
+    "confusion_matrix": [
+      [
+        62,
+        10
+      ],
+      [
+        0,
+        8
+      ]
+    ],
+    "brier": 0.22222977905069569,
+    "ece": 0.09145578568697582,
+    "calibration": "uncalibrated; ECE uses 10 equal-width bins",
+    "abstention_threshold": 0.7,
+    "coverage": 0.825,
+    "selective_accuracy": 0.8939393939393939
+  },
+  "heldout_test": {
+    "labels": [
+      "background",
+      "dog_sound"
+    ],
+    "count": 80,
+    "accuracy": 0.825,
+    "macro_f1": 0.6785304247990815,
+    "per_class_f1": [
+      0.8955223880597015,
+      0.46153846153846156
+    ],
+    "class_counts": [
+      72,
+      8
+    ],
+    "confusion_matrix": [
+      [
+        60,
+        12
+      ],
+      [
+        2,
+        6
+      ]
+    ],
+    "brier": 0.2756869638792093,
+    "ece": 0.11921759616531022,
+    "calibration": "uncalibrated; ECE uses 10 equal-width bins",
+    "abstention_threshold": 0.7,
+    "coverage": 0.925,
+    "selective_accuracy": 0.8648648648648649
+  },
+  "heldout_event_metrics": {
+    "dog_precision": 0.3333333333333333,
+    "dog_recall": 0.75,
+    "background_false_positive_rate": 0.16666666666666666
+  },
+  "training_majority_baseline": {
+    "labels": [
+      "background",
+      "dog_sound"
+    ],
+    "count": 80,
+    "accuracy": 0.9,
+    "macro_f1": 0.47368421052631576,
+    "per_class_f1": [
+      0.9473684210526315,
+      0.0
+    ],
+    "class_counts": [
+      72,
+      8
+    ],
+    "confusion_matrix": [
+      [
+        72,
+        0
+      ],
+      [
+        8,
+        0
+      ]
+    ],
+    "brier": 0.2,
+    "ece": 0.09999999999999998,
+    "calibration": "uncalibrated; ECE uses 10 equal-width bins",
+    "abstention_threshold": 0.7,
+    "coverage": 1.0,
+    "selective_accuracy": 0.9
+  },
+  "selection": "folds1-3 train; fold4 selects penalty; fold5 evaluated once; fixed argmax/0.7 abstention threshold",
+  "limitations": [
+    "Animal and household identities unknown; overlap may exist across folds",
+    "Only40 dog clips; background collection is narrow and class imbalanced",
+    "Dataset category dog is not a validated event-boundary, emotion, intent or causal label",
+    "Raw probabilities are uncalibrated; no real-world phone or service accuracy established",
+    "Research artifact only; production animal-disjoint quality gate is not waived"
+  ],
+  "provenance": {
+    "source_revision": "33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6",
+    "source_url": "https://github.com/karolpiczak/ESC-50/tree/33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6",
+    "license": "ESC-10 subset CC BY; original per-clip attribution retained in attribution.txt",
+    "attribution_sha256": "f6aec3a3283a2efdcbb1feff334adad7ab17c097bdec0cbb4eebdb9e16886074",
+    "original_inventory_sha256": "dc4d6b13d1ca6843e40a681bdc04a055fc0d9bc94ad5724eae641ad33a5a5bee",
+    "preprocessing_manifest_sha256": "579cc167bec313602dbcc1ab72e7a051859961ac2e908f52f15610a9e74f7227"
+  },
+  "counts": {
+    "train": {
+      "count": 240,
+      "dog_clips": 24
+    },
+    "validation": {
+      "count": 80,
+      "dog_clips": 8
+    },
+    "test": {
+      "count": 80,
+      "dog_clips": 8
+    }
+  },
+  "artifact_sha256": {
+    "research-model.json": "9954516e6cd838822f8c31a6adfcdb3ebdd8b9f5de933ab5676e5da9d5f1ac9d",
+    "attribution.txt": "f6aec3a3283a2efdcbb1feff334adad7ab17c097bdec0cbb4eebdb9e16886074",
+    "report.json": "fb616620cc68e7f99a2d4d53cf8cd5cd7f283deaba16af074ebad2aea8edf5ab"
+  }
+}

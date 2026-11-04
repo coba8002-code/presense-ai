@@ -1,0 +1,715 @@
+{
+  "source": "https://zenodo.org/records/20571465",
+  "archive_url": "https://zenodo.org/api/records/20571465/files/dataset.zip/content",
+  "archive_declared_bytes": 963585822,
+  "archive_complete_downloaded": false,
+  "full_archive_checksum_verified": false,
+  "member_crc_verified": true,
+  "license_record": "CC BY 4.0; member source rights still require audit",
+  "transferred_bytes": 31794974,
+  "count": 113,
+  "unique_raw_hashes": 113,
+  "raw_matches_existing": 46,
+  "training_performed": false,
+  "limitations": [
+    "Publisher event labels are unreviewed; no emotion or identity truth",
+    "Publisher train/test split not adopted",
+    "Raw hash novelty does not prove source/animal independence",
+    "Resampling/edit and source-rights review pending"
+  ],
+  "date": "2026-11-04",
+  "publisher_label_counts": {
+    "bark": 46,
+    "growl": 33,
+    "grunt": 34
+  },
+  "seconds_supported_wavs": 523.260910430839,
+  "unsupported_wav_count": 3,
+  "not_raw_identical_to_existing": 67,
+  "novelty_not_independence": true,
+  "inventory_sha256": "58eb7094e99828f8e8f780997494ee4eab720c0376f15b45a2c0bbbfd7438b5f",
+  "source_metadata_sha256": "402067a62d5e5552b0df5eb41ee7e16d07d87d6558526d4d31b89f3b79e32735",
+  "python_tests": 383,
+  "domestic_real_data_connected": false,
+  "new_registry_sources": 5,
+  "recordings": [
+    {
+      "archive_member": "dataset/dog_bark_test/dog_33.wav",
+      "sha256": "e6d3de2a8aad609855ab5fd706408720778dc2b689521250fe84bf7217cfb26b",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_34.wav",
+      "sha256": "11aaef5e66a90b0daaf6025deb0ef32a714e6793fb1c5af05f167959cec027b3",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_35.wav",
+      "sha256": "ea41e1eae343d8cc145bf0f1cebd58248427771f516890b5a137d1b184187846",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_36.wav",
+      "sha256": "592f8a8b03b0fadcc14cd505ba1f8189d349d5b0a187c913cfd9aa50f3bf80d2",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_37.wav",
+      "sha256": "90b0ca68e5c7ab7e3d1834da1bd9d8a0066cea32a3c6266113a6d8b820c087a8",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_38.wav",
+      "sha256": "ba35fbea323962e23d845f37d9171ade71c57068292d704e0bc141ea9106b65a",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_39.wav",
+      "sha256": "22b6e93ae06e7fda02988ff9c5e3a5147372605ae36b15398ad57cc12609753b",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_40.wav",
+      "sha256": "206a437c44cf287576b755f50c331c48242818473bdae8e2786328295442dba0",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_41.wav",
+      "sha256": "f6dbed462802c4d6c0401e33223fa30111c468892adbf660a7e12f60a5f8c3c7",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_42.wav",
+      "sha256": "0c743ad368d7b863e18842a9d7062493ac075b8b39e371c65cb9f492c98566a6",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_43.wav",
+      "sha256": "39e555048b582a49a466ccc8f98a8ef3565366f473f8bf9fac3231211e3b85b0",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_44.wav",
+      "sha256": "c707df6c64114465d455b697bb17087d747b06c50b700253ad09a9dce296b742",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_test/dog_45.wav",
+      "sha256": "c9dd83c3921cf186d68bfd871078580577338727eb8d68c54fc63eafe2eb95c0",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_0.wav",
+      "sha256": "19a2041129adbe42971adef691fa8bf4f9acd0a6ffd8d06ad569eb08b9ec78d0",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_1.wav",
+      "sha256": "8b4db39028a5432fd230e0724dde9e9401e7e80328477656e73f48172ebaeefd",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_10.wav",
+      "sha256": "aa47e7f9e7cc185911c67b2e732d6b7fd37764200d0d3844ea51cf11617bbc41",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_11.wav",
+      "sha256": "b102a0abc54b92784d1b36cd7284964f6d1c7eec0f3485c178a2ce6177b0d361",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_12.wav",
+      "sha256": "0198f667cda4bbc5a49c192ae05adebcbbdff790dab788f790ca20700fbd0cde",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_13.wav",
+      "sha256": "f9d9ddb9e11d85d242047b717d9dbde9dbeb5dfa415a0668f29a55f456b1cc66",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_14.wav",
+      "sha256": "2bd3c6700448f6287309115f6e71ce44fed35dcedb0b912aa7da73c9fdecde57",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_15.wav",
+      "sha256": "4d783fee731857b4e62da529abb7c9e96ce125d34d819607bdf856c012d45ebf",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_16.wav",
+      "sha256": "84f4299a81a38bc1a151b15fc3d21c88c4e753f96db5d110cabd547b9d7a1a13",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_17.wav",
+      "sha256": "32c74ea9fdf092742fbe5d241d92fdabf7448731d91a22f630a3ed9147bfcd99",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_18.wav",
+      "sha256": "a41a38da4e9f848b1b319e34dfa0aaeb798343bb9b6a51d32430bde778e81e44",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_19.wav",
+      "sha256": "066b0826b1dd64cc508dfc7250ec98def3857cf7da59eb7a546d42218244e7ef",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_2.wav",
+      "sha256": "8308024e76bb0fe7a19a1fdb9b16efcdcb0879bc9965db3e9792af4bfbf1ab0e",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_20.wav",
+      "sha256": "f689277bee5c0156403f059a7fa7051b36e448a14c5b448db818f299166ca092",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_21.wav",
+      "sha256": "87b4608a9e42625c10d3999b4a1b4d28add9a519bdbd21afaf5f5aa3ab4418a3",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_22.wav",
+      "sha256": "121c3f3df261c03586c686d5340e3289e2c74bf1cf737d47f8e2a3c02b9da1f8",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_23.wav",
+      "sha256": "41fdc9fc17d5bc70e3a86609a94d49d2cfb45bbf6e635f2e7251b158f5db2db6",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_24.wav",
+      "sha256": "c5199a34297b823a28f1eb2369d11a454df2de7aebbc2c7d4c9f464a3c098751",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_25.wav",
+      "sha256": "4a33eb870c38637da1b0af8a67d3636b02fe320ed35182cbe5ba3c56833552c5",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_26.wav",
+      "sha256": "7fe0d4c9fcb4a0ae0a291a87801a80c1aaaa4c5774d09ae0c38e38c228a1835d",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_27.wav",
+      "sha256": "93c42f2d41392835b8949af8cabc292a7f4f7b5ab58c6ff642bc6cd9b7d42f67",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_28.wav",
+      "sha256": "8f320bc5c6b833736f9d01302b450b6f09a1c39c31226e7ede2e5059b697e6f0",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_29.wav",
+      "sha256": "8a3cb8fc72774f9b273d78f6b00c28ef0495f2bffe11eee006e77385b386bd20",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_3.wav",
+      "sha256": "43538c58fcfced944a4b7ca74cd4b3c094a57b1579928949166d9c71d93db02b",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_30.wav",
+      "sha256": "8c5c44b228b12cd9b340f62c8d9a37f2924fdee1af1c6a68ddf3d75b59f1e169",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_31.wav",
+      "sha256": "4a8ecf868a1aceed12fd00f4c650e5c5d31a1d7fa262b2bd1125788dac741980",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_32.wav",
+      "sha256": "f9ecf6519fe27f3d27a591e0686ec2d77bd56f1dbd26e22f97f64e718fd48e15",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_4.wav",
+      "sha256": "0d99a21a0b9ea31b51dc9cc4d18ffb68422fbb90eb2f09a3fd49315da85918d0",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_5.wav",
+      "sha256": "001baefc7c6f817fa816c9d18a494e722720ca14da78b83daa465e979c5ec8fa",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_6.wav",
+      "sha256": "4085366484da725f13e5bce6248299a4a66b61e7fbd8442182cf3cdf24ecdf15",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_7.wav",
+      "sha256": "733b50bdba359bd27f3e8546b7e3cb3338695f3479f857b92f0643bed470a2b9",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_8.wav",
+      "sha256": "7097fa52191ef12e318864a1d71683cd73477db5aa29ef900ef5dc74f1989bdd",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_bark_train/dog_9.wav",
+      "sha256": "0c9e2bb0be32240c853e8c4e27342792b49a26602fb622a47b18886b52613f1a",
+      "publisher_event_label": "bark",
+      "matches_existing": true
+    },
+    {
+      "archive_member": "dataset/dog_growl_test/dog25.wav",
+      "sha256": "cf4fbda8b74b9112458e64eb78a042f8a289210b66854d7ba2b883a7b6ae91d0",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_test/dog26.wav",
+      "sha256": "6b43e7d7e5cc0f97588efa2aac3f2c73a55fd99bb327ffa365b7780e10872e90",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_test/Growl.wav",
+      "sha256": "cc35dd01381f48fd88e074abda03dfa24751fc265fde0ed84774b53a790d004e",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_test/Growl1.wav",
+      "sha256": "7575b71b0581661fd3698a501d28a5c2bbc3fbb70beccb0494b582bf12c23841",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_test/Growl10.wav",
+      "sha256": "01e03d4265b99453b3220f7fda7e8cf338131cb9c06606352fb4790921cffca7",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_test/Growl2.wav",
+      "sha256": "a679e9b4869618be59029e64ab9fbe163d45e34ff4f80d6ab810668c2b4f6030",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_test/Growl23.wav",
+      "sha256": "0d5dbd7bbe98cd97d1d2d46f4b4517e669e4ec0038c75a7c65c2c737d60b4acb",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_test/Growl5.wav",
+      "sha256": "27425ec38a314208dc60e555e7cc09455fd627b72f2974494af71236d688cd6d",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_test/Growl6.wav",
+      "sha256": "2d976eb777e0bdb9f74c338d874f40635f92a0b9b5a4829ded47fa0a6b92c0ae",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_test/Growl7.wav",
+      "sha256": "fd80a164a43dd57fb510617527f226c36b50725ca96b7573c9ec64be4edb4b0a",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog1.wav",
+      "sha256": "1bf4186a5feff68ca04d237c95d281fa3bc19d5ed85354f29e5f070dcc3196f7",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog10.wav",
+      "sha256": "c8e99d22e58211e8d0121a1950daee32c5d796994995ef31300ca6829b66bb95",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog11.wav",
+      "sha256": "3e17498b6d4df9cc32e75b974cefe6b1499cb85ea9493e8ad8cdbb26f2ae014d",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog12.wav",
+      "sha256": "aa742aa76993c854c74de6f6dfe3e1564da2b40afbd19eb30aafc157e51254f0",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog13.wav",
+      "sha256": "2a7f5298cdcb3bdb9465f5d92915cd6e164bf9738f890f8810e6898d2d6c011d",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog14.wav",
+      "sha256": "35299fd33dd58b291ea8c362ed2d4eccde5fe506170001fbbc6445750a2ee223",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog16.wav",
+      "sha256": "a669eb778c3d38fbaa0bdc42ecf7023e2e5fdb3e76b21b66fa7deeb2c20e72ad",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog17.wav",
+      "sha256": "655a4081f4838e6265c8df993f72feed4761fba7ea1df12cf006ca7ce68be667",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog18.wav",
+      "sha256": "fd530ee3d945ef4d5ba49b815ec8a491adb42dead70247eeacd79acb0bede43f",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog19.wav",
+      "sha256": "e7499886f2f84e4b074d55d2a051052afc40e483addc58e05e7432ecf9b89a3f",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog2.wav",
+      "sha256": "db6d459161553c7c7b5dea0f20120f24d3edff2b0c4eb60c9f989a901e8e2759",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog20.wav",
+      "sha256": "900f5f69a3e553513f39e3ff322b4f2e75f9a67a0007c3838d21651f7c4141b7",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog21.wav",
+      "sha256": "2b614e3701c8671c5ca62b6c803632801ba1e84117eec049ea1a947fcf405839",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog22.wav",
+      "sha256": "0aeff0188b42b312d3e96607c3eb8ba0e0fb4995eeb1cbe307eb06274ed36f06",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog23.wav",
+      "sha256": "3ce8fd96a42efd600faa214f51aa882d46153155ff1657c309cf445b197696f5",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog24.wav",
+      "sha256": "2e6493728c52a66c59ec1d486ebafa56c1dff1045d1e752084082dfbd2d2ecb6",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog3.wav",
+      "sha256": "5e7ebc18442b307be1021d5b138c0f69f21b2eee3b3c2ba3eb6adc1bbd368600",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog4.wav",
+      "sha256": "3b8ff1442672279265ee06831e2e20b8c88bd3614b332c4af288cdb568033f8f",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog5.wav",
+      "sha256": "5c89eb650f8cf2ad9a92067b2e35b941fa38ff812ed048c2505df8156985e641",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog6.wav",
+      "sha256": "32a0790df80c0559e4630ccd01697bd810a2c41d4dafa8d7b3ab45091d5be938",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog7.wav",
+      "sha256": "cc9111d25c67a9b7bc94493be11d0ee8afb61fca52e83b01bf0a60ba3ce70763",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog8.wav",
+      "sha256": "421e9ca81c9c1f44c3a6670f6d14b2fb3ee079093071ebe5a172747fff6259d9",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_growl_train/dog9.wav",
+      "sha256": "69e187e7eeaa6b3636028c4568a98b5d23fa01a2fa653a28fc1266e72b7db767",
+      "publisher_event_label": "growl",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_test/Dog35.wav",
+      "sha256": "c8c1f6c42b4ce26821cfb6dece2bafcd21a659990634ff62bbe8f0222929fc96",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_test/Dog36.wav",
+      "sha256": "9dd5ec9c2f4ca6c4ff327d851b46732e7d825d4425e5388c533ff003f63263b3",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_test/Dog38.wav",
+      "sha256": "7fa74a7c5d67405710722dd51ec21ce86daff63ecd14777a459645c4db230af5",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_test/dog39.wav",
+      "sha256": "5e1ab2df1189ab60a19f154aea0ec939f3610e5570fd37121c6b604dce889c5a",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_test/dog40.wav",
+      "sha256": "18391b26541629893d1f4208899d14d36488794d01daaaee5fbb3693de178d7b",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_test/dog41.wav",
+      "sha256": "27a72fcc3c6afbf5e57d3586bd3be34bbd54114a0a89ea01214efeaa716315f2",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_test/dog42.wav",
+      "sha256": "96e74d8f557f64a20807fbe0032fa7445875a7766621ef38b3ce158307ff58ae",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_test/dog43.wav",
+      "sha256": "b5e472b8e956b56e735bc9d0839e560a67d6cbe0fd6adf01edd55b7f9fb00af2",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_test/dog44.wav",
+      "sha256": "31f22dbb7a6987dcaa13b5f1069160475828c5f1bed90b2b650ba82639dca3f5",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_test/Dog50.wav",
+      "sha256": "f1b0d165febf46527b1b4ca41d974fb2505a918dc451ac99b42761c99e75b0dd",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_test/Dog52.wav",
+      "sha256": "ac681990b2ba05721ecfb97fb1697b87db56a366e5cfbcc6b2e4f70132de926a",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog1.wav",
+      "sha256": "8835a15320bd1534b62ba7159d2e2f3cd77c0c50b2fd9c71e039cdae3dec3e71",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog10.wav",
+      "sha256": "132daadf45a66af1b8d2a450f4b452d2a99b5303f9edafee300a073c2ba59d0b",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog11.wav",
+      "sha256": "ffabdd012fec6b54105209b0994d4eb2d11634b47747b52c523f6cac8b51da88",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog12.wav",
+      "sha256": "20ee8e55de9bc6d8a08f468b75b826a9e4e88ea53a72f1b46b1c389479ce98fb",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog14.wav",
+      "sha256": "d98152171588c4c0b95b513218a8a5ddc962d7225f23fa2b2b7d9510fb7de0c1",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog15.wav",
+      "sha256": "5e0be9ced0ee1d0ac6afcbff242a7eefe25ee850cbcbe5e09063ef009cf0e3f0",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog16.wav",
+      "sha256": "ae11a35e1f2b7442f42ffb8508cd1d057b7b0a7bae8e52e4cda585aee01b44c1",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog17.wav",
+      "sha256": "39fa86de28da5b501a2b864e81c78d79fecb9818081fc4b1298abeb2575ee5d6",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog18.wav",
+      "sha256": "4d17e13d6e451bc46eb485f68bf407753d0281d1ff48da7753237fffe6902180",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog19_1.wav",
+      "sha256": "d9cdd310611532f0ff9e6c482d0507fe2ba824b296f52930f5fef3bb71191e31",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog2.wav",
+      "sha256": "57591b438779e4cbf1586c04b58c76a970e514fc2f9b95d8f64e9832b47458d0",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog20_1.wav",
+      "sha256": "d224c4c7e8cc61b7d8dd4d6c2d7d7276405be748df9568dc9f0edbdfc08b2376",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog24.wav",
+      "sha256": "5cdd5f5c73ca8b2d18f75e50df93ecac6055c5627e62d77de623a67329c53a25",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog25.wav",
+      "sha256": "dc4805623fe792b0a044b87b373d04bb04c94e8781582876549fca93dbaec18a",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog26.wav",
+      "sha256": "b567bed38ec6a021414be48986479efe96a4c7dd8a4d7d0cfe320ccd8d532d07",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog27.wav",
+      "sha256": "a5fcff79ef2b0026de3e9583b75c032bab3156dceb6fba3dd3ad55cef8a054a8",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog28.wav",
+      "sha256": "538dca4ba39637ce8713f0b4470d50e0dcfbfd95ef3a49572b8427f8731e6363",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog3.wav",
+      "sha256": "0aa0b126da878380c474fe7526db610050fffe5882bf111d68a1459a00cdadcc",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog31.wav",
+      "sha256": "79a2d2fb42d0573d05a89d1f00de90eeb1e583700e985bd973d0c5006bb1fdfb",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog32.wav",
+      "sha256": "8ba779caf9ce46f9314a11d831b936032aaa212daddf37bbacfe0ebde84c559e",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog33.wav",
+      "sha256": "c097ea9bb02d95a2f566775227e85e41e292a1a89544cce20f24aef7c7a24e1f",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog5.wav",
+      "sha256": "eab7cb7134216844207b562674c80eda392b58432b0fc86392936c952fa8e421",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    },
+    {
+      "archive_member": "dataset/dog_grunt_train/Dog6.wav",
+      "sha256": "e1eb7aa5c110c0ca55a1e37cb7a6a0aa38f29404e8ba936baf033ab336891960",
+      "publisher_event_label": "grunt",
+      "matches_existing": false
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+const assert=require('node:assert/strict');
+const g=require('../backend/static/understand/journal-core.js');
+const Case=require('../backend/static/understand/case.js');
+const card=Case.report({behavior:'barking',before:'<img onerror=alert(1)>',during:'sound',after:'walked away',duration:'unknown',change:'unknown',dogs:'one',health:false},'en');
+const body=g.caseBody(card,'dog-id','2026-10-31T09:30',90);
+assert.equal(body.before,'<img onerror=alert(1)>');assert.equal(body.retention_days,90);assert.equal(body.health_concern,false);
+assert(!('model_analysis' in body));assert(!('note' in body));
+assert.equal(g.localTime(g.utcTime('2026-10-31T09:30')),'2026-10-31T09:30');
+for(const bad of ['2026-02-30T12:00','not-a-date','2026-10-31'])assert.throws(()=>g.utcTime(bad));
+assert.throws(()=>g.caseBody(card,'dog-id','2026-10-31T09:30',365));
+assert.deepEqual(Object.keys(g.copy.ko).sort(),Object.keys(g.copy.en).sort());
+console.log('Journal UI contract passed: timezone roundtrip, invalid dates, structured guardian payload and Korean/English parity.');

@@ -1,0 +1,23 @@
+{
+  "reference_sha256": "11a234e6207fefa62f3932d5575dceee267884bf1ae9cf567d69a7e108a3c4bd",
+  "synthetic": true,
+  "mode": "audio",
+  "model": "synthetic-fixture-not-a-model",
+  "revision": "fixture-v1",
+  "clips": [
+    {
+      "clip_id": "example-window-3",
+      "sha256": "171439239eb79e858c47880be378bad66cb3855e36bd9b79b36a26e73012b93a",
+      "abstained": false,
+      "events": [
+        {
+          "label": "Bark",
+          "start": 0.0,
+          "end": 1.0,
+          "animal_id": null
+        }
+      ],
+      "latency_seconds": 0.1
+    }
+  ]
+}

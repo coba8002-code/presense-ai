@@ -1,0 +1,116 @@
+"""Owner-scoped guardian reports and followups; no model or efficacy inference."""
+import hashlib
+import json
+import re
+import sqlite3
+import uuid
+import statistics
+from datetime import datetime,timezone
+from backend.accounts import Store
+
+CONSENT='journal-storage-v1'
+class JournalLimit(ValueError):pass
+class JournalConflict(ValueError):pass
+
+
+def fingerprint(data,key):
+    if not isinstance(key,str) or not re.fullmatch(r'[A-Za-z0-9._-]{16,128}',key):raise ValueError('Invalid idempotency key')
+    payload=data.model_dump_json()
+    return payload,hashlib.sha256(key.encode()).hexdigest(),hashlib.sha256(payload.encode()).hexdigest()
+
+
+class JournalStore(Store):
+    def summary(self,token,pet_id,days=7):
+        if type(days) is not int or days not in (7,30):raise ValueError('Invalid summary window')
+        with self.connect() as db:
+            owner=self._begin(db,token);self._pet(db,owner,pet_id)
+            end=self.clock();start=end-days*86400
+            rows=db.execute('SELECT c.observed,c.payload,(SELECT count(*) FROM journal_followups f WHERE f.owner=c.owner AND f.case_id=c.id AND f.observed<=?) AS followups FROM journal_cases c WHERE c.owner=? AND c.pet_id=? AND c.expires>? AND c.observed>=? AND c.observed<=?',(end,owner,pet_id,end,start,end)).fetchall()
+            counts={};with_followup=0;followups=0;record_days={}
+            for row in rows:
+                day=datetime.fromtimestamp(row['observed'],timezone.utc).date().isoformat()
+                record_days[day]=record_days.get(day,0)+1
+                behavior=json.loads(row['payload'])['behavior']
+                counts[behavior]=counts.get(behavior,0)+1
+                with_followup+=int(row['followups']>0);followups+=row['followups']
+            today=datetime.fromtimestamp(end,timezone.utc).date().isoformat()
+            history=[n for day,n in record_days.items() if day<today]
+            pattern={'kind':'guardian_record_pattern','source':'guardian_report','model_revision':None,'timezone':'UTC',
+                'measurement_condition':'self_selected_reporting_days_only','historical_days':len(history),'minimum_days':5,
+                'ready':len(history)>=5,'median_records_per_recorded_day':float(statistics.median(history)) if len(history)>=5 else None,
+                'current_day_records':record_days.get(today),'measured_behavior_baseline':False,'training_approved':False}
+            return {'record_pattern':pattern,'kind':'guardian_record_summary','model_analysis':False,'training_approved':False,'days':days,'start':start,'end':end,'case_count':len(rows),'behavior_counts':counts,'cases_with_followup':with_followup,'cases_without_followup':len(rows)-with_followup,'followup_count':followups}
+
+    @staticmethod
+    def view(row):
+        result={key:row[key] for key in ['id','pet_id','pet_name','created','expires','consent_version']}
+        return {**result,'data':json.loads(row['payload']),'kind':'guardian_report','model_analysis':False,'training_approved':False}
+
+    def _begin(self,db,token):
+        db.row_factory=sqlite3.Row;db.execute('BEGIN IMMEDIATE')
+        owner=self.session_owner(db,token);self._purge(db)
+        return owner
+
+    def _case(self,db,owner,case_id):
+        row=db.execute('SELECT * FROM journal_cases WHERE id=? AND owner=? AND expires>?',(case_id,owner,self.clock())).fetchone()
+        if not row:raise KeyError('Case not found')
+        return row
+
+    def _time(self,value):
+        observed=value.timestamp();now=self.clock()
+        if not now-90*86400<=observed<=now+300:raise ValueError('Observation time outside permitted range')
+        return observed
+
+    def create_case(self,token,data,key):
+        payload,key_hash,payload_hash=fingerprint(data,key)
+        with self.connect() as db:
+            owner=self._begin(db,token);pet=self._pet(db,owner,data.pet_id)
+            old=db.execute('SELECT * FROM journal_cases WHERE owner=? AND key_hash=?',(owner,key_hash)).fetchone()
+            if old:
+                if old['payload_hash']!=payload_hash:raise JournalConflict('Idempotency conflict')
+                return {**self.view(old),'reused':True}
+            observed=self._time(data.observed_at)
+            if db.execute('SELECT count(*) FROM journal_cases WHERE owner=?',(owner,)).fetchone()[0]>=500:raise JournalLimit('Case limit reached')
+            now=self.clock();expires=now+data.retention_days*86400;case_id=str(uuid.uuid4())
+            db.execute('INSERT INTO journal_cases VALUES(?,?,?,?,?,?,?,?,?,?,?)',(case_id,owner,data.pet_id,pet['name'],observed,now,expires,payload,CONSENT,key_hash,payload_hash))
+            db.execute('UPDATE pets SET expires=MAX(expires,?) WHERE id=? AND owner=?',(expires,data.pet_id,owner))
+            return {**self.view(self._case(db,owner,case_id)),'reused':False}
+
+    def list_cases(self,token,pet_id=None,offset=0):
+        if not isinstance(offset,int) or not 0<=offset<=500:raise ValueError('Invalid offset')
+        with self.connect() as db:
+            owner=self._begin(db,token)
+            if pet_id:self._pet(db,owner,pet_id)
+            total=db.execute('SELECT count(*) FROM journal_cases WHERE owner=? AND (? IS NULL OR pet_id=?)',(owner,pet_id,pet_id)).fetchone()[0]
+            rows=db.execute('SELECT c.*,(SELECT count(*) FROM journal_followups f WHERE f.case_id=c.id AND f.owner=c.owner) AS followup_count FROM journal_cases c WHERE c.owner=? AND (? IS NULL OR c.pet_id=?) ORDER BY c.observed DESC,c.id DESC LIMIT 50 OFFSET ?',(owner,pet_id,pet_id,offset)).fetchall()
+            items=[{**self.view(row),'followup_count':row['followup_count']} for row in rows]
+            return {'items':items,'total':total,'next_offset':offset+50 if offset+50<total else None}
+
+    def get_case(self,token,case_id):
+        with self.connect() as db:
+            owner=self._begin(db,token);row=self._case(db,owner,case_id)
+            rows=db.execute('SELECT id,observed,created,payload FROM journal_followups WHERE owner=? AND case_id=? ORDER BY observed,id LIMIT 20',(owner,case_id)).fetchall()
+            followups=[{'id':r['id'],'created':r['created'],'data':json.loads(r['payload']),'kind':'guardian_report','model_analysis':False,'training_approved':False} for r in rows]
+            return {**self.view(row),'followups':followups}
+
+    def add_followup(self,token,case_id,data,key):
+        payload,key_hash,payload_hash=fingerprint(data,key)
+        with self.connect() as db:
+            owner=self._begin(db,token);case=self._case(db,owner,case_id)
+            old=db.execute('SELECT * FROM journal_followups WHERE owner=? AND case_id=? AND key_hash=?',(owner,case_id,key_hash)).fetchone()
+            if old:
+                if old['payload_hash']!=payload_hash:raise JournalConflict('Idempotency conflict')
+                return {'id':old['id'],'reused':True}
+            observed=self._time(data.observed_at)
+            if observed<case['observed']:raise ValueError('Followup precedes observation')
+            if db.execute('SELECT count(*) FROM journal_followups WHERE owner=? AND case_id=?',(owner,case_id)).fetchone()[0]>=20:raise JournalLimit('Followup limit reached')
+            followup_id=str(uuid.uuid4())
+            db.execute('INSERT INTO journal_followups VALUES(?,?,?,?,?,?,?,?)',(followup_id,owner,case_id,observed,self.clock(),payload,key_hash,payload_hash))
+            return {'id':followup_id,'reused':False}
+
+    def delete_case(self,token,case_id):
+        with self.connect() as db:
+            owner=self._begin(db,token);self._case(db,owner,case_id)
+            db.execute('DELETE FROM care_plans WHERE owner=? AND case_id=?',(owner,case_id))
+            db.execute('DELETE FROM journal_followups WHERE owner=? AND case_id=?',(owner,case_id))
+            db.execute('DELETE FROM journal_cases WHERE owner=? AND id=?',(owner,case_id))

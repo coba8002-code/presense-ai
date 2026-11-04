@@ -1,0 +1,21 @@
+[Unit]
+Description=PetSense independent data expiry maintenance
+After=petsense-api.service
+
+[Service]
+User=petsense
+Group=petsense
+WorkingDirectory=/opt/petsense/current
+EnvironmentFile=/etc/petsense/beta.env
+ExecStart=/opt/petsense/venv/bin/python -m scripts.privacy_maintenance --db ${PETSENSE_ACCOUNT_DB} --watch --status-file /var/lib/petsense/private/maintenance.json
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateNetwork=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/petsense/private
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,91 @@
+name: backend-tests
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [develop, 'codex/**']
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - run: 'python -m pip install --only-binary=:all: -r requirements.lock'
+      - run: python -m pip check
+      - run: python scripts/check_environment.py
+      - run: python scripts/verify_skills.py
+      - run: python scripts/verify_qa_skills.py
+      - name: Install local video validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+      - run: python -m unittest discover -s tests -v
+      - run: python -m compileall -q backend training evaluation knowledge scripts
+      - run: python -m scripts.qa_loopback_load
+      - run: node --test tests/test_capture.cjs
+      - run: node tests/test_event_timeline.cjs
+      - run: node tests/test_product_app.cjs
+      - run: node tests/test_mobile_audio.cjs
+      - run: node tests/test_account_notes.cjs
+      - run: node tests/test_web_session.cjs
+      - run: node tests/test_case_guide.cjs
+      - run: node tests/test_journal_ui.cjs
+      - run: node tests/test_consultation_report.cjs
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: 'python -m pip install --only-binary=:all: -r requirements.lock -r requirements-browser.lock'
+      - run: python -m playwright install --with-deps chromium
+      - name: Install review video fixture tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-noto-cjk
+      - run: python -m unittest discover -s tests -p test_av_alignment.py -q
+      - run: python -m scripts.video_browser_smoke
+      - run: python scripts/browser_smoke.py
+      - run: python -m scripts.research_browser_smoke
+      - run: python -m scripts.product_browser_smoke
+      - run: python -m scripts.job_browser_smoke
+      - run: python -m scripts.job_browser_smoke --mobile
+      - run: python -m scripts.member_browser_smoke --journal-output-dir artifacts/journal
+      - run: python -m scripts.member_browser_smoke --mobile --output artifacts/mobile-membership.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mobile-chromium-emulation-not-physical-device
+          path: artifacts/mobile-membership.json
+          retention-days: 14
+          if-no-files-found: error
+      - run: python -m scripts.guide_browser_smoke --output-dir artifacts/global-guide
+      - run: python -m scripts.design_browser_smoke --output-dir artifacts/service-gui
+      - uses: actions/upload-artifact@v4
+        with:
+          name: service-gui-concept-screens-not-production
+          path: artifacts/service-gui/*.png
+          retention-days: 14
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bilingual-guided-record-synthetic-screens
+          path: artifacts/global-guide/*.png
+          retention-days: 14
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-journal-korean-english-screens
+          path: artifacts/journal/*.png
+          retention-days: 14
+          if-no-files-found: error

@@ -1,0 +1,46 @@
+name: pretrained-audio-smoke
+on:
+  workflow_dispatch:
+  push:
+    branches: ['codex/**']
+    paths: ['training/event_candidates.py', 'training/av_ast.py', 'training/av_ast_worker.py', 'training/av_alignment.py', 'training/audio_timeline.py', 'scripts/video_browser_smoke.py', 'backend/static/video/**', 'training/audio_quality.py', 'backend/behavior_evidence.py', 'training/pretrained_audio.py', 'scripts/pretrained_audio_smoke.py', 'requirements-audio-model.txt', 'backend/audio_process.py', 'backend/audio_worker.py', 'backend/audio_events.py', 'backend/audio_auth.py', 'backend/audio_jobs.py', 'backend/job_store.py', 'backend/job_worker.py', 'backend/accounts.py', 'backend/journal.py', 'backend/journal_store.py', 'backend/journal_schema.py', 'backend/local_vlm.py', 'backend/local_vision.py', 'backend/signup_policy.py', 'backend/plans.py', 'backend/plan_store.py', 'backend/plan_schema.py', 'scripts/plans_browser_flow.py', 'backend/consultation_report.py', 'scripts/report_browser_flow.py', 'backend/care.py', 'backend/care_store.py', 'backend/care_schema.py', 'scripts/care_browser_flow.py', 'backend/web_auth.py', 'backend/web_security.py', 'backend/auth_store.py', 'backend/auth_site.py', 'backend/understand.py', 'backend/static/understand/**', 'backend/static/auth/**', 'scripts/member_browser_smoke.py', 'scripts/journal_browser_flow.py', 'backend/pets.py', 'scripts/job_browser_smoke.py', 'backend/static/app/**', 'scripts/product_browser_smoke.py', '.github/workflows/pretrained-audio.yml']
+permissions:
+  contents: read
+jobs:
+  cpu-inference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      HF_HUB_DISABLE_TELEMETRY: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install torch==2.8.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -r requirements-audio-model.txt
+      - run: python -m pip check
+      - run: python -m scripts.pretrained_audio_smoke
+      - run: python -m pip install -r requirements.lock -r requirements-browser.lock
+      - run: python -m playwright install --with-deps chromium
+      - name: Real browser to isolated AST worker
+        run: python -m scripts.product_browser_smoke --real-ast --output artifacts/ast-browser.json
+      - name: Real browser to persistent queue and isolated AST worker
+        run: python -m scripts.job_browser_smoke --real-ast --output artifacts/ast-job-browser.json
+      - name: Real HTTPS membership to queue and isolated AST worker
+        run: python -m scripts.member_browser_smoke --real-ast --output artifacts/ast-member-browser.json
+      - name: Real cached AST AV extraction and report browser integration
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m scripts.video_browser_smoke --real-audio
+      - name: Standalone local WAV inference
+        run: |
+          python -c "import wave; w=wave.open('/tmp/silence.wav','wb'); w.setparams((1,2,16000,0,'NONE','not compressed')); w.writeframes(bytes(32000)); w.close()"
+          python -m training.pretrained_audio --audio /tmp/silence.wav --output artifacts/ast-cli.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-ast-inference-not-dog-accuracy
+          path: artifacts/ast-*.json
+          retention-days: 7
+          if-no-files-found: error

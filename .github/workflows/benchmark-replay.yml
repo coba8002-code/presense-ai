@@ -1,0 +1,47 @@
+name: replay-public-audio-metrics
+on:
+  workflow_dispatch:
+  push:
+    branches: ['codex/**']
+    paths: ['evaluation/sound_benchmark.py', '.github/workflows/benchmark-replay.yml']
+  pull_request:
+    paths: ['evaluation/sound_benchmark.py', '.github/workflows/benchmark-replay.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: 'python -m pip install --only-binary=:all: -r requirements.lock'
+      - uses: actions/download-artifact@v4
+        with:
+          name: public-sound-benchmark-not-dog-emotion-accuracy
+          run-id: 41025543775
+          github-token: ${{ github.token }}
+          path: artifacts/benchmark-replay
+      - name: Replay actual pinned score artifacts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from evaluation.sound_benchmark import report
+          root=Path('artifacts/benchmark-replay')
+          folders={p.parent for p in root.rglob('0001.json')}
+          if len(folders)!=1:raise ValueError('Expected one original score folder')
+          result=report(folders.pop())
+          Path('artifacts/replayed-report.json').write_text(json.dumps(result,indent=2,allow_nan=False))
+          positives=[x['dog_score'] for x in result['clips'] if x['category']=='dog']
+          negatives=[x['dog_score'] for x in result['clips'] if x['category']!='dog']
+          print(json.dumps({'metrics':result['metrics'],'min_dog_score':min(positives),'max_other_score':max(negatives),'clips':len(result['clips']),'source_run':41025543775}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: replayed-public-sound-metrics
+          path: artifacts/replayed-report.json
+          retention-days: 14

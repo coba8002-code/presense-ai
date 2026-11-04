@@ -1,0 +1,32 @@
+{
+  "run_sha256": "80960659e4e8190a5e46d404a214132a8cfafc28843ad01f482ecac9396a9ad8",
+  "synthetic": true,
+  "explanations": [
+    {
+      "clip_id": "example-window-3",
+      "text": "Synthetic explanation fixture; no actual dog or model output."
+    }
+  ],
+  "reviews": [
+    {
+      "clip_id": "example-window-3",
+      "explanation_sha256": "e6f068cb80edc9447d777bc87a6a2e715b47d5ebfa8677253c221a6d10a86b42",
+      "reviewer": "fixture-reviewer-a",
+      "model_identity_hidden": true,
+      "grounded": true,
+      "causal_overclaim": false,
+      "emotion_intent_overclaim": false,
+      "useful_question": true
+    },
+    {
+      "clip_id": "example-window-3",
+      "explanation_sha256": "e6f068cb80edc9447d777bc87a6a2e715b47d5ebfa8677253c221a6d10a86b42",
+      "reviewer": "fixture-reviewer-b",
+      "model_identity_hidden": true,
+      "grounded": true,
+      "causal_overclaim": false,
+      "emotion_intent_overclaim": false,
+      "useful_question": true
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+# Optional local animal keypoints; combine with requirements-vlm.txt and CPU torch/torchvision.
+ai-edge-litert==2.3.0

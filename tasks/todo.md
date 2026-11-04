@@ -1,0 +1,596 @@
+> 완료 관리 안내 (2026-11-01): 기존 이력의 체크박스는 당시 스냅샷으로 보존한다. 현재 분석 작업은 아래 “분석 고도화 6영역 정본”과 해당 PR의 정확한 HEAD 검사 기록으로 판정한다. 과거 미체크 개수를 현재 미완료 수로 합산하지 않는다. 실제 모델/데이터/운영 검증은 별도로 남는다.
+
+# PetSense AI remaining work
+
+Current scope: **dog-only MVP**. Historical completed work below may describe the earlier two-species bootstrap.
+
+Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md).
+
+## 전문가 원본 학습·98음원 감사 — 2026-11-04 후속2
+- [x] 공식 최신23806945 버전의 README/CC BY 조건 정정 확인, 구버전 충돌 기록 보존.
+- [x] 실제30세션 음성·17개 영상 예시 및 표 확보/해시 검사. 제공 개체ID 기준11/3/3 분리, 1418구간의3종 발성 연구 모델 학습. 시험216구간 정확도83.8%, macroF1 0.637; 서비스 승격 차단.
+- [x] 추가67+CC0 31을 기존446원본과48461쌍 비교. 새8후보/14파일/6그룹 발견, 기존41연결도 원본 해시에 묶어 재사용.
+- [x] 출처·해시·그룹이 연결된 미승인 검수 큐98건 생성. 후보 없는84건도 독립성 미확인 유지.
+- [ ] 국내PC 실원본 연결,98건 실제 검수, 다가정·다양한 상황 평가/영상 라벨 확보, 운영용 보안/정확도 검증.
+증거: [전문가 발성 학습·감사](../docs/EXPERT_CALL_TRAINING_20261104.md). 이전 ESC음향 분류와 새 발성3종 과제는 다른 평가라 향상 수치로 직접 비교하지 않는다.
+
+## 실제 학습·추가 수집 — 2026-11-04 후속
+- [x] ESC-10 실제400음원 재검증 후 훈련240+강화240 연구용 모델 학습, 검증80/시험80 측정. 개F1 0.4615로 개선 미확인, 승격 차단.
+- [x] CC0 원출처 개 효과음31개 확보·전처리·입력 검증. HF5개 모두 동일 원출처이므로 중복 계수 제외.
+- [x] 전문가 놀이17개체/30세션 자료의 README·표·구간 라벨 확보. 라이선스 충돌 발견, 미디어 학습 보류.
+- [x] 국내71879 포함 공급원6개 추가 등록. 메타데이터만 확보한 자료와 실원본 구분.
+- [x] 전문가 자료 이용조건 충돌은 공식 최신23806945 버전에서 해결 확인. 실제 학습과 감사는 위 후속2 기록 참조.
+- [ ] 국내PC 원본 연결·98건 개체/가정/라벨 검수·다가정 평가셋 확장은 남음.
+증거: [학습·수집 보고서](../docs/MODEL_LEARNING_AND_DATA_20261104.md).
+
+## 국내외 데이터 연결 — 2026-11-04
+- [x] AI-Hub59·71878 공개 구조 재조사, 신규 해외 음향·AV·파생본 원출처 검토.
+- [x] 59 개 전용 로컬 라벨 검수 어댑터, Zenodo 개 음원 한정206 수집·해시/기존 중복 대조 구현.
+- [x] 공급원5개 registry 연결. 검색량·실제확보·검수·학습을 분리.
+- [ ] 국내PC 원본 연결·실제 스키마 검증, 신규 해외 음원의 근접 중복/청취·라벨/개체/권리 검토 후 승인된 학습 입력 생성.
+증거: [11월4일 적용 보고서](../docs/DATA_EXPANSION_20261104.md). 실제 확보 결과는 연결된 증거JSON을 기준으로 한다.
+
+## QA 집중 검증 — 2026-11-03
+- [x] 인기 GitHub QA 스킬 4종을 커밋·해시·라이선스와 함께 설치. 기존 스킬 보존.
+- [x] 비ASCII 인증 헤더 500, 소리 이벤트 누락 관측, 이미지 디코더 허용목록 경계를 실패 재현 후 수정. Pillow 13.0.0 적용.
+- [ ] QA-04: Transformers/Accelerate의 남은 보안 공지 8개 advisory ID에 대해 모델 호환성 이전·재평가. 출시 전 해소, 2026-11-10 재검토.
+- [x] 그룹 격리/PCM/시간축 불변조건 검사와 재현 가능한 로컬 QA 실행기 추가.
+- [x] 실제 Chromium·HTTPS 계정 흐름, 모바일 에뮬레이션, 제한 로컬 부하 및 기본 의존성 감사 실행.
+- [ ] 실기기·실모델 동시 추론/장시간 운영·실제 행동 정확도 검증은 별도 조건 확보 후 진행.
+증거·세부 실행 결과: [QA 보고서](../docs/QA_HARDENING_20261103.md). 원격 CI/배포와 로컬 통과를 구분한다.
+
+## 현재 실행 순서 — EXEC (2026-10-30 KST 갱신)
+이 목록이 앞으로의 기준이다. 아래 과거 항목은 증거와 의존관계를 보존하기 위해 남긴다. 기능 구현, 모의 검증, 실기기 검증, 운영 출시를 각각 별도로 완료 처리한다.
+
+### EXEC-00 현황·요구사항 대조 — 완료
+- [x] Issue #1과 현재 dog-only 지시, 코드·기획서·과거 TODO 대조.
+- [x] 브라우저 메모와 운영 계정, 소리 점수와 행동 정확도를 구분.
+증거: docs/strategy-20261028 및 아래 날짜별 검증 기록. 로컬 Git은 커밋 없는 스냅샷이지만 변경 소스는 GitHub 커넥터로 PR #3·#4·#5에 반영했고 커밋별 원격 CI를 확인했다. 병합은 별도다.
+
+### EXEC-01 계정별 저장 기반 — 개발용 완료
+의존: EXEC-00. 목적: 공유 토큰과 별도로 사용자별 메모를 격리한다.
+- [x] SQLite 스키마·무작위 세션·해시 저장·세션 만료.
+- [x] 소유자 범위 목록/삭제, 보호자 메모만 입력 허용.
+- [x] 세션 발급 CLI, 사용자별 500개 상한, 100개 페이지 조회.
+인수: A/B 격리·없는/만료 세션 차단·DB에 원문 토큰 미저장. 증거: tests/test_accounts.py.
+운영 인증 완료가 아니다. 셀프가입/복구/소셜로그인/개 프로필 ID는 후속.
+
+### EXEC-02 보관·삭제 계약 — 개발용 완료
+의존: EXEC-01.
+- [x] 별도 서버 보관 동의, 30일 만료 데이터 조회 제외·정리.
+- [x] 계정 메모 전체 삭제와 해당 계정의 모든 세션 철회.
+- [x] 비공개 API no-store, 추가 owner/result 필드 주입 차단.
+인수: 다른 사용자 자료 유지, 철회 후 새 메모 추가 거절, 30일 경계 검사.
+물리 백업·로그·파생 미디어의 운영 삭제는 원본 보관 구조 구축 후 별도 검증.
+
+### EXEC-03 앱 서버 메모 연결 — 개발용 완료
+의존: EXEC-01/02.
+- [x] 별도 기록 세션 입력·명시적 보관·내 메모 조회/개별 삭제/전체 삭제.
+- [x] 세션을 저장소에 남기지 않고 서버 메모와 로컬 관찰 기록의 범위 표시.
+- [x] 모의 DOM 저장/동의/세션 누락/전체 삭제 검증.
+인수: 음성·토큰·모델 결과를 서버 메모 요청에 넣지 않는다. 실제 브라우저는 EXEC-04.
+
+### EXEC-04 실제 사용자 흐름 검증 — 원격 Chromium 완료 / 국내 PC·실기기 대기
+- [x] GitHub Linux의 고정 가중치 캐시에서 Chromium→계정 인증→HTTP→AST 독립 프로세스→결과→저장→삭제 E2E. 합성 음성 입력.
+- [ ] 국내 PC의 캐시·Windows 프로세스·실제 소리로 같은 E2E 재현.
+- [ ] iOS Safari/Android Chrome 녹음·코덱·HTTPS·권한 취소·백그라운드 복귀.
+- [x] Chromium에서 모의429/503·브라우저 offline·주입된 저장 quota 오류 및 수동 복구 검사.
+인수: 기기/OS/모델 revision·샘플 해시·지연·실패 증거 기록. 실제 AST 실행41051446917, 모의 오류/복구41051446920. ast-browser.json은 합성 입력 해시·모델 revision·단일 실행 소요시간을 담는다. 국내 PC/실기기 연결 없음; 통신망/기기 신뢰성이나 지연 분포를 증명한 것은 아니다.
+
+### EXEC-05 데이터와 모델 평가 — 병행 준비 / 외부 연결 대기
+- [x] 고정 영상 평가 계약·가상 예제·전역 개체/가정/세션/원본/내용 분할 검사와 검수/잠금 CLI 구현. 실제 정답/성능과 구분.
+- [ ] 국내 PC AI-Hub59/71878 원본 수령·개 부분·라벨/개체/가정/세션 스키마 검사.
+- [x] ESC-10 실제 AST400개 순위 평가 및 저장 결과 재생. AUROC/AP1.0; 개체 분리 검증이나 서비스 임계값의 오탐 성능으로 해석하지 않음.
+- [ ] AP-10K 자세 추정 기준선, 실제 가정 외부 평가셋 구축.
+- [ ] Dog2vec/AVES 가중치 조건, DogSpeak/InterPet4D 상업 허락 확인.
+- [ ] 보듬TV 원본별 허락·제작자 제공 자료·전문가 사례 검수.
+- [ ] 개체·가정 분리에서 audio/vision/fusion 비교와 calibration/coverage 측정.
+인수: 권리 증거·파일 해시·개체 식별·분할·재현 명령·독립 결과표. 확보 목록은 artifacts/data-acquisition-20261028. 사용자 이용 승인 진술을 원본 수령 완료로 바꾸지 않는다.
+
+### EXEC-06 운영 제품 기반 — 설계·구현 대기
+의존: EXEC-04/05 품질 게이트. 기반 설계는 먼저 진행 가능.
+- [ ] 인증 방식 선정: 국내 접근성·소셜로그인·탈퇴·복구·가격/개인정보 처리 비교.
+- [ ] 사용자/개 프로필 소유권, 가족/기관 권한 및 감사 기록.
+- [ ] 국내 저장소·원본 TTL·비동기 분석 job·멱등성·취소·공유 rate limit.
+- [ ] 백업 포함 삭제·모니터링·비용 상한·장애/모델 롤백.
+- [ ] Flutter 또는 웹앱 유지의 기기/운영비 비교 후 앱 배포 방식 확정.
+인수: 공개 배포 전 타 사용자 접근/보관/삭제/비용/복구 체크 통과. 현재 개발 세션을 운영 인증으로 전환하지 않는다.
+
+### EXEC-07 고객·사업 실증 — 모집/실증 대기
+- [ ] 보호자20명·기관10곳 인터뷰와 경쟁 대안 비교.
+- [ ] 30가정4주 파일럿: 첫 관찰 완료/4주 재사용/유용성 측정.
+- [ ] 실제 건당 원가·무료 사용량·지원 부담으로 구독 한도 재산정.
+- [ ] 3기관 유료 실증·상담 파트너 조건/환불/정산 검토.
+- [ ] 가격/유료 전환 실험 후 확장/중단 결정.
+인수: 동의된 실제 코호트의 분모·기간·표본 수·결제/비용 증거. 현재 사업 숫자는 가정이다.
+
+## Implemented and locally verified
+- [x] Review develop AGENTS.md, Sprint 02 and issue #1; report missing prior ZIP.
+- [x] Install five pinned addyosmani skills and verify eleven skill/reference files.
+- [x] Bootstrap FastAPI, dependency pins, unittest and GitHub Actions configuration.
+- [x] Audit dataset sources/terms and implement a fail-closed rights gate.
+- [x] Build WAV features, animal-disjoint partitions and deterministic CPU baseline.
+- [x] Save model/splits/provenance; report F1, confusion, calibration and abstention.
+- [x] Implement opt-in structured VLM adapter; validate consent and failure paths.
+- [x] Run 22 tests, synthetic dog/cat CLI training and held-out replay; mutation probe.
+- [x] Record owner's commercial-training approval separately from external rights.
+
+## First PR delivery
+- [x] Verify fresh dependency installation in [GitHub CI](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044).
+- [x] HTTP socket-server health verified by browser smoke in [CI](https://github.com/coba8002-code/presense-ai/actions/runs/39023577386).
+- [x] 기본 서버 lock 취약점 감사 완료, certifi 권고 수정 후41032114483 성공. 선택 AI/브라우저 환경 전체 감사는 별도.
+- [x] Publish draft PR [#2](https://github.com/coba8002-code/presense-ai/pull/2) targeting develop.
+- [x] Confirm backend GitHub CI passes on 7e23171: [successful run](https://github.com/coba8002-code/presense-ai/actions/runs/39018838044).
+- [ ] Review and merge PR after remaining gates; merge not performed.
+
+## Data and real model work
+- [ ] Obtain prior PetSense_AI_AgentSkills_Integration.zip and reconcile with bootstrap.
+- [ ] Barkopedia: select subset/revision, verify source-media rights and platform permissions.
+- [ ] AP-10K: pin release, attribution, provenance and animal-identity mapping.
+- [ ] Animal Kingdom: review access terms and commercial/source-media rights.
+- [ ] Import approved media with global animal IDs and grounded labels; verify preprocessing.
+- [ ] Train dog models on approved real data; publish held-out metrics/model cards.
+- [ ] Add and compare a PyTorch baseline; current baseline is NumPy softmax.
+
+## Product development after baseline
+- [ ] Validate VLM against real labeled images; paid calls require separate approval.
+- [ ] Implement and compare audio-only / vision-only / fusion on the same held-out animals.
+- [ ] Build per-pet history/feedback, retention, export and deletion controls.
+- [ ] Flutter: recording/video, consent, results and history flows.
+- [ ] Production authentication, distributed rate limits, privacy/security QA.
+- [ ] Reproducible Android/iOS builds and device validation; Flutter SDK absent here.
+
+## Work-order execution update
+
+- [x] WO-02: add training.preflight CLI and malformed-policy/identity/path regression tests.
+- [x] WO-01 partial: add offline dependency/environment diagnostics and CI push/manual entrypoints.
+- [x] Full offline suite: 30 tests passed; synthetic dog/cat preflight passed.
+- [x] WO-01 external checks: fresh dependency install and remote CI passed.
+- [x] WO-01 socket smoke passed in Chromium/HTTP CI.
+- [x] WO-01 기본 서버 lock 감사와 certifi 수정 완료. 선택 환경 전체 감사는 후속.
+- [ ] WO-03 onward: follow the prerequisites in WORK_ORDER.md; no real-data or paid calls claimed.
+
+## Near-real-time audio slice
+
+- [x] One-second PCM capture, local sound-activity gate and bounded uploads.
+- [x] Authenticated/consented chunk API, request limits and explicit model-unavailable status.
+- [x] Shared training/serving features; reviewed-model loader rejects synthetic artifacts.
+- [x] Local Python suite: 44 passed; AudioWorklet Node checks passed.
+- [x] Real Chromium/fake microphone/HTTP smoke passed in [CI](https://github.com/coba8002-code/presense-ai/actions/runs/39023577386).
+- [ ] Physical microphone/device latency and behavior model validation.
+- [ ] Flutter streaming capture and event-triggered VLM video sampling.
+
+### Automatic learning (2026-10-17)
+
+- [x] Local watched job queue, rights/acquisition/label-review gates, content-addressed results.
+- [x] Animal/session/content isolation, snapshot verification, job locking and safe retries.
+- [x] Re-evaluate candidate/incumbent on one acceptance benchmark; preserve artifacts without deployment.
+- [x] Synthetic CLI smoke and 12 new regression tests (56 total Python tests).
+- [ ] Licensed real audio/video intake and expert annotation workflow.
+- [ ] Pretrained audio adapter and multimodal/video training.
+- [ ] Locked final real-world evaluation, service installation and resource quotas.
+
+### Automated video-link knowledge (2026-10-17)
+
+- [x] Official YouTube/Gemini/Notebook Enterprise adapters with validated payloads.
+- [x] Persistent discovery/analysis, quota budget, deduplication and policy/expiry checks.
+- [x] Source-linked local retrieval and optional approved audio queue execution.
+- [ ] Offline transport tests, docs, current-head CI and PR update.
+- [ ] Live credentials/Enterprise provisioning and authorized source policies (external prerequisite).
+
+### Broader video candidate intake
+
+- [x] Discovery-only mode and offline candidate review status.
+- [x] Regression tests distinguish analyzed evidence from training-ready labels.
+- [ ] General web source connectors, multilingual rotation and paginated discovery.
+- [ ] Expert video annotation, training rights and authorized media acquisition workflow.
+- [ ] Video training export, animal-disjoint evaluation and gated model release.
+- [ ] Google AI Studio credentials connection (browser access unavailable).
+
+## VLM 활용·학습 우선순위
+
+구체적인 완료 기준: [VLM_TRAINING_TODO.md](../docs/VLM_TRAINING_TODO.md).
+
+- [x] VLM-01: 유효한 영상 관찰을 해시·출처·시각과 함께 검수 후보로 내보내기.
+- [x] VLM-02: 검수된 행동 라벨·전역 동물 ID·촬영 세션 계약.
+- [x] VLM-03: 변경/철회/중복 후보와 개체·영상·세션 분할 누출 차단.
+- [x] VLM-04: 승인된 로컬 영상 연결, 동일 파일 중복·디코딩·초 단위 주석 구간 검사.
+- [x] VLM-05: 로컬 영상 검수 화면, 승인/취소 및 CLI 호환 JSON 출력.
+- [ ] VLM-04/05 후속: 유사 영상 중복·프레임 정렬, 검수 재개·공동 저장·감사 인증.
+- [ ] VLM-06/07: 실제 VLM 평가와 AST·자세 모델 설치/추론 검증.
+- [ ] VLM-08/09: 행동 전이학습·융합 비교 및 실시간 영상 구간 처리.
+
+## Dog-only MVP scope
+
+- [x] Dog-only demo selection, live audio API/model and training/preflight gates.
+- [x] Non-dog VLM abstention; exclude cat knowledge and review candidates.
+- [x] Regression coverage for cat rejection and preserved dog behavior.
+- [x] Authorized local dog video binding, SHA-256 duplicate checks, full decode and second-based annotation bounds.
+- [ ] Next: perceptual duplicates, frame-level alignment and actual video model.
+
+## Deferred: cat support
+
+- [ ] CatMeows/Meow-Net commercial permissions or approved replacement.
+- [ ] Cat-specific audio/behavior labels, expert review and separate evaluation.
+- [ ] Re-enable product support only after cat validation.
+
+## 하이브리드 개 MVP 실행 계획 — 2026-10-18 우선순위
+
+설계 근거: [DOG_MVP_ARCHITECTURE.md](../docs/DOG_MVP_ARCHITECTURE.md). 기존 미완료 항목을 삭제하지 않고 아래 순서로 재정렬한다. 문서의 수치·인프라·API는 제안이며 아직 구현된 동작이 아니다.
+
+### P0 — 실제 평가 계약과 정답 파일 (최우선, M)
+- [x] standing/sitting/lying/walking/unknown, 고정 구간 평가 단위와 정확 매칭 규칙 v1 문서화. 모델 예측·지표 실행은 후속.
+- [x] 기존 권한 레지스트리·전역 개체/가정/세션·원본 SHA256·분할·검수/이중 검수·정답 잠금 JSON 계약과 가상 형식 예제 구현.
+- [ ] 모델 답을 보지 않은 독립 검수자가 관찰 정답을 작성하고 일부 이중 검수·불일치 기록을 남긴다. 전문가는 기준·모호한 사례·표본 검수에 활용하며 모든 항목에 새 전문가 주석을 요구하지 않는다.
+검증: tests/test_video_contract.py의 누출5종·시간/중첩·권한·블라인드·이중 검수·지문·비공개 CLI7개 및 전체153개 로컬 통과. evaluation/video_contract.py, docs/VIDEO_EVALUATION.md. 실제 독립 정답/동영상/예측 성능은 별도 확보해야 한다. 해시 검사만 성공해도 evaluation_ready=false를 유지한다.
+
+### P1 — 검수 파일 작업 재개 (M)
+- [ ] 승인 JSON을 현재 후보와 대조해 불러오고 변경/누락/중복 항목을 보고한다.
+- [ ] 로컬 임시 저장은 명시적으로 선택하게 하고 저장 위치·삭제·복구를 제공한다.
+- [ ] 영상 자체를 저장하거나 업로드하지 않으며 복구된 검수가 현재 권한 승인을 뜻하지 않도록 표시한다.
+검증: 실제 브라우저 저장→재시작→복구→철회/변경 후보 처리. 의존: 현재 /review. 예상 파일: review.js, index.html, review_browser_smoke.py, REVIEW_UI.md.
+
+### P2 — 실제 비공개 샘플 VLM 평가 CLI (M)
+- [ ] 한 공급자의 실제 영상 입력 계약을 공식 문서로 확인하고 고정 모델/프롬프트/시간표시 결과를 저장한다.
+- [ ] 운영자가 설정한 키·전송 동의·비용 한도 없이는 외부 호출하지 않고, 실패·유보·재시도를 구분한다.
+- [ ] 사용량·시간·버전을 원본 개인정보 없이 기록하고 출력 필드를 평가 계약에 맞춘다.
+검증: MockTransport 계약/비용 게이트 + 승인된 실제 샘플 1건 E2E. 의존: P0, 실제 인증·비용 범위·허가된 자료. 예상 파일: backend/video_provider.py, evaluation/video_run.py, tests/test_video_provider.py, VIDEO_EVALUATION.md.
+
+### P3 — 실제 성능·비용 보고 (M)
+- [ ] 독립 검수된 관찰 정답과 예측을 비교해 행동별 성능·유보/coverage·시간 오차·실패 사례를 산출한다. 전문 해석의 검증은 별도 범위다.
+- [ ] 개체/가정 단위 분리와 신뢰구간, 요청 비용 및 p50/p95를 함께 보고한다.
+- [ ] validation으로 정한 모델·임계값을 고정하고 최종 test를 개발용 반복 데이터로 쓰지 않는다.
+검증: 알려진 정답의 지표 테스트, 실제 결과 재생으로 동일 보고서 생성. 의존: P0/P2 및 실제 정답 데이터. 예상 파일: evaluation/video_metrics.py, evaluation/video_report.py, tests/test_video_metrics.py, docs/VIDEO_BASELINE_REPORT.md.
+
+### 체크포인트 A — 실제 제품 가치 판단
+- [ ] 실제 분석이 기준을 충족하는지, 어떤 행동/환경을 제외해야 하는지 확인한다.
+- [ ] 데이터가 부족하면 추가 학습보다 먼저 수집·검수 계획을 조정한다.
+- [ ] 비용·품질 결과에 따라 다음 제품 구현 범위를 확정한다. 합성 테스트만으로 통과하지 않는다.
+
+### P4a — 개인 인증과 개 소유권 (M)
+- [ ] 앱용 사용자 인증을 도입하고 사용자/개/작업 소유권을 강제한다.
+- [ ] 공유 개발 토큰이 운영 앱에 포함되지 않게 한다.
+- [ ] 타 사용자 개/작업 접근과 만료된 인증의 차단을 검증한다.
+검증: 사용자 A/B 격리·인증 만료 통합 테스트. 의존: 체크포인트 A. 예상 파일: backend/auth.py, backend/models.py, tests/test_auth.py, migration.
+
+### P4b — 비공개 업로드와 동의 (M)
+- [ ] 소유권·동의 버전·크기/길이·예산 검사를 거쳐 제한된 업로드를 허가한다.
+- [ ] 서버가 파일을 재검증하고 고유 작업 ID/멱등성 키로 중복 생성을 차단한다.
+- [ ] 원본 TTL·취소·삭제 요청의 상태를 기록한다.
+검증: 잘못된 파일/초과 크기/다른 사용자/중복 요청·삭제 사례. 의존: P4a. 예상 파일: backend/uploads.py, backend/storage.py, backend/jobs.py, tests/test_uploads.py.
+
+### P5a — 격리 작업자와 비용 원장 (M)
+- [ ] 영상 디코딩·외부 호출을 API 프로세스와 격리하고 시간·메모리·네트워크를 제한한다.
+- [ ] 작업 lease·원자적 비용 예약·중복 처리·최대 재시도를 구현한다.
+- [ ] 취소 요청과 실행 중 작업의 경합, 결과가 불명확한 외부 호출을 처리한다.
+검증: 작업자 중단/재시작·예산 경합·타임아웃·취소 통합 테스트. 의존: P2/P4b. 예상 파일: backend/worker.py, backend/budget.py, tests/test_worker.py, 배포 구성.
+
+### P5b — 결과와 피드백 (M)
+- [ ] 관찰/시간 구간/유보 사유를 계약에 맞춰 저장하고 소유자에게만 반환한다.
+- [ ] 보호자 피드백을 정답과 구분하고 학습 동의 없는 자료를 검수 학습 큐에서 제외한다.
+- [ ] 삭제·원본 만료와 결과 표시를 일관되게 처리한다.
+검증: 전체 작업 상태 전이·권한 철회·삭제 후 접근. 의존: P5a. 예상 파일: backend/results.py, backend/feedback.py, tests/test_results.py, migration.
+
+### P6a — Flutter 영상 선택→분석 요청 (M)
+- [ ] 개인 인증, 개 프로필 선택, 영상 크기/길이 안내, 분석·학습 동의를 연결한다.
+- [ ] 업로드/취소/네트워크 실패를 사용자에게 표시한다.
+- [ ] 앱에 공급자 API 키를 포함하지 않는다.
+검증: 첫 개발 기기에서 실제 소유자 요청·잘못된 입력·취소 흐름. 의존: P4/P5 및 Flutter 환경. 초기 앱 골격은 별도 작은 작업으로 먼저 생성한다.
+
+### P6b — Flutter 결과·기록·삭제 (M)
+- [ ] 관찰 구간 재생·불확실성·피드백·삭제를 제공한다.
+- [ ] 원본이 만료되면 재생할 수 없음을 표시한다.
+- [ ] Android/iOS 기기별 업로드·재생·백그라운드 복귀를 검증한다.
+검증: 실제 기기에서 영상 선택부터 결과·삭제까지 E2E. 의존: P6a. 예상 범위: 결과/기록/피드백 화면 및 기기 테스트.
+
+### 체크포인트 B — 제한 파일럿
+- [ ] 품질·건당 비용·응답 시간·개인정보 삭제·사용성 기준을 실제 환경에서 검증한다.
+- [ ] 배포 시 별도 운영 설정·예산·자격 증명을 연결하며 이 기획만으로 유료 호출이나 배포가 실행되지는 않는다.
+
+### P7 — 폰 이벤트 감지와 전용 모델 (후속 실험으로 분할)
+- [ ] 소리/움직임 이벤트 누락과 배터리를 측정한 뒤 전송 구간 선택을 도입한다.
+- [ ] 검수 자료가 충분할 때 frozen embedding + 작은 행동 분류기를 비교한다.
+- [ ] 오디오/영상/융합을 같은 독립 평가 세트에서 비교하고 개선된 후보만 제한 배포한다.
+검증: 개체 분리 성능·기기 지연/발열·비용·회귀·롤백. 의존: 체크포인트 B 및 데이터 규모. 하나의 대형 작업으로 구현하지 않고 실험별 계약을 먼저 만든다.
+
+## Lightweight VLM tuning slice (2026-10-18)
+- [x] Compare official lightweight model repositories and record selection.
+- [x] Add reviewed local-frame manifest gate, LoRA training and adapter inference.
+- [x] Verify rejection tests and pretrained CPU optimizer/save/reload in CI (run 39128020164; 108 local tests).
+- [ ] Train/evaluate on licensed real dog frames; blocked until reviewed dataset exists.
+
+## 개 전문 자료 확대 조사 (2026-10-19 KST)
+- [x] 음향·자세·멀티모달·훈련 지식 후보 14개 항목을 공식 출처와 함께 정리: docs/DOG_RESEARCH_EXPANSION.md.
+- [x] DogSpeak/DigiDogs 비상업 조건 및 Pawgaze/InterPet4D 권한 확인 필요 상태 기록.
+- [ ] Dog2vec/AVES 가중치 라이선스·해시·추론 재현 후 EfficientAT와 비교.
+- [ ] 강형욱 출연 공식 영상의 사례 카드 필드와 관찰/전문가 해석 분리 검수 구현.
+- [ ] 허가된 개 음향·영상의 독립 평가셋 확보 및 모델별 실제 비교.
+
+## 사전학습 개 소리 추론 1차 (2026-10-19 KST)
+- [x] Dog2vec/AVES 배포 조건 재확인; 가중치 상업 조건 미확정 상태 유지.
+- [x] BSD-3-Clause 표기 AST를 명시적 대안 기준선으로 연결: 로컬 WAV → 개 관련 7개 원본 라벨 점수.
+- [x] 입력/라벨 경계 테스트 포함 112개 로컬 테스트 통과.
+- [x] 실제 가중치 CPU CI와 CLI 추론 성공: Actions 39213061875.
+- [ ] Dog2vec/AVES 자체 연결 및 실제 개 정확도 평가 (이번 AST 적용과 구분).
+
+## 국내 PC 데이터 실행 패키지 (2026-10-28 KST)
+- [x] PC 사양 진단·공식 AI-Hub 선택 다운로드·로컬 inventory 명령 구현.
+- [x] ESC-10 해시 검증·16kHz 변환·AST 점수 실행 명령 구현.
+- [ ] 국내 PC에서 AI-Hub 승인 파일 다운로드 및 실제 스키마/개체 ID 검수.
+- [ ] 국내 PC의 AST 점수 실행·CPU 지연 측정 및 GPU/VRAM 확인.
+- [ ] 개체·가정 분리 실제 개 평가 및 검수 자료 학습.
+
+## 보호자 앱 및 사업 확장 (2026-10-28)
+- [x] /app 관찰·로컬 기록 UI와 /v1/audio/events 연결.
+- [x] 사업·제품·개발 실행안, 경제성 가정, 전국 확대 단계 작성.
+- [ ] 실제 가중치/국내 PC/휴대폰 E2E 검증.
+- [ ] 모바일 입력·운영 인증·국내 보관/삭제·주간 리포트.
+- [ ] 30가정 4주 파일럿 및 유료 전환 실험.
+
+## 보호자 앱 2차: 입력·기록 활용
+- [x] 브라우저 지원 음성 파일→선택10초→16kHz PCM16 WAV 변환.
+- [x] 동의 기반 마이크 녹음·10초 종료·취소·권한 대기 중 철회 처리.
+- [x] 최근7일 기록 수/기록일 수 및 상담 준비 텍스트 내보내기.
+- [x] WAV 경계·변환·취소·동의·저장 흐름 모의 테스트 및 CI 명령 추가.
+- [ ] iOS/Android 실기기 코덱·HTTPS 권한·마이크 해제 검증.
+- [ ] 사용자 인증·가족 권한·비동기 분석 작업 및 서버 삭제 경로.
+
+## 국내 PC 로커리 진행 보고 (2026-10-29 KST)
+출처: 사용자가 전달한 로커리 보고. 이 환경에서 파일에 직접 접근하여 검증한 결과는 아니다.
+- [x] 사용자에게서 작업 전달 완료와 로커리 실행 시작 보고 수령.
+- [ ] 59번100개 파일 크기·SHA256·CRC 검사: 진행 중, 결과 미수령.
+- [ ] 71878 TS.zip 부분 파일 시각별 .failed 격리·공간 점검: 예정 보고.
+- [ ] 재시도 로직 수정 후 TS.zip 처음부터 재다운로드: 예정 보고.
+- [ ] 병행 조사: 실제 원천/라벨 구조·개/개체/가정/세션 필드 확인.
+이어받기 인수 기준: 206과 정확한 Content-Range 시작/전체 길이, 가능하면 ETag/Last-Modified 일치. 200 응답을 기존 파일에 이어붙이지 않는다. 416·길이/버전 불일치도 검사 없이 합치지 않는다. 제공자 체크섬이 없으면 자체 SHA256은 보존용 지문이며 원본 일치 검증으로 표현하지 않는다.
+
+## 자율 개발 2026-10-30 KST
+- [x] 공식 MDN/Python 문서 검토 후 AbortController·서버 업로드15초/추론60초 제한 적용.
+- [x] 사용자 취소/동의 철회/파일 변경/화면 이탈 시 이전 분석 결과 차단.
+- [x] 시간 초과/모델 혼잡/슬로 업로드 회귀 검사: Python133개 및 Node3종 통과.
+- [x] 실제 Web Audio·HTTP 메모 API를 검사하는 Chromium CI 시나리오 작성(AST는 모의 응답).
+- [x] 새 브라우저 CI 실행 성공 확인: 41023899244 및 41024327752(AST 응답 모의).
+- [x] 최신 보호자 앱/메모/기획 변경의 별도 PR #3 반영 및 원격 CI 성공 확인.
+다음: 국내 PC 실제 모델E2E, 수집 데이터 검수 결과 수령, 운영 인증/비동기 작업 설계.
+
+## 원격 반영 및 공개 기준 평가 (2026-10-30 KST)
+- [x] 최신 보호자 앱/메모/계획 33개 변경을 PR #3으로 반영. https://github.com/coba8002-code/presense-ai/pull/3
+- [x] commit224f8d2의 backend/browser CI41023899244·41024327752 및 pretrained smoke41023899252 성공 확인.
+- [x] 실제 Chromium의 Web Audio 변환·브라우저 저장·실제 메모 API 검사 성공(AST 응답은 모의).
+- [x] 고정 revision ESC-10 부분집합 수집·원본/전처리 지문·400개 점수 재생 평가 도구 구현.
+- [x] AUROC/AP의 완전/역순/동점/순열/잘못된 입력 검사 및 로컬137개 테스트 통과.
+- [x] 공개 음향400개 실제 가중치 출력 검증41025543775 및 보정 점수 재생41032108181 성공.
+- [ ] 국내 PC/실제 휴대폰 E2E·별도 개체/가정 평가: 기존 미완료 유지.
+
+## 2026-10-30 최종 검증 기록
+- [x] 실행 코드5cc47e5의 backend/browser41032114505·41032108034 성공.
+- [x] 400개 공개 음성 재생 AUROC1.0/AP1.0 확인. 공개 사건 순위이며 개체/가정 행동 정확도가 아님.
+- [x] certifi2026.10.23으로 기본 서버 감사41032114483 성공(알려진 취약점 없음).
+- [x] 로컬138개·Node3종·컴파일·스킬 지문 검사 재실행 통과.
+- [ ] 선택 torch/transformers/browser 환경 전체 의존성 감사.
+- [ ] 실제 국내 PC/휴대폰/새 개체 평가와 로커리 데이터 검수 결과 수신.
+- [ ] PR #2→#3→#4 사람 검토 및 병합. 자동 병합/배포 없음.
+
+## 요청별 독립 분석 프로세스
+- [x] 기존 모델 스레드를 stdin/stdout 프로토콜의 별도 자식으로 교체.
+- [x] 입력/결과 크기·모델 지문·원본 해시·보류 계약 검증.
+- [x] 실제 자식의 타임아웃/취소 종료·회수 및 HTTP 연결 종료 검사.
+- [x] 런타임 오프라인 가중치·일반 자격 증명 환경변수 제거·캐시 준비 CLI.
+- [x] 로컬146개 Python 검사 및 Node3종 통과.
+- [x] 실제 AST Chromium/계정 세션/HTTP/독립 프로세스 CI41051446917 성공.
+- [ ] 지속 job queue·사용자별 권한/예산·재시작 복구·OS 자원/네트워크 제한.
+
+- [x] 분석의 계정 세션 모드와 공유 개발 토큰 우회 차단 구현.
+- [x] 결과 반환 전 세션 철회/만료 재검사 및 브라우저 세션 비저장 검사. 
+
+## 2026-10-30 요청별 분석 검증 완료
+- [x] PR #5 https://github.com/coba8002-code/presense-ai/pull/5 생성; 실행 코드1ecab3b의 backend/browser41051446920·41051454144 및 실제 AST41051446917 성공.
+- [x] 실제 AST 합성 Chromium 결과의 모델/revision/입력 해시/단일 실행 시간을 ast-browser.json artifact에 보존.
+- [x] Chromium 모의429/503·offline·저장 quota 오류·수동 복구 검사 성공.
+- [ ] PR #5 검토/병합, 국내 PC·실제 휴대폰·새 개체 행동 평가. 코드 검증 완료와 구분.
+
+## 2026-10-30 독립 영상 평가 계약
+- [x] PR #6 https://github.com/coba8002-code/presense-ai/pull/6 생성.
+- [x] 실행 코드b0b9996의 backend/browser41053114599·41053123664 성공.
+- [x] 로컬153개 Python·Node3종·컴파일·기존 스킬 지문 검사 통과.
+- [x] 기존 주석·일반 검수·보호자 상황·모델 보조와 전문가 표본/불일치 검수를 구분한 LABEL_ACQUISITION.md, 담당/의존관계 NEXT_STEPS.md 작성.
+- [ ] 실제 독립 관찰 정답·디코딩/정렬·동일 분할 모델 비교와 검수 자료 학습. 가상 예제나 모델 후보를 실제 정답으로 바꾸지 않음.
+
+## 국내외 개 영상 조사 확장
+- [x] 검색 대상명12개·검색어24개·국내/해외6배치 생성 CLI. 실제 발견한 영상과 구분.
+- [x] 기존 공식 API 탐색기에 영속 순환 배치·공유 일일 한도·discovery-only 강제 연결.
+- [x] 출처/시간·관찰/발언/가설 분리 사례 후보, 철회/기한/종/모델 변경 차단.
+- [x] 사례 카드에 교정 효과·개체·배경음·발언자 검증을 확인 전 미확정으로 유지.
+- [x] 로컬162개 Python·Node3종·knowledge 포함 컴파일/소스 지문 검사 통과. 실행 코드48d1e97의 backend/browser41055497784·41055998145 성공.
+- [x] 공개 검색 후보 제목/링크 4건 로컬 등록 (강형욱·Kikopup·EBS 검색 메타데이터), 공식 피드 워커·읽기 전용 상태 API·로그인 UI 연결. [실행/운영 명세](../docs/SOURCE_AUTOMATION_DELIVERY.md).
+- [x] 피드 한도/간격/캐시/만료/비신뢰 XML·유료 호출 차단·로컬 학습 큐 연결 및 데스크톱/모바일 에뮬레이션 검사. 합성 학습 결과 synthetic_only.
+- [x] 발견 링크→공식 검증 대상 연결·지정 ID 전용 처리·현재 정책 기반 단계 표시·읽기 전용 독립 검수 패키지. 실제 4후보 패키지: 분석 제안 0, 학습 준비 false. 공식 워커는 인증 미연결로 외부 호출 전 중단.
+- [ ] 공식 YouTube API/피드에서 실제 영상 메타데이터 재검증. 이번 환경의 직접 YouTube 접근 실패, 키 미연결. 검색 색인을 공식 검증으로 간주하지 않음.
+- [ ] 국내 PC 지속 워커 설치/생존 확인. 템플릿만 준비, 현재 클라우드 루프백 검증과 구분.
+- [ ] 허용 범위 분석·사람 검수·원본/권한/개체 연결·독립 평가 후 실제 학습.
+
+## 반려견 프로필·소유권
+- [x] 개 전용 프로필 등록/목록/이름 수정/삭제·계정 소유권 및 20개 상한.
+- [x] 메모의 선택적 pet_id와 서버 이름 스냅샷, 같은 이름 자동 귀속 금지.
+- [x] v1→v2 마이그레이션·30일 만료·연결 메모/계정 삭제·철회 후 쓰기 차단 검사.
+- [x] 앱의 프로필 선택/등록/수정/삭제와 세션 변경 시 이전 표시/요청 초기화.
+- [x] PR #8 실행 코드8329c03의 backend/browser41061119201 및 실제 AST Chromium41061119200 성공. 로컬170개·Node3종 통과.
+- [ ] 운영 가입/복구·가족/기관 역할·개별 관찰 결과의 계정 동기화.
+
+## 계정별 비동기 소리 분석 큐
+- [x] SQLite 영속 접수/상태/취소·소유권·멱등 키·계정/전체 대기 및 일일 한도.
+- [x] 별도 원본 임시 보관 동의·원본15분/결과24시간 TTL·성공/취소/철회 시 원본 제거.
+- [x] 전역1작업 lease·늦은 결과 차단·대기 복구·실행 중단 실패 기록·실제 자식 취소 검사.
+- [x] 계정별 앱 접수·상태 조회·취소/삭제 화면 연결과 모의/실제 AST Chromium 명령.
+- [x] 로컬184개 Python 및 기존 Node3종 통과.
+- [x] PR #9 실행 코드f5e76dc의 backend/browser41063644624·41063683186 및 실제 AST 큐 Chromium41063644634 성공.
+- [ ] 운영 인증·공유 입구 제한·OS 자원 격리·독립 정리 타이머/백업 삭제·실기기 검증.
+
+## 서비스 GUI와 사업성 재평가
+- [x] 회원가입→프로필→홈→요청→처리→결과의6개 독립 HTML 시안 구현. 실제 가입/모델 호출과 분리.
+- [x] 원본 디자인 보드 생성·프로필 수집 범위를 이름 중심으로 정리.
+- [x] BUSINESS_ASSESSMENT_20261030.md에 확인 사실/판단/가정을 구분한 제품·AI·수익/실증 평가 작성.
+- [x] PR #10 실행 코드c497445의 backend/browser41065800327·41065842171 성공. 로컬186개·Node3종 및 실제 Chromium6화면/390·1440폭/API0호출 검사 통과.
+- [x] 실제 HTML 캡처7장 artifact12981444285 및 별도 이미지 보드/클릭형 HTML/평가서 ZIP 제작.
+- [ ] 운영 가입/복구·실제 개체/가정 품질·실기기·유료 유지 검증. 디자인이나 합성 검사를 출시 완료로 바꾸지 않음.
+
+## 실제 웹 회원 계정 베타
+- [x] PR #11 HTTPS 계정 API·scrypt·쿠키/CSRF·요청/KDF 제한·복구 회전·재확인 탈퇴.
+- [x] v3→v4 기존 자료 보존, 기존 회원 삭제 경로의 비밀번호 재확인 우회 차단.
+- [x] 실제 /auth 화면과 /app 쿠키 연결, 세션 변경 시 이전 요청/입력·미디어·목록 초기화.
+- [x] 회원 모드에서 기존 공용 브라우저 기록을 읽지 않으며 JavaScript 원문 세션 헤더를 사용하지 않음.
+- [x] 로컬 Python200개·Node4종·컴파일·고정 스킬 지문 검사 통과.
+- [x] 신규 HTTPS Chromium 전체 흐름과 실제 AST 실행 CI41081507011 성공; PR #12 실행 코드42bf5d6.
+- [ ] 운영 이메일 소유 확인/복구·공개 입구 방어·정리 서비스/백업 삭제·실기기/현장 검증.
+
+## 글로벌 제품 확장 · 2026-10-31 KST
+- [x] 사용자 목표를 전세계 보호자의 이해·돌봄·즐거움·소통으로 문서화. 세계1위는 장기 목표로 구분.
+- [x] 공식 경쟁 기능·행동학 원칙·연구 출처 조사,3종 전략/설계와 G0~G8 실행 순서 작성.
+- [x] /understand 한국어/영어 상황 카드·관찰 질문·출처 링크·명시적 내보내기/계정 메모 연결 구현.
+- [x] 신규 두 언어·390/1440폭·실제 계정 메모 저장/재로그인·삭제의 backend/browser41083379142·41083385801 및 실제 AST41083379491 성공.
+- [x] G3 독립 정리/비공개 집계 상태 도구·4개 합성 DB 검사 구현. 국내 PC 서비스/백업 연결은 별도.
+- [ ] G4 실제 자료/독립 평가·새 개체/가정 모델 성능. 국내 PC 결과/자료 필요.
+- [ ] G5~G8 구조화 장기 일지·가족/전문가·운영 가능한 커뮤니티·고객 실증/글로벌 운영. 기능/정책/고객별 통과 조건은 글로벌 개발 설계 참조.
+
+- [x] 독립 만료 정리 PR #14의 backend/browser41090961716·41090968063 성공. 로컬205개 Python·Node5종.
+- [x] 글로벌 전략·공식 조사·개발 설계3종 HTML/PDF와 한국어/영어 실제 합성 화면4종 제작·검수.
+
+## G5 반려견별 상황·후속 돌봄 일지
+- [x] 구조화 상황·후속 API, UTC 시각·소유권·멱등·계정500개/상황당후속20개 상한.
+- [x] v4→v5 보존 마이그레이션, 별도30일/90일 동의와 선택 프로필만 기한 연장, 기존 메모/작업 보관 유지.
+- [x] 상황/개/계정 삭제·만료·독립 정리 연동,217개 Python 검사 및 API PR #15 CI 통과.
+- [x] 한국어/영어 상황 저장·일지 조회·후속 관찰·명시적 JSON 내보내기/삭제 구현.
+- [x] UI PR #16 코드adf333e의 HTTPS 전체 흐름·두 언어/390·1440폭·지연 응답 차단·삭제와 backend/browser41151741781·실제 AST41151741775 성공.
+- [ ] 실제 휴대폰/국내 PC·사용성/반복 이용 실증, 장기 일지의 고객 효용 검증.
+
+## G5 최근 기록 요약 · 2026-10-31
+- [x] 7/30일 전체 기록 집계 API, 선택 개체/소유자 격리, 미래/삭제/만료 제외.
+- [x] 한국어/영어 일지 화면, 행동별 기록 수·후속 없는 상황, 프로필 변경 시 초기화.
+- [x] 기간 경계·50개 초과·동명 개체·철회·TTL·HTTP 회귀 검사 추가.
+- [ ] 신규 화면의 원격 HTTPS 브라우저 CI 결과 확인.
+- [ ] 가족/전문가 공유 권한 계약과 초대/수락/회수 구현.
+실제 행동 빈도/개선 효과/모델 정확도와 기록 집계를 구분한다. 명세: docs/JOURNAL_SUMMARY.md.
+
+## G6 읽기 전용 가족·돌봄자 공유 · 2026-10-31
+- [x] 1/7일 선택 개체 일지 공유, 일회용 코드/해시 보관·수락·철회/나가기.
+- [x] v5→v6 자료 보존, 만료·개 삭제·양쪽 계정 탈퇴·독립 정리 연동.
+- [x] 한국어/영어 화면, 초대 원문 1회 표시·웹 저장소 비저장·텍스트 렌더링.
+- [x] 동시 수락/권한/기간/보관/삭제/HTTPS 동의·CSRF 검사.
+- [ ] 두 계정 HTTPS 브라우저 CI 결과 확인.
+- [ ] 가족 공동 작성 역할·전문가 자격/상담 연결은 후속 범위. 현재 viewer만 지원.
+
+## 상담 준비 리포트 · 2026-10-31
+- [x] 소유자 전용 7/30/90일 단일 시점 리포트, 최근100개·생략 수 표시, 미래/만료/삭제 제외.
+- [x] 한국어/영어 미리보기·인쇄용 HTML, 명시적 기기 저장 동의와 최신 자료 재검사.
+- [x] 미기록 항목·상담 질문·다음 관찰 체크리스트, 건강 우려 미표시와 건강 확인 구분.
+- [x] 소유권/읽기공유 우회 차단·날짜/개수 경계·TTL·HTML 주입/언어 검사.
+- [ ] 원격 HTTPS 실제 HTML 다운로드·기간/프로필 변경·늦은 응답 차단 검증.
+- [ ] 저장되는 돌봄 일정/목표/완료 상태는 후속 구현. 현재 체크리스트와 구분한다.
+
+## 상황별 돌봄 계획 · 2026-10-31
+- [x] 관찰 목표·예정 시각·별도 보관 동의, 멱등 생성·개인100개/상황10개 한도.
+- [x] 같은 상황의 신규 후속 기록을 연결한 보호자 완료 확인·취소·삭제, 상태 충돌 검사.
+- [x] v6→v7 보존 마이그레이션, 원래 상황/개체/계정 삭제·만료·독립 정리 연동.
+- [x] 한국어/영어 화면과 선택 상황 변경 시 입력/늦은 응답 초기화.
+- [ ] 신규 HTTPS 계획→후속→완료→삭제·탈퇴 전체 브라우저 CI 확인.
+- [ ] 실제 보호자 사용성·휴대폰·운영 알림 제공 여부 검증. 현재 알림 미발송.
+
+## 행동 평가·모바일·운영 준비 · 2026-10-31
+- [x] 고정 독립 관찰 계약에 묶인 예측 채점과 누락/유보/unknown 분리 도구 구현.
+- [x] 제한 베타 closed/allowlist 가입 정책과 값 비출력 배포 전 검사 구현.
+- [x] 국내 Linux용 loopback API·Caddy HTTPS·독립 만료 서비스·인증/장애 복구 절차 작성.
+- [x] 390px touch Chromium 계정/복구 CI 통과 (dc3f746:41267586133/41267582532). 실제 휴대폰 검증과 구분.
+- [ ] 실제 개 독립 정답/예측, 실제 휴대폰, 운영 서버/도메인 연결 후 배포 검증.
+- [ ] 이메일 소유 확인/메일 복구와 암호화 백업·삭제 이력 재적용 검증.
+
+## 회사 로컬 VLM 어댑터 · 2026-10-31
+- [x] 현재 HEAD/중단 검사 프로세스 상태 확인. 기존 로그인 성공 증거 없음, 재시도 없음.
+- [x] 기본 비활성 계정 전용 로컬 VLM 어댑터·운영자 고정 주소/모델/전용 키 설정.
+- [x] 동의·CSRF·세션 철회·입출력 상한·시간 제한·취소 회수·단일 시도·리다이렉트 차단·dog-only 스키마 검사.
+- [x] 실행 코드 f66ae5a의 backend/desktop/mobile CI41213365459 및 실제 AST CI41213365456 성공. 로컬253개 Python·Node7종 및 신규6개 로컬 VLM 경계 검사 통과.
+- 선택 사항: 회사 API 연결은 로컬 공개 모델 경로의 선행 조건이 아니다. 실제 AST/SmolVLM 로컬 합성 추론 및 웹 경로는 PR25에서 통과. 회사 API 자체는 별도 미연결.
+- [ ] 독립 개체/가정 행동 정확도, 실제 휴대폰, 국내PC 운영 배포·메일 인증·백업 복구는 기존 미완료 유지.
+
+## 관찰·음향·행동 가설 고도화 · 2026-11-01
+- [x] docs/BEHAVIOR_AI_UPGRADE.md: 세 영역별 데이터·모델 비교·학습·평가·승격 계획.
+- [x] AST 음질 지표·무음/클리핑 경고 추가, 기존 확정 판단 유보 유지.
+- [x] 시간순 프레임·동일 개체 확인·가시성 검사와 근거 추적 가능한 회피 후보, 오프라인 CLI.
+- [x] 실제 영상 디코딩·파일 시간 정렬·공개 로컬 모델 보고서·계정 메타데이터 API/UI 연결. 실제 추적/개 정확도는 6영역 정본에서 별도 추적.
+- [ ] 잠금 실데이터 평가·모델 비교·학습·교정 및 실기기 검증.
+
+- [x] 기기 내 영상 6장 추출·시각 표시·보호자 관찰·근거 후보 화면 /video-review와 /app 연결.
+- [x] 동의/개체 철회·취소·손상영상·상충 단서·외부 요청 차단 합성 브라우저 검사. 후속 실제 모델 보고서 경로도 추가.
+- [x] 음향 격리 환경 웹 의존성 오류 수정 및 재발 방지 검사.
+- [x] 해당 단계 원격 CI 통과 (PR24/25 검증 기록). 후속 파일 내 AV 정렬 구현 완료, 실제 추적/AI 영상 추론은 미연결.
+
+## 분석 고도화 6영역 정본 · 2026-11-01
+
+범위/실행명세: [EVENT_ANALYSIS_DELIVERY](../docs/EVENT_ANALYSIS_DELIVERY.md). 기존 고도화/이벤트 항목의 후속 추적은 이 표를 정본으로 사용한다. 코드/합성 배관 통과와 실제 동물 성능·실기기 운영을 구분한다. AX는 선행 조건이 아니다.
+
+| 영역 | 하위 작업·현재 구현 | 테스트 증거 | 실데이터/모델 검증 | 다음 행동·의존성 |
+|---|---|---|---|---|
+| 1. 소리 | [x] AST 음질·유보, 실제 AV 시간창 점수 및 보고서 UI, [x] 보호자 구간/반복/간격; [x] 미검증 히스테리시스 구간 후보/시작끝 창범위/음질 표시; [x] Dog2vec 공급·권리·런타임/특징 계약 준비; [ ] 검증된 검출·잡음 분리·실비교 | test_event_candidates / test_audio_timeline / test_dog2vec_adapter / test_pretrained_audio / test_event_timeline.cjs; 기존 실제 AST CI는 PR24 | 실제 합성 AV→AST 시간창→보고서 웹 렌더 확인. 실제 발성 성능/임곗값 미검증 | 승인된 독립 음원/시간 정답·생활 소음·TV재생 음성, 모델/데이터 권리 및 fairseq 호환성 확인 |
+| 2. 영상 | [x] 사건 주변 최대12장·가림/판단불가·같은 개 확인, [x] 고정 SmolVLM 실제 로컬 프레임 추론·웹 보고서 후보 표시; [x] 입력 검출/관절 정합·상호 IoU/모호성/가림 보호 어댑터; [x] 고정 RTDETR 개 검출/동물 RTMPose 실제 CPU 실행·보고서 UI; [ ] 독립 검증 ID/관절/행동 모델 | video_browser_smoke 이벤트 시각/6장·4장·철회·취소·손상·상충; test_behavior_evidence / test_track_pose / test_dog_pose / 실제 모델 브라우저 CI | 합성 AV에서 실제 SmolVLM 실행/후보 보고서 렌더 확인. 실제 검출/관절 경로와 기하 연결 어댑터 실행, 독립 개체 추적/동작·개 정확도 미검증 | 공개 고정 로컬 모델 경로 구현. 선택적 회사 API/모델/안전 인증은 별개. 권리 확인 영상·관절/ID 정답과 독립 평가 필요 |
+| 3. 시간축/근거 | [x] 영상 시각 기반 직접 사건, 오프라인 오디오 오프셋 경계, 지지/불일치 시각·부족정보·질문 UI; [x] 단일파일 실제 오디오/프레임 PTS 추출·정합·보고서 UI; [ ] 실센서 AV 동기 검증 | test_event_timeline / test_audio_timeline / test_av_alignment / video_browser_smoke | 합성 AV 지연/VFR/무음/취소/폐기 및 파일 내 PTS 기술 검증. 실센서·발성 귀속 미검증 | 타임스탬프 근거와 정답 동기 영상, 발성 개체 미확인 유지; 전후 순서로 원인 단정 금지 |
+| 4. 가설/감정·의도 | [x] 좁은 규칙 후보·대안·판단유보·출처 표시; [x] 해석 근거/원인·감정 단정/추가질문 검토 계약·불일치 표시; [ ] 실제 독립 해석 리뷰·교정지식 검색·실측 확신 보정 | test_behavior_evidence / test_analysis_audit / UI 상충 검사; event_evaluation 제공 이벤트 확률 Brier | 규칙은 미검증, 감정·의도 정답/모델 없음. Brier는 이벤트 존재만 측정 | 전문가 독립 리뷰/해석 근거·반례·유보 루브릭. 소리/자세만으로 감정·의도 라벨 생성 금지 |
+| 5. 개체 기준선/피드백 | [x] 같은 개/모델 측정치 ISO 날짜 5일 중앙값/변화·다른개/모델/피드백 제외; [x] 계정 일지 기록패턴 참고/표본부족 UI; [x] 서버 모델 점수 스냅샷/불변ID·기기/맥락/버전/출처 층화·동의 UI·미검토 피드백/로컬 검토카드; [ ] 실제 장기 개인화 검증 | test_audio_timeline / test_measurements / test_feedback_review / member_browser_smoke | 서버 완료 작업 점수·검증 입력 길이로 계정 이력 저장/비교 구현. 합성/실제 계산 출처 분리, 실제 개·장기 개인화는 미검증. | 실제 반려견·기기/맥락의 연속 수집·독립 검토와 장기 사용성 필요. 피드백 자동 학습 없음 |
+| 6. 독립 평가/실패 재평가 | [x] 부모 계약의 개체·가정·원본/내용 분리, 이벤트 정답/예측 해시결합, 동일 평가구간 세모드 비교, F1/오탐/h/시작끝오차/ID일치/Brier/유보/지연; [x] 가정 클러스터 CI·실패 검토 큐·설명 해시결합 이중 리뷰 루브릭; [ ] 실제 관절/ID추적·독립 전문가 리뷰·제품 실측 | test_event_evaluation / test_analysis_audit / test_video_contract / test_video_predictions; synthetic CLI examples | 합성 제공 예측만. 실제 기준성능·해석 정확도/개선률 미확립 | 권리/원본 CRC·해시 확인, blind 리뷰/미확인구간, 잠금 평가셋. 실패군 고정→모델/학습 변경→같은 셋 재평가 |
+
+진행 순서: 평가셋/기준성능 → AV시간축 → 추적·포즈/VLM관찰 → 근거해석/개인화 → 실패사례 학습·재평가. 실제 자료 대기 중에는 인터페이스·검증·UI를 병행한다. 현재 평가 도구와 UI는 자동 모델 고도화 완료가 아니다.
+
+- [x] 외부 비용·자료 전송 없이 계약·어댑터·근거 UI 및 회귀 검사 구현.
+최종 HEAD CI 상태는 해당 PR의 정확한 커밋별 검증 기록을 정본으로 사용한다 (과거 커밋 통과를 새 HEAD 통과로 간주하지 않음).
+- [x] 공개 고정 AST/SmolVLM 합성 추론·웹 경로 검증.
+- [ ] 실제 개 정답/모델 정확도·국내 PC 및 실기기 운영 검증. 신규 비용·실제자료 외부전송·공개배포·병합·새 권한은 별도 승인 범위.
+
+## 실제 공개 음원 연구 학습 · 2026-11-01
+
+- [x] 실제 ESC-10 400개(개40/배경360) 해시·원본 그룹/공식 fold 검사, 학습240/검증80/보류평가80. 개체 ID 생성/생산용 승인 변경 없음.
+- [x] 학습 전용 정규화·균형 재표집·검증 penalty 선택으로 실제 가중치 학습, 평가/모델/개별 출처 표시와 SHA 증거 보존. [실제 결과](../docs/REAL_AUDIO_TRAINING.md).
+- [x] 연구용 결과와 생산 모델 승격 분리. 보류평가 정확도82.5%, 개F1 0.4615, 배경오탐12/72로 운영 적용 불가. 행동 정확도 미검증.
+- [ ] 새 개체/가정/생활 잡음과 원본 식별자를 갖춘 잠금 평가셋 및 AST/추가 학습 모델 독립 비교. 현재 유튜브 영상 학습은 미실행 유지.
+
+## 개체·견종·체형·맥락 적용 · 2026-11-01
+
+- [x] 견종 모름/믹스/보호자 입력·개월/체중·귀/꼬리/주둥이/털 선택 프로필, guardian_report/미검증/입력 시각, 계정별 API/UI. [계약·구현 범위](../docs/BREED_CONTEXT_PROFILE.md).
+- [x] 별도 동의한 상황·발성 주체·기기/거리/잡음/가시성·당시 저장 프로필의 작업 스냅샷, 접수 키 충돌/보존, 작업 취소·기한·프로필/계정 삭제 연결. 스키마 v8→v9 보존 마이그레이션.
+- [x] 여러 개/주체 미확인/가시성 부족의 해석 보류와 귀·꼬리·털 기준 추가 질문. AST 입력/점수 변경·자동 학습 없음.
+- [x] 데스크톱/모바일 에뮬레이션 프로필 편집→작업→작업자→결과/취소·계정 전환 검사. 실제 견종 성능·실기기 운영 검증과 구분.
+- [ ] 실제 개체별 장기 기준선·체형 보정·견종별 정확도/오탐/판단유보 검증. 충분한 표본·개체/가정/원본 분리 정답과 별도 학습 동의 필요. 견종별 별도 모델은 비교 이점이 확인된 경우만 검토.
+
+## 학습자료 4영역 확보 확대 · 2026-11-01
+
+조사·권리·다운로드·라벨 상태 정본: [DATA_EXPANSION](../docs/DATA_EXPANSION.md). 위6영역 평가 요구사항에 연결하며 실제 학습과 자료 수집을 구분한다.
+
+- [x] 개체/가정/기기, AV/구간, 관찰/보고/전문가, 독립 평가의 국내외 공식자료 조사. HF4종 고정 메타데이터/카드, Zenodo2종 메타데이터, BEANS README 확보.
+- [x] CC BY4.0 BarkMeowDB 실제 원본/게시자 MD5/고정SHA 검증, 개46음원 292.811초 추출. float32/잘림/비유한값·경로탈출·링크·중복·크기검사. 개체/가정 미상 유지.
+- [x] CC BY4.0 Dog Pain 표 실제확보/해시검사. 첫시트662행, 명시개체ID184개, 관찰번호행594개 집계. 영상 미포함/일반 감정 정답 아님. 임상 원문 GitHub 미게시.
+- [x] 재현 수집 CLI·출처표시·음원 검토 큐46개 생성. 미검토 라벨/리뷰어/개체를 조작하지 않고 training_approved=false 유지.
+- [ ] 새46음원 청취/발성종류/구간 검토, 재샘플·편집 중복/ESC·사전학습 중복 조사, 알려진 개체/가정·배경 대조군 확보 후 독립 평가 연결. 현재 자료만으로 생산용 분할 불가.
+- [ ] 국내PC AI-Hub 원본 경로/무결성·개체 필드 연결. 이용승인은 완료, 클라우드에 실제 원본 미연결.
+- [ ] InterPet4D/DogSpeak 등 NC자료 상업 이용조건 해결; Mendeley 직접다운로드403 자료는 원본 미확보. 임의 미러/접근제어 우회 없음.
+- [ ] 독립 전문가 관찰/해석 검토, 잠금 AV 정답셋, 실제 학습·성능 비교. 이번 작업 신규 모델학습0/유튜브 영상학습0.
+
+- [x] 자료별 이용목적 lane/명시 NC·ND·research-only 상업학습 차단 연결, 공식후보7종 등록. dog-only 조사10종의 미발송 허가 검토 목록8종 생성. 연구분리는 사용허가가 아니며 실제 목적 검토 전 학습 금지.
+
+
+## 유튜브 출처 → 실제 자세 학습 입력 연결 · 2026-11-01
+
+- [x] 기존 관찰/로컬원본 검증과 SmolVLM 사이 프레임 준비·검토·내보내기 연결. [YOUTUBE_TRAINING](../docs/YOUTUBE_TRAINING.md).
+- [x] 중간시점 PNG/원본·정렬·검토·프레임 해시 결합 후보, 정답null/사람검토 템플릿, 최대200장. 모델점수·해설 자동정답 없음.
+- [x] 명시적인 프레임 검토/가정ID·시각, 현재 출처·권리·원본 재검증 후 frames.json 생성. 기존 학습기에서 가정 누출도 재검사.
+- [x] 합성영상5개→10프레임→모사검토→실제 학습입력 검증. 미검토/변경된프레임/가정누출/권리철회/원본변조 거부 검사. 실제개 정확도와 구분.
+- [ ] 실제 유튜브 분석 인증/허용 호출 예산, 적법한 원본 및 사람검토·독립개체/가정 정답 연결 후 실제 자세 학습/평가. 현재 키/운영 DB 미설정, 신규 유튜브 실제 학습0. 이 CLI는 원본다운로드/모델학습/배포를 자동 실행하지 않음.
+
+
+## 기존 확보 음원 중복 감사 · 2026-11-01
+
+- [x] BarkMeow46/ESC-10원본400개 실제 캐시·해시 확인. 신규 다운로드/학습 없이19,435파일쌍의 원본/정규PCM/유사구간 비교. [AUDIO_DUPLICATE_AUDIT](../docs/AUDIO_DUPLICATE_AUDIT.md).
+- [x] 원본/전체PCM 동일0쌍, BarkMeow40개–ESC41개 사이 유사구간41쌍을 미검토 후보로 기록. ESC rooster 라벨 포함 사례는 라벨충돌 검토 대상. 새 독립자료46개로 계산하지 않음.
+- [x] 합성 음량·절단·다른소리·무음·정규화 디코딩/해시 오류 회귀검사. 개체/가정 미상·training_approved=false 유지, 자동 삭제/편입 없음.
+- [ ] 후보 실제청취/편집·원출처·라벨충돌 검토, 확인된 공유원본 연결별 분할. 후보 없는6개도 독립성 미입증. 미상 사전학습 코퍼스와의 중복은 미해결.
+
+- [x] 기존41쌍의 감사 결과를 재사용해 보수적 검토 그룹40개/연결파일81개/라벨충돌그룹1개 생성. 원본/승인/개체ID 변경 없음.
+- [x] 음향 학습·사전검사·평가 재현의 공통 분할기에 알려진 가정/녹화/원본/중복 그룹의 전이적 연결 적용.5개 이상 연결그룹·각 분할 라벨 분포를 요구. 원래 animal-only 입력은 같은 seed 결과 유지.
+- [x] 별도 자동학습 benchmark에도 알려진 가정/원본/중복그룹 교차 누출 검사. 추가 그룹 정보가 한쪽 이력에만 있으면 불완전 증거로 차단. 사전검사에 연결그룹 수와 필드 기록 수 표시.
+- [ ] 실제 검토/동일원본 확인, 기록의 전역그룹 매핑·누락정보 보완 후 권리/라벨 독립 검토. 자동검사만으로 학습 승인/동일개체 판정/실제정확도 입증 없음.

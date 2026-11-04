@@ -1,0 +1,775 @@
+{
+  "audit_sha256": "689f133cbbbe315fd216daa8c76b2568d9148320ba56c9e1677e541c608f0ce4",
+  "group_report_sha256": "514b3ea319ec69231ec35e9cbe3269d99cdb1a189a0a66e0b1a40aac0c1e1a2c",
+  "group_count": 40,
+  "linked_files": 81,
+  "label_conflict_groups": 1,
+  "groups": [
+    {
+      "duplicate_group": "candidate-8d7bd8ed0553aadf6028931756b945db99f2fd231f63ae9562fcccd9377b0b4c",
+      "members": [
+        "barkmeow:dog_1.wav",
+        "esc10:audio/3-170015-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_1.wav": "8b4db39028a5432fd230e0724dde9e9401e7e80328477656e73f48172ebaeefd",
+        "esc10:audio/3-170015-A-0.wav": "7aff1d04c4c381636e0bfc7d9dfbf76509d0f30674fc542bb8f8ed757f29e29d"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-f5087b827610f051b99dafed003ac5a95edd5f812807a2cc3f24d7718b2be165",
+      "members": [
+        "barkmeow:dog_11.wav",
+        "esc10:audio/3-180256-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_11.wav": "b102a0abc54b92784d1b36cd7284964f6d1c7eec0f3485c178a2ce6177b0d361",
+        "esc10:audio/3-180256-A-0.wav": "39ed8c8b60974843511f0f53e33e37f670f9cf22eebcb8b23798d52e0309127b"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-82ef9237dd263d87d106f66df0d8302f41b6f2769e433a2f8286450eb2516311",
+      "members": [
+        "barkmeow:dog_12.wav",
+        "esc10:audio/4-184575-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_12.wav": "0198f667cda4bbc5a49c192ae05adebcbbdff790dab788f790ca20700fbd0cde",
+        "esc10:audio/4-184575-A-0.wav": "417a923837951edc374447528f1387b6bfb961a9605b165cfcb3d9d63735d179"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-891224f18f306738e2feed8c79400a6981e99208ba5fffda958d064e93ad5647",
+      "members": [
+        "barkmeow:dog_13.wav",
+        "esc10:audio/5-231762-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_13.wav": "f9d9ddb9e11d85d242047b717d9dbde9dbeb5dfa415a0668f29a55f456b1cc66",
+        "esc10:audio/5-231762-A-0.wav": "cb686222c5eeb07c8c8ee508adce7bedbabb3358aee5c46b051788075835bd96"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-aa60ab4a04cfb829b4074d9c0e3226a2a903bc22c6300206a61cd1accf83b57f",
+      "members": [
+        "barkmeow:dog_14.wav",
+        "esc10:audio/3-180977-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_14.wav": "2bd3c6700448f6287309115f6e71ce44fed35dcedb0b912aa7da73c9fdecde57",
+        "esc10:audio/3-180977-A-0.wav": "d5d290a12f7aac1e5a5cee44e7a4d6033ee9f9999846f84b2278f7fbd6516df2"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-d7c87351e6ab8e819415cf7a1144c1640515eee18df80f97e999f11150b1154f",
+      "members": [
+        "barkmeow:dog_15.wav",
+        "esc10:audio/2-122104-B-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_15.wav": "4d783fee731857b4e62da529abb7c9e96ce125d34d819607bdf856c012d45ebf",
+        "esc10:audio/2-122104-B-0.wav": "3cbf9d8b919210c37a2c74706cdeacf99073a83e98ae6a797d31b34e35db9a59"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-ca2d34003827652da3b1ccd82adbfa4e8e44e455a66a4e2a15bd58db5d9fe8cd",
+      "members": [
+        "barkmeow:dog_16.wav",
+        "esc10:audio/5-208030-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_16.wav": "84f4299a81a38bc1a151b15fc3d21c88c4e753f96db5d110cabd547b9d7a1a13",
+        "esc10:audio/5-208030-A-0.wav": "8b3f5052dad5383ea171aa8feaead47879bf7b5ae3acaf5a26c5167838a49494"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-479daf9e42e4c5ea6c2b9e4f0148d57a9bebcd8ee73422645cd23b30a332ac6c",
+      "members": [
+        "barkmeow:dog_17.wav",
+        "esc10:audio/5-9032-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_17.wav": "32c74ea9fdf092742fbe5d241d92fdabf7448731d91a22f630a3ed9147bfcd99",
+        "esc10:audio/5-9032-A-0.wav": "e49492e3cd7be48c3e5f82a121e71f23687ecb047609085231e06a0cccb2b12d"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-938100051827df3f0efbedace5a957e3249d1f8a7d96761118b855d19f9be84e",
+      "members": [
+        "barkmeow:dog_18.wav",
+        "esc10:audio/5-213855-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_18.wav": "a41a38da4e9f848b1b319e34dfa0aaeb798343bb9b6a51d32430bde778e81e44",
+        "esc10:audio/5-213855-A-0.wav": "1013f545442642bd8a7788279d75d131754127a4bdee39dc9c5299c04c4962c8"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-7ccfbd05680ba59952f5c4a4da4af50d11fd64249f5feafa04bd4244cb3d412a",
+      "members": [
+        "barkmeow:dog_19.wav",
+        "esc10:audio/1-85362-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_19.wav": "066b0826b1dd64cc508dfc7250ec98def3857cf7da59eb7a546d42218244e7ef",
+        "esc10:audio/1-85362-A-0.wav": "2f7742933d677b0dc8d77b802e90ee0fb94b5828183ca96f7a8dd8d24ab57b7b"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-7f6337795ef8aed350533c6d415b57e4e73ff5a50844560977a15f58af6a78e8",
+      "members": [
+        "barkmeow:dog_2.wav",
+        "esc10:audio/1-59513-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_2.wav": "8308024e76bb0fe7a19a1fdb9b16efcdcb0879bc9965db3e9792af4bfbf1ab0e",
+        "esc10:audio/1-59513-A-0.wav": "b573fcbb4d3a8a05a857dc1ffdb09c687253ff3a03baa326460e291ce4cbfee7"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-4b0938aeea555c66acd34ee0c73476b55fee01f745cdb1144ab359dee023d66f",
+      "members": [
+        "barkmeow:dog_20.wav",
+        "esc10:audio/4-182395-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_20.wav": "f689277bee5c0156403f059a7fa7051b36e448a14c5b448db818f299166ca092",
+        "esc10:audio/4-182395-A-0.wav": "c249bcb8ef81d12516ad17c8a77f88c01952cdf70b9413732af5fb8b803f9c7d"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-3d1b4f58d92d69f193f45028dc44cdcd2a81f4185fafea337bf3d8f0ac47b7cc",
+      "members": [
+        "barkmeow:dog_22.wav",
+        "esc10:audio/4-207124-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_22.wav": "121c3f3df261c03586c686d5340e3289e2c74bf1cf737d47f8e2a3c02b9da1f8",
+        "esc10:audio/4-207124-A-0.wav": "4172efa07482e36b67f50bc730d9ecaf95da20c81f79242d0439ac6bae21f53c"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-f89724b7032209797367fe58b0c05f576d998ba6e8601c6773af72b1c78eacc5",
+      "members": [
+        "barkmeow:dog_23.wav",
+        "esc10:audio/1-30344-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_23.wav": "41fdc9fc17d5bc70e3a86609a94d49d2cfb45bbf6e635f2e7251b158f5db2db6",
+        "esc10:audio/1-30344-A-0.wav": "52a876cff473fe9b6deb4feea9545a2b976e63e03744921afc72f9800758ce30"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-77a1688df049ebcd3a9752e4c989a59765925a2a89fc1c278a3661881ed87577",
+      "members": [
+        "barkmeow:dog_24.wav",
+        "esc10:audio/5-217158-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_24.wav": "c5199a34297b823a28f1eb2369d11a454df2de7aebbc2c7d4c9f464a3c098751",
+        "esc10:audio/5-217158-A-0.wav": "170df4aad8dd13df6e418c8ff4e5a8cf8bec6fece5e3d0150b94d391e91b1356"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-fa9f6b343aa50a271ba7743215014e06686db2b6c4eb1fe2562cc88bdec13247",
+      "members": [
+        "barkmeow:dog_25.wav",
+        "esc10:audio/5-203128-B-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_25.wav": "4a33eb870c38637da1b0af8a67d3636b02fe320ed35182cbe5ba3c56833552c5",
+        "esc10:audio/5-203128-B-0.wav": "2a253659c2c3c86a0fbaf1e928d8a30933e90c7e7d4be43a3e4b4217e5be0c26"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-f482fca7cd24919158eba250d4e514339fe28b4d67366efe09b8898c4686a3dc",
+      "members": [
+        "barkmeow:dog_26.wav",
+        "esc10:audio/3-144028-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_26.wav": "7fe0d4c9fcb4a0ae0a291a87801a80c1aaaa4c5774d09ae0c38e38c228a1835d",
+        "esc10:audio/3-144028-A-0.wav": "2828c40f81b8bdfded734b1ea057444f780d1ada4241a2dc2ab70c646f963b47"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-c61df16da496b21dc83fef4a4d73e35f5069bcc74770d283dbf896116e974c6a",
+      "members": [
+        "barkmeow:dog_27.wav",
+        "esc10:audio/2-118964-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_27.wav": "93c42f2d41392835b8949af8cabc292a7f4f7b5ab58c6ff642bc6cd9b7d42f67",
+        "esc10:audio/2-118964-A-0.wav": "c684bc7d6ff7d8b9dbb7b033760319c4b4aac2ec0ae221df9ba684790a502d87"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-406bf0079d50e07e45360ee7084ef3a326e5fcfc9d49ae56cfc9cc6ff664d807",
+      "members": [
+        "barkmeow:dog_28.wav",
+        "esc10:audio/1-110389-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_28.wav": "8f320bc5c6b833736f9d01302b450b6f09a1c39c31226e7ede2e5059b697e6f0",
+        "esc10:audio/1-110389-A-0.wav": "4a18f3f834eb184b9f02595ac74c7de37ef8048a3da92f58f27018fec580b36a"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-4b4c19546e55077d9f88a05bb10d6ab99f606ed6296342ed5f6f1eb31c4a0842",
+      "members": [
+        "barkmeow:dog_29.wav",
+        "esc10:audio/4-191687-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_29.wav": "8a3cb8fc72774f9b273d78f6b00c28ef0495f2bffe11eee006e77385b386bd20",
+        "esc10:audio/4-191687-A-0.wav": "65bcaf4cce64177bb0dcc139c63dc9bee48d86c559b3019248d7c79db6a8b2ef"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-54bbb6f45d954f0b2997d15a15e50a853def55c1763928e61bb0e28ee5eb1d3c",
+      "members": [
+        "barkmeow:dog_3.wav",
+        "esc10:audio/2-122104-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_3.wav": "43538c58fcfced944a4b7ca74cd4b3c094a57b1579928949166d9c71d93db02b",
+        "esc10:audio/2-122104-A-0.wav": "0ed7ff66a9d9a570768815d0027803283f091201ec8bf742f466441ad051f736"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-cc82621fc95d83186518976e231f7d7f9f45f7f9c37f85567dd8eeafa2904758",
+      "members": [
+        "barkmeow:dog_30.wav",
+        "esc10:audio/3-155312-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_30.wav": "8c5c44b228b12cd9b340f62c8d9a37f2924fdee1af1c6a68ddf3d75b59f1e169",
+        "esc10:audio/3-155312-A-0.wav": "cd91728dada57b9083122f0991dad5de4010287f91847bca4ac828d6402080e4"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-2f65aa298cf4e2eaa6ea513eb6c5fb48c0f642b750e1831afc447ac044908d7d",
+      "members": [
+        "barkmeow:dog_31.wav",
+        "esc10:audio/3-136288-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_31.wav": "4a8ecf868a1aceed12fd00f4c650e5c5d31a1d7fa262b2bd1125788dac741980",
+        "esc10:audio/3-136288-A-0.wav": "8293b4fe3c40cf9bbe243fa27d153bbef86217f855e4295e89f41411267c9f8d"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-9e8d71d022ed9979cf74cf31d7651dfb4d0e6ee1ff898afd1876ef6d4d4b3103",
+      "members": [
+        "barkmeow:dog_32.wav",
+        "esc10:audio/5-212454-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_32.wav": "f9ecf6519fe27f3d27a591e0686ec2d77bd56f1dbd26e22f97f64e718fd48e15",
+        "esc10:audio/5-212454-A-0.wav": "a3f7089d31d506d7a5c80f0af79afebfdb8fd61759eab03891b01c809d210e5a"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-2fcce9616f575a81742e0726557e626539735e23df5aa5e25a83695214ea9217",
+      "members": [
+        "barkmeow:dog_33.wav",
+        "esc10:audio/1-100032-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_33.wav": "e6d3de2a8aad609855ab5fd706408720778dc2b689521250fe84bf7217cfb26b",
+        "esc10:audio/1-100032-A-0.wav": "f40a849a2375c8c63312a73dd2dd6c74007301fcc21b4be2ece29a642831e3d8"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-ea74fd2898c4b863018019a282e9308bf23997471626d84795bf11e9ef3a4ea0",
+      "members": [
+        "barkmeow:dog_34.wav",
+        "esc10:audio/2-118072-A-0.wav",
+        "esc10:audio/4-164064-C-1.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_34.wav": "11aaef5e66a90b0daaf6025deb0ef32a714e6793fb1c5af05f167959cec027b3",
+        "esc10:audio/2-118072-A-0.wav": "c2003f5ce159e77c3a0e52ff042567d159ea8eab6cd3081e64c0b709556dcb4e",
+        "esc10:audio/4-164064-C-1.wav": "34e4f9b7454361e903c43ea59cd69df272c9b308084598a4108c575a41a80113"
+      },
+      "publisher_labels": [
+        "dog",
+        "rooster"
+      ],
+      "label_conflict": true,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-b24dd833dadb8b3480b9eb60c3f820c53d53318006fc6723561b2171d6f28a40",
+      "members": [
+        "barkmeow:dog_35.wav",
+        "esc10:audio/5-203128-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_35.wav": "ea41e1eae343d8cc145bf0f1cebd58248427771f516890b5a137d1b184187846",
+        "esc10:audio/5-203128-A-0.wav": "435e476d5d429aa1cc51c23c9b5e5f8f472faf022846996ade18a457621d0552"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-f9430e6747c22f019b2f6ad538f590da9d9b95d53818d3c312d018829bdeb202",
+      "members": [
+        "barkmeow:dog_36.wav",
+        "esc10:audio/4-192236-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_36.wav": "592f8a8b03b0fadcc14cd505ba1f8189d349d5b0a187c913cfd9aa50f3bf80d2",
+        "esc10:audio/4-192236-A-0.wav": "cea20645e18a4ad56ad53905a6185e891b53f65989e4208f3014aba838096f08"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-e590001af576f3542001acc19ddf1c67d51fa7b74ad9bcd134608fd7f38fc08b",
+      "members": [
+        "barkmeow:dog_37.wav",
+        "esc10:audio/1-30226-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_37.wav": "90b0ca68e5c7ab7e3d1834da1bd9d8a0066cea32a3c6266113a6d8b820c087a8",
+        "esc10:audio/1-30226-A-0.wav": "ca2626d2b49c7c20a3e0f9f8d7aa56f4497643c6bc264ff37764392be2b15753"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-145047c54460d4dd90bb472a46e9d749e5e64500b0412150178a0ac62ee0dd58",
+      "members": [
+        "barkmeow:dog_4.wav",
+        "esc10:audio/3-157695-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_4.wav": "0d99a21a0b9ea31b51dc9cc4d18ffb68422fbb90eb2f09a3fd49315da85918d0",
+        "esc10:audio/3-157695-A-0.wav": "7a6099b6ef5f58af8b6f9a9deda41cc0d8efe5a0fd60fdd638a711523674903a"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-3ac5f9fe0769a0c15a3a3a169b32f504c73f43dea73f0788c9f3db87b0bc445d",
+      "members": [
+        "barkmeow:dog_41.wav",
+        "esc10:audio/2-114587-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_41.wav": "f6dbed462802c4d6c0401e33223fa30111c468892adbf660a7e12f60a5f8c3c7",
+        "esc10:audio/2-114587-A-0.wav": "34d7f9c32c2cda9b6b68483028bb85326259d1c5f2956eac2ecc48b18b06f999"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-79b861a8148b3bc2723008ee1684f87ac750f4fef555fd8d863acd8991fcdced",
+      "members": [
+        "barkmeow:dog_42.wav",
+        "esc10:audio/3-163459-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_42.wav": "0c743ad368d7b863e18842a9d7062493ac075b8b39e371c65cb9f492c98566a6",
+        "esc10:audio/3-163459-A-0.wav": "fede0d9dcbf6c0252880acf39d411d62e0060e9c9ff3bda9135b3dc2bccb41fe"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-bfe739c176d6bf79c8c72390125c00222e0b450fae574363c860fefb074d2e60",
+      "members": [
+        "barkmeow:dog_43.wav",
+        "esc10:audio/2-116400-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_43.wav": "39e555048b582a49a466ccc8f98a8ef3565366f473f8bf9fac3231211e3b85b0",
+        "esc10:audio/2-116400-A-0.wav": "9830a9ccefad59e7ac9313b86913a6a15e5b4cb281fd479fc6fb076a06ff2a6e"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-31197fb1b52d91fc0b8c0f56329542dba7c2e9f4380ae4f6826e6a6962a09128",
+      "members": [
+        "barkmeow:dog_44.wav",
+        "esc10:audio/4-194754-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_44.wav": "c707df6c64114465d455b697bb17087d747b06c50b700253ad09a9dce296b742",
+        "esc10:audio/4-194754-A-0.wav": "89e569fc4f5659de5a5c70fc5b196270b218d8f51cb6d1235d9568540061b309"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-e2f838a08a252ecf77b40bb931fabce6a38c3e19de28ad68f5373c91c10d8736",
+      "members": [
+        "barkmeow:dog_45.wav",
+        "esc10:audio/1-32318-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_45.wav": "c9dd83c3921cf186d68bfd871078580577338727eb8d68c54fc63eafe2eb95c0",
+        "esc10:audio/1-32318-A-0.wav": "0e96f0bab8bbba81c98a8d7741cf258c8381c6481bac36961b8603a600a6c321"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-63c48ea97ddf7190e76d66acdba4bfc5f7da191aa0e49c9912f0573932f4e8cd",
+      "members": [
+        "barkmeow:dog_5.wav",
+        "esc10:audio/2-114280-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_5.wav": "001baefc7c6f817fa816c9d18a494e722720ca14da78b83daa465e979c5ec8fa",
+        "esc10:audio/2-114280-A-0.wav": "23cd06e6c8b2e054d13ad6392d34d91588cd8572041d6f4c1c337048fd5deb69"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-80b915378be7001659de271b575e9a24b66211b16d4b6c7d02aaaa5497e26092",
+      "members": [
+        "barkmeow:dog_6.wav",
+        "esc10:audio/4-183992-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_6.wav": "4085366484da725f13e5bce6248299a4a66b61e7fbd8442182cf3cdf24ecdf15",
+        "esc10:audio/4-183992-A-0.wav": "96bf2e0efce166f347db6ae02b3c17d24acadffc45d67ad6015de7b1162f54dc"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-495b22f23102550f51069fc48f8d31e3471fb86502a246f3e67797eca7ad1476",
+      "members": [
+        "barkmeow:dog_7.wav",
+        "esc10:audio/2-117271-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_7.wav": "733b50bdba359bd27f3e8546b7e3cb3338695f3479f857b92f0643bed470a2b9",
+        "esc10:audio/2-117271-A-0.wav": "636eb41093489304bb85802fdf2e8ac8b911500516e210e01f3b0b92f156c01d"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-3a9ce06f8451d0b93560ae98b79789de22a1be2776937076f18088ee8f33bc66",
+      "members": [
+        "barkmeow:dog_8.wav",
+        "esc10:audio/1-97392-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_8.wav": "7097fa52191ef12e318864a1d71683cd73477db5aa29ef900ef5dc74f1989bdd",
+        "esc10:audio/1-97392-A-0.wav": "9ec2eb304d2a1ab3a50150a2a558dce0771e4ffc920d074e107fd76cb7b5d28c"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    },
+    {
+      "duplicate_group": "candidate-99751cdd4b57a211d37007b99c13ecf64ae5bad6aa338c942a1f1d8f1031880c",
+      "members": [
+        "barkmeow:dog_9.wav",
+        "esc10:audio/4-199261-A-0.wav"
+      ],
+      "source_hashes": {
+        "barkmeow:dog_9.wav": "0c9e2bb0be32240c853e8c4e27342792b49a26602fb622a47b18886b52613f1a",
+        "esc10:audio/4-199261-A-0.wav": "527a52b5cd50b5171b45ea0dd3c5efe5d11fb75a0c29cdd777c6f17255ac8262"
+      },
+      "publisher_labels": [
+        "dog"
+      ],
+      "label_conflict": false,
+      "review_status": "pending",
+      "same_animal_verified": false,
+      "training_approved": false,
+      "disposition": "keep together if later admitted; do not use as an independent holdout"
+    }
+  ],
+  "training_approved": false,
+  "independence_verified": false,
+  "notice": "Candidate edges conservatively link records; not verified shared origin, animal identity or label truth. Unlinked files are not proven independent."
+}

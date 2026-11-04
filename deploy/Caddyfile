@@ -1,0 +1,5 @@
+# Set PETSENSE_DOMAIN to the actual DNS name before starting Caddy.
+{$PETSENSE_DOMAIN} {
+    encode zstd gzip
+    reverse_proxy 127.0.0.1:8000
+}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PetSense · 개 영상 검수</title><link rel="stylesheet" href="/review/review.css"></head>
+<body><header><div><span class="eyebrow">PETSENSE / DOG MVP</span><h1>개 영상 검수</h1>
+<p>관찰을 확인하고, 학습에 사용할 행동 라벨을 검토합니다.</p></div><span class="badge">로컬 작업 공간</span></header>
+<main>
+<section class="intro"><strong>파일은 이 브라우저 안에서만 열립니다.</strong> 영상과 관찰을 서버에 업로드하지 않습니다. 작업은 자동 저장되지 않으므로 페이지를 닫기 전에 검수 파일을 내보내세요.</section>
+<section class="imports"><label>1. 관찰 후보 JSON<input id="proposals" type="file" accept=".json,application/json"></label>
+<button id="reset" type="button">작업 초기화</button><span id="count">후보 0 · 승인 0</span></section>
+<p id="status" role="status" aria-live="polite">관찰 후보 파일을 선택하세요.</p>
+<div class="workspace"><aside><h2>검수 목록</h2><label>관찰 선택<select id="candidate" size="10" aria-label="관찰 선택"></select></label><p>한 항목씩 영상을 확인하세요. 개가 아닌 자료는 가져올 수 없습니다.</p></aside>
+<section class="panel"><h2>영상과 관찰</h2><p id="source">선택한 관찰이 없습니다.</p>
+<a id="citation" target="_blank" rel="noopener noreferrer" hidden>원본 영상 열기 ↗</a>
+<blockquote id="observation">VLM 관찰이 여기에 표시됩니다.</blockquote><p id="timing"></p>
+<label>2. 해당 원본의 로컬 영상<input id="video-file" type="file" accept="video/*"></label>
+<video id="video" controls preload="metadata" playsinline></video>
+<label>로컬 영상의 시작 위치 — 원본 기준 초<input id="offset" type="number" value="0" min="0" max="1800" step="0.001"></label>
+<button id="play" type="button" disabled>관찰 구간 재생</button><p id="video-status">영상 파일을 선택하세요. 잘라낸 영상은 원본 시작 위치를 입력하세요.</p>
+</section>
+<section class="panel"><h2>검수 기록</h2><form id="review-form">
+<label>행동 라벨<select id="label" required><option value="">직접 선택하세요</option>
+<option value="walking">걷기</option><option value="running">달리기</option><option value="sitting">앉기</option><option value="standing">서 있기</option><option value="lying">누워 있기</option><option value="grooming">몸단장</option><option value="eating">먹기</option><option value="drinking">마시기</option><option value="approaching">다가가기</option><option value="retreating">멀어지기</option></select></label>
+<div class="pair"><label>동물 ID<input id="animal_id" maxlength="160" required placeholder="같은 개는 같은 ID"></label><label>촬영 세션 ID<input id="recording_group" maxlength="160" required></label></div>
+<label>승인된 데이터셋 이름<input id="dataset" maxlength="160" required></label>
+<label>데이터 분할<select id="split"><option value="train">학습</option><option value="validation">검증</option><option value="test">최종 평가</option></select></label>
+<label>검수자 ID<input id="reviewer" maxlength="160" required></label>
+<label>검수 근거<textarea id="review_evidence" maxlength="1200" required placeholder="원본·동물·시간 구간을 확인한 기록"></textarea></label>
+<label class="check"><input id="confirmed" type="checkbox" required> 이 파일이 원본과 일치하며, 해당 구간의 개와 행동을 직접 확인했습니다.</label>
+<div class="actions"><button id="approve" type="submit" disabled>이 관찰 승인</button><button id="remove" type="button" disabled>승인 취소</button></div>
+</form><p class="muted">원본 구간은 변경하지 않습니다. 구간이 잘못되었거나 관찰이 불확실하면 승인하지 말고 원본 주석을 수정한 뒤 후보를 다시 생성하세요.</p></section></div>
+<section class="export"><div><h2>검수 파일 내보내기</h2><p>승인은 검수자의 기록입니다. 현재 이용 권한·개체 분리·영상 해시는 별도 검증이 필요합니다.</p></div><button id="export" type="button" disabled>승인 항목 JSON 다운로드</button></section>
+</main><footer>개 전용 MVP · 감정 확정·진단·학습 완료를 의미하지 않습니다.</footer>
+<script type="module" src="/review/review.js"></script></body></html>
