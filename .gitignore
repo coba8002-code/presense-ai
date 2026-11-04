@@ -27,3 +27,7 @@ config/knowledge.local.json
 
 .venv-*/
 pc-report.json
+
+node_modules/
+dist/
+.vercel/
