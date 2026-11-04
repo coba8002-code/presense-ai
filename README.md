@@ -11,6 +11,10 @@ been imported. There was no application source on develop. Current code includes
 local FastAPI service, NumPy audio baseline and an opt-in VLM adapter. Flutter,
 Production model accuracy remains unvalidated. An optional experimental SmolVLM2 LoRA trainer is available. Actual ESC-10 research training is documented in [REAL_AUDIO_TRAINING](docs/REAL_AUDIO_TRAINING.md); it is not a production model. See [public data acquisition](docs/DATA_EXPANSION.md), [작업지시서](docs/WORK_ORDER.md), and [remaining tasks](tasks/todo.md) for current evidence and limitations.
 
+## Cloud test operation
+
+GitHub + Supabase + Vercel deployment module and live-connection checklist: [CLOUD_BETA_DEPLOYMENT](docs/CLOUD_BETA_DEPLOYMENT.md). This module stores account-specific text records; AI inference is not enabled.
+
 ## Setup and tests
 
 Python 3.12, from repository root:
