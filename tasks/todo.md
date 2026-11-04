@@ -6,6 +6,13 @@ Current scope: **dog-only MVP**. Historical completed work below may describe th
 
 Execution order and acceptance criteria: [작업지시서](../docs/WORK_ORDER.md).
 
+## 국내외 데이터 연결 — 2026-11-04
+- [x] AI-Hub59·71878 공개 구조 재조사, 신규 해외 음향·AV·파생본 원출처 검토.
+- [x] 59 개 전용 로컬 라벨 검수 어댑터, Zenodo 개 음원 한정206 수집·해시/기존 중복 대조 구현.
+- [x] 공급원5개 registry 연결. 검색량·실제확보·검수·학습을 분리.
+- [ ] 국내PC 원본 연결·실제 스키마 검증, 신규 해외 음원의 근접 중복/청취·라벨/개체/권리 검토 후 승인된 학습 입력 생성.
+증거: [11월4일 적용 보고서](../docs/DATA_EXPANSION_20261104.md). 실제 확보 결과는 연결된 증거JSON을 기준으로 한다.
+
 ## QA 집중 검증 — 2026-11-03
 - [x] 인기 GitHub QA 스킬 4종을 커밋·해시·라이선스와 함께 설치. 기존 스킬 보존.
 - [x] 비ASCII 인증 헤더 500, 소리 이벤트 누락 관측, 이미지 디코더 허용목록 경계를 실패 재현 후 수정. Pillow 13.0.0 적용.

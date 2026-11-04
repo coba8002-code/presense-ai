@@ -193,5 +193,70 @@
     "reviewer": "source audit; not rights or label approval",
     "reviewed_at": "2026-11-01",
     "notes": "no media; clustering labels not expert ground truth"
+  },
+  "aihub-59": {
+    "status": "review-required",
+    "source": "https://www.aihub.or.kr/aihubdata/data/view.do?dataSetSn=59",
+    "version": "1.1",
+    "license": "AI-Hub dataset-specific terms",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://www.aihub.or.kr/aihubdata/data/view.do?dataSetSn=59",
+    "consent": "pending source audit",
+    "reviewer": "source audit; not rights or labels approval",
+    "reviewed_at": "2026-11-04",
+    "notes": "User reports approval and domestic-PC originals; not mounted here. Dog-only label audit adapter implemented; raw owner emotion excluded."
+  },
+  "aihub-71878": {
+    "status": "review-required",
+    "source": "https://www.aihub.or.kr/aihubdata/data/view.do?dataSetSn=71878",
+    "version": "1.1",
+    "license": "AI-Hub dataset-specific terms",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://www.aihub.or.kr/aihubdata/data/view.do?dataSetSn=71878",
+    "consent": "pending source audit",
+    "reviewer": "source audit; not rights or labels approval",
+    "reviewed_at": "2026-11-04",
+    "notes": "User reports approval; published 2094 gait videos,126092 keypoint images,14 landmarks. Not general emotion truth; no local source access."
+  },
+  "zenodo-multispecies-20571465": {
+    "status": "review-required",
+    "source": "https://zenodo.org/records/20571465",
+    "version": "20571465",
+    "license": "CC BY 4.0",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://zenodo.org/records/20571465",
+    "consent": "pending source audit",
+    "reviewer": "source audit; not rights or labels approval",
+    "reviewed_at": "2026-11-04",
+    "notes": "Dog bark/growl/grunt folders only; publisher labels unreviewed. Original source rights and overlap audit pending."
+  },
+  "speak-like-dog": {
+    "status": "review-required",
+    "source": "https://github.com/suzuki256/dog-dataset",
+    "version": "40f28020f774e0fc18c475f676a21f54d7bd892c",
+    "license": "noncommercial; mixed source licenses",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://github.com/suzuki256/dog-dataset",
+    "consent": "pending source audit",
+    "reviewer": "source audit; not rights or labels approval",
+    "reviewed_at": "2026-11-04",
+    "notes": "README1080clips; adult/puppy labels are pitch-based, not verified age. Reuses ESC/BarkMeow/UrbanSound. Metadata only; not independent evaluation."
+  },
+  "av-dog-identification-2026": {
+    "status": "review-required",
+    "source": "https://arxiv.org/abs/2610.21011",
+    "version": "v1",
+    "license": "unknown",
+    "training_allowed": false,
+    "commercial_allowed": false,
+    "rights_evidence": "https://arxiv.org/abs/2610.21011",
+    "consent": "pending source audit",
+    "reviewer": "source audit; not rights or labels approval",
+    "reviewed_at": "2026-11-04",
+    "notes": "Paper benchmark46videos213events; dataset/code release and rights unverified. Research method only; no media acquired."
   }
 }
