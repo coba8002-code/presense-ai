@@ -1,0 +1,1335 @@
+{
+  "date": "2026-11-04",
+  "actual_audio_audit": {
+    "focus_files": 98,
+    "reference_files": 446,
+    "compared_file_pairs": 48461,
+    "new_similarity_candidates": [
+      {
+        "ids": [
+          "zenodo-extra:0046.wav",
+          "zenodo-extra:0047.wav"
+        ],
+        "seconds": [
+          0.25,
+          2.25
+        ],
+        "window_seconds": 1,
+        "spectral_cosine": 1.0,
+        "absolute_waveform_correlation": 1.0,
+        "review_status": "pending",
+        "same_animal_verified": false,
+        "training_approved": false
+      },
+      {
+        "ids": [
+          "zenodo-extra:0059.wav",
+          "zenodo-extra:0060.wav"
+        ],
+        "seconds": [
+          2.5,
+          0.5
+        ],
+        "window_seconds": 1,
+        "spectral_cosine": 0.9999999999999999,
+        "absolute_waveform_correlation": 1.0,
+        "review_status": "pending",
+        "same_animal_verified": false,
+        "training_approved": false
+      },
+      {
+        "ids": [
+          "zenodo-extra:0066.wav",
+          "zenodo-extra:0072.wav"
+        ],
+        "seconds": [
+          2.25,
+          0.25
+        ],
+        "window_seconds": 1,
+        "spectral_cosine": 0.9999999999999998,
+        "absolute_waveform_correlation": 1.0,
+        "review_status": "pending",
+        "same_animal_verified": false,
+        "training_approved": false
+      },
+      {
+        "ids": [
+          "zenodo-extra:0067.wav",
+          "zenodo-extra:0068.wav"
+        ],
+        "seconds": [
+          2.75,
+          0.75
+        ],
+        "window_seconds": 1,
+        "spectral_cosine": 0.9999999999999999,
+        "absolute_waveform_correlation": 1.0,
+        "review_status": "pending",
+        "same_animal_verified": false,
+        "training_approved": false
+      },
+      {
+        "ids": [
+          "zenodo-extra:0070.wav",
+          "zenodo-extra:0071.wav"
+        ],
+        "seconds": [
+          2.25,
+          0.25
+        ],
+        "window_seconds": 1,
+        "spectral_cosine": 1.0,
+        "absolute_waveform_correlation": 1.0,
+        "review_status": "pending",
+        "same_animal_verified": false,
+        "training_approved": false
+      },
+      {
+        "ids": [
+          "zenodo-extra:0074.wav",
+          "zenodo-extra:0075.wav"
+        ],
+        "seconds": [
+          2.5,
+          0.5
+        ],
+        "window_seconds": 1,
+        "spectral_cosine": 0.9999999999999998,
+        "absolute_waveform_correlation": 1.0,
+        "review_status": "pending",
+        "same_animal_verified": false,
+        "training_approved": false
+      },
+      {
+        "ids": [
+          "zenodo-extra:0075.wav",
+          "zenodo-extra:0076.wav"
+        ],
+        "seconds": [
+          2.25,
+          0.25
+        ],
+        "window_seconds": 1,
+        "spectral_cosine": 1.0,
+        "absolute_waveform_correlation": 1.0,
+        "review_status": "pending",
+        "same_animal_verified": false,
+        "training_approved": false
+      },
+      {
+        "ids": [
+          "zenodo-extra:0076.wav",
+          "zenodo-extra:0077.wav"
+        ],
+        "seconds": [
+          2.75,
+          0.75
+        ],
+        "window_seconds": 1,
+        "spectral_cosine": 1.0,
+        "absolute_waveform_correlation": 1.0,
+        "review_status": "pending",
+        "same_animal_verified": false,
+        "training_approved": false
+      }
+    ],
+    "retained_prior_candidates": 41,
+    "candidate_groups_total": 46,
+    "focus_groups": 6,
+    "focus_with_candidate_links": 14,
+    "unlinked_focus": 84,
+    "canonical_equal_pairs": 0,
+    "raw_equal_pairs": 0,
+    "audit_sha256": "0e9e34f6e999eafed8ae779ac7ffcd2c6e3d84d55265756dc9283081ec32ce30",
+    "review_queue_sha256": "85607bd47e911035806125bc49309b829b0bccab8e0ce5616858123296d21685",
+    "inventory_sha256": {
+      "extra": "58eb7094e99828f8e8f780997494ee4eab720c0376f15b45a2c0bbbfd7438b5f",
+      "red": "cfceccd71e6ea9fd9f547bee0455b8d4cfc052de1a6b0bdca62a59c7b6ab31a6",
+      "esc": "dc4d6b13d1ca6843e40a681bdc04a055fc0d9bc94ad5724eae641ad33a5a5bee",
+      "bark": "01609983de64bcf9a4a8e53c7fb58ffc3f7c98b80bb17c847c1ea10c942ed922"
+    },
+    "prior_audit_sha256": "689f133cbbbe315fd216daa8c76b2568d9148320ba56c9e1677e541c608f0ce4",
+    "files": [
+      {
+        "id": "zenodo-extra:0046.wav",
+        "raw_sha256": "cf4fbda8b74b9112458e64eb78a042f8a289210b66854d7ba2b883a7b6ae91d0",
+        "canonical_sha256": "e9f8568d1532c28a90e23a4eca95bc84af1c5af9f294017b0a5f830bb1d1120b"
+      },
+      {
+        "id": "zenodo-extra:0047.wav",
+        "raw_sha256": "6b43e7d7e5cc0f97588efa2aac3f2c73a55fd99bb327ffa365b7780e10872e90",
+        "canonical_sha256": "a2ed8d52c4367aa02d1ee5904ca633d4369e968a09fe7a8e8b2a5e7c5c32c0d0"
+      },
+      {
+        "id": "zenodo-extra:0048.wav",
+        "raw_sha256": "cc35dd01381f48fd88e074abda03dfa24751fc265fde0ed84774b53a790d004e",
+        "canonical_sha256": "3a6671fbf6ee992d424148e3fc56b63f5a56b0572aef08a4aa6506c485857f75"
+      },
+      {
+        "id": "zenodo-extra:0049.wav",
+        "raw_sha256": "7575b71b0581661fd3698a501d28a5c2bbc3fbb70beccb0494b582bf12c23841",
+        "canonical_sha256": "40349e328db9d4988a96a3d17c81ac8ea008003b3d884df472b23e620f4f3420"
+      },
+      {
+        "id": "zenodo-extra:0050.wav",
+        "raw_sha256": "01e03d4265b99453b3220f7fda7e8cf338131cb9c06606352fb4790921cffca7",
+        "canonical_sha256": "490d819dba2f3e827a5f3c19006197ae38b746b36396b626038411db278c709e"
+      },
+      {
+        "id": "zenodo-extra:0051.wav",
+        "raw_sha256": "a679e9b4869618be59029e64ab9fbe163d45e34ff4f80d6ab810668c2b4f6030",
+        "canonical_sha256": "2aab691e081d3f43d7dce038ebfda6287820fff0e22b8a125595318fab419890"
+      },
+      {
+        "id": "zenodo-extra:0052.wav",
+        "raw_sha256": "0d5dbd7bbe98cd97d1d2d46f4b4517e669e4ec0038c75a7c65c2c737d60b4acb",
+        "canonical_sha256": "fddaf0d7d0ea76027b7c0120240ff9ab436059dd61f5eb1b7c3a95382cb8f801"
+      },
+      {
+        "id": "zenodo-extra:0053.wav",
+        "raw_sha256": "27425ec38a314208dc60e555e7cc09455fd627b72f2974494af71236d688cd6d",
+        "canonical_sha256": "736d4dfa29384d3ae358a19687831f65dce3388b4c13c0c6f423767576d8a975"
+      },
+      {
+        "id": "zenodo-extra:0054.wav",
+        "raw_sha256": "2d976eb777e0bdb9f74c338d874f40635f92a0b9b5a4829ded47fa0a6b92c0ae",
+        "canonical_sha256": "181781a8bd057ae4149e1f9e90a10f7f97e0015d58742ec97c629655660011c3"
+      },
+      {
+        "id": "zenodo-extra:0055.wav",
+        "raw_sha256": "fd80a164a43dd57fb510617527f226c36b50725ca96b7573c9ec64be4edb4b0a",
+        "canonical_sha256": "3470035cc5d633882116f952ebb05b601031dcbe2e93b9756ec65da397e06c6f"
+      },
+      {
+        "id": "zenodo-extra:0056.wav",
+        "raw_sha256": "1bf4186a5feff68ca04d237c95d281fa3bc19d5ed85354f29e5f070dcc3196f7",
+        "canonical_sha256": "a9eef52b583d4ce1e415116163f70ea516285541e2e436cc3fc8e928d1dacd45"
+      },
+      {
+        "id": "zenodo-extra:0057.wav",
+        "raw_sha256": "c8e99d22e58211e8d0121a1950daee32c5d796994995ef31300ca6829b66bb95",
+        "canonical_sha256": "f8536b8c6ad9d50217e72f97ee554d99d53d4e4a24fc639c6063635502d91e3a"
+      },
+      {
+        "id": "zenodo-extra:0058.wav",
+        "raw_sha256": "3e17498b6d4df9cc32e75b974cefe6b1499cb85ea9493e8ad8cdbb26f2ae014d",
+        "canonical_sha256": "bff5757d01a0140020128ae5be4050681a0cadd422537f646d595dfafeb11849"
+      },
+      {
+        "id": "zenodo-extra:0059.wav",
+        "raw_sha256": "aa742aa76993c854c74de6f6dfe3e1564da2b40afbd19eb30aafc157e51254f0",
+        "canonical_sha256": "5dbb436da80e6b5e68dca29c5a49ead2946862408282f238582eed2c3d2ac648"
+      },
+      {
+        "id": "zenodo-extra:0060.wav",
+        "raw_sha256": "2a7f5298cdcb3bdb9465f5d92915cd6e164bf9738f890f8810e6898d2d6c011d",
+        "canonical_sha256": "46730e7f7ee53e9fc7ee6c999db8f7bf88abe90f45f18e115d4b71d1eed0ee55"
+      },
+      {
+        "id": "zenodo-extra:0061.wav",
+        "raw_sha256": "35299fd33dd58b291ea8c362ed2d4eccde5fe506170001fbbc6445750a2ee223",
+        "canonical_sha256": "3015a7738b721af6ff206d38279dc754bafbce4a8fcb1bb7aa60f2e5b9d1d3e2"
+      },
+      {
+        "id": "zenodo-extra:0062.wav",
+        "raw_sha256": "a669eb778c3d38fbaa0bdc42ecf7023e2e5fdb3e76b21b66fa7deeb2c20e72ad",
+        "canonical_sha256": "ae023e7694efc7132cabe958f7f85a2f8c44ddc5b37f55f16561ea352286acce"
+      },
+      {
+        "id": "zenodo-extra:0063.wav",
+        "raw_sha256": "655a4081f4838e6265c8df993f72feed4761fba7ea1df12cf006ca7ce68be667",
+        "canonical_sha256": "83230873276cadd3f9c70daafd27b5a43e748aa5bd11bcac284fb200197b2d00"
+      },
+      {
+        "id": "zenodo-extra:0064.wav",
+        "raw_sha256": "fd530ee3d945ef4d5ba49b815ec8a491adb42dead70247eeacd79acb0bede43f",
+        "canonical_sha256": "ad5a529e3e35efc7ef4c8a0a4b23401b88483fafb26b40fdcb8a2e9a23cdd6fe"
+      },
+      {
+        "id": "zenodo-extra:0065.wav",
+        "raw_sha256": "e7499886f2f84e4b074d55d2a051052afc40e483addc58e05e7432ecf9b89a3f",
+        "canonical_sha256": "11783782b528b2b4f1801fb428b619f75e0cdc3e4bba59d045ec219078293785"
+      },
+      {
+        "id": "zenodo-extra:0066.wav",
+        "raw_sha256": "db6d459161553c7c7b5dea0f20120f24d3edff2b0c4eb60c9f989a901e8e2759",
+        "canonical_sha256": "797bd16c237a377765af5321bead6f64cdffffe4f90eee7084ba9e7b72514d53"
+      },
+      {
+        "id": "zenodo-extra:0067.wav",
+        "raw_sha256": "900f5f69a3e553513f39e3ff322b4f2e75f9a67a0007c3838d21651f7c4141b7",
+        "canonical_sha256": "a94e7d6badfeac9c0bb1a82b19aba55c6b5ffa66da378b05d4813cfb28d0e197"
+      },
+      {
+        "id": "zenodo-extra:0068.wav",
+        "raw_sha256": "2b614e3701c8671c5ca62b6c803632801ba1e84117eec049ea1a947fcf405839",
+        "canonical_sha256": "4940bb240b882aca0644d439742f5c10199eae58ebef6b564badb68181c40e1f"
+      },
+      {
+        "id": "zenodo-extra:0069.wav",
+        "raw_sha256": "0aeff0188b42b312d3e96607c3eb8ba0e0fb4995eeb1cbe307eb06274ed36f06",
+        "canonical_sha256": "8968cbb4b60c280a0231c0f895b15f205768f3d17a7fe1306b779e48dbee9153"
+      },
+      {
+        "id": "zenodo-extra:0070.wav",
+        "raw_sha256": "3ce8fd96a42efd600faa214f51aa882d46153155ff1657c309cf445b197696f5",
+        "canonical_sha256": "1f662d88cf722ab63b990550d85cac159f9bee05930422927e5ee3dae91d8414"
+      },
+      {
+        "id": "zenodo-extra:0071.wav",
+        "raw_sha256": "2e6493728c52a66c59ec1d486ebafa56c1dff1045d1e752084082dfbd2d2ecb6",
+        "canonical_sha256": "86df921518f08001b0d093abf2f920d413b7c08c4681955bc0f96503c1c53050"
+      },
+      {
+        "id": "zenodo-extra:0072.wav",
+        "raw_sha256": "5e7ebc18442b307be1021d5b138c0f69f21b2eee3b3c2ba3eb6adc1bbd368600",
+        "canonical_sha256": "2b1426625ed5ccf346888629910e32b2d1a5f8d4010ef57f1b593344df8a3684"
+      },
+      {
+        "id": "zenodo-extra:0073.wav",
+        "raw_sha256": "3b8ff1442672279265ee06831e2e20b8c88bd3614b332c4af288cdb568033f8f",
+        "canonical_sha256": "19ab5614b48ccecaf947892ca887cb43c0d245960a9efb4e1b2ebc9cce2375e3"
+      },
+      {
+        "id": "zenodo-extra:0074.wav",
+        "raw_sha256": "5c89eb650f8cf2ad9a92067b2e35b941fa38ff812ed048c2505df8156985e641",
+        "canonical_sha256": "560bf7c32a314f5c125385bc4395349c66402422eb9ca05e2503a4a186e57dd1"
+      },
+      {
+        "id": "zenodo-extra:0075.wav",
+        "raw_sha256": "32a0790df80c0559e4630ccd01697bd810a2c41d4dafa8d7b3ab45091d5be938",
+        "canonical_sha256": "582886b69aed2f9095256db26dc4264f4d60077c100fd9c578b1f9430c92e41a"
+      },
+      {
+        "id": "zenodo-extra:0076.wav",
+        "raw_sha256": "cc9111d25c67a9b7bc94493be11d0ee8afb61fca52e83b01bf0a60ba3ce70763",
+        "canonical_sha256": "720a30855280021fe17878239235d51a9146276d59509dbc96c5b5b5634567a4"
+      },
+      {
+        "id": "zenodo-extra:0077.wav",
+        "raw_sha256": "421e9ca81c9c1f44c3a6670f6d14b2fb3ee079093071ebe5a172747fff6259d9",
+        "canonical_sha256": "b5442d5466c1b2b74fa4cab79488fd07d1cb224d21ac9d9d48e8f6f9a3243208"
+      },
+      {
+        "id": "zenodo-extra:0078.wav",
+        "raw_sha256": "69e187e7eeaa6b3636028c4568a98b5d23fa01a2fa653a28fc1266e72b7db767",
+        "canonical_sha256": "a257c8935b22a05f7c71061f4334adc2fada9b2bfbdabb8bd8c265e2587fff6c"
+      },
+      {
+        "id": "zenodo-extra:0079.wav",
+        "raw_sha256": "c8c1f6c42b4ce26821cfb6dece2bafcd21a659990634ff62bbe8f0222929fc96",
+        "canonical_sha256": "a38b9df80d366db06fa843ff65707067e964dc95b0352ec80542bbc10a7227f4"
+      },
+      {
+        "id": "zenodo-extra:0080.wav",
+        "raw_sha256": "9dd5ec9c2f4ca6c4ff327d851b46732e7d825d4425e5388c533ff003f63263b3",
+        "canonical_sha256": "aaec7162a4118ce75d80578675a2a95f95088492ad80c2c2049bc67d3f062542"
+      },
+      {
+        "id": "zenodo-extra:0081.wav",
+        "raw_sha256": "7fa74a7c5d67405710722dd51ec21ce86daff63ecd14777a459645c4db230af5",
+        "canonical_sha256": "a2d7db1901c6809d50a13c52114134a61ec64c08909608a137722649d41c4d70"
+      },
+      {
+        "id": "zenodo-extra:0082.wav",
+        "raw_sha256": "5e1ab2df1189ab60a19f154aea0ec939f3610e5570fd37121c6b604dce889c5a",
+        "canonical_sha256": "854ae9de7b50c2cf40e2299eb5a70ceb83612cfd30b99623ca4cf1c63fcc18ce"
+      },
+      {
+        "id": "zenodo-extra:0083.wav",
+        "raw_sha256": "18391b26541629893d1f4208899d14d36488794d01daaaee5fbb3693de178d7b",
+        "canonical_sha256": "897c418f9545543aaaa0a262f7f7b84fd28b10f551eec9a7e459d4c8a506bc5a"
+      },
+      {
+        "id": "zenodo-extra:0084.wav",
+        "raw_sha256": "27a72fcc3c6afbf5e57d3586bd3be34bbd54114a0a89ea01214efeaa716315f2",
+        "canonical_sha256": "f1958356d82d2396d94654eddd80dda9d72a4e1479ad0bb3de99038413adb953"
+      },
+      {
+        "id": "zenodo-extra:0085.wav",
+        "raw_sha256": "96e74d8f557f64a20807fbe0032fa7445875a7766621ef38b3ce158307ff58ae",
+        "canonical_sha256": "b0672c047939f75a01695d5f8e805975ca3e88f1a493a246899bb43f619aef84"
+      },
+      {
+        "id": "zenodo-extra:0086.wav",
+        "raw_sha256": "b5e472b8e956b56e735bc9d0839e560a67d6cbe0fd6adf01edd55b7f9fb00af2",
+        "canonical_sha256": "6347754002839fd110aa54c6e6669399268ec1556f7da951c60749991611936b"
+      },
+      {
+        "id": "zenodo-extra:0087.wav",
+        "raw_sha256": "31f22dbb7a6987dcaa13b5f1069160475828c5f1bed90b2b650ba82639dca3f5",
+        "canonical_sha256": "2e66a3476764f80d245a80a2bbe17a9a14393a97199ed108acb61ce7dd8f731d"
+      },
+      {
+        "id": "zenodo-extra:0088.wav",
+        "raw_sha256": "f1b0d165febf46527b1b4ca41d974fb2505a918dc451ac99b42761c99e75b0dd",
+        "canonical_sha256": "8a3deef87c53f7c6cc3633d4aef35b1e1584432e2ee693e583841d41e36070a7"
+      },
+      {
+        "id": "zenodo-extra:0089.wav",
+        "raw_sha256": "ac681990b2ba05721ecfb97fb1697b87db56a366e5cfbcc6b2e4f70132de926a",
+        "canonical_sha256": "e1c882d400d1bd2c4a770cf34ad819fc13a69c69e9dcc8701cb81244c0b0e9da"
+      },
+      {
+        "id": "zenodo-extra:0090.wav",
+        "raw_sha256": "8835a15320bd1534b62ba7159d2e2f3cd77c0c50b2fd9c71e039cdae3dec3e71",
+        "canonical_sha256": "24e85b7c573d67dbd7543ef544d3edeeb1643d6a78e3ce92617613a07044204d"
+      },
+      {
+        "id": "zenodo-extra:0091.wav",
+        "raw_sha256": "132daadf45a66af1b8d2a450f4b452d2a99b5303f9edafee300a073c2ba59d0b",
+        "canonical_sha256": "2207aa0effac9af788e8bbfe3a073fd18f2abeedd16f3b24739fb479dfe064df"
+      },
+      {
+        "id": "zenodo-extra:0092.wav",
+        "raw_sha256": "ffabdd012fec6b54105209b0994d4eb2d11634b47747b52c523f6cac8b51da88",
+        "canonical_sha256": "524f6cbef88016e3dda82f17fadd3d95929485f39e951c8dc299e1f914cc713a"
+      },
+      {
+        "id": "zenodo-extra:0093.wav",
+        "raw_sha256": "20ee8e55de9bc6d8a08f468b75b826a9e4e88ea53a72f1b46b1c389479ce98fb",
+        "canonical_sha256": "ec511f99b8a3ca04c113de7bdad77081dc116699560f7bac86f26532c73701c2"
+      },
+      {
+        "id": "zenodo-extra:0094.wav",
+        "raw_sha256": "d98152171588c4c0b95b513218a8a5ddc962d7225f23fa2b2b7d9510fb7de0c1",
+        "canonical_sha256": "200e007ad915589cdfc585c2fc91a1c15039166f7ad18498514ea335ab6f4b91"
+      },
+      {
+        "id": "zenodo-extra:0095.wav",
+        "raw_sha256": "5e0be9ced0ee1d0ac6afcbff242a7eefe25ee850cbcbe5e09063ef009cf0e3f0",
+        "canonical_sha256": "5ddeff49690618f6aa01474fecc22471169bb58ad4b7d7ca7e14c3c0e120cc70"
+      },
+      {
+        "id": "zenodo-extra:0096.wav",
+        "raw_sha256": "ae11a35e1f2b7442f42ffb8508cd1d057b7b0a7bae8e52e4cda585aee01b44c1",
+        "canonical_sha256": "a23a624d6f54839742b519cca6a62e22ccdfe6d9775ce6ca7d50e76a62ad7864"
+      },
+      {
+        "id": "zenodo-extra:0097.wav",
+        "raw_sha256": "39fa86de28da5b501a2b864e81c78d79fecb9818081fc4b1298abeb2575ee5d6",
+        "canonical_sha256": "1f58eca78bad0de2155dea6479adf7ceeee0ab0c169582f3baca266cbbc98cd8"
+      },
+      {
+        "id": "zenodo-extra:0098.wav",
+        "raw_sha256": "4d17e13d6e451bc46eb485f68bf407753d0281d1ff48da7753237fffe6902180",
+        "canonical_sha256": "42f53fd23b02b49973a5a6b0dd7c47869b7230140016dd42e6d0238226549437"
+      },
+      {
+        "id": "zenodo-extra:0099.wav",
+        "raw_sha256": "d9cdd310611532f0ff9e6c482d0507fe2ba824b296f52930f5fef3bb71191e31",
+        "canonical_sha256": "a13dfd93c88dfd4771c43d14f7ea1b21dda63a39597db0e71b146c6142794f02"
+      },
+      {
+        "id": "zenodo-extra:0100.wav",
+        "raw_sha256": "57591b438779e4cbf1586c04b58c76a970e514fc2f9b95d8f64e9832b47458d0",
+        "canonical_sha256": "50851e4635eb47493fc485512edf4e1289c1b4e08e0cb69bcb8dc3cc220ff254"
+      },
+      {
+        "id": "zenodo-extra:0101.wav",
+        "raw_sha256": "d224c4c7e8cc61b7d8dd4d6c2d7d7276405be748df9568dc9f0edbdfc08b2376",
+        "canonical_sha256": "71b0cd9ca24a1397ce3a7d7035520517658a9280ef499259e4e8a925e9b4c445"
+      },
+      {
+        "id": "zenodo-extra:0102.wav",
+        "raw_sha256": "5cdd5f5c73ca8b2d18f75e50df93ecac6055c5627e62d77de623a67329c53a25",
+        "canonical_sha256": "83c130b4ef744752247713675e3e2764db104d74efd5966fdba0086ebf6e327f"
+      },
+      {
+        "id": "zenodo-extra:0103.wav",
+        "raw_sha256": "dc4805623fe792b0a044b87b373d04bb04c94e8781582876549fca93dbaec18a",
+        "canonical_sha256": "6ed79454662b1a04d76ef8c0e4873c0bc9cbe517b9bb8eacedff2ba68be5cc28"
+      },
+      {
+        "id": "zenodo-extra:0104.wav",
+        "raw_sha256": "b567bed38ec6a021414be48986479efe96a4c7dd8a4d7d0cfe320ccd8d532d07",
+        "canonical_sha256": "a2c1c793beb46e7036629da6f08920e2c0e87f74cfcc78fc62020ef61e792247"
+      },
+      {
+        "id": "zenodo-extra:0105.wav",
+        "raw_sha256": "a5fcff79ef2b0026de3e9583b75c032bab3156dceb6fba3dd3ad55cef8a054a8",
+        "canonical_sha256": "1dcd4225949ca01d9dcad01056a1accf6d482bb7e39e79e6f83ffe29842d2068"
+      },
+      {
+        "id": "zenodo-extra:0106.wav",
+        "raw_sha256": "538dca4ba39637ce8713f0b4470d50e0dcfbfd95ef3a49572b8427f8731e6363",
+        "canonical_sha256": "d2c34a529ad030011979454daaa2f7b3acfc2e2ff94e62517810a053108370e1"
+      },
+      {
+        "id": "zenodo-extra:0107.wav",
+        "raw_sha256": "0aa0b126da878380c474fe7526db610050fffe5882bf111d68a1459a00cdadcc",
+        "canonical_sha256": "c5e9131e89022ebcf0ad6da7103af041341169d25f2c9c08ab8e2b2184005cef"
+      },
+      {
+        "id": "zenodo-extra:0108.wav",
+        "raw_sha256": "79a2d2fb42d0573d05a89d1f00de90eeb1e583700e985bd973d0c5006bb1fdfb",
+        "canonical_sha256": "d30b357e6aebb43e27fbdc0ab4dfc656ec5b38ed95479b81e530ba78f8c1088f"
+      },
+      {
+        "id": "zenodo-extra:0109.wav",
+        "raw_sha256": "8ba779caf9ce46f9314a11d831b936032aaa212daddf37bbacfe0ebde84c559e",
+        "canonical_sha256": "7d4923752e9c703f1dd4ca60b6e2ae96d02e48355d8269d5a41abdc13436c06b"
+      },
+      {
+        "id": "zenodo-extra:0110.wav",
+        "raw_sha256": "c097ea9bb02d95a2f566775227e85e41e292a1a89544cce20f24aef7c7a24e1f",
+        "canonical_sha256": "f2e329a9f8f1546c2c45fae650007207c5a54652dd12b314c84840618346345e"
+      },
+      {
+        "id": "zenodo-extra:0111.wav",
+        "raw_sha256": "eab7cb7134216844207b562674c80eda392b58432b0fc86392936c952fa8e421",
+        "canonical_sha256": "9b3f055d4e7c9aa6cc291fb547dbc1e836a27f73eb42682288b624fc448c48a0"
+      },
+      {
+        "id": "zenodo-extra:0112.wav",
+        "raw_sha256": "e1eb7aa5c110c0ca55a1e37cb7a6a0aa38f29404e8ba936baf033ab336891960",
+        "canonical_sha256": "fdd863a9be59290e4f2f719f771510f0ccc5b9ef9c6664ed6a95793c97a55f69"
+      },
+      {
+        "id": "red-library:R01-11-Dog Barking Increasing Intensity.mp3",
+        "raw_sha256": "054e72d12155ac0b1cb011f82844aba7dd11fa6a1a2d4458aabc9087ea56d6c7",
+        "canonical_sha256": "0ebbf50bbd89a73e970e0ed41338aca213805ecd2e8431c79869c31884636b4c"
+      },
+      {
+        "id": "red-library:R01-12-Hound Dog Baying and Howling.mp3",
+        "raw_sha256": "01415a55e4fa778f6bf19c4890216b09e453c5920ffe0048e987f8bead23ee8b",
+        "canonical_sha256": "976a3214cffb8ceec375d2436b995235a98d5ddbed5c457d5bcb72ecf3f496db"
+      },
+      {
+        "id": "red-library:R01-13-Dog Whimpering.mp3",
+        "raw_sha256": "0ccfea8fceefb3f2a7bd38059b0edb80645df70e4176cf7cd2f969b4c2fe7be6",
+        "canonical_sha256": "59c929486a9aa73b4474e709c5db543a5f077c1159c00d8b001ed3dd96d90a06"
+      },
+      {
+        "id": "red-library:R01-15-Lots of Dogs Barking.mp3",
+        "raw_sha256": "7a361d8e5e542e976b64f0c392ff0c77b22e1dc232ce37cf5605c8d412d8b143",
+        "canonical_sha256": "92c59175a1528c536b243686f1009cd8f6d457cd4d6e8d7de42e133579e1adcf"
+      },
+      {
+        "id": "red-library:R01-16-Low Bark and Whine.mp3",
+        "raw_sha256": "42725b94da7e52673c5f323d13a4d44d6f955a66d2ced40e70b6227173e4cdeb",
+        "canonical_sha256": "77f984c2c8f499b3d5cd6f36e4690e973ee7dd44914ce363c4b513c7b18a2820"
+      },
+      {
+        "id": "red-library:R01-17-Ferocious Barks and Growls.mp3",
+        "raw_sha256": "d9708bfdc464aa5714355789dfc587d33e740720cfc6bb14f0728da810088887",
+        "canonical_sha256": "9194516235d19d1b2eae6228c1b9fe596b00523dadadd0b29b1cee0b83e5a5d4"
+      },
+      {
+        "id": "red-library:R01-19-Dog Panting.mp3",
+        "raw_sha256": "8fedd79565e1516c5d20fb8c0673f0f3bc21c57d4f75a513e870603cb1bd7858",
+        "canonical_sha256": "5004cafc0ccc9cd85b3c7ce62d5c1ef524b2ed5617ac721d15a9cc40080b4eb4"
+      },
+      {
+        "id": "red-library:R01-20-Very Small Dog Barking.mp3",
+        "raw_sha256": "286432063128a4fd57e74b0e4af2952fee25e151410dbd554bc7f871c355af86",
+        "canonical_sha256": "ea809341e14ab0dcb1a4f9830dacc886ded24803b970b4c46110a81109234b41"
+      },
+      {
+        "id": "red-library:R01-21-Dog Lapping.mp3",
+        "raw_sha256": "5debdd2290cd9550d592e21f8348ea03d462fb2af52e9a5d3bec8166829ff69d",
+        "canonical_sha256": "c103727ac70afcfa0782ca5c29241aeeebe0a7bf4f8bdc830a8c86974de89a14"
+      },
+      {
+        "id": "red-library:R01-22-Many Dog Barking.mp3",
+        "raw_sha256": "f701269c22f5cfcdaa69eab29a9f20c34f1d696b6bb9128201759eec8214663f",
+        "canonical_sha256": "18d54b4e683c2509b68bbdd3828bf8de6da64e07d5308588e3b3d7e21211377b"
+      },
+      {
+        "id": "red-library:R01-50-Dog Playing.mp3",
+        "raw_sha256": "488670b2b73ec3219acb977a5f4cd34d5047ecc3ec5ba8698f97458a83f1567c",
+        "canonical_sha256": "45ce15191a406f2d4ccf967098b09e7431fa69e1bc3d5e0fafdfceafb9c39d0b"
+      },
+      {
+        "id": "red-library:R01-51-Multiple Dogs Barking Inside.mp3",
+        "raw_sha256": "84c9900b43146c105380a3717e614972249156055d43ea0cc6569486b4920844",
+        "canonical_sha256": "688b3380ea20e7205c9053b849d9005a21673bb5300005376109e8d6624eb22f"
+      },
+      {
+        "id": "red-library:R01-52-Large Dog Barking.mp3",
+        "raw_sha256": "564df16ec0c17b1c8e9b21a734fc0daa97d282bc5c3b4cfeaad8b288692a0d9d",
+        "canonical_sha256": "f0d92766365010f44ce9a5843ca13e810a9f8fddc3a7ed452c9193328674740c"
+      },
+      {
+        "id": "red-library:R01-53-Medium-Sized Dog Barking.mp3",
+        "raw_sha256": "b05426368cf5d4bf6bc7f32be22c43e2b36dfc701242e285b52488270d5cd10e",
+        "canonical_sha256": "ac18a7c4dd6cc46d68c60814188993e7e32612d79b0b02e852fd7b5598e883a5"
+      },
+      {
+        "id": "red-library:R01-54-Aggressive Dog Bark.mp3",
+        "raw_sha256": "db0f428f872c5f1bdc7f14814b90a492f4fd4c17d989f50a8d32a51bc6b6ecae",
+        "canonical_sha256": "49f75cab8cfb6b477b2fec80d23513bcccbd24ec43b29e0475c3b4b3f39d8933"
+      },
+      {
+        "id": "red-library:R01-62-Single Dog Barks.mp3",
+        "raw_sha256": "0bf6c20612ea900dc18607f7a17ef16ca375308ad90e27609b726cb1b9a07858",
+        "canonical_sha256": "c396a24ebdf0bc033325d69f991b8834c8d588f3ad24a706115b6e563e6cd435"
+      },
+      {
+        "id": "red-library:R01-63-Dog Snarling and Attacking.mp3",
+        "raw_sha256": "6d669151958392e36e53123fa5c4112b9be61e518dae7e472339f0d40536e6a2",
+        "canonical_sha256": "ab2ba8e20937c29b12f91d0254f2235e549d13b4c549f9ae507c22b024092971"
+      },
+      {
+        "id": "red-library:R01-66-Dogs Barking and Whining.mp3",
+        "raw_sha256": "69e851fc4be499dd6e86fc42d1798ea0e57356e0ecbe5f2f98c50beedaf34c86",
+        "canonical_sha256": "cdd1a0f7546c941d147ebdc09a8c35aad40cf752938d8a6acd2cafc94ea8451a"
+      },
+      {
+        "id": "red-library:R01-67-Dog Howling with Harmonica.mp3",
+        "raw_sha256": "472f2c7cc020942d18756d5e2136129af6851b82c7b626fc5a65b6c9ec67be0f",
+        "canonical_sha256": "7e7d10d9fbea238eed7bffec0721003d5d04cd5a94274643543c115e457bd233"
+      },
+      {
+        "id": "red-library:R01-74-Puppy Barking and Howling.mp3",
+        "raw_sha256": "858cd92682707995ed2072f60bd8fd28b791f54ec3b0e7079cd69333bb3729ad",
+        "canonical_sha256": "7bab5002e4dca6e53dd9d9cec7fc89e021aa3b5d1f63af5a65bf0f2b7ee52129"
+      },
+      {
+        "id": "red-library:R11-45-Growling Dog.mp3",
+        "raw_sha256": "50e73714876b7b36a45bcda8e9096fa50523be0301cb205a7d221c35f431ad88",
+        "canonical_sha256": "ccdce25ae33784e3b3c56dc00370df8fef362ad9b193c3add325aa2f20023a0d"
+      },
+      {
+        "id": "red-library:R24-15-Dog Barking.mp3",
+        "raw_sha256": "842bdd305ab13d1c808cf23274d39f51eda1a56127eadf40121103bb740b69ca",
+        "canonical_sha256": "9116a95dd1ca6c3a47a2d2b89f7bd111dd3195c664bbe0da45aed55f6785b0b8"
+      },
+      {
+        "id": "red-library:R24-16-Pack of Dogs Barking.mp3",
+        "raw_sha256": "1583f94c546ad4cde104145d5da5cdbdbc269798f53b021c43873614234bf907",
+        "canonical_sha256": "b573fff2a1cc0f2c7e847faa0b88f32e6b24b43d502d6811aad063e5372b983e"
+      },
+      {
+        "id": "red-library:R24-17-Fast Dog Panting.mp3",
+        "raw_sha256": "4c4095edb24b76148cc4859582fdfee10f8ef7c66a597e4a75491cafc810fea1",
+        "canonical_sha256": "10666a2fd99ef440c2e0aaa34b09f81134907988f527c90d24ee02a4d6ce995b"
+      },
+      {
+        "id": "red-library:R29-50-Medium Dog Barks.mp3",
+        "raw_sha256": "ed9ce3d68f30922e0d8c78ed5bcf5c17518bc0b97f30cc34896365ca41fb51d2",
+        "canonical_sha256": "6f7cc19d8b4d3d0de052d0e2c8a2a625e74263285c8276044ef8fc7edebc0da4"
+      },
+      {
+        "id": "red-library:R29-51-Large Dog Barks.mp3",
+        "raw_sha256": "dfb1310b3c47fe06b4f2257f4a95dc2d1a630ce84bb861972fb2ac15844bcde3",
+        "canonical_sha256": "cc14f36fc2bfc0a9e91c4c7b71b4d2019da8bba4b2c9fb145783f27a1666439d"
+      },
+      {
+        "id": "red-library:R29-52-Small Dog Barks.mp3",
+        "raw_sha256": "a06641d49ce45cf4468120c0abc0e0063e731f5519d85963582bf17b4948fc49",
+        "canonical_sha256": "106bd5a448002cdd3e9480767ed6f23cbce05cd3bcd5293aa506e74959b62e18"
+      },
+      {
+        "id": "red-library:R29-54-Small Dog Large Room.mp3",
+        "raw_sha256": "5b7008292479fd1c39e6aca645a369bec18f49412164e69dfb1b6eb2195fe1f7",
+        "canonical_sha256": "135d80911a6abc22f42e9c9a87063ebb9f45426d6046be1f5106aa5fc3d95b65"
+      },
+      {
+        "id": "red-library:R29-55-Two Dogs Bark in Room.mp3",
+        "raw_sha256": "90151cc966a4d5e73481d9ef5e4f56810496c2859f89bd2e1a9b23a2c568ff22",
+        "canonical_sha256": "839888112259c4a1d95936c16dd6f5d9eaebe99a06990354f612307fe47ed700"
+      },
+      {
+        "id": "red-library:R29-56-Large Dog Barks Outdoors.mp3",
+        "raw_sha256": "3fea17f6a60de7396bb39caaa429660e5fc160618a41f46dd57434b691611502",
+        "canonical_sha256": "c8bb0ef41ca7ec52b77f1d43f62b2d94095c03bae55efad546881b095cfd3f4d"
+      },
+      {
+        "id": "red-library:R29-57-Tiny Dog Barks.mp3",
+        "raw_sha256": "924cfadd3e7e382a7b6e24d9e2c0c605a49f2c6ad55c06b66a8b993c2e1a9bec",
+        "canonical_sha256": "454b12ed0f0cbd13d9d353e8d49bfe4a3afe5558dfea6d4c2ad15e7a80f08776"
+      }
+    ]
+  },
+  "source_version_correction": {
+    "previous_record": 18972388,
+    "old_record_terms": "CC BY4.0 metadata but CC BY-NC4.0 README",
+    "new_record": 23806945,
+    "publication_date": "2026-10-30",
+    "new_terms": "CC BY4.0 record and README; explicit public sharing/reuse consent in source",
+    "new_readme_sha256": "221f4f8a3450d553a0f439e453766ac852feaa2d3371a6d4fe2edec4fe5472b3"
+  },
+  "actual_training": {
+    "scope": "Expert-source Growl/Grunt/Pant within dog-human laboratory play; no emotion/intent labels",
+    "production_ready": false,
+    "animal_disjoint_verified": true,
+    "identity_scope": "provided participant IDs in this dataset only",
+    "household_disjoint_verified": false,
+    "behavior_accuracy_verified": false,
+    "deployment_decision": "blocked",
+    "selected_penalty": 0.1,
+    "validation": {
+      "labels": [
+        "Growl",
+        "Grunt",
+        "Pant"
+      ],
+      "count": 412,
+      "accuracy": 0.7669902912621359,
+      "macro_f1": 0.5748550316183821,
+      "per_class_f1": [
+        0.46258503401360546,
+        0.31932773109243695,
+        0.942652329749104
+      ],
+      "class_counts": [
+        100,
+        31,
+        281
+      ],
+      "confusion_matrix": [
+        [
+          34,
+          58,
+          8
+        ],
+        [
+          6,
+          19,
+          6
+        ],
+        [
+          7,
+          11,
+          263
+        ]
+      ],
+      "brier": 0.38290207975390844,
+      "ece": 0.18517785187889166,
+      "calibration": "uncalibrated; ECE uses 10 equal-width bins",
+      "abstention_threshold": 0.7,
+      "coverage": 0.2936893203883495,
+      "selective_accuracy": 0.9256198347107438
+    },
+    "heldout_test": {
+      "labels": [
+        "Growl",
+        "Grunt",
+        "Pant"
+      ],
+      "count": 216,
+      "accuracy": 0.8379629629629629,
+      "macro_f1": 0.6370573870573871,
+      "per_class_f1": [
+        0.4166666666666667,
+        0.5714285714285714,
+        0.9230769230769231
+      ],
+      "class_counts": [
+        14,
+        40,
+        162
+      ],
+      "confusion_matrix": [
+        [
+          5,
+          6,
+          3
+        ],
+        [
+          3,
+          20,
+          17
+        ],
+        [
+          2,
+          4,
+          156
+        ]
+      ],
+      "brier": 0.2961243599176879,
+      "ece": 0.1725432902389649,
+      "calibration": "uncalibrated; ECE uses 10 equal-width bins",
+      "abstention_threshold": 0.7,
+      "coverage": 0.4212962962962963,
+      "selective_accuracy": 0.945054945054945
+    },
+    "majority_baseline": {
+      "labels": [
+        "Growl",
+        "Grunt",
+        "Pant"
+      ],
+      "count": 216,
+      "accuracy": 0.75,
+      "macro_f1": 0.2857142857142857,
+      "per_class_f1": [
+        0.0,
+        0.0,
+        0.8571428571428571
+      ],
+      "class_counts": [
+        14,
+        40,
+        162
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          14
+        ],
+        [
+          0,
+          0,
+          40
+        ],
+        [
+          0,
+          0,
+          162
+        ]
+      ],
+      "brier": 0.5,
+      "ece": 0.25,
+      "calibration": "uncalibrated; ECE uses 10 equal-width bins",
+      "abstention_threshold": 0.7,
+      "coverage": 1.0,
+      "selective_accuracy": 0.75
+    },
+    "partitions": {
+      "test": {
+        "events": 216,
+        "animals": [
+          "play-pant:06",
+          "play-pant:08",
+          "play-pant:11"
+        ],
+        "class_counts": {
+          "Pant": 162,
+          "Growl": 14,
+          "Grunt": 40
+        }
+      },
+      "validation": {
+        "events": 412,
+        "animals": [
+          "play-pant:07",
+          "play-pant:15",
+          "play-pant:16"
+        ],
+        "class_counts": {
+          "Grunt": 31,
+          "Pant": 281,
+          "Growl": 100
+        }
+      },
+      "train": {
+        "events": 790,
+        "animals": [
+          "play-pant:01",
+          "play-pant:02",
+          "play-pant:03",
+          "play-pant:04",
+          "play-pant:05",
+          "play-pant:09",
+          "play-pant:10",
+          "play-pant:12",
+          "play-pant:13",
+          "play-pant:14",
+          "play-pant:17"
+        ],
+        "class_counts": {
+          "Pant": 630,
+          "Grunt": 86,
+          "Growl": 74
+        }
+      }
+    },
+    "limitations": [
+      "Single laboratory/young-dog play domain; household IDs unavailable",
+      "Source expert labels are not independently reannotated by PetSense",
+      "Clip classification on known event boundaries; no event detection, attribution, emotion or cause accuracy",
+      "Uncalibrated confidence; only three held-out participants expected",
+      "No service model promotion or security-advisory clearance"
+    ],
+    "provenance": {
+      "record": 23806945,
+      "source": "https://zenodo.org/records/23806945",
+      "license": "CC BY4.0 record and corrected README consistent",
+      "source_files_sha256": {
+        "07 Readme.txt": "221f4f8a3450d553a0f439e453766ac852feaa2d3371a6d4fe2edec4fe5472b3",
+        "05 Metadata.csv": "20cab75f0109f846555cb395f4b485fba70c33d3c006b492fc3dbdea8888546e",
+        "04 Annotations.zip": "01ba1940480263c3ebf11c692e59e68cbfa63c7b0f5469a0e616e51b7067cdb5",
+        "03 Play session recordings.zip": "339465a8754e5ad85356e1221a244135b54d7ada19acf5b7ba908c5aa4c61389"
+      },
+      "session_sha256": {
+        "P-01-S-P_1.wav": "524308a4750e6310074fd84d98246268fffaa89b8b35ff7db62675d96380c3c1",
+        "P-02-S-P_1.wav": "ae33b9f867a4be1280fab0497afcb89a49ae2ed939ee36f49715338798dc4f8b",
+        "P-02-S-P_2.wav": "9c5bbe9f7c6484ca5912ba1e9768d7c8271cfa09c5e80a1c14338af610170760",
+        "P-03-S-P_1.wav": "ebad3e5d1e9aecc966aa3d9e8a224dfbd771714c7be553665424df53df8f0eec",
+        "P-03-S-P_2.wav": "54629ffc2e45c0636c5bbf7b56854e11129e8b60c66ea6352dad975c8a137f62",
+        "P-04-S-P_1.wav": "4ad79dcd399311c38ca080e211a922c5d1d619d55a3ae3f21e4d75f11bf7272f",
+        "P-04-S-P_2.wav": "daf81574fad6cee4c0e2c5c04e0ea4dc619cfd7350013ea2d434efd32659b805",
+        "P-05-G-P_1.wav": "bb4b35d11504522fcf3cc3491ecbf18524d7c7df4873c52405f0804b94bae7ec",
+        "P-05-G-P_2.wav": "d5a16706b48eee5f2ff1c0632aa2c59c72b715c0bc5cd0ad58a5908334ec3c9a",
+        "P-06-G-P_1.wav": "a2dcbb3c503143cb200ed2636204c0bbd90cf76905d66c9b4b605b843df6016d",
+        "P-07-S-P_1.wav": "4955c0db2e8970a03978ea341abae0264bd134247d306251bb6d46f43a7f9964",
+        "P-07-S-P_2.wav": "1b6de5a46331f36b513f8f95b4e1105a0bc5e616e70c06911481095a943957cd",
+        "P-07-S-P_3.wav": "9d8cc92dd6711c257f19e1e3cbc75fda64d719bd0aefd009a72f314d196d7ed4",
+        "P-08-S-P_1.wav": "b92eefd8b34e823e6b6e9659bc668a1c8d665a69e0498c74e3a2b87be5d28137",
+        "P-09-S-P_1.wav": "fcf2a96031b2da07d5662adbeb927078805649872cc4045b9889be6063b72e64",
+        "P-09-S-P_2.wav": "39fd52dfc48fbcf10329e471adf5604de7a23de637a94ecf6e5984020cfe3bab",
+        "P-10-S-P_1.wav": "6f464987e6f446a42749dac8dda1a4204082123141243380c4e42baf549eb2d0",
+        "P-10-S-P_2.wav": "6113b247bec180f7a46a0b77ca52840ba684c97fb899d8fe7ad6cf67008cd377",
+        "P-11-S-P_1.wav": "991448718b470174615e3d15e164e48351fcfb5371e8cfe713b3d112d94fe858",
+        "P-12-S-P_1.wav": "77417ad4f2e5e1eba37a8c2cdaabcdac8b393fecbe2ade8a38c26aeefc039fe8",
+        "P-12-S-P_2.wav": "b543f64b47b0fb2e9cf13536f02e14f7767dec45dd26015e6a3eb67169c07155",
+        "P-13-S-P_1.wav": "a5663d20ff88217df15fbc98dc768af69539a607ee693180d2fd95d276d70763",
+        "P-13-S-P_2.wav": "e5006b9cccba99dcb972730aed90bcd3dfcd08c5d57e813a69d3b30c23be0f4c",
+        "P-13-S-P_3.wav": "d201671671cbb8be940981b9bc0bde503048aa6c2e5cc0d3334dcc400b230119",
+        "P-14-S-P_1.wav": "e464a3d4561a2e05689348a919b886848801d36f6a0399acee6f398cd953462e",
+        "P-15-S-P_1.wav": "febf65992493ade17a061b576223128a2a8668a6088ec37ca491bfa9cd004f24",
+        "P-15-S-P_2.wav": "9a0712772e83024b5ec6eda842fd7f847cd14f5dba8d650b049a33ef11e2a465",
+        "P-15-S-P_3.wav": "d778bd396ebc1edf93a435659ac80906fa5fd1c18befeec300c224ef7061be8f",
+        "P-16-S-P_1.wav": "10c2bb780d707d2e55b0f7f1bc012828b58543a399c6a87017d65b769cd774af",
+        "P-17-S-P_1.wav": "26f3302d856cc209474d6f639f57b8c25181c3e4a4906f19155afa5fff5b4215"
+      },
+      "counts": {
+        "source_intervals": 2636,
+        "accepted_before_silence_filter": 1418
+      },
+      "ffmpeg_version": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers"
+    }
+  },
+  "model_sha256": "e983e73e24594258de68001a0691933454d217c1392245197d12e6e23d4798bf",
+  "event_lineage_sha256": "4ebf19f9e1d843b7a665fae694caf74d8a6755e7d1f5a341a88da807c6261fb2",
+  "actual_video_samples": {
+    "count": 17,
+    "zip_sha256": "002cbe98ac06a5718cd37f2696409aee66a19d13d8617a44e5e204651e9f7fea",
+    "files": [
+      {
+        "member": "01 Samples of play sessions/P-12_10s-sample.mp4",
+        "sha256": "17d3fb0bed034f09235428e9a5681593214d8b7141f91243dc70c329a9f2b23f",
+        "bytes": 1245561,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "10.048000"
+          }
+        },
+        "participant_id": "12",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-07_10s-sample.mp4",
+        "sha256": "610ee2522db1d12b86d1455aaa6adbabe614312535bfb34815434a337657153f",
+        "bytes": 3811335,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "9.920000"
+          }
+        },
+        "participant_id": "07",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-15_10s-sample.mp4",
+        "sha256": "b2339318b4a7c11b78740f4bfdf4813b845f5d8b2145f5b07dfebbe2c8342299",
+        "bytes": 1696128,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "10.433333"
+          }
+        },
+        "participant_id": "15",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-08_10s_sample.mp4",
+        "sha256": "6d1e2ab716f8ab5e4002b54ade96742420fffa8b490033b7ddc2f1bd8b4d8755",
+        "bytes": 1217247,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "10.085026"
+          }
+        },
+        "participant_id": "08",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-09_10s-sample.mp4",
+        "sha256": "bfe86f353c7c1d62909a1018c382c31ff74a1cfc775388094acfd452e0f17ff4",
+        "bytes": 2135875,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "9.813000"
+          }
+        },
+        "participant_id": "09",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-14_10s-sample.mp4",
+        "sha256": "987d101c3cd692f485f7c1d04f9c2b1c4ae02e6ac66377029edfc7c074bc52a5",
+        "bytes": 2205843,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "10.320000"
+          }
+        },
+        "participant_id": "14",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-01_10s-sample.mp4",
+        "sha256": "fb47e7093d231bc29226baf23994c7d0bb38e2f7fbf22d11f29ca82bcdcabea5",
+        "bytes": 11345765,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "44100"
+            }
+          ],
+          "format": {
+            "duration": "10.010000"
+          }
+        },
+        "participant_id": "01",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-06_10s-sample.mp4",
+        "sha256": "482b96d90b251fba7c741127922c3d70bdf0290561c571ad43cfdfe546e8dd70",
+        "bytes": 1546124,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "9.984000"
+          }
+        },
+        "participant_id": "06",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-13_10s-sample.mp4",
+        "sha256": "a603e1275f10f28c998e277c6d5660d8b9866d7a1472a524ba4d3d8010d12084",
+        "bytes": 2126585,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "10.005000"
+          }
+        },
+        "participant_id": "13",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-04_10s-sample.mp4",
+        "sha256": "0ed9d5b255392aba9dd2618b46e8a26e40e3e57c636c9946b42fb71e3bbffb22",
+        "bytes": 1583854,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "10.005000"
+          }
+        },
+        "participant_id": "04",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-11_10s-sample.mp4",
+        "sha256": "5e99430de5fcfb6a502d39e0885574f336ed7b270f15ee8f416d7dac43574289",
+        "bytes": 2115042,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "9.962000"
+          }
+        },
+        "participant_id": "11",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-16_10s-sample.mp4",
+        "sha256": "47d90eb8ccc8501795709594f6e2b63a4101643c1141962bfe15125cc0317a48",
+        "bytes": 9335434,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "44100"
+            }
+          ],
+          "format": {
+            "duration": "10.010000"
+          }
+        },
+        "participant_id": "16",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-03_10s-sample.mp4",
+        "sha256": "af790471009ed0090418604d3decc01957c856fea6ba14c8d28f8e1c02bf986e",
+        "bytes": 1727407,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "10.133333"
+          }
+        },
+        "participant_id": "03",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-02_10s-sample.mp4",
+        "sha256": "1342339311b370b2dee3a7926f89a0c83be6538b3a17988fa16c6cc2b1fbef14",
+        "bytes": 3245373,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "10.090000"
+          }
+        },
+        "participant_id": "02",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-17_10s-sample.mp4",
+        "sha256": "93b88acc61da00d5a82ecb3d18c79e045ef80f0d60482062a76603c1b0ebd487",
+        "bytes": 11254219,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "44100"
+            }
+          ],
+          "format": {
+            "duration": "10.010000"
+          }
+        },
+        "participant_id": "17",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-10_10s-sample.mp4",
+        "sha256": "c07b0dbeea4f8d7c21ef35d6c38e0a56f72662eda78b02386972850e737d4b55",
+        "bytes": 2290272,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "10.048000"
+          }
+        },
+        "participant_id": "10",
+        "training_approved": false
+      },
+      {
+        "member": "01 Samples of play sessions/P-05_10s-sample.mp4",
+        "sha256": "b7da144e0c272e73c9439e59a26b300d3fedf2359536ffcf7b0ebc0bbad70744",
+        "bytes": 1837169,
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_type": "video",
+              "width": 1920,
+              "height": 1080
+            },
+            {
+              "codec_type": "audio",
+              "sample_rate": "48000"
+            }
+          ],
+          "format": {
+            "duration": "10.500000"
+          }
+        },
+        "participant_id": "05",
+        "training_approved": false
+      }
+    ],
+    "used_for_training": false
+  },
+  "service_promoted": false,
+  "household_disjoint_verified": false,
+  "domestic_pc_connected": false,
+  "note": "The new play-call experiment is a different task from ESC dog-vs-background; metrics cannot be compared as improvement. Old67/31 review-only files were not used in the new expert-source training."
+}

@@ -17,15 +17,16 @@ WAVE_THRESHOLD=.90
 def sha(b): return hashlib.sha256(b).hexdigest()
 
 
-def decode(path,expected):
+def decode(path,expected,*,media_format='wav'):
+    if media_format not in ('wav','mp3'):raise ValueError('Explicit local WAV/MP3 format required')
     path=Path(path)
     if not path.is_file() or not 0<path.stat().st_size<=20_000_000: raise ValueError('Invalid source size')
     data=path.read_bytes()
     if sha(data)!=expected: raise ValueError('Source hash mismatch')
     with tempfile.TemporaryDirectory(prefix='petsense-duplicate-') as d:
-        source=Path(d)/'source.wav';source.write_bytes(data)
+        source=Path(d)/('source.'+media_format);source.write_bytes(data)
         result=subprocess.run(['ffmpeg','-v','error','-nostdin','-protocol_whitelist','file',
-            '-format_whitelist','wav','-threads','1','-i',str(source),'-map','0:a:0',
+            '-format_whitelist',media_format,'-threads','1','-i',str(source),'-map','0:a:0',
             '-t','120.01','-ac','1','-ar',str(RATE),'-f','s16le','pipe:1'],
             stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,check=True,timeout=20)
     raw=result.stdout
@@ -49,14 +50,16 @@ def windows(signal):
     return np.asarray(descriptors),starts
 
 
-def compare(rows):
+def compare(rows,*,focus_datasets=('barkmeow',),include_within_focus=True):
     if not 1<=len(rows)<=500 or len({r['id'] for r in rows})!=len(rows): raise ValueError('Bounded unique source list required')
+    if not isinstance(focus_datasets,tuple) or not focus_datasets or any(not isinstance(v,str) or not v for v in focus_datasets):raise ValueError('Explicit dataset focus required')
     descriptors=[windows(r['signal']) for r in rows]
     raw_equal=[];canonical_equal=[];candidates=[];compared=0
     for i,a in enumerate(rows):
         for j in range(i+1,len(rows)):
             b=rows[j]
-            if 'barkmeow' not in (a['dataset'],b['dataset']): continue
+            focused=(a['dataset'] in focus_datasets,b['dataset'] in focus_datasets)
+            if not any(focused) or (all(focused) and not include_within_focus):continue
             compared+=1;ids=[a['id'],b['id']]
             if a['raw_sha256']==b['raw_sha256']:raw_equal.append(ids)
             if a['canonical_sha256']==b['canonical_sha256']:canonical_equal.append(ids)
