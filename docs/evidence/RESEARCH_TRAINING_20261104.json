@@ -1,0 +1,221 @@
+{
+  "date": "2026-11-04",
+  "training_report": {
+    "scope": "Actual ESC-10 sound-event research; gain/background augmentation only in train",
+    "production_ready": false,
+    "animal_disjoint_verified": false,
+    "household_disjoint_verified": false,
+    "behavior_accuracy_verified": false,
+    "deployment_decision": "blocked",
+    "selection": "fixed source folds; validation chooses penalty; test evaluated once per run, but previously examined in earlier research so exploratory",
+    "selected_penalty": 0.001,
+    "validation": {
+      "labels": [
+        "background",
+        "dog_sound"
+      ],
+      "count": 80,
+      "accuracy": 0.8375,
+      "macro_f1": 0.7262437483548302,
+      "per_class_f1": [
+        0.9007633587786259,
+        0.5517241379310345
+      ],
+      "class_counts": [
+        72,
+        8
+      ],
+      "confusion_matrix": [
+        [
+          59,
+          13
+        ],
+        [
+          0,
+          8
+        ]
+      ],
+      "brier": 0.24436297966376314,
+      "ece": 0.06754971506740207,
+      "calibration": "uncalibrated; ECE uses 10 equal-width bins",
+      "abstention_threshold": 0.7,
+      "coverage": 0.8875,
+      "selective_accuracy": 0.8732394366197183
+    },
+    "exploratory_test": {
+      "labels": [
+        "background",
+        "dog_sound"
+      ],
+      "count": 80,
+      "accuracy": 0.825,
+      "macro_f1": 0.6785304247990815,
+      "per_class_f1": [
+        0.8955223880597015,
+        0.46153846153846156
+      ],
+      "class_counts": [
+        72,
+        8
+      ],
+      "confusion_matrix": [
+        [
+          60,
+          12
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "brier": 0.29240926130173206,
+      "ece": 0.11726065925788028,
+      "calibration": "uncalibrated; ECE uses 10 equal-width bins",
+      "abstention_threshold": 0.7,
+      "coverage": 0.9625,
+      "selective_accuracy": 0.8441558441558441
+    },
+    "partitions": {
+      "train": 240,
+      "validation": 80,
+      "test": 80
+    },
+    "original_train_clips": 240,
+    "augmented_train_views": 240,
+    "fit_rows_before_balancing": 480,
+    "limitations": [
+      "Unknown animal/household identities",
+      "Augmented views are not newly acquired animals or recordings",
+      "ESC pretraining overlap with foundation models is not resolved",
+      "No event onset/offset, emotion, intent or cause labels",
+      "No independent service-level validation; no background-noise robustness claim from clean heldout clips"
+    ],
+    "provenance": {
+      "source_revision": "33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6",
+      "source_url": "https://github.com/karolpiczak/ESC-50/tree/33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6",
+      "license": "ESC-10 subset CC BY; original per-clip attribution retained in attribution.txt",
+      "attribution_sha256": "f6aec3a3283a2efdcbb1feff334adad7ab17c097bdec0cbb4eebdb9e16886074",
+      "original_inventory_sha256": "dc4d6b13d1ca6843e40a681bdc04a055fc0d9bc94ad5724eae641ad33a5a5bee",
+      "preprocessing_manifest_sha256": "579cc167bec313602dbcc1ab72e7a051859961ac2e908f52f15610a9e74f7227"
+    }
+  },
+  "model_sha256": "c6aaf1a57fb0dd483e151c9b45f3c92d6bd43d80708c583f881fe5b665bf3fd3",
+  "full_report_sha256": "bf24747a206b50ba1bcf078cc391a80bf1fce579d535e4237db71e0fde9c5cb8",
+  "new_mp3_files": 36,
+  "red_library_files": 31,
+  "hf_fixture_files": 5,
+  "exact_fixture_to_red_matches": [
+    {
+      "fixture": "dog_bark_large.mp3",
+      "source_mp3": "R01-52-Large Dog Barking.mp3"
+    },
+    {
+      "fixture": "dog_bark_small.mp3",
+      "source_mp3": "R01-20-Very Small Dog Barking.mp3"
+    },
+    {
+      "fixture": "dog_growl_play.mp3",
+      "source_mp3": "R01-16-Low Bark and Whine.mp3"
+    },
+    {
+      "fixture": "dog_panting.mp3",
+      "source_mp3": "R01-19-Dog Panting.mp3"
+    },
+    {
+      "fixture": "dog_whimper.mp3",
+      "source_mp3": "R01-13-Dog Whimpering.mp3"
+    }
+  ],
+  "new_unique_raw_mp3s": 31,
+  "red_prepared_clips": 31,
+  "new_audio_used_in_training": false,
+  "play_pant_license_conflict": {
+    "record": "CC BY4.0",
+    "readme": "CC BY-NC4.0",
+    "audio_and_video_downloaded": false
+  },
+  "additional_original_files": [
+    {
+      "name": "18972388.json",
+      "bytes": 12942,
+      "sha256": "ffda6c593858fcdb01de207932bb749da163201e8ae008cb7bba528f79290fec"
+    },
+    {
+      "name": "05 Metadata.csv",
+      "bytes": 7555,
+      "sha256": "20cab75f0109f846555cb395f4b485fba70c33d3c006b492fc3dbdea8888546e"
+    },
+    {
+      "name": "hf-fixtures.json",
+      "bytes": 1630,
+      "sha256": "82119df3ca4147bab6a22e5c7d1a41a01d8579a450db79f435f32da01ad240ea"
+    },
+    {
+      "name": "04 Annotations.zip",
+      "bytes": 123181,
+      "sha256": "01ba1940480263c3ebf11c692e59e68cbfa63c7b0f5469a0e616e51b7067cdb5"
+    },
+    {
+      "name": "README.md",
+      "bytes": 1760,
+      "sha256": "607686485d7164ae0df0dde21b585474335bf87508d801c8eb6bcfaa06bfdb08"
+    },
+    {
+      "name": "red-library-metadata.json",
+      "bytes": 64060,
+      "sha256": "718eae0c322961dfcfe81b4f7060e268c1077f32f1892cc2cfba87d0593bd0cc"
+    },
+    {
+      "name": "EmotionalCanines-revision.txt",
+      "bytes": 40,
+      "sha256": "96f5168471eb09d342f998da3da91725f6bb19ac9736c09139b07f09718c7910"
+    },
+    {
+      "name": "EmotionalCanines-README.md",
+      "bytes": 507,
+      "sha256": "8c7a8ea01a0aad743da0779e9b4f9b1ab26c3481c74b088f68b295fb3a5bb55f"
+    },
+    {
+      "name": "fixtures-inventory.json",
+      "bytes": 2802,
+      "sha256": "172297dc67a15df797c4b84b5c20caa467750cf7842b3d8ed45051d66619f211"
+    },
+    {
+      "name": "06 Readme.txt",
+      "bytes": 7021,
+      "sha256": "54f16f80cdb8a31b34dddb8a1d16713ccd65fc28740e459056c6625d082f349c"
+    },
+    {
+      "name": "emotionalcanines-repo.json",
+      "bytes": 5582,
+      "sha256": "8939d5de1366cc6273e1bc42a1f916a5654272b0b99d32836d024d28d44b451a"
+    },
+    {
+      "name": "13736465.json",
+      "bytes": 5557,
+      "sha256": "e11725b53723a4b3bd23d158b2df95a3611d36cdd53983a1496074c826221eb8"
+    }
+  ],
+  "prepared_receipt_sha256": "3dbfc041ffb15723e5412b366bb407ba7ca471c8a9793f6eda5b42c234b334cd",
+  "play_pant_metadata_audit": {
+    "session_rows": 30,
+    "dog_ids": 17,
+    "second_layer_files": 30,
+    "annotation_text_counts": {
+      "Human": 581,
+      "Pant": 1294,
+      "Sneeze": 25,
+      "Other": 264,
+      "Moan": 33,
+      "Growl": 198,
+      "Grunt": 163,
+      "Bark/yelp": 48,
+      "Cough/woof": 9,
+      "Whine": 13,
+      "Shake": 7,
+      "Cough/woof\u00a0": 1
+    },
+    "training_performed": false
+  },
+  "python_tests": 388
+}
