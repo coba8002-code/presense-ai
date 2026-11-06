@@ -8,7 +8,9 @@ context; it does not translate animal language or diagnose disease.
 New Sprint 02 bootstrap based on `develop` documentation and [issue #1](https://github.com/coba8002-code/presense-ai/issues/1).
 The prior `PetSense_AI_AgentSkills_Integration.zip` was not provided and has **not**
 been imported. There was no application source on develop. Current code includes a
-local FastAPI service, NumPy audio baseline and an opt-in VLM adapter. Flutter,
+local FastAPI service, NumPy audio baseline and an opt-in VLM adapter.
+The [Flutter Android/iOS mobile beta](mobile/README.md) adds offline dog profiles, guardian notes and opt-in sound capture.
+An Android test APK is built locally; iOS requires a separate macOS/Xcode signing and device-validation step.
 Production model accuracy remains unvalidated. An optional experimental SmolVLM2 LoRA trainer is available. Actual ESC-10 research training is documented in [REAL_AUDIO_TRAINING](docs/REAL_AUDIO_TRAINING.md); it is not a production model. See [public data acquisition](docs/DATA_EXPANSION.md), [작업지시서](docs/WORK_ORDER.md), and [remaining tasks](tasks/todo.md) for current evidence and limitations.
 
 ## Setup and tests
