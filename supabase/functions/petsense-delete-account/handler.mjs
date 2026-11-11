@@ -14,8 +14,18 @@ export function deleteAccountHandler({url,anonKey,serviceKey,origins,fetcher=fet
   if(!/^Bearer [^\s]+$/.test(bearer))return reply(401,'Authentication required');
   if(request.headers.get('X-Delete-Confirm')!=='delete-account')return reply(400,'Confirmation required');
   try{
-   const raw=await request.text();if(raw.length>128)return reply(413,'Body too large');
-   if(JSON.parse(raw).confirmation!=='delete-account')return reply(400,'Confirmation required');
+   const reader=request.body?.getReader();
+   if(!reader)return reply(400,'Confirmation required');
+   const chunks=[];let bytes=0;
+   try{while(true){const {done,value}=await reader.read();if(done)break;bytes+=value.byteLength;
+    if(bytes>128){await reader.cancel();return reply(413,'Body too large');}chunks.push(value);
+   }}finally{reader.releaseLock();}
+   const buffer=new Uint8Array(bytes);let offset=0;
+   for(const chunk of chunks){buffer.set(chunk,offset);offset+=chunk.byteLength;}
+   let body;
+   try{body=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(buffer));}
+   catch{return reply(400,'Invalid request body');}
+   if(body?.confirmation!=='delete-account')return reply(400,'Confirmation required');
    const authHeaders={apikey:anonKey,Authorization:bearer};
    const call=(path,options)=>fetcher(url+path,{...options,redirect:'error',signal:AbortSignal.timeout(10000)});
    const userResponse=await call('/auth/v1/user',{headers:authHeaders});
