@@ -26,6 +26,8 @@ def route_api(route):
     path = req.url.split('.supabase.co')[-1].split('?')[0]
     if path == '/auth/v1/token':
         body = {'access_token': token, 'refresh_token':'synthetic-refresh', 'expires_in':3600, 'token_type':'bearer','user':user}
+    elif path == '/auth/v1/signup': body = user
+    elif path == '/auth/v1/recover': body = {}
     elif path == '/auth/v1/user': body = user
     elif path == '/auth/v1/logout':
         route.fulfill(status=204, headers=headers); return
@@ -41,13 +43,14 @@ def route_api(route):
             body = row if 'application/vnd.pgrst.object+json' in req.headers.get('accept','') else [row]
         elif req.method == 'PATCH':
             selected = req.url.split('id=eq.')[-1].split('&')[0]
-            for row in data:
-                if row['id'] == selected: row.update(json.loads(req.post_data))
-            body = None
+            affected = [row for row in data if row['id'] == selected]
+            for row in affected: row.update(json.loads(req.post_data))
+            body = affected[0] if affected else None
         elif req.method == 'DELETE':
             selected = req.url.split('id=eq.')[-1].split('&')[0]
+            affected = [row for row in data if row['id'] == selected]
             store[table] = [row for row in data if row['id']!=selected]
-            body = None
+            body = affected[0] if affected else None
         else: body = data
     else: raise AssertionError('Unexpected external request: '+path)
     route.fulfill(status=200, headers=headers, body=json.dumps(body,ensure_ascii=False))
@@ -72,7 +75,22 @@ with sync_playwright() as p:
     expect(page.locator('#auth-area')).to_be_visible()
     Path('artifacts/cloud-beta').mkdir(parents=True,exist_ok=True)
     page.screenshot(path='artifacts/cloud-beta/welcome-desktop.png',full_page=True)
+    page.locator('[data-auth=signup]').click()
     page.locator('#email').fill('synthetic@example.test')
+    page.locator('#password').fill('synthetic-password-only')
+    page.locator('#auth-submit').click()
+    expect(page.locator('#auth-status')).to_contain_text('동의')
+    assert not calls, 'Signup must require consent before calling Auth'
+    page.locator('#signup-consent').check()
+    page.locator('#password').fill('synthetic-password-only')
+    page.locator('#auth-submit').click()
+    expect(page.locator('#auth-status')).to_contain_text('이메일 인증')
+    expect(page.locator('#password')).to_have_value('')
+    page.locator('[data-auth=recover]').click()
+    page.locator('#auth-submit').click()
+    expect(page.locator('#auth-status')).to_contain_text('등록된 계정이라면')
+    expect(page.locator('#workspace')).to_be_hidden()
+    page.locator('[data-auth=login]').click()
     page.locator('#password').fill('synthetic-password-only')
     page.locator('#auth-submit').click()
     expect(page.locator('#onboarding')).to_be_visible()
@@ -117,4 +135,4 @@ with sync_playwright() as p:
     expect(page.locator('#consent')).to_be_visible()
     assert not errors,errors
     browser.close()
-print(json.dumps({'browser':'chromium','synthetic_auth_rest':True,'checks':['login/onboarding','dog ownership input','escaped content','request/cancel','note','plan/completion','mobile layout','logout clearance','local video route'],'live_supabase':False,'model_calls':0,'api_calls':len(calls)}))
+print(json.dumps({'browser':'chromium','synthetic_auth_rest':True,'checks':['signup consent/confirmation','recovery acknowledgement','login/onboarding','dog ownership input','escaped content','request/cancel','note','plan/completion','mobile layout','logout clearance','local video route'],'live_supabase':False,'model_calls':0,'api_calls':len(calls)}))

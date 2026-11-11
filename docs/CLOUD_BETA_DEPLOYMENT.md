@@ -32,7 +32,7 @@ AI 미연결 요청은 awaiting_model이며 완료/감정 확률/진단을 생�
 
 ## 배포 순서와 실제 상태
 
-1. 전용 Supabase 프로젝트: 조직 선택 답변 대기. 기존 roomax 등 다른 서비스 DB는 사용하지 않는다.
+1. 전용 Supabase 프로젝트: 연결 조직에 생성하는 견적 월0달러 조회 완료(2026-11-11), 견적 동의 응답 대기. 기존 roomax 등 다른 서비스 DB는 사용하지 않는다.
 2. 조직 확인 후 MCP get_cost 비용을 제시하고 동의 확인 후 생성한다. 서울 ap-northeast-2 권장.
 3. 기존 테이블/권한 확인 후 supabase/migrations SQL 적용. 보안·성능 advisors와 실 DB 테스트 확인.
 4. pg_cron 정리 작업의 실제 등록/실행을 확인한다. 만료 RLS 차단과 물리 정리는 별개다.
@@ -61,7 +61,7 @@ npm --prefix cloud test
 npm --prefix cloud run build
 ```
 
-Node 테스트 9개: 공개 키/입력, 실제 PGlite Postgres의 RLS·교차 계정 FK·소유권·세션 철회·쿼터·보관기간,
+Node 테스트 13개: 공개 키/입력, 실제 PGlite Postgres의 RLS·교차 계정 FK·소유권·세션 철회·쿼터·보관기간,
 탈퇴의 원점/활성 세션/선행 세션 철회/관리자 삭제 실패 처리. Auth 스키마는 테스트 전용 모사다.
 브라우저 검사는 합성 Auth/REST 응답으로 Chromium의 로그인/동의/프로필/텍스트 요청 취소/노트/돌봄 완료/
 390px 레이아웃/로그아웃 정리/영상 화면을 검증한다. 실제 Supabase 이메일·배포·AI 정확도 증거가 아니다.
@@ -77,3 +77,11 @@ python .agents/skills/webapp-testing/scripts/with_server.py \
 
 배포 빌드에는 synthetic 설정을 쓰지 않는다. 설정 없는 빌드는 인증을 차단한다.
 환경 변수 설정만으로 실 연동 완료 처리하지 않는다. 내부 LLM 포트 개방, AX 로그인, 유료 모델 호출은 필요 없다.
+
+## 후속 운영 오류 수정 · 2026-11-11
+
+삭제/취소/돌봄 완료는 실제 변경된 행 ID가 반환돼야 성공으로 처리한다.
+만료/삭제/접근 불가로 변경 행이 없으면 PGRST116 오류를 안내한다. RLS는 그대로 유지한다.
+탈퇴 본문은 읽는 도중128바이트 초과 시 스트림을 취소한다. 잘못된 JSON은400이며 Auth 호출 없이 거부한다.
+추가 회귀4개와 합성 가입 동의·인증 안내·복구 안내 브라우저 검사를 포함했다. 실제 이메일 발송 검증은 아니다.
+Supabase get_cost의 최신 응답은 amount=0, recurrence=monthly다. confirm_cost는 견적 동의 응답 전 호출하지 않는다.
